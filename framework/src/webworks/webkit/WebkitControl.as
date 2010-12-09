@@ -1,0 +1,176 @@
+/*
+ * Copyright 2010 Research In Motion Limited.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package webworks.webkit
+{
+	import flash.display.Graphics;
+	import flash.display.Sprite;
+	import flash.events.ErrorEvent;
+	import flash.events.Event;
+	import flash.events.LocationChangeEvent;
+	import flash.events.TimerEvent;
+	import flash.geom.Rectangle;
+	import flash.utils.Timer;
+	
+	import qnx.display.IowWindow;
+	import qnx.events.ExecJavascriptResultEvent;
+	import qnx.events.HtmlEvent;
+	import qnx.events.HtmlIntEvent;
+	import qnx.events.HtmlStringEvent;
+	import qnx.events.JavascriptMethodEvent;
+	import qnx.events.QNXLocationChangeEvent;
+	import qnx.media.QNXStageWebView;
+	
+	import webworks.access.Access;
+	import webworks.config.ConfigConstants;
+	import webworks.config.ConfigData;
+	import webworks.policy.WidgetPolicy;
+	import webworks.util.Utilities;
+	
+	public class WebkitControl extends Sprite
+	{
+		private var webView:QNXStageWebView;
+		private var defaults:Object;
+        private var creationID:Number;
+        private var uniqueID:String;
+        private var windowObj:IowWindow;
+		
+		public function WebkitControl(_creationID:Number,_x:int, _y:int, _width:int, _height:int) {
+			defaults = new Object();
+			defaults.x = _x;
+			defaults.y = _y;	
+			defaults.width = _width;
+			defaults.height = _height;
+            creationID = _creationID;
+			_init();
+		}
+		
+		private function _init():void
+		{
+			webView = new QNXStageWebView();
+			webView.stage = this.stage;
+			webView.viewPort = new Rectangle(defaults.x, defaults.y, defaults.width, defaults.height);
+			webView.addEventListener(ErrorEvent.ERROR, loadError);
+			webView.addEventListener(Event.COMPLETE, loadComplete);
+			webView.addEventListener(QNXLocationChangeEvent.QNX_LOCATION_CHANGING, locationChanging);
+			webView.addEventListener(QNXLocationChangeEvent.QNX_LOCATION_CHANGE, locationChanged); 
+			webView.addEventListener(JavascriptMethodEvent.JAVASCRIPT_METHOD_CALL, jsMethodCalled);
+			webView.addEventListener(ExecJavascriptResultEvent.EXEC_JAVASCRIPT_RESULT, jsExeced);	
+			webView.addEventListener(HtmlEvent.HTML_DOM_INITIALIZED, domInitialized);
+            webView.addEventListener(HtmlEvent.HTML_BROWSER_CREATED, htmlEventBrowserCreated);
+            webView.addEventListener(HtmlEvent.HTML_BROWSER_CREATE_FAILED, htmlEventHandler);
+			//webView.addEventListener(QNXRequestEvent, requestHandler); //the event need to be defined by webkit
+		}
+
+		/* enable this when QNXRequestEvent is defined 
+		private function requestHandler(event:QNXRequestEvent):void
+		{
+			dispatchEvent(new WebkitEvent(WebkitEvent.TAB_XHRRequest,
+				"device://blackberry.app/bbid/BBID/UserResource/path"));			
+		}
+		*/
+		
+		private function jsMethodCalled(event:JavascriptMethodEvent):void
+		{
+		    trace(event.methodName + " called");
+			//webView.sendJsMethodReturn("Hello World");
+			dispatchEvent(new WebkitEvent(WebkitEvent.TAB_JSMETHODCALL, event));
+		}
+		
+		private function jsExeced(event:ExecJavascriptResultEvent):void
+		{
+			trace("JS Result ID:" + event.resultId);
+			trace("JS Result:" + event.result);
+			dispatchEvent(new WebkitEvent(WebkitEvent.TAB_JSEXECRESULT, event));			
+		}
+			
+		private function loadComplete(event:Event):void
+		{
+			trace("Load Complete");
+			dispatchEvent(new WebkitEvent(WebkitEvent.TAB_LOAD_COMPLETE));
+		}
+		
+		private function loadError(event:Event):void
+		{
+			trace("Load error");
+			dispatchEvent(new WebkitEvent(WebkitEvent.TAB_LOAD_ERROR));
+		}
+		
+		private function locationChanged(event:QNXLocationChangeEvent):void
+		{
+			trace("Location Changed");
+		}
+		
+		private function locationChanging(event:QNXLocationChangeEvent):void
+		{
+			trace("QNX Location Changing");
+			var config : ConfigData = ConfigData.getInstance();
+			var access : Access = config.getAccessByUrl(event.location);
+			if (access==null && event.location!="about:blank" && !config.getProperty(ConfigConstants.HASMULTIACCESS))
+			{
+				event.preventDefault();
+				trace(event.location + "not allowed");
+				Utilities.alert(event.location + " is not allowed", webView);
+			}
+			else
+				dispatchEvent(new WebkitEvent(WebkitEvent.TAB_LOCATION_CHANGING,event));		
+		}
+		
+		private function domInitialized(event:HtmlEvent):void
+		{
+			trace("dom initialize event");
+			dispatchEvent(new WebkitEvent(WebkitEvent.TAB_DOMINITIALIZE, event));
+		}
+                
+        private function htmlEventBrowserCreated(event:HtmlEvent):void
+        {
+            trace("WEBKITCONTROL: " + event.type, webView.windowUniqueId);
+            uniqueID = webView.windowUniqueId;
+            windowObj = IowWindow.getExternalWindow(-1, uniqueID);
+            dispatchEvent(new WebkitEvent(event.type, { creationID:creationID }));
+        }
+        
+        private function htmlEventHandler( event:HtmlEvent ):void
+        {
+            trace("WEBKITCONTROL: " + event.type);
+            dispatchEvent( new WebkitEvent(event.type ) );
+        }
+		
+		public function go(address:String):void
+		{
+			trace("Go function called: " + address);
+			webView.loadURL(address);
+		}
+		public function sendJsMethodReturn(value:String):void
+		{
+			webView.sendJsMethodReturn(value);
+		}
+
+		public function executeJavaScript(js:String):void
+		{
+			webView.executeJavaScript(js);
+        }
+		
+		public function stop() : void 
+		{
+			webView.stop();
+		}
+		
+		public function get qnxWebView():QNXStageWebView
+		{
+			return webView;
+		}		
+	}
+}

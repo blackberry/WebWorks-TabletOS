@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<library>
+	<extension>
+		<entryClass>blackberry.ui.dialog.Dialog</entryClass>
+	</extension>
+  
+	<platforms>
+		<platform value="AIR">
+			<target version="default" config="AIR_XHR" />
+		</platform>
+	</platforms>
+
+	<configurations>
+		<configuration name="AIR_XHR" version="1.0" comment="XHR architecture/Air implementation">
+			<src type="text/javascript" path="../BlackBerry/js/common/blackberry_ns.js" comment="BlackBerry namespace common library" />
+			<src type="text/javascript" path="js/common/ui/dialog_dispatcher.js" comment="Dialog JS XHR dispatcher" />
+			<src type="text/javascript" path="js/common/ui/dialog_ns.js" comment="Dialog JS interface" />
+			<src type="text/javascript" path="../Common_JS/transport/xhr/xhr.js" comment="JS XHR connection utilities" />
+			<src type="text/actionscript" path="src/Air/Ui/src/" comment="ActionScript implementation" />
+		</configuration>
+	</configurations>
+  
+	<features>
+		<feature id="blackberry.ui.dialog" version="1.0.0" />
+	</features>
+  
+	<object name="blackberry.ui.dialog" shortName="Dialog" introduced="1.0.0" comment="The Dialog object contains functions for manipulating system dialog boxes.">
+		<details>
+		  The functionality in this object allows you to integrate standard system dialog boxes into your BlackBerry Widget and control your application flow based on user responses.
+		</details>
+    
+    <example><![CDATA[<script type="text/javascript">
+  function launchDialog() {
+    setTimeout(globalDialog, 5000);
+    return;
+  }
+
+  function globalDialog() {
+    var ss = new Array("Saab", "Volvo", "BMW");
+    var ret = blackberry.ui.dialog.customAsk("Select your favorite car", ss, 2, true);
+    blackberry.ui.dialog.standardAsk(blackberry.ui.dialog.D_OK, "You selected " + ss[ret], 0, true);
+  }
+</script>]]></example>
+
+    <functions>
+		<func name="standardAsk" returns="void" static="true" comment="Creates a standard dialog to ask the user a question.">
+			<details>Uses the standard dialog. The function will not block execution and will return the 0-based index of the user's choice.</details>
+			
+			<param name="message" type="String" comment="Message to be displayed in the dialog." />
+			<param name="type" type="Number" comment="parameter that specifies the type of standard dialog. Constants starting with D_*." />
+			<param name="onOptionSelected" type="OnOptionSelectedCallback" comment="Optional callback function that will be invoked when the user makes a selection." />
+		</func>
+		<func name="customAsk" returns="void" static="true" comment="Creates a custom dialog to ask the user a question.">
+			<details>Uses the standard dialog. The function will not block execution and will return the 0-based index of the user's choice.</details>
+			
+			<param name="message" type="String" comment="Message to be displayed in the dialog." />
+			<param name="choices" type="String" array="true" comment="Array of string choices that will be presented to the user in the form of buttons." />
+			<param name="onOptionSelected" type="OnOptionSelectedCallback" comment="Optional callback function that will be invoked when the user makes a selection." />
+		</func>
+    </functions>
+  
+    <constants comment="Application Type">
+		<const name="D_OK" type="Number" value="0" readonly="true" static="true" comment="Standard OK dialog" />
+		<const name="D_SAVE" type="Number" value="1" readonly="true" static="true" comment="Standard Save dialog" />
+		<const name="D_DELETE" type="Number" value="2" readonly="true" static="true" comment="Standard Delete confirmation dialog" />
+		<const name="D_YES_NO" type="Number" value="3" readonly="true" static="true" comment="Standard Yes/No dialog" />
+		<const name="D_OK_CANCEL" type="Number" value="4" readonly="true" static="true" comment="Standard OK/Cancel dialog" />
+    </constants>
+    
+  </object>
+  
+</library>

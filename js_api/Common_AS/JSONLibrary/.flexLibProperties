@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<flexLibProperties includeAllClasses="true" version="3">
+  <includeClasses>
+    <classEntry path="json.JSONParseError"/>
+    <classEntry path="json.JSONToken"/>
+    <classEntry path="json.JSONEncoder"/>
+    <classEntry path="json.JSONDecoder"/>
+    <classEntry path="json.JSONTokenType"/>
+    <classEntry path="json.JSONTokenizer"/>
+    <classEntry path="json.JSON"/>
+  </includeClasses>
+  <includeResources/>
+  <namespaceManifests/>
+</flexLibProperties>

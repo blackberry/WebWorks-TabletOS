@@ -1,0 +1,10 @@
+<manifest>
+	<libraries basePath="../../../../js_api">
+		<libraryPath>/BlackBerry_Application</libraryPath>
+		<libraryPath>/BlackBerry_System</libraryPath>
+		<libraryPath>/BlackBerry_Ui</libraryPath>
+	</libraries>
+	<settings>
+		<libraryName>library.xml</libraryName>
+	</settings>
+</manifest>

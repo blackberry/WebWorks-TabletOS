@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<toc>
+	<section title="API Reference">
+		<item topic="Application"  safeName="app">
+			<api>blackberry.app</api>
+		</item>
+		
+		<item topic="System"  safeName="system" >
+			<api>blackberry.system</api>
+		</item>
+		
+		<item topic="User Interface"  safeName="ui" >
+			<api>blackberry.ui.dialog</api>
+		</item>
+	</section>
+</toc>

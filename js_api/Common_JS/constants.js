@@ -1,0 +1,1 @@
+var SERVER_URL = "device://";

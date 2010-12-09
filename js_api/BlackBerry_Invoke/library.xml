@@ -1,0 +1,2259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../../transform.xslt"?>
+<library isWhitelist="true">
+  <import name="blackberry.invoke.AddressBookArguments" src="../../blackberry/invoke/AddressBookArguments/library.xml" />
+  <import name="blackberry.invoke.BrowserArguments" src="../../blackberry/invoke/BrowserArguments/library.xml"/>
+  <import name="blackberry.invoke.CalendarArguments" src="../../blackberry/invoke/CalendarArguments/library.xml" />
+  <import name="blackberry.invoke.CameraArguments" src="../../blackberry/invoke/CameraArguments/library.xml" />
+  <import name="blackberry.invoke.JavaArguments" src="../../blackberry/invoke/JavaArguments/library.xml" />
+  <import name="blackberry.invoke.MapsArguments" src="../../blackberry/invoke/MapsArguments/library.xml" />
+  <import name="blackberry.invoke.MemoArguments" src="../../blackberry/invoke/MemoArguments/library.xml" />
+  <import name="blackberry.invoke.MessageArguments" src="../../blackberry/invoke/MessageArguments/library.xml" />
+  <import name="blackberry.invoke.PhoneArguments" src="../../blackberry/invoke/PhoneArguments/library.xml" />
+  <import name="blackberry.invoke.SearchArguments" src="../../blackberry/invoke/SearchArguments/library.xml" />
+  <import name="blackberry.invoke.TaskArguments" src="../../blackberry/invoke/TaskArguments/library.xml" />
+  
+
+  <namespace name="blackberry.invoke" shortName="Invoke" introduced="1.0.0" comment="The Invoke object contains methods that interact with other applications on a BlackBerry smartphone.">
+    <details>
+      <![CDATA[
+The invoke() method on the invoke object allows you to pass arguments to the target application.  The types of arguments can be one of: AddressBookArguments, CalendarArguments, MapsArguments, MemoArguments, MessageArguments, PhoneArguments, SearchArguments, TaskArguments, CameraArguments, BrowserArguments, and JavaArguments.
+      ]]>
+    </details>
+    <features>
+      <feature id="blackberry.invoke" version="1.0.0" />
+    </features>
+    <example><![CDATA[<script type="text/javascript">  
+
+      var contact = new blackberry.pim.Contact();
+          contact.firstName = 'Tim';
+          contact.lastName = 'Neil';
+          
+      var args = new blackberry.invoke.AddressBookArguments(contact);
+          args.view = blackberry.invoke.AddressBookArguments.VIEW_NEW;
+
+      blackberry.invoke.invoke(blackberry.invoke.APP_ADDRESSBOOK, args);
+      
+</script>]]></example>
+    <constants comment="Application Type">
+      <const name="APP_ADDRESSBOOK" type="Number" value="0" readonly="true" static="true" comment="Address Book" />
+      <const name="APP_BLUETOOTH_CONFIG" type="Number" value="1" readonly="true" static="true" comment="Bluetooth Configuration" />
+      <const name="APP_CALCULATOR" type="Number" value="2" readonly="true" static="true" comment="Calculator" />
+      <const name="APP_CALENDAR" type="Number" value="3" readonly="true" static="true" comment="Calendar" />
+      <const name="APP_CAMERA" type="Number" value="4" readonly="true" static="true" comment="Camera" />
+      <const name="APP_MAPS" type="Number" value="5" readonly="true" static="true" comment="BlackBerry Maps" />
+      <const name="APP_MEMOPAD" type="Number" value="6" readonly="true" static="true" comment="MemoPad" />
+      <const name="APP_MESSAGES" type="Number" value="7" readonly="true" static="true" comment="Messages" />
+      <const name="APP_PHONE" type="Number" value="8" readonly="true" static="true" comment="Phone" />
+      <const name="APP_SEARCH" type="Number" value="9" readonly="true" static="true" comment="Search" />
+      <const name="APP_TASKS" type="Number" value="10" readonly="true" static="true" comment="Tasks" />
+      <const name="APP_BROWSER" type="Number" value="11" readonly="true" static="true" comment="Browser" />
+      <const name="APP_JAVA" type="Number" value="12" readonly="true" static="true" comment="Java Application" />
+    </constants>
+    <functions comment="[Static]">
+      <func name="invoke" returns="void" static="true" comment="Invokes another application on the BlackBerry smartphone." >
+        <param name="appType" type="Number" comment="an integer value representing the type of application to launch. Can be one of the 'APP_*' constants."/>
+        <param name="args" type="object" optional="true" comment="An arguments object specifying information for the application being invoked."/>
+        <details>
+          Thows an Exception if values supplied are not correct.
+        </details>
+        <test>
+          <![CDATA[
+{
+  if (blackberry.invoke.invoke == undefined)
+    throw "function is undefined";
+
+  //====================================
+  //Write your code to test the function
+  /*
+  blackberry.invoke.invoke(blackberry.invoke.APP_ADDRESSBOOK);
+  blackberry.invoke.invoke(blackberry.invoke.APP_BLUETOOTH_CONFIG);
+  blackberry.invoke.invoke(blackberry.invoke.APP_CALCULATOR);
+  blackberry.invoke.invoke(blackberry.invoke.APP_CALENDAR);
+  blackberry.invoke.invoke(blackberry.invoke.APP_CAMERA);
+  //blackberry.invoke.invoke(blackberry.invoke.APP_MAPS);
+  blackberry.invoke.invoke(blackberry.invoke.APP_MEMOPAD);
+  //blackberry.invoke.invoke(blackberry.invoke.APP_MESSAGES, 1);
+  blackberry.invoke.invoke(blackberry.invoke.APP_PHONE);
+  blackberry.invoke.invoke(blackberry.invoke.APP_SEARCH);
+  blackberry.invoke.invoke(blackberry.invoke.APP_TASKS);
+  */
+  //blackberry.invoke.invoke(blackberry.invoke.APP_BROWSER, 1);
+  //net_rim_bb_file_explorer
+  //net_rim_bb_remindermanager
+  //net_rim_bb_ribbon_app
+  //net_rim_bb_browser_daemon
+  //net_rim_bb_messaging_app
+  //    var obj = new blackberry.invoke.JavaArguments("net_rim_bb_messaging_app");
+  //    blackberry.invoke.invoke(blackberry.invoke.APP_JAVA, obj);
+
+  return true;
+}
+          ]]>
+        </test>
+      </func>
+<!--
+      <func name="invoke" returns="void" static="true" comment="Invokes another application on the BlackBerry smartphone." >
+        <param name="appType" type="Number" comment="an integer value representing the type of application to launch. Can be one of the 'APP_*' constants."/>
+        <param name="args" type="String" array="true" comment="String arguments specifying information for the application being invoked."/>
+        <details>
+          Thows an Exception if values supplied are not correct.
+        </details>
+      </func>
+-->      
+    </functions>
+    <unitTests>
+<test name="invoke_Exception" comment="Exception test for invoke general parameters">
+        <![CDATA[
+var addressArg = new blackberry.invoke.AddressBookArguments();
+var calendarArg = new blackberry.invoke.CalendarArguments();
+var mapsArg = new blackberry.invoke.MapsArguments();
+var memoArg = new blackberry.invoke.MemoArguments();
+var messageArg = new blackberry.invoke.MessageArguments();
+var phoneArg = new blackberry.invoke.PhoneArguments();
+var searchArg = new blackberry.invoke.SearchArguments();
+var taskArg = new blackberry.invoke.TaskArguments();
+var browserArg = new blackberry.invoke.BrowserArguments('http://www.rim.com');
+var cameraArg = new blackberry.invoke.CameraArguments();
+var javaArg = new blackberry.invoke.JavaArguments('net_rim_bb_memo_app');
+
+
+
+//exceptions
+
+ var unexpectedArgError = "java.lang.IllegalArgumentException: Required argument missing";
+ var nullException = "java.lang.IllegalArgumentException: Argument is not nullable";
+ var invalidTypeException = "java.lang.IllegalArgumentException: Invalid type: 'args'";
+ 
+ var extraArgException = "java.lang.IllegalArgumentException: Too many arguments";
+ var nonStringException = "java.lang.IllegalArgumentException: Invalid type - class java.lang.String";
+     
+
+var extraNULLException ="java.lang.IllegalArgumentException: Function not found with corresponding number of arguments";
+var extraArgException2 = "java.lang.IllegalArgumentException: Function not found with corresponding number of arguments";   // need to be consistent here
+function invoke_Exception()
+{
+    
+    
+    try {
+        blackberry.invoke.invoke();
+        throw('DPI224702: Invoke with no arguments should throw exception');
+    } catch (err) {
+        if ( err != unexpectedArgError ) {
+            throw('Unexpected Error when calling invoke with no arguments: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(null);
+        throw('DPI224702: Invoke with null arguments should throw exception');
+    } catch (err) {
+        if ( err != nullException ) {
+            throw('Unexpected Error when calling invoke with null arguments: '+err);
+        }
+    }    
+
+    try {
+        blackberry.invoke.invoke(undefined);
+        throw('DPI224702: Invoke with undefined arguments should throw exception');
+    } catch (err) {
+        if ( err != nullException ) {
+            throw('Unexpected Error when calling invoke with undefined arguments: '+err);
+        }
+    }
+
+    try {
+        blackberry.invoke.invoke('TestType', addressArg);
+        throw('DPI224702: Invoke with string as appType should throw exception');
+    } catch (err) {
+        if ( err != nonStringException ) {
+            throw('Unexpected Error when calling invoke with string appType: '+err);
+        }
+    }
+
+    try {
+        blackberry.invoke.invoke(-1, addressArg);
+        throw('DPI224702: Invoke with -1 as appType should throw exception');
+    } catch (err) {
+        if ( err != "java.lang.IllegalArgumentException: Invalid 'appType'") {
+            throw('Unexpected Error when calling invoke with -1 as appType: '+err);
+        }
+    }
+
+    try {
+        blackberry.invoke.invoke(13, addressArg);
+        throw('DPI224702: Invoke with 13 as appType should throw exception');
+    } catch (err) {
+        if ( err != "java.lang.IllegalArgumentException: Invalid 'appType'" ) {
+            throw('Unexpected Error when calling invoke with 13 as appType: '+err);
+        }
+    }
+
+return true;
+
+}
+      ]]></test>
+
+<test name="invoke_AddressBook_Exception" comment="Exception test for invoke AddressBook">
+        <![CDATA[
+
+function invoke_AddressBook_Exception()
+{
+    
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_ADDRESSBOOK, 12);
+        throw('DPI224702: Invoke with int args should throw exception');
+    } catch (err) {
+        if ( err !=  invalidTypeException) {
+            throw('Unexpected Error when calling invoke with int args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_ADDRESSBOOK, 'TestBook');
+        throw('DPI224702: Invoke with string args should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException) {
+            throw('Unexpected Error when calling invoke with string args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_ADDRESSBOOK, addressArg, null);
+        throw('DPI224702: Invoke with extra null args should throw exception');
+    } catch (err) {
+        if ( err != extraNULLException ) {
+            throw('Unexpected Error when calling invoke with extra null args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_ADDRESSBOOK, addressArg, undefined);
+        throw('DPI224702: Invoke with extra undefined args should throw exception');
+    } catch (err) {
+        if ( err != extraNULLException ) {
+            throw('Unexpected Error when calling invoke with extra undefined args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_ADDRESSBOOK, addressArg, 12);
+        throw('DPI224702: Invoke with extra int args should throw exception');
+    } catch (err) {
+        if ( err != extraArgException2 ) {
+            throw('Unexpected Error when calling invoke with extra int args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_ADDRESSBOOK, addressArg, 'Test');
+        throw('DPI224702: Invoke with extra string args should throw exception');
+    } catch (err) {
+        if ( err != extraArgException2 ) {
+            throw('Unexpected Error when calling invoke with extra string args: '+err);
+        }
+    } 
+     
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_ADDRESSBOOK, calendarArg);
+        throw('DPI224737: Invoke with Calendar Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Calendar Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_ADDRESSBOOK, cameraArg);
+        throw('DPI224737: Invoke with Camera Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Camera Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_ADDRESSBOOK, mapsArg);
+        throw('DPI224737: Invoke with Maps Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Maps Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_ADDRESSBOOK, messageArg);
+        throw('DPI224737: Invoke with Message Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Message Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_ADDRESSBOOK, phoneArg);
+        throw('DPI224737: Invoke with Phone Arg should throw exception');
+    } catch (err) {
+        if ( err !=invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Phone Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_ADDRESSBOOK, searchArg);
+        throw('DPI224737: Invoke with Search Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Search Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_ADDRESSBOOK, memoArg);
+        throw('DPI224737: Invoke with Memo Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Memo Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_ADDRESSBOOK, taskArg);
+        throw('DPI224737: Invoke with Task Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Task Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_ADDRESSBOOK, browserArg);
+        throw('DPI224737: Invoke with Browser Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Browser Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_ADDRESSBOOK, javaArg);
+        throw('DPI224737: Invoke with Java Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Java Arg: '+err);
+        }
+    } 
+
+return true;
+
+    
+}
+      ]]></test>
+
+<test name="invoke_BlueTooth_Exception" comment="Exception test for invoke BlueTooth">
+        <![CDATA[
+
+function invoke_BlueTooth_Exception()
+{
+    
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_BLUETOOTH_CONFIG, 12);
+        throw('DPI224702: Invoke with int args should throw exception');
+    } catch (err) {
+        if ( err != extraArgException ) {
+            throw('Unexpected Error when calling invoke with int args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_BLUETOOTH_CONFIG, 'TestBook');
+        throw('DPI224702: Invoke with string args should throw exception');
+    } catch (err) {
+        if ( err !=extraArgException ) {
+            throw('Unexpected Error when calling invoke with string args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_BLUETOOTH_CONFIG, addressArg, null);
+        throw('DPI224702: Invoke with extra null args should throw exception');
+    } catch (err) {
+        if ( err != extraNULLException ) {
+            throw('Unexpected Error when calling invoke with extra null args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_BLUETOOTH_CONFIG, addressArg, undefined);
+        throw('DPI224702: Invoke with extra undefined args should throw exception');
+    } catch (err) {
+        if ( err != extraNULLException) {
+            throw('Unexpected Error when calling invoke with extra undefined args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_BLUETOOTH_CONFIG, addressArg, 12);
+        throw('DPI224702: Invoke with extra int args should throw exception');
+    } catch (err) {
+        if ( err != extraArgException2) {
+            throw('Unexpected Error when calling invoke with extra int args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_BLUETOOTH_CONFIG, addressArg);
+        throw('DPI224737: Invoke with AddressBook args should throw exception');
+    } catch (err) {
+        if ( err != extraArgException ) {
+            throw('Unexpected Error when calling invoke with AddressBook args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_BLUETOOTH_CONFIG, addressArg, 'Test');
+        throw('DPI224702: Invoke with extra string args should throw exception');
+    } catch (err) {
+        if ( err != extraArgException2 ) {
+            throw('Unexpected Error when calling invoke with extra string args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_BLUETOOTH_CONFIG, calendarArg);
+        throw('DPI224737: Invoke with Calendar Arg should throw exception');
+    } catch (err) {
+        if ( err !=extraArgException ) {
+            throw('Unexpected Error when calling invoke with Calendar Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_BLUETOOTH_CONFIG, cameraArg);
+        throw('DPI224737: Invoke with Camera Arg should throw exception');
+    } catch (err) {
+        if ( err != extraArgException ) {
+            throw('Unexpected Error when calling invoke with Camera Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_BLUETOOTH_CONFIG, mapsArg);
+        throw('DPI224737: Invoke with Maps Arg should throw exception');
+    } catch (err) {
+        if ( err != extraArgException ) {
+            throw('Unexpected Error when calling invoke with Maps Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_BLUETOOTH_CONFIG, messageArg);
+        throw('DPI224737: Invoke with Message Arg should throw exception');
+    } catch (err) {
+        if ( err != extraArgException) {
+            throw('Unexpected Error when calling invoke with Message Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_BLUETOOTH_CONFIG, phoneArg);
+        throw('DPI224737: Invoke with Phone Arg should throw exception');
+    } catch (err) {
+        if ( err != extraArgException ) {
+            throw('Unexpected Error when calling invoke with Phone Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_BLUETOOTH_CONFIG, searchArg);
+        throw('DPI224737: Invoke with Search Arg should throw exception');
+    } catch (err) {
+        if ( err !=extraArgException ) {
+            throw('Unexpected Error when calling invoke with Search Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_BLUETOOTH_CONFIG, memoArg);
+        throw('DPI224737: Invoke with Memo Arg should throw exception');
+    } catch (err) {
+        if ( err != extraArgException ) {
+            throw('Unexpected Error when calling invoke with Memo Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_BLUETOOTH_CONFIG, taskArg);
+        throw('DPI224737: Invoke with Task Arg should throw exception');
+    } catch (err) {
+        if ( err != extraArgException ) {
+            throw('Unexpected Error when calling invoke with Task Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_BLUETOOTH_CONFIG, browserArg);
+        throw('DPI224737: Invoke with Browser Arg should throw exception');
+    } catch (err) {
+        if ( err !=extraArgException ) {
+            throw('Unexpected Error when calling invoke with Browser Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_BLUETOOTH_CONFIG, javaArg);
+        throw('DPI224737: Invoke with Java Arg should throw exception');
+    } catch (err) {
+        if ( err != extraArgException ) {
+            throw('Unexpected Error when calling invoke with Java Arg: '+err);
+        }
+    } 
+ 
+ 
+ return true;
+}
+      ]]></test>
+
+<test name="invoke_Calculator_Exception" comment="Exception test for invoke Calculator">
+        <![CDATA[
+
+function invoke_Calculator_Exception()
+{
+    
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_CALCULATOR, 12);
+        throw('DPI224702: Invoke with int args should throw exception');
+    } catch (err) {
+        if ( err !=  extraArgException) {
+            throw('Unexpected Error when calling invoke with int args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_CALCULATOR, 'TestBook');
+        throw('DPI224702: Invoke with string args should throw exception');
+    } catch (err) {
+        if ( err != extraArgException ) {
+            throw('Unexpected Error when calling invoke with string args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_CALCULATOR, addressArg, null);
+        throw('DPI224702: Invoke with extra null args should throw exception');
+    } catch (err) {
+        if ( err != extraNULLException) {
+            throw('Unexpected Error when calling invoke with extra null args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_CALCULATOR, addressArg, undefined);
+        throw('DPI224702: Invoke with extra undefined args should throw exception');
+    } catch (err) {
+        if ( err != extraNULLException ) {
+            throw('Unexpected Error when calling invoke with extra undefined args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_CALCULATOR, addressArg, 12);
+        throw('DPI224702: Invoke with extra int args should throw exception');
+    } catch (err) {
+        if ( err != extraArgException2 ) {
+            throw('Unexpected Error when calling invoke with extra int args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_CALCULATOR, addressArg);
+        throw('DPI224737: Invoke with AddressBook args should throw exception');
+    } catch (err) {
+        if ( err != extraArgException ) {
+            throw('Unexpected Error when calling invoke with AddressBook args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_CALCULATOR, addressArg, 'Test');
+        throw('DPI224702: Invoke with extra string args should throw exception');
+    } catch (err) {
+        if ( err != extraArgException2) {
+            throw('Unexpected Error when calling invoke with extra string args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_CALCULATOR, calendarArg);
+        throw('DPI224737: Invoke with Calendar Arg should throw exception');
+    } catch (err) {
+        if ( err != extraArgException ) {
+            throw('Unexpected Error when calling invoke with Calendar Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_CALCULATOR, cameraArg);
+        throw('DPI224737: Invoke with Camera Arg should throw exception');
+    } catch (err) {
+        if ( err !=extraArgException ) {
+            throw('Unexpected Error when calling invoke with Camera Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_CALCULATOR, mapsArg);
+        throw('DPI224737: Invoke with Maps Arg should throw exception');
+    } catch (err) {
+        if ( err != extraArgException ) {
+            throw('Unexpected Error when calling invoke with Maps Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_CALCULATOR, messageArg);
+        throw('DPI224737: Invoke with Message Arg should throw exception');
+    } catch (err) {
+        if ( err != extraArgException) {
+            throw('Unexpected Error when calling invoke with Message Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_CALCULATOR, phoneArg);
+        throw('DPI224737: Invoke with Phone Arg should throw exception');
+    } catch (err) {
+        if ( err != extraArgException ) {
+            throw('Unexpected Error when calling invoke with Phone Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_CALCULATOR, searchArg);
+        throw('DPI224737: Invoke with Search Arg should throw exception');
+    } catch (err) {
+        if ( err != extraArgException ) {
+            throw('Unexpected Error when calling invoke with Search Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_CALCULATOR, memoArg);
+        throw('DPI224737: Invoke with Memo Arg should throw exception');
+    } catch (err) {
+        if ( err != extraArgException ) {
+            throw('Unexpected Error when calling invoke with Memo Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_CALCULATOR, taskArg);
+        throw('DPI224737: Invoke with Task Arg should throw exception');
+    } catch (err) {
+        if ( err != extraArgException) {
+            throw('Unexpected Error when calling invoke with Task Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_CALCULATOR, browserArg);
+        throw('DPI224737: Invoke with Browser Arg should throw exception');
+    } catch (err) {
+        if ( err != extraArgException ) {
+            throw('Unexpected Error when calling invoke with Browser Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_CALCULATOR, javaArg);
+        throw('DPI224737: Invoke with Java Arg should throw exception');
+    } catch (err) {
+        if ( err != extraArgException ) {
+            throw('Unexpected Error when calling invoke with Java Arg: '+err);
+        }
+    } 
+  
+  
+  return true;
+}
+      ]]></test>
+
+<test name="invoke_Calendar_Exception" comment="Exception test for invoke Calendar">
+        <![CDATA[
+
+function invoke_Calendar_Exception()
+{
+   
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_CALENDAR, 12);
+        throw('DPI224702: Invoke with int args should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with int args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_CALENDAR, 'TestBook');
+        throw('DPI224702: Invoke with string args should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with string args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_CALENDAR, calendarArg, null);
+        throw('DPI224702: Invoke with extra null args should throw exception');
+    } catch (err) {
+        if ( err != extraNULLException ) {
+            throw('Unexpected Error when calling invoke with extra null args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_CALENDAR, calendarArg, undefined);
+        throw('DPI224702: Invoke with extra undefined args should throw exception');
+    } catch (err) {
+        if ( err != extraNULLException) {
+            throw('Unexpected Error when calling invoke with extra undefined args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_CALENDAR, calendarArg, 12);
+        throw('DPI224702: Invoke with extra int args should throw exception');
+    } catch (err) {
+        if ( err != extraArgException2 ) {
+            throw('Unexpected Error when calling invoke with extra int args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_CALENDAR, addressArg);
+        throw('DPI224737: Invoke with AddressBook args should throw exception');
+    } catch (err) {
+        if ( err !=  invalidTypeException) {
+            throw('Unexpected Error when calling invoke with AddressBook args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_CALENDAR, calendarArg, 'Test');
+        throw('DPI224702: Invoke with extra string args should throw exception');
+    } catch (err) {
+        if ( err != extraArgException2 ) {
+            throw('Unexpected Error when calling invoke with extra string args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_CALENDAR, cameraArg);
+        throw('DPI224737: Invoke with Camera Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException) {
+            throw('Unexpected Error when calling invoke with Camera Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_CALENDAR, mapsArg);
+        throw('DPI224737: Invoke with Maps Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Maps Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_CALENDAR, messageArg);
+        throw('DPI224737: Invoke with Message Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Message Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_CALENDAR, phoneArg);
+        throw('DPI224737: Invoke with Phone Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Phone Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_CALENDAR, searchArg);
+        throw('DPI224737: Invoke with Search Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException) {
+            throw('Unexpected Error when calling invoke with Search Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_CALENDAR, memoArg);
+        throw('DPI224737: Invoke with Memo Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Memo Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_CALENDAR, taskArg);
+        throw('DPI224737: Invoke with Task Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Task Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_CALENDAR, browserArg);
+        throw('DPI224737: Invoke with Browser Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Browser Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_CALENDAR, javaArg);
+        throw('DPI224737: Invoke with Java Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Java Arg: '+err);
+        }
+    } 
+  return true;  
+}
+      ]]></test>
+
+<test name="invoke_Camera_Exception" comment="Exception test for invoke Camera">
+        <![CDATA[
+
+function invoke_Camera_Exception()
+{
+    
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_CAMERA, 12);
+        throw('DPI224702: Invoke with int args should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with int args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_CAMERA, 'TestBook');
+        throw('DPI224702: Invoke with string args should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with string args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_CAMERA, cameraArg, null);
+        throw('DPI224702: Invoke with extra null args should throw exception');
+    } catch (err) {
+        if ( err != extraNULLException) {
+            throw('Unexpected Error when calling invoke with extra null args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_CAMERA, cameraArg, undefined);
+        throw('DPI224702: Invoke with extra undefined args should throw exception');
+    } catch (err) {
+        if ( err != extraArgException2 ) {
+            throw('Unexpected Error when calling invoke with extra undefined args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_CAMERA, cameraArg, 12);
+        throw('DPI224702: Invoke with extra int args should throw exception');
+    } catch (err) {
+        if ( err != extraArgException2 ) {
+            throw('Unexpected Error when calling invoke with extra int args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_CAMERA, addressArg);
+        throw('DPI224737: Invoke with AddressBook args should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with AddressBook args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_CAMERA, cameraArg, 'Test');
+        throw('DPI224702: Invoke with extra string args should throw exception');
+    } catch (err) {
+        if ( err != extraArgException2) {
+            throw('Unexpected Error when calling invoke with extra string args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_CAMERA, calendarArg);
+        throw('DPI224737: Invoke with Calendar Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException) {
+            throw('Unexpected Error when calling invoke with Calendar Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_CAMERA, mapsArg);
+        throw('DPI224737: Invoke with Maps Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Maps Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_CAMERA, messageArg);
+        throw('DPI224737: Invoke with Message Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException) {
+            throw('Unexpected Error when calling invoke with Message Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_CAMERA, phoneArg);
+        throw('DPI224737: Invoke with Phone Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Phone Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_CAMERA, searchArg);
+        throw('DPI224737: Invoke with Search Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Search Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_CAMERA, memoArg);
+        throw('DPI224737: Invoke with Memo Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Memo Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_CAMERA, taskArg);
+        throw('DPI224737: Invoke with Task Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Task Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_CAMERA, browserArg);
+        throw('DPI224737: Invoke with Browser Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Browser Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_CAMERA, javaArg);
+        throw('DPI224737: Invoke with Java Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Java Arg: '+err);
+        }
+    } 
+    return true;
+}
+      ]]></test>
+
+<test name="invoke_Maps_Exception" comment="Exception test for invoke Maps">
+        <![CDATA[
+
+function invoke_Maps_Exception()
+{
+    
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_MAPS, 12);
+        throw('DPI224702: Invoke with int args should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with int args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_MAPS, 'TestBook');
+        throw('DPI224702: Invoke with string args should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with string args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_MAPS, mapsArg, null);
+        throw('DPI224702: Invoke with extra null args should throw exception');
+    } catch (err) {
+        if ( err != extraNULLException ) {
+            throw('Unexpected Error when calling invoke with extra null args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_MAPS, mapsArg, undefined);
+        throw('DPI224702: Invoke with extra undefined args should throw exception');
+    } catch (err) {
+        if ( err != extraNULLException ) {
+            throw('Unexpected Error when calling invoke with extra undefined args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_MAPS, mapsArg, 12);
+        throw('DPI224702: Invoke with extra int args should throw exception');
+    } catch (err) {
+        if ( err != extraArgException2 ) {
+            throw('Unexpected Error when calling invoke with extra int args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_MAPS, addressArg);
+        throw('DPI224737: Invoke with AddressBook args should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with AddressBook args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_MAPS, mapsArg, 'Test');
+        throw('DPI224702: Invoke with extra string args should throw exception');
+    } catch (err) {
+        if ( err != extraArgException2 ) {
+            throw('Unexpected Error when calling invoke with extra string args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_MAPS, calendarArg);
+        throw('DPI224737: Invoke with Calendar Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Calendar Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_MAPS, cameraArg);
+        throw('DPI224737: Invoke with Camera Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Camera Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_MAPS, messageArg);
+        throw('DPI224737: Invoke with Message Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException) {
+            throw('Unexpected Error when calling invoke with Message Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_MAPS, phoneArg);
+        throw('DPI224737: Invoke with Phone Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Phone Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_MAPS, searchArg);
+        throw('DPI224737: Invoke with Search Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Search Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_MAPS, memoArg);
+        throw('DPI224737: Invoke with Memo Arg should throw exception');
+    } catch (err) {
+        if ( err !=invalidTypeException) {
+            throw('Unexpected Error when calling invoke with Memo Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_MAPS, taskArg);
+        throw('DPI224737: Invoke with Task Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Task Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_MAPS, browserArg);
+        throw('DPI224737: Invoke with Browser Arg should throw exception');
+    } catch (err) {
+        if ( err !=invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Browser Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_MAPS, javaArg);
+        throw('DPI224737: Invoke with Java Arg should throw exception');
+    } catch (err) {
+        if ( err !=invalidTypeException) {
+            throw('Unexpected Error when calling invoke with Java Arg: '+err);
+        }
+    } 
+ return true;   
+}
+      ]]></test>
+
+<test name="invoke_Memo_Exception" comment="Exception test for invoke Memo">
+        <![CDATA[
+
+function invoke_Memo_Exception()
+{
+   
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_MEMOPAD, 12);
+        throw('DPI224702: Invoke with int args should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException) {
+            throw('Unexpected Error when calling invoke with int args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_MEMOPAD, 'TestBook');
+        throw('DPI224702: Invoke with string args should throw exception');
+    } catch (err) {
+        if ( err !=invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with string args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_MEMOPAD, memoArg, null);
+        throw('DPI224702: Invoke with extra null args should throw exception');
+    } catch (err) {
+        if ( err !=extraNULLException ) {
+            throw('Unexpected Error when calling invoke with extra null args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_MEMOPAD, memoArg, undefined);
+        throw('DPI224702: Invoke with extra undefined args should throw exception');
+    } catch (err) {
+        if ( err != extraNULLException ) {
+            throw('Unexpected Error when calling invoke with extra undefined args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_MEMOPAD, memoArg, 12);
+        throw('DPI224702: Invoke with extra int args should throw exception');
+    } catch (err) {
+        if ( err != extraArgException2) {
+            throw('Unexpected Error when calling invoke with extra int args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_MEMOPAD, addressArg);
+        throw('DPI224737: Invoke with AddressBook args should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with AddressBook args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_MEMOPAD, memoArg, 'Test');
+        throw('DPI224702: Invoke with extra string args should throw exception');
+    } catch (err) {
+        if ( err != extraArgException2 ) {
+            throw('Unexpected Error when calling invoke with extra string args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_MEMOPAD, calendarArg);
+        throw('DPI224737: Invoke with Calendar Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException) {
+            throw('Unexpected Error when calling invoke with Calendar Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_MEMOPAD, cameraArg);
+        throw('DPI224737: Invoke with Camera Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Camera Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_MEMOPAD, mapsArg);
+        throw('DPI224737: Invoke with Maps Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Maps Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_MEMOPAD, messageArg);
+        throw('DPI224737: Invoke with Message Arg should throw exception');
+    } catch (err) {
+        if ( err !=invalidTypeException) {
+            throw('Unexpected Error when calling invoke with Message Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_MEMOPAD, phoneArg);
+        throw('DPI224737: Invoke with Phone Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Phone Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_MEMOPAD, searchArg);
+        throw('DPI224737: Invoke with Search Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Search Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_MEMOPAD, taskArg);
+        throw('DPI224737: Invoke with Task Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Task Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_MEMOPAD, browserArg);
+        throw('DPI224737: Invoke with Browser Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Browser Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_MEMOPAD, javaArg);
+        throw('DPI224737: Invoke with Java Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Java Arg: '+err);
+        }
+    } 
+ return true;   
+}
+      ]]></test>
+
+<test name="invoke_Message_Exception" comment="Exception test for invoke Message">
+        <![CDATA[
+
+function invoke_Message_Exception()
+{
+    
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_MESSAGES, 12);
+        throw('DPI224702: Invoke with int args should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with int args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_MESSAGES, 'TestBook');
+        throw('DPI224702: Invoke with string args should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with string args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_MESSAGES, messageArg, null);
+        throw('DPI224702: Invoke with extra null args should throw exception');
+    } catch (err) {
+        if ( err != extraNULLException ) {
+            throw('Unexpected Error when calling invoke with extra null args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_MESSAGES, messageArg, undefined);
+        throw('DPI224702: Invoke with extra undefined args should throw exception');
+    } catch (err) {
+        if ( err != extraNULLException ) {
+            throw('Unexpected Error when calling invoke with extra undefined args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_MESSAGES, messageArg, 12);
+        throw('DPI224702: Invoke with extra int args should throw exception');
+    } catch (err) {
+        if ( err != extraArgException2 ) {
+            throw('Unexpected Error when calling invoke with extra int args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_MESSAGES, addressArg);
+        throw('DPI224737: Invoke with AddressBook args should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with AddressBook args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_MESSAGES, messageArg, 'Test');
+        throw('DPI224702: Invoke with extra string args should throw exception');
+    } catch (err) {
+        if ( err != extraArgException2 ) {
+            throw('Unexpected Error when calling invoke with extra string args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_MESSAGES, calendarArg);
+        throw('DPI224737: Invoke with Calendar Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Calendar Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_MESSAGES, cameraArg);
+        throw('DPI224737: Invoke with Camera Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Camera Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_MESSAGES, mapsArg);
+        throw('DPI224737: Invoke with Maps Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Maps Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_MESSAGES, phoneArg);
+        throw('DPI224737: Invoke with Phone Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Phone Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_MESSAGES, searchArg);
+        throw('DPI224737: Invoke with Search Arg should throw exception');
+    } catch (err) {
+        if ( err !=invalidTypeException) {
+            throw('Unexpected Error when calling invoke with Search Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_MESSAGES, memoArg);
+        throw('DPI224737: Invoke with Memo Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Memo Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_MESSAGES, taskArg);
+        throw('DPI224737: Invoke with Task Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Task Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_MESSAGES, browserArg);
+        throw('DPI224737: Invoke with Browser Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException) {
+            throw('Unexpected Error when calling invoke with Browser Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_MESSAGES, javaArg);
+        throw('DPI224737: Invoke with Java Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException) {
+            throw('Unexpected Error when calling invoke with Java Arg: '+err);
+        }
+    } 
+    return true;
+}
+      ]]></test>
+
+<test name="invoke_Phone_Exception" comment="Exception test for invoke Phone">
+        <![CDATA[
+
+function invoke_Phone_Exception()
+{
+    
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_PHONE, 12);
+        throw('DPI224702: Invoke with int args should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with int args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_PHONE, 'TestBook');
+        throw('DPI224702: Invoke with string args should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with string args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_PHONE, phoneArg, null);
+        throw('DPI224702: Invoke with extra null args should throw exception');
+    } catch (err) {
+        if ( err !=extraNULLException ) {
+            throw('Unexpected Error when calling invoke with extra null args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_PHONE, phoneArg, undefined);
+        throw('DPI224702: Invoke with extra undefined args should throw exception');
+    } catch (err) {
+        if ( err != extraNULLException ) {
+            throw('Unexpected Error when calling invoke with extra undefined args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_PHONE, phoneArg, 12);
+        throw('DPI224702: Invoke with extra int args should throw exception');
+    } catch (err) {
+        if ( err != extraArgException2 ) {
+            throw('Unexpected Error when calling invoke with extra int args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_PHONE, addressArg);
+        throw('DPI224737: Invoke with AddressBook args should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with AddressBook args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_PHONE, phoneArg, 'Test');
+        throw('DPI224702: Invoke with extra string args should throw exception');
+    } catch (err) {
+        if ( err != extraArgException2 ) {
+            throw('Unexpected Error when calling invoke with extra string args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_PHONE, calendarArg);
+        throw('DPI224737: Invoke with Calendar Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Calendar Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_PHONE, cameraArg);
+        throw('DPI224737: Invoke with Camera Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Camera Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_PHONE, mapsArg);
+        throw('DPI224737: Invoke with Maps Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Maps Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_PHONE, messageArg);
+        throw('DPI224737: Invoke with Message Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Message Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_PHONE, searchArg);
+        throw('DPI224737: Invoke with Search Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException) {
+            throw('Unexpected Error when calling invoke with Search Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_PHONE, memoArg);
+        throw('DPI224737: Invoke with Memo Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException) {
+            throw('Unexpected Error when calling invoke with Memo Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_PHONE, taskArg);
+        throw('DPI224737: Invoke with Task Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Task Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_PHONE, browserArg);
+        throw('DPI224737: Invoke with Browser Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Browser Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_PHONE, javaArg);
+        throw('DPI224737: Invoke with Java Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Java Arg: '+err);
+        }
+    } 
+  return true;  
+}
+      ]]></test>
+
+<test name="invoke_Search_Exception" comment="Exception test for invoke Search">
+        <![CDATA[
+
+function invoke_Search_Exception()
+{
+   
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_SEARCH, 12);
+        throw('DPI224702: Invoke with int args should throw exception');
+    } catch (err) {
+        if ( err !=invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with int args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_SEARCH, 'TestBook');
+        throw('DPI224702: Invoke with string args should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with string args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_SEARCH, searchArg, null);
+        throw('DPI224702: Invoke with extra null args should throw exception');
+    } catch (err) {
+        if ( err != extraNULLException ) {
+            throw('Unexpected Error when calling invoke with extra null args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_SEARCH, searchArg, undefined);
+        throw('DPI224702: Invoke with extra undefined args should throw exception');
+    } catch (err) {
+        if ( err != extraNULLException ) {
+            throw('Unexpected Error when calling invoke with extra undefined args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_SEARCH, searchArg, 12);
+        throw('DPI224702: Invoke with extra int args should throw exception');
+    } catch (err) {
+        if ( err != extraArgException2 ) {
+            throw('Unexpected Error when calling invoke with extra int args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_SEARCH, addressArg);
+        throw('DPI224737: Invoke with AddressBook args should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with AddressBook args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_SEARCH, searchArg, 'Test');
+        throw('DPI224702: Invoke with extra string args should throw exception');
+    } catch (err) {
+        if ( err !=  extraArgException2 ) {
+            throw('Unexpected Error when calling invoke with extra string args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_SEARCH, calendarArg);
+        throw('DPI224737: Invoke with Calendar Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Calendar Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_SEARCH, cameraArg);
+        throw('DPI224737: Invoke with Camera Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Camera Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_SEARCH, mapsArg);
+        throw('DPI224737: Invoke with Maps Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Maps Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_SEARCH, messageArg);
+        throw('DPI224737: Invoke with Message Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Message Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_SEARCH, phoneArg);
+        throw('DPI224737: Invoke with Phone Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Phone Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_SEARCH, memoArg);
+        throw('DPI224737: Invoke with Memo Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Memo Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_SEARCH, taskArg);
+        throw('DPI224737: Invoke with Task Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Task Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_SEARCH, browserArg);
+        throw('DPI224737: Invoke with Browser Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Browser Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_SEARCH, javaArg);
+        throw('DPI224737: Invoke with Java Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Java Arg: '+err);
+        }
+    } 
+  return true;  
+}
+      ]]></test>
+
+<test name="invoke_Tasks_Exception" comment="Exception test for invoke Tasks">
+        <![CDATA[
+
+function invoke_Tasks_Exception()
+{
+   
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_TASKS, 12);
+        throw('DPI224702: Invoke with int args should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with int args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_TASKS, 'TestBook');
+        throw('DPI224702: Invoke with string args should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with string args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_TASKS, taskArg, null);
+        throw('DPI224702: Invoke with extra null args should throw exception');
+    } catch (err) {
+        if ( err != extraNULLException ) {
+            throw('Unexpected Error when calling invoke with extra null args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_TASKS, taskArg, undefined);
+        throw('DPI224702: Invoke with extra undefined args should throw exception');
+    } catch (err) {
+        if ( err != extraNULLException ) {
+            throw('Unexpected Error when calling invoke with extra undefined args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_TASKS, taskArg, 12);
+        throw('DPI224702: Invoke with extra int args should throw exception');
+    } catch (err) {
+        if ( err != extraArgException2 ) {
+            throw('Unexpected Error when calling invoke with extra int args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_TASKS, addressArg);
+        throw('DPI224737: Invoke with AddressBook args should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with AddressBook args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_TASKS, taskArg, 'Test');
+        throw('DPI224702: Invoke with extra string args should throw exception');
+    } catch (err) {
+        if ( err != extraArgException2 ) {
+            throw('Unexpected Error when calling invoke with extra string args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_TASKS, calendarArg);
+        throw('DPI224737: Invoke with Calendar Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException) {
+            throw('Unexpected Error when calling invoke with Calendar Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_TASKS, cameraArg);
+        throw('DPI224737: Invoke with Camera Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Camera Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_TASKS, mapsArg);
+        throw('DPI224737: Invoke with Maps Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Maps Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_TASKS, messageArg);
+        throw('DPI224737: Invoke with Message Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Message Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_TASKS, phoneArg);
+        throw('DPI224737: Invoke with Phone Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Phone Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_TASKS, searchArg);
+        throw('DPI224737: Invoke with Search Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Search Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_TASKS, memoArg);
+        throw('DPI224737: Invoke with Memo Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Memo Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_TASKS, browserArg);
+        throw('DPI224737: Invoke with Browser Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Browser Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_TASKS, javaArg);
+        throw('DPI224737: Invoke with Java Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Java Arg: '+err);
+        }
+    } 
+  return true;  
+}
+      ]]></test>
+
+<test name="invoke_Browser_Exception" comment="Exception test for invoke Browser">
+        <![CDATA[
+
+function invoke_Browser_Exception()
+{
+   
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_BROWSER, 12);
+        throw('DPI224702: Invoke with int args should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException) {
+            throw('Unexpected Error when calling invoke with int args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_BROWSER, 'TestBook');
+        throw('DPI224702: Invoke with string args should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with string args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_BROWSER, browserArg, null);
+        throw('DPI224702: Invoke with extra null args should throw exception');
+    } catch (err) {
+        if ( err != extraNULLException) {
+            throw('Unexpected Error when calling invoke with extra null args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_BROWSER, browserArg, undefined);
+        throw('DPI224702: Invoke with extra undefined args should throw exception');
+    } catch (err) {
+        if ( err != extraNULLException ) {
+            throw('Unexpected Error when calling invoke with extra undefined args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_BROWSER, browserArg, 12);
+        throw('DPI224702: Invoke with extra int args should throw exception');
+    } catch (err) {
+        if ( err != extraArgException2 ) {
+            throw('Unexpected Error when calling invoke with extra int args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_BROWSER, addressArg);
+        throw('DPI224737: Invoke with AddressBook args should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with AddressBook args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_BROWSER, browserArg, 'Test');
+        throw('DPI224702: Invoke with extra string args should throw exception');
+    } catch (err) {
+        if ( err != extraArgException2 ) {
+            throw('Unexpected Error when calling invoke with extra string args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_BROWSER, calendarArg);
+        throw('DPI224737: Invoke with Calendar Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Calendar Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_BROWSER, cameraArg);
+        throw('DPI224737: Invoke with Camera Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Camera Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_BROWSER, mapsArg);
+        throw('DPI224737: Invoke with Maps Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Maps Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_BROWSER, messageArg);
+        throw('DPI224737: Invoke with Message Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Message Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_BROWSER, phoneArg);
+        throw('DPI224737: Invoke with Phone Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Phone Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_BROWSER, searchArg);
+        throw('DPI224737: Invoke with Search Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Search Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_BROWSER, memoArg);
+        throw('DPI224737: Invoke with Memo Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Memo Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_BROWSER, taskArg);
+        throw('DPI224737: Invoke with Task Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Task Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_BROWSER, javaArg);
+        throw('DPI224737: Invoke with Java Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Java Arg: '+err);
+        }
+    } 
+    return true;
+}
+      ]]></test>
+
+<test name="invoke_Java_Exception" comment="Exception test for invoke Java">
+        <![CDATA[
+
+function invoke_Java_Exception()
+{
+ 
+    /*
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_JAVA, null);
+        throw('DPI224702: Invoke with null args should throw exception');
+    } catch (err) {
+        if ( err != nullException ) {
+            throw('Unexpected Error when calling invoke with null args: '+err);
+        }
+    } 
+
+    
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_JAVA, undefined);
+        throw('DPI224702: Invoke with undefined args should throw exception');
+    } catch (err) {
+        if ( err != nullException ) {
+            throw('Unexpected Error when calling invoke with undefined args: '+err);
+        }
+    } 
+*/
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_JAVA);
+        throw('DPI224702: Invoke with no args should throw exception');
+    } catch (err) {
+        if ( err != "java.lang.IllegalArgumentException: Missing required argument: 'args'") {
+            throw('Unexpected Error when calling invoke with no args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_JAVA, 12);
+        throw('DPI224702: Invoke with int args should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with int args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_JAVA, 'TestBook');
+        throw('DPI224702: Invoke with string args should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with string args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_JAVA, javaArg, null);
+        throw('DPI224702: Invoke with extra null args should throw exception');
+    } catch (err) {
+        if ( err != extraNULLException ) {
+            throw('Unexpected Error when calling invoke with extra null args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_JAVA, javaArg, undefined);
+        throw('DPI224702: Invoke with extra undefined args should throw exception');
+    } catch (err) {
+        if ( err != extraNULLException) {
+            throw('Unexpected Error when calling invoke with extra undefined args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_JAVA, javaArg, 12);
+        throw('DPI224702: Invoke with extra int args should throw exception');
+    } catch (err) {
+        if ( err != extraArgException2 ) {
+            throw('Unexpected Error when calling invoke with extra int args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_JAVA, addressArg);
+        throw('DPI224737: Invoke with AddressBook args should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with AddressBook args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_JAVA, javaArg, 'Test');
+        throw('DPI224702: Invoke with extra string args should throw exception');
+    } catch (err) {
+        if ( err != extraArgException2 ) {
+            throw('Unexpected Error when calling invoke with extra string args: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_JAVA, calendarArg);
+        throw('DPI224737: Invoke with Calendar Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException) {
+            throw('Unexpected Error when calling invoke with Calendar Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_JAVA, cameraArg);
+        throw('DPI224737: Invoke with Camera Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Camera Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_JAVA, mapsArg);
+        throw('DPI224737: Invoke with Maps Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Maps Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_JAVA, messageArg);
+        throw('DPI224737: Invoke with Message Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Message Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_JAVA, phoneArg);
+        throw('DPI224737: Invoke with Phone Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Phone Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_JAVA, searchArg);
+        throw('DPI224737: Invoke with Search Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Search Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_JAVA, memoArg);
+        throw('Invoke with Memo Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Memo Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_JAVA, taskArg);
+        throw('DPI224737: Invoke with Task Arg should throw exception');
+    } catch (err) {
+        if ( err != invalidTypeException) {
+            throw('Unexpected Error when calling invoke with Task Arg: '+err);
+        }
+    } 
+
+    try {
+        blackberry.invoke.invoke(blackberry.invoke.APP_JAVA, browserArg);
+        throw('DPI224737: Invoke with Browser Arg should throw exception');
+    } catch (err) {
+        if ( err !=invalidTypeException ) {
+            throw('Unexpected Error when calling invoke with Browser Arg: '+err);
+        }
+    } 
+  return true;  
+}
+      ]]></test>
+    </unitTests>
+  </namespace>
+
+</library>
+
+
+
+
+
+
