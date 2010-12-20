@@ -1,7 +1,24 @@
+/*
+ * Copyright 2010 Research In Motion Limited.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package blackberry.system 
 {	
 	import flash.net.NetworkInfo;
 	import flash.net.NetworkInterface;
+	
+	import mx.states.OverrideBase;
 	
 	import qnx.system.Device;
 	
@@ -10,6 +27,7 @@ package blackberry.system
 	
 	public class System extends DefaultExtension {
 		
+		private const MASS_STORAGE_ACTIVE : Boolean = false;
 		private const SCRIPT_API_VERSION:String = "1.0.0.0";
 		private const FEATURE_ID:Array = new Array ("blackberry.system");
 		
@@ -17,17 +35,21 @@ package blackberry.system
 			return FEATURE_ID;
 		}
 		
-		protected function model():String {	
-			return String(Device.device.hardwareID);
+		override public function invokeFunction(method:String, parameters:String=""):Object {
+			return super.invokeFunction.apply(this, new Array(method, parameters));
+		}
+		
+		public function model():int {	
+			return Device.device.hardwareID;
 		}
 		
 		/* scriptApiVersion will be retrieved from config.xml file */
 		
-		protected function scriptApiVersion():String {
+		public function scriptApiVersion():String {
 			return SCRIPT_API_VERSION;
 		} 
 		
-		protected function softwareVersion():String {
+		public function softwareVersion():String {
 			return Device.device.os;  
 		}
 		
@@ -48,27 +70,22 @@ package blackberry.system
 		* network.cdma (CDMA wireless family includes CDMA1x and EVDO) 
 		* network.iden
 		*/
-		
-		protected function hasCapability():Boolean {
-			var requestedCapability : String = String(super.getParameterByName("capability"));
+		public function hasCapability(capability : String):Boolean {
 			var supportedCapabilities:Array = new Array("media.audio.capture","media.video.capture",
 							"media.recording","network.bluetooth","network.wlan");
 			
-			return supportedCapabilities.indexOf(requestedCapability) != -1;
+			return supportedCapabilities.indexOf(capability) != -1;
 		}
 
 		/*
 		* hasPermission() function
 		*/
-
-		protected function hasPermission():int {
-			var requestedPermission : String = String(super.getParameterByName("module"));
-	
+		public function hasPermission(module : String):int {
 			var permission:int = 0; // if blackberry.denied, set to 0
-			var accessList:Array = super._enviro[ConfigConstants.ACCESSLIST];
+			var accessList:Array = super.environment[ConfigConstants.ACCESSLIST];
 			
 			accessList.every(function callback(item:*, index:int, array:Array):Boolean {
-					permission = uint(item.getURI() == requestedPermission);
+					permission = uint(item.getURI() == module);
 					var continueSearch:Boolean = (permission == 0);
 					return continueSearch;
 				}, this);
@@ -76,7 +93,7 @@ package blackberry.system
 			return permission;
 		}
 		
-		protected function hasDataCoverage():String {
+		public function hasDataCoverage():String {
 			var haveCoverage : Boolean = false;
 			
 			NetworkInfo.networkInfo.findInterfaces().every(
@@ -89,9 +106,8 @@ package blackberry.system
 			return String(haveCoverage);
 		}
 		
-		protected function isMassStorageActive():String {
-			var noActive:Boolean = false;
-			return String(noActive);
+		public function isMassStorageActive() : Boolean {
+			return MASS_STORAGE_ACTIVE; //never active
 		}
 	}
 }

@@ -1,3 +1,18 @@
+/*
+ * Copyright 2010 Research In Motion Limited.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 (function () {
 	
 	var MINI_BROKER_LOCATION = "blackberry/invoke";
@@ -18,7 +33,6 @@
 	var APP_TYPE_ERROR = "appType not supported";
 	var APP_BROWSER_ERROR = "Protocol specified in the url is not supported."
 	
-	var 
 	
 	if(!this.blackberry) {
 		return; //nothing to dispatch
@@ -34,7 +48,7 @@
 			 
 			"invoke" : function(appType, args) {
 				var uri = INVOKE_LOCATION;
-				var recall = new blackberry.transport.RemoteFunctionCall(uri);
+				var remote = new blackberry.transport.RemoteFunctionCall(uri);
 				
 				switch(appType){
 				
@@ -45,61 +59,61 @@
 						
 						
 						if(!args || args.view == 1)
-							recall.addParam(APP_TYPE, APP_URL_CAMERA_VIDEO);						
+							remote.addParam(APP_TYPE, APP_URL_CAMERA_VIDEO);						
 						else
-							recall.addParam(APP_TYPE,APP_URL_CAMERA);
+							remote.addParam(APP_TYPE,APP_URL_CAMERA);
 						break;
 						
 					//Maps
 					case 5:
-						recall.addParam(APP_TYPE,APP_URL_MAP);						
+						remote.addParam(APP_TYPE,APP_URL_MAP);						
 						break;
 						
 					//Browser
 					case 11:	
 						
 						if(!args){
-							recall.addParam(APP_TYPE, APP_URL_BROWSER);
+							remote.addParam(APP_TYPE, APP_URL_BROWSER);
 						}						
 						else{
 							//Only http:// works to launch the browser
 							if(args.url.indexOf(APP_URL_BROWSER) != 0)
 								throw APP_BROWSER_ERROR;								
 							
-							recall.addParam(APP_TYPE, args.url);							
+							remote.addParam(APP_TYPE, args.url);							
 						}
 						
 						break;
 						
 					//Music
 					case 13:						
-						recall.addParam(APP_TYPE, APP_URL_MUSIC);
+						remote.addParam(APP_TYPE, APP_URL_MUSIC);
 						break;
 					
 					//Photos
 					case 14:
-						recall.addParam(APP_TYPE, APP_URL_PHOTOS);
+						remote.addParam(APP_TYPE, APP_URL_PHOTOS);
 						break;
 					
 					//Videos
 					case 15:
-						recall.addParam(APP_TYPE, APP_URL_VIDEOS);
+						remote.addParam(APP_TYPE, APP_URL_VIDEOS);
 						break;
 					
 					//AppWorld
 					case 16:
-						recall.addParam(APP_TYPE, APP_URL_APPWROLD);
+						remote.addParam(APP_TYPE, APP_URL_APPWROLD);
 						break;
 					
 					//Update
 					case 17:
-						recall.addParam(APP_TYPE, APP_URL_UPDATE);
+						remote.addParam(APP_TYPE, APP_URL_UPDATE);
 						break;
 						
 					default:
 						throw APP_TYPE_ERROR;
 				}
-				return recall.makeSyncCall();
+				return remote.makeSyncCall();
 			}			
 			
 			

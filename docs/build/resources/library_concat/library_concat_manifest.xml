@@ -1,6 +1,7 @@
 <manifest>
 	<libraries basePath="../../../../js_api">
 		<libraryPath>/BlackBerry_Application</libraryPath>
+		<libraryPath>/BlackBerry_Invoke</libraryPath>
 		<libraryPath>/BlackBerry_System</libraryPath>
 		<libraryPath>/BlackBerry_Ui</libraryPath>
 	</libraries>

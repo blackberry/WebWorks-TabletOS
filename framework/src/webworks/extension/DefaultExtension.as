@@ -1,18 +1,16 @@
 package webworks.extension
 {
+	import flash.errors.IllegalOperationError;
 	import flash.utils.Dictionary;
 	
 	import json.JSON;
 	
 	import qnx.media.QNXStageWebView;
 	
-	public class DefaultExtension implements IApiExtension{	
+	public class DefaultExtension implements IApiExtension {	
 		
-		protected var _enviro:Dictionary;
-		protected var _query:String;
-		
-		public function DefaultExtension(){
-		}
+		private var _enviro:Dictionary;
+		private var _query:String;
 		
 		public function register(environmentVarialbes:Dictionary):void{
 			_enviro = environmentVarialbes;
@@ -25,75 +23,73 @@ package webworks.extension
 		}
 		
 		public function getFeatureList():Array{
-			return null;
+			throw new IllegalOperationError("No features defined. Method must be overriden in implementing extension.");
 		}
 		
-		public function invokeFunction(method:String, parameters:String = ""):Object{
+		public function invokeFunction(method:String, parameters:String = ""):Object {
+			var myReturn:Object = "";
+			_query = parameters;
 			
-			var myReturn:Object = new Object();
-			try{
-				_query = parameters;
-				myReturn = this[method]();				
+			var keyValuePairs : Array = getParameterArrayFromQuery(parameters);
+			var valueParams : Array = getValueArray(keyValuePairs);
+			
+			try{	
+				myReturn = this[method].apply(this, valueParams);				
 			}
 			catch(e:ReferenceError) {
-				trace(e);
-				return null;				
+				trace(e);			
 			}
+			
 			return JSON.encode(myReturn);
 		}
 		
-		
-		protected function getWebView():QNXStageWebView{
-			return _enviro["webview"];	
+		protected function get query() : String {
+			return _query;
 		}
 		
-		/**
-		 * illegal index will return null to handle optional parameters
-		 */
-		protected function getParameterByIndex(index:Number):Object{
-			var splits:Array = _query.split("&");
-			
-			if(splits.length <= index){
-				return null;
+		protected function get environment() : Dictionary {
+			if(_enviro == null) {
+				throw new IllegalOperationError("Extension has not been registered.");
 			}
-			return JSON.decode(splits[index].split("=")[1]);
-		}
-		/**
-		 * illegal name will return null to handle optional parameters
-		 */
-		protected function getParameterByName(name:String):Object{
 			
-			var splits:Array = _query.split("&");
-			for (var i:Number=0; i<splits.length;i++){
-				
-				var key:String = splits[i].split("=")[0];
-				if(key == name){
-					return JSON.decode(splits[i].split("=")[1]);
-				}
-			}			
-			return null;
-			
+			return _enviro; 
 		}
 		
 		
-		protected static function evalJavaScriptEvent(id:String,params:Array){
-			
-			javaScript:String = "blackberry.events.getHandlerById("+id+")(";
-			
+		protected function get webView():QNXStageWebView{
+			return _enviro["webview"];	 
+		} 
+		
+		protected function evalJavaScriptEvent(id:String,params:Array) : void {
+			var javaScript:String = "blackberry.events.getHandlerById("+id+")(";
 			
 			for (var i:Number=0; i<params.length;i++){
 				if(i== 0){
-					javaScript += param;
+					javaScript += params[i];
 				}else{
-					javaScript += ","+ param;					
+					javaScript += ","+ params[i];					
 				}				
 			}
-					
+			
 			javaScript += ");";
 			
-			getWebView().executeJavaScript(javaScript);			
+			this.webView.executeJavaScript(javaScript);		 
+		} 
+		
+		private function getValueArray(keyValuePairs : Array) : Array {
+			var values : Array = new Array();
 			
+			for (var i : int = 0; i < keyValuePairs.length; i++) {
+			
+				var decompParam : Array = keyValuePairs[i].split("=");				
+				values.push(decompParam[1]);				
+			}
+			
+			return values;
 		}
 		
+		private function getParameterArrayFromQuery(parameters : String) : Array {
+			return parameters.length > 0 ? _query.split("&") : [];
+		}		
 	}
 }

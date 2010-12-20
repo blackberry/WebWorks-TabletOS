@@ -1,73 +1,92 @@
+/*
+ * Copyright 2010 Research In Motion Limited.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 (function () {
-	var MINI_BROKER_LOCATION = SERVER_URL + "blackberry/app";
+	var APPLICATION_URL = "blackberry/app";
+	
+	var APP_AUTHOR = "author";
+	var APP_AUTHOR_EMAIL = "authorEmail";
+	var APP_AUTHOR_URL = "authorURL";
+	var APP_COPYRIGHT = "copyright";
+	var APP_DESCRIPTION = "description";
+	var APP_ID = "id";
+	var APP_IS_FOREGROUND = "isForeground";
+	var APP_LICENCE = "license";
+	var APP_LICENCE_URL = "licenseURL";
+	var APP_NAME = "name";
+	var APP_VERSION = "version";
+	var APP_EXIT = "exit";
+	
 	if(!this.blackberry) {
 		return; //nothing to dispatch
 	}
+	
+	function makeAppCall(uri) {
+		var recall = new blackberry.transport.RemoteFunctionCall(APPLICATION_URL + "/" + uri);		
+		return recall.makeSyncCall();
+	} 
 
 	this.blackberry.app = {
 		//Override the delegates for each namespace method
-		dispatcher : {
+		dispatcher : {	
+			
 			
 			/*
 			 * Dispatch the properties
 			 */
-			"author" : function() {
-				
-				return blackberry.transport.getTextValueSync(MINI_BROKER_LOCATION+ "/author");
+			"author" : function() {				
+				return makeAppCall(APP_AUTHOR);
 			},
 			"authorEmail" : function() {
-				return blackberry.transport.getTextValueSync(MINI_BROKER_LOCATION+ "/authorEmail");
+				return makeAppCall(APP_AUTHOR_EMAIL);
 			},
 			"authorURL" : function() {
-				return blackberry.transport.getTextValueSync(MINI_BROKER_LOCATION+ "/authorURL");
+				return makeAppCall(APP_AUTHOR_URL);
 			},
 			"copyright" : function() {
-				return blackberry.transport.getTextValueSync(MINI_BROKER_LOCATION+ "/copyright");
+				return makeAppCall(APP_COPYRIGHT);
 			},
 			"description" : function() {
-				return blackberry.transport.getTextValueSync(MINI_BROKER_LOCATION+ "/description");
+				return makeAppCall(APP_DESCRIPTION);
 			},
 			"id" : function() {
-				return blackberry.transport.getTextValueSync(MINI_BROKER_LOCATION+ "/id");
+				return makeAppCall(APP_ID);
 			},
 			"isForeground" : function() {
-				return blackberry.transport.getTextValueSync(MINI_BROKER_LOCATION+ "/isForeground");
+				return makeAppCall(APP_IS_FOREGROUND);
 			},
 			"license" : function() {
-				return blackberry.transport.getTextValueSync(MINI_BROKER_LOCATION+ "/license");
+				return makeAppCall(APP_LICENCE);
 			},
 			"licenseURL" : function() {
-				return blackberry.transport.getTextValueSync(MINI_BROKER_LOCATION+ "/licenseURL");
+				return makeAppCall(APP_LICENCE_URL);
 			},
-			"name" : function() {
-				
-				return blackberry.transport.getTextValueSync(MINI_BROKER_LOCATION+ "/name");
+			"name" : function() {				
+				return makeAppCall(APP_NAME);
 			},
 			"version" : function() {
-				return blackberry.transport.getTextValueSync(MINI_BROKER_LOCATION+ "/version");
+				return makeAppCall(APP_VERSION);
 			},
 			
 			/*
 			 * Dispatch the functions
 			 */
 			"exit" : function() {
-				return blackberry.transport.getTextValueSync(MINI_BROKER_LOCATION+ "/exit");
-			},
-			"requestBackground" : function() {
-				return blackberry.transport.getTextValueSync(MINI_BROKER_LOCATION+ "/requestBackground");
-			},
-			"requestForeground" : function() {
-				return blackberry.transport.getTextValueSync(MINI_BROKER_LOCATION+ "/requestForeground");
-			},
-			"setHomeScreenIcon" : function(uri, hover) {
-				if(!hover) {
-					hover = false;
-				}
-				return blackberry.transport.getTextValueSync(MINI_BROKER_LOCATION+ "/setHomeScreenIcon?uri=" + uri + "&hover=" + hover);
-			},
-			"setHomeScreenName" : function(text) {
-				return blackberry.transport.getTextValueSync(MINI_BROKER_LOCATION+ "/setHomeScreenName?text=" + text);
+				return makeAppCall(APP_EXIT);
 			}
+		
 		}
 	};	
 })();

@@ -1,3 +1,19 @@
+/*
+* Copyright 2010 Research In Motion Limited.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
 package blackberry.ui.dialog
 {
 	import flash.events.Event;
@@ -6,160 +22,74 @@ package blackberry.ui.dialog
 	import json.JSON;
 	
 	import qnx.dialog.AlertDialog;
-	import qnx.dialog.DialogAlign;
-	import qnx.dialog.DialogSize;
 	import qnx.media.QNXStageWebView;
 	
-	import webworks.extension.IApiExtension;
-	import webworks.access.Feature;
+	import webworks.extension.DefaultExtension;
 	
 	/**
 	 * 
 	 * Dialog extension for creating a dialog.
 	 * Two JavaScript APIs are currently supported by this extension
 	 * 
-	 * 	static  void   customAsk ( message : String ,  choices : string[] ,  onClick: String)
-	 * 	static  void   standardAsk ( type : Number ,  message : String ,  onClick :String ) 
+	 * 	static  void   customAsk ( message : String ,  buttons : String[] ,  onClick: String , [settings : String[] )
+	 * 	static  void   standardAsk ( message : String , type : Number , onClick :String, [settings: String[] )) 
 	 * 
-	 * author - Nukul Bhasin (Software Developer - Research in Motion)
+	 * author - Nukul Bhasin * Carolina Pinzon (Software Developers - Research in Motion)
 	 * 
 	 */
-	public class Dialog implements IApiExtension
+	public class Dialog extends DefaultExtension
 	{	
 		private static const D_OK:int = 0;
 		private static const D_SAVE:int = 1;
 		private static const D_DELETE:int = 2;
 		private static const D_YES_NO:int = 3;
 		private static const D_OK_CANCEL:int = 4;
-		private static const BOTTOM:String = "bottomCenter"; 
-		private static const CENTER:String = "middleCenter";
-		private static const TOP:String = "topCenter";
+		
+		private static const LOC_BOTTOM:String = "bottomCenter"; 
+		private static const LOC_CENTER:String = "middleCenter";
+		private static const LOC_TOP:String = "topCenter";
+		
 		private static const SIZE_FULL:String = "full";
 		private static const SIZE_LARGE:String = "large";
 		private static const SIZE_MEDIUM:String = "medium";
 		private static const SIZE_SMALL:String = "small";
 		private static const SIZE_TALL:String = "tall";
 		
-		private var javaScript:String = "";
+		private const FEATUREID:Array = new Array ("blackberry.ui.dialog");
 		
-		private var _enviro:Dictionary;
+		private var jsCallbackID:String = "";
 		
-		
-		public function Dialog()
-		{
+		public function Dialog() {
+			super();
 		}
 		
-		public function register(environmentVarialbes:Dictionary):void
-		{
-			_enviro = environmentVarialbes;
+		override public function getFeatureList():Array {
+			return FEATUREID;
 		}
-		
-		public function loadFeature(feature:String, version:String):void
-		{
-		}
-		
-		public function unloadFeature():void
-		{
-		}
-		
-		public function getFeatureList():Array
-		{
-			return new Array("blackberry.ui.dialog");
-		}
-		
-		public function invokeFunction(method:String, query:String):Object
-		{	
+	
+		public function standardAsk(eMessage:String,eStandardType:int,eOnClick:String,eSettings:Array = null):void {	
 			
-			var myReturn:Object;
-			try{			
-				myReturn = this[method](query);				
+			jsCallbackID = eOnClick;
+			var eNewSettings:Dictionary = null;
+			if (eSettings != null){
+				eNewSettings = dialogProperties(eSettings);
 			}
-			catch(e:ReferenceError) {
-				trace(e);
-				myReturn = null;				
-			}
-			return true;
-			
-			
-		}
-		private function standardAsk(query:String):void
-		{	
-			
-			var splits:Array = query.split("&");
-			
-			var standardType:Object = splits[0].split("=")[1];
-			var message:Object = splits[1].split("=")[1];
-			javaScript = JSON.decode(splits[2].split("=")[1]);
-			
-			var eMessage:String = JSON.decode(message.toString());
-			var eStandardType:Number = JSON.decode(standardType.toString());
-			var eButtons:Array = new Array(2);
-			if(eStandardType == D_DELETE){
-				eButtons[0] = "Delete";
-				eButtons[1] = "Cancel";
-				createDialog(eMessage,eButtons);
-			}else if(eStandardType == D_OK){
-				eButtons = new Array(1);
-				eButtons[0] = "OK";
-				createDialog(eMessage,eButtons);
-			}else if(eStandardType == D_OK_CANCEL){				
-				eButtons[0] = "OK";
-				eButtons[1] = "Cancel";
-				createDialog(eMessage,eButtons);
-			}else if(eStandardType == D_SAVE){				
-				eButtons[0] = "Save";
-				eButtons[1] = "Cancel";
-				createDialog(eMessage,eButtons);
-			}else if(eStandardType == D_YES_NO){				
-				eButtons[0] = "Yes";
-				eButtons[1] = "No";
-				createDialog(eMessage,eButtons);
-			}
-			
+			var myDialog:AlertDialog = createDialog(eMessage, standardButtons(eStandardType), eNewSettings);
+			myDialog.show();	
 		}
 		
-		private function customAsk(query:String):void
-		{				
-			var splits:Array = query.split("&");
-			var i:Number = splits.length;
+		public function customAsk(eMessage:String,eButtons:Array,eOnClick:String,eSettings:Array = null):void {
 			
-			var message:Object = splits[0].split("=")[1];
-			var buttons:Object = splits[1].split("=")[1];
-			var onclick:Object = splits[2].split("=")[1];
-			var options:Object = new Object();	
-			
-			if (i > 3){
-				options = splits[3].split("=")[1];
-				javaScript = JSON.decode(splits[3].split("=")[1]);
-			} else {
-				options = null;
-				javaScript = JSON.decode(splits[2].split("=")[1]);
+			jsCallbackID = eOnClick;
+			var eNewSettings:Dictionary = null;
+			if (eSettings != null){
+				eNewSettings = dialogProperties(eSettings);
 			}
-			
-			var eMessage:String = JSON.decode(message.toString());
-			var eButtons:Array = JSON.decode(buttons.toString());
-			var eOptions:Dictionary = new Dictionary();
-			
-			var title:String = new String();
-			var size:String = new String();
-			var position:String = new String();
-			
-			eOptions["title"] = "";
-			eOptions["size"] = "";
-			eOptions["position"] = "";
-			
-			if (i >3){
-				eOptions["title"] = JSON.decode(options.toString())[0];
-				eOptions["size"] = JSON.decode(options.toString())[1];
-				eOptions["position"] = JSON.decode(options.toString())[2];
-				createDialog(eMessage, eButtons, eOptions);	
-			} else {
-				createDialog(eMessage, eButtons);
-			}
-			
+			var myDialog:AlertDialog = createDialog(eMessage, eButtons, eNewSettings);
+			myDialog.show();
 		}
 		
-		private function createDialog(eMessage:String,eButtons:Array,eOptions:Dictionary = null):void {
+		private function createDialog(eMessage:String,eButtons:Array,eSettings:Dictionary = null):AlertDialog {
 			
 			var alertDialog:AlertDialog = new AlertDialog();
 			alertDialog.message = eMessage;
@@ -168,30 +98,46 @@ package blackberry.ui.dialog
 				alertDialog.addButton(eButtons[i]);
 			}
 			
-			if (eOptions == null) {
+			if (eSettings == null) {
 				alertDialog.title = "";
 				alertDialog.dialogSize = SIZE_MEDIUM;
-				alertDialog.align = CENTER;	
+				alertDialog.align = LOC_CENTER;	
 			} else {
-				alertDialog.title = eOptions["title"];
-				alertDialog.dialogSize = eOptions["size"];
-				alertDialog.align = eOptions["position"];
+				alertDialog.title = eSettings["title"];
+				alertDialog.dialogSize = eSettings["size"];
+				alertDialog.align = eSettings["position"];
 			}	
 			
 			alertDialog.addEventListener(Event.SELECT, alertButtonClicked);
-			alertDialog.show();
 			
+			return alertDialog;
 		}
 		
-		private function alertButtonClicked(event:Event):void{
+		private function alertButtonClicked(event:Event):void {
 			
-			var webView:QNXStageWebView;
-			
-			webView = _enviro["webview"];
-			webView.executeJavaScript(javaScript + "("+ JSON.encode(event.target.selectedIndex) + ");");
-			
+			evalJavaScriptEvent(jsCallbackID, event.target.selectedIndex);
 		}
 		
+		private function dialogProperties (decodedProperties:Array):Dictionary {
+			var settings:Dictionary = new Dictionary();
+			settings["title"] = decodedProperties[0];
+			settings["size"] = decodedProperties[1];
+			settings["position"] = decodedProperties[2];
+			
+			return settings;
+		}
+		
+		private function standardButtons (standardType:int):Array {
+			var standardOps:Array = new Array;
+			
+			standardOps[D_OK] = new Array("0K");
+			standardOps[D_SAVE] = new Array("Save","Cancel");
+			standardOps[D_DELETE] = new Array("Delete","Cancel");
+			standardOps[D_YES_NO] = new Array("Yes","No");
+			standardOps[D_OK_CANCEL] = new Array("OK","Cancel");
+			
+			return standardOps[standardType];
+		}
 		
 	}
 }

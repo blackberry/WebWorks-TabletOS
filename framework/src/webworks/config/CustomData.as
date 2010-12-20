@@ -15,12 +15,15 @@
  */
 package webworks.config
 {
+
+
 import webworks.access.Access;
 import webworks.access.Feature;
-import webworks.config.ConfigConstants;
 
-   public class CustomData
-   {
+import blackberry.system.System;
+
+   public class CustomData 
+   { 
 // constants
         public static const values:Object = {
 
@@ -33,9 +36,30 @@ import webworks.config.ConfigConstants;
         "disableAllCache" :  true,
         "accessList" : new Array(
                 new Access(
-                    "file:///mlc/sandboxes/guest",
-                    false,
-                    null
+                    "http://atg05-yyz.rim.net/yui_unittest/dev/",
+                    true,
+					new Array(
+						new Feature(
+							"Screen",
+							true,
+							"",
+							null),
+						new Feature(
+							"blackberry.invoke",
+							true,
+							"1.0.0.0",
+							null),
+						new Feature(
+							"blackberry.ui.dialog",
+							true,
+							"1.0.0.0",
+							null),
+						new Feature(
+							"blackberry.system",
+							true,
+							"1.0.0.0",
+							null)
+					)
                 )
             ,
                 new Access(
@@ -66,7 +90,7 @@ import webworks.config.ConfigConstants;
                             "",
                             null),
                         new Feature(
-                            "blackberry.app",
+                            "blackberry.system",
                             true,
                             "1.0.0.0",
                             null)
@@ -95,7 +119,7 @@ import webworks.config.ConfigConstants;
                             "",
                             null),
                         new Feature(
-                            "blackberry.app",
+                            "blackberry.system",
                             true,
                             "1.0.0.0",
                             null)
@@ -103,6 +127,12 @@ import webworks.config.ConfigConstants;
                 )
             ),
 		
+	"widgetExtensions" : new Array( {"class" : new System(), 
+		                             "requiredJSFiles" : new Array("js/constants.js",
+																	"js/blackberry_ns.js",
+																	"js/direct.js", 
+									 								"js/system_dispatcher.js",
+																	"js/system_ns.js")}),
     "name" : "value"
         }
     }

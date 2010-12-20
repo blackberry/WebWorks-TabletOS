@@ -28,7 +28,7 @@ package webworks.util
 	import webworks.uri.URI;
 	
 	/**
-	 * DeviceURL parses a XHRRequest URL ( device://namespace1/namespace2/class/mehtod?par1=v1&par2=v1... ) into individual properties
+	 * DeviceURL parses a XHRRequest URL ( webworks://namespace1/namespace2/class/mehtod?par1=v1&par2=v1... ) into individual properties
 	 *  
 	 */
 	public class DeviceURL
@@ -42,7 +42,7 @@ package webworks.util
 		
 		public function isDeviceProtocol():Boolean
 		{
-			return _uri.scheme == "device";
+			return _uri.scheme == "webworks";
 		}
 		
 		/**

@@ -16,7 +16,7 @@
 			<src type="text/javascript" path="js/common/ui/dialog_dispatcher.js" comment="Dialog JS XHR dispatcher" />
 			<src type="text/javascript" path="js/common/ui/dialog_ns.js" comment="Dialog JS interface" />
 			<src type="text/javascript" path="../Common_JS/transport/xhr/xhr.js" comment="JS XHR connection utilities" />
-			<src type="text/actionscript" path="src/Air/Ui/src/" comment="ActionScript implementation" />
+			<src type="text/actionscript" path="src/Air/Ui/src/Dialog.as" comment="ActionScript implementation" />
 		</configuration>
 	</configurations>
   
@@ -26,19 +26,29 @@
   
 	<object name="blackberry.ui.dialog" shortName="Dialog" introduced="1.0.0" comment="The Dialog object contains functions for manipulating system dialog boxes.">
 		<details>
-		  The functionality in this object allows you to integrate standard system dialog boxes into your BlackBerry Widget and control your application flow based on user responses.
+		  The functionality in this object allows you to integrate standard system dialog boxes into your BlackBerry PlayBook WebWorks Application and control your application flow based on user responses.
 		</details>
     
     <example><![CDATA[<script type="text/javascript">
-  function launchDialog() {
-    setTimeout(globalDialog, 5000);
+  function launchDialog1() {
+    setTimeout(standardDialog, 5000);
+    setTimeout(customDialog, 5000);
     return;
   }
+  
+  function standardDialog() {
+	var settings = new Array("Save Dialog",blackberry.ui.dialog.SIZE_MEDIUM,blackberry.ui.dialog.LOC_BOTTOM);
+	blackberry.ui.dialog.standardAsk("Save?", blackberry.ui.dialog.D_SAVE, 0, settings);
+  } 
 
-  function globalDialog() {
-    var ss = new Array("Saab", "Volvo", "BMW");
-    var ret = blackberry.ui.dialog.customAsk("Select your favorite car", ss, 2, true);
-    blackberry.ui.dialog.standardAsk(blackberry.ui.dialog.D_OK, "You selected " + ss[ret], 0, true);
+  function dialogCallBack(index){
+         	alert(index);
+  }  
+  
+  function customDialog() {
+	var buttons = new Array(Yes", "No", "Sometimes", "N/A");
+	var ops = new Array("Choose the answer that describes you best",blackberry.ui.dialog.SIZE_TALL, blackbery.ui.dialog.LOC_CENTER);
+	blackberry.ui.dialog.customAsk("Do you routinely work out?", buttons, dialogCallBack, ops);
   }
 </script>]]></example>
 
@@ -47,24 +57,35 @@
 			<details>Uses the standard dialog. The function will not block execution and will return the 0-based index of the user's choice.</details>
 			
 			<param name="message" type="String" comment="Message to be displayed in the dialog." />
-			<param name="type" type="Number" comment="parameter that specifies the type of standard dialog. Constants starting with D_*." />
+			<param name="type" type="Number" comment="Parameter that specifies the type of standard dialog. Constants starting with D_*." />
 			<param name="onOptionSelected" type="OnOptionSelectedCallback" comment="Optional callback function that will be invoked when the user makes a selection." />
+			<param name="settings" type="String" array="true" comment="Optional array of string choices that allow the user to manipulate the size, location and title of the dialog." />
 		</func>
+		
 		<func name="customAsk" returns="void" static="true" comment="Creates a custom dialog to ask the user a question.">
 			<details>Uses the standard dialog. The function will not block execution and will return the 0-based index of the user's choice.</details>
 			
 			<param name="message" type="String" comment="Message to be displayed in the dialog." />
-			<param name="choices" type="String" array="true" comment="Array of string choices that will be presented to the user in the form of buttons." />
+			<param name="buttons" type="String" array="true" comment="Array of string choices that will be presented to the user in the form of buttons." />
 			<param name="onOptionSelected" type="OnOptionSelectedCallback" comment="Optional callback function that will be invoked when the user makes a selection." />
+			<param name="settings" type="String" array="true" comment="Optional array of string choices that allow the user to manipulate the size, location and title of the dialog." />
 		</func>
     </functions>
   
-    <constants comment="Application Type">
+    <constants comment="Dialog Constants">
 		<const name="D_OK" type="Number" value="0" readonly="true" static="true" comment="Standard OK dialog" />
 		<const name="D_SAVE" type="Number" value="1" readonly="true" static="true" comment="Standard Save dialog" />
 		<const name="D_DELETE" type="Number" value="2" readonly="true" static="true" comment="Standard Delete confirmation dialog" />
 		<const name="D_YES_NO" type="Number" value="3" readonly="true" static="true" comment="Standard Yes/No dialog" />
 		<const name="D_OK_CANCEL" type="Number" value="4" readonly="true" static="true" comment="Standard OK/Cancel dialog" />
+		<const name="LOC_BOTTOM" type="String" value="bottomCenter" readonly="true" static="true" comment="Bottom located dialog" />
+		<const name="LOC_CENTER" type="String" value="middleCenter" readonly="true" static="true" comment="Center located dialog" />
+		<const name="LOC_TOP" type="String" value="topCenter" readonly="true" static="true" comment="Top located dialog" />
+		<const name="SIZE_FULL" type="String" value="full" readonly="true" static="true" comment="Full size dialog" />		
+		<const name="SIZE_LARGE" type="String" value="large" readonly="true" static="true" comment="Large size dialog" />		
+		<const name="SIZE_MEDIUM" type="String" value="medium" readonly="true" static="true" comment="Medium size dialog" />		
+		<const name="SIZE_SMALL" type="String" value="small" readonly="true" static="true" comment="Small size dialog" />		
+		<const name="SIZE_TALL" type="String" value="tall" readonly="true" static="true" comment="Tall size dialog" />				
     </constants>
     
   </object>

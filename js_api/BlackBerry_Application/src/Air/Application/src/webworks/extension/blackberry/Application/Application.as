@@ -1,100 +1,94 @@
+/*
+ * Copyright 2010 Research In Motion Limited.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package webworks.extension.blackberry.Application
 {
-	import flash.utils.Dictionary;
+	import flash.desktop.NativeApplication;
 	
 	import webworks.config.ConfigConstants;
-	import webworks.extension.IApiExtension;
+	import webworks.extension.DefaultExtension;
 	 
 	
-	public class Application implements IApiExtension
+	public class Application extends DefaultExtension
 	{
-		private var _enviro:Dictionary;		
 		private const FEATUREID:Array = new Array ("blackberry.app");
 		
 		
 		public function Application()
-		{						
+		{	
+			super();
 		}
 		
-		public function register(environmentVariables:Dictionary):void
+		override public function getFeatureList():Array
 		{
-			_enviro = environmentVariables;
+			return FEATUREID;
 		}
 		
-		public function loadFeature(feature:String, version:String):void
+		public function author():String
+		{ 	
+			return environment[ConfigConstants.AUTHOR];			  
+		}
+		
+		public function authorURL():String
 		{
-		}
+			return environment[ConfigConstants.AUTHORURL];			
+		}		
 		
-		public function unloadFeature():void
+		public function authorEmail():String
 		{
-		}
+			return environment[ConfigConstants.AUTHOREMAIL];			
+		}		
 		
-		public function getFeatureList():Array
+		public function getDescription():String
 		{
-			return FEATUREID;		
+			return environment[ConfigConstants.DESCRIPTION];			
 		}
 		
-		public function invokeFunction(method:String, query:String):Object
-		{		
-			var myReturn:Object;
-			try{			
-				myReturn = this[method](query);				
-			}
-			catch(e:ReferenceError) {
-				trace(e);
-				myReturn = null;				
-			}
-			return myReturn;
+		public function copyright():String
+		{
+			return environment[ConfigConstants.COPYRIGHT];			
 		}
 		
-		private function author(parameters:String):Object
+		public function id():String
+		{
+			return environment[ConfigConstants.ID];
+		}
+		
+		public function version():String
 		{			
-			return _enviro[ConfigConstants.AUTHOR];			  
-		}
-		
-		private function authorURL(parameters:String):Object
-		{
-			return _enviro[ConfigConstants.AUTHORURL];			
+			return environment[ConfigConstants.VERSION];			
 		}		
 		
-		private function authorEmail(parameters:String):Object
+		public function license():String
 		{
-			return _enviro[ConfigConstants.AUTHOREMAIL];			
+			return environment[ConfigConstants.LICENSE];			
 		}		
 		
-		private function getDescription(parameters:String):Object
+		public function licenseURL():String
 		{
-			return _enviro[ConfigConstants.DESCRIPTION];			
+			return environment[ConfigConstants.LICENSEURL];			
+		} 
+		
+		public function name():String
+		{
+			return environment[ConfigConstants.NAME];
 		}
 		
-		private function copyright(parameters:String):Object
+		public function exit():void
 		{
-			return _enviro[ConfigConstants.COPYRIGHT];			
+			NativeApplication.nativeApplication.exit();			
 		}
-		
-		private function id(parameters:String):Object
-		{
-			return _enviro[ConfigConstants.ID];
-		}
-		
-		private function version(parameters:String):Object
-		{			
-			return _enviro[ConfigConstants.VERSION];			
-		}		
-		
-		private function license(parameters:String):Object
-		{
-			return _enviro[ConfigConstants.LICENSE];			
-		}		
-		
-		private function licenseURL(parameters:String):Object
-		{
-			return _enviro[ConfigConstants.LICENSEURL];			
-		}
-		
-		private function name(parameters:String):Object
-		{
-			return _enviro[ConfigConstants.NAME];			
-		}		
 	}
 }

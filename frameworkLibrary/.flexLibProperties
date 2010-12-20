@@ -2,7 +2,6 @@
 <flexLibProperties includeAllClasses="true" useMultiPlatformConfig="false" version="3">
   <includeClasses>
     <classEntry path="webworks.FunctionBroker"/>
-    <classEntry path="webworks.config.ConfigData"/>
     <classEntry path="webworks.errors.AccessError"/>
     <classEntry path="webworks.policy.WidgetWebFolderAccess"/>
     <classEntry path="webworks.access.Feature"/>

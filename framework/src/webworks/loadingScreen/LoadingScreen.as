@@ -164,8 +164,8 @@ package webworks.loadingScreen
 		{
 			if ( onFirstLaunch && isFirstLaunch )
 			{
-			    app.addChild(this);
-			    webView.moveBehind();
+			    //app.addChild(this);
+			    //webView.moveBehind();
 			}
 		}
 		
@@ -173,8 +173,8 @@ package webworks.loadingScreen
 		{
 			if ( isLoadingScreenRequired(url))
 			{
-				app.addChild(this);
-				webView.moveBehind();
+				//app.addChild(this);
+				//webView.moveBehind();
 			}
 		}
 		
@@ -182,8 +182,8 @@ package webworks.loadingScreen
 		{
 			if ( app.contains(this))
 			{
-		        app.removeChild(this);
-		        webView.moveAhead();
+		        //app.removeChild(this);
+		        //webView.moveAhead();
 			}
 		}
 		

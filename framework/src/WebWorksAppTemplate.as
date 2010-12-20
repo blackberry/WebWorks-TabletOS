@@ -30,9 +30,9 @@ package
 	import qnx.dialog.AlertDialog;
     import qnx.display.IowWindow;
 	import qnx.dialog.DialogSize;
-	import qnx.events.HtmlEvent;
-	import qnx.events.JavascriptMethodEvent;
-	import qnx.events.QNXLocationChangeEvent;
+	import qnx.events.WebViewEvent;
+	import qnx.events.JavaScriptCallbackEvent;
+	import qnx.events.ExtendedLocationChangeEvent;
 	
 	import webworks.FunctionBroker;
 	import webworks.JavaScriptLoader;
@@ -129,8 +129,8 @@ package
 			javascriptLoader = new JavaScriptLoader(webWindow);
 			webWindow.addEventListener(WebkitEvent.TAB_LOAD_COMPLETE, tabLoadComplete);
 			webWindow.addEventListener(WebkitEvent.TAB_LOAD_ERROR, 	webkitLoadError);
-            webWindow.addEventListener(WebkitEvent.HTML_BROWSER_CREATE_FAILED, 	webkitWindowFailed);
-            webWindow.addEventListener(WebkitEvent.HTML_BROWSER_CREATED, 		webkitWindowReady);
+//            webWindow.addEventListener(WebkitEvent.HTML_BROWSER_CREATE_FAILED, 	webkitWindowFailed);
+            webWindow.addEventListener(WebkitEvent.WEBVIEW_CREATED, 		webkitWindowReady);
  			webWindow.addEventListener(WebkitEvent.TAB_LOCATION_CHANGING, webkitLocationChanging);
             webWindow.addEventListener(WebkitEvent.TAB_XHRREQUEST, webkitHandleRequest);	
 			webWindow.addEventListener(WebkitEvent.TAB_JSMETHODCALL, webkitJSMethodCall);
@@ -141,19 +141,20 @@ package
 		private function webkitDomInitialized(event:WebkitEvent):void
 		{
 			trace("webkitcontrol, dom initialized");
-			var htmlEvent:HtmlEvent = event.data as HtmlEvent;
+			var htmlEvent:WebViewEvent = event.data as WebViewEvent;
 			if ( htmlEvent != null )
 			{
 			}
 		}
+		
 		//handle qnx.callExtensionMethod("methodname", parameters:array) from javascript
 		private function webkitJSMethodCall(event:WebkitEvent):void
 		{
-			var jsCallEvent:JavascriptMethodEvent;
+			var jsCallEvent:JavaScriptCallbackEvent;
 			var returnValue:String;
 			try
 			{
-				jsCallEvent = event.data as JavascriptMethodEvent;
+				jsCallEvent = event.data as JavaScriptCallbackEvent;
 				returnValue = callAPI(jsCallEvent); 
 			}
 			catch(error:Error)
@@ -166,7 +167,7 @@ package
 			trace("sendJsMethodReturn called");
 		}
 		
-		private function callAPI(event:JavascriptMethodEvent):String
+		private function callAPI(event:JavaScriptCallbackEvent):String
 		{
 			return broker.handleJSMethodCall(event);
 		}
@@ -204,7 +205,7 @@ package
         {
 			trace("webkitLocationChanging event");
 			//register javascript
-			var qnxEvent:QNXLocationChangeEvent = event.data as QNXLocationChangeEvent;
+			var qnxEvent:ExtendedLocationChangeEvent = event.data as ExtendedLocationChangeEvent;
 			if ( qnxEvent == null )
 				return;			
 			var url:String = qnxEvent.location; 
