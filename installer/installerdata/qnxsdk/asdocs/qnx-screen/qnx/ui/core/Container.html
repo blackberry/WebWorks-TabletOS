@@ -1,0 +1,456 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><!-- saved from url=(0014)about:internet --><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><link rel="stylesheet" href="../../../style.css" type="text/css" media="screen"><link rel="stylesheet" href="../../../print.css" type="text/css" media="print"><link rel="stylesheet" href="../../../override.css" type="text/css"><meta name="keywords" content="Container,qnx.ui.core.Container,BACKGROUND,BOTH,CONTAINED,DOCK_BOTTOM,DOCK_LEFT,DOCK_RIGHT,DOCK_TOP,FAR,FLOW,HORIZONTAL,MID,NEAR,PERCENT,PIXELS,UNCONTAINED,VERTICAL,align,containment,containment,containment,flow,margins,padding,size,size,size,sizeMode,sizeMode,sizeMode,sizeUnit,sizeUnit,sizeUnit,createInstance,destroy,draw,layout,onAdded,onRemoved,setEnabled,setPosition,setPosition,setPosition,setSize,setSize,setSize,setSkin"><title>qnx.ui.core.Container</title><script src="../../../AC_OETags.js" type="text/javascript"></script></head><body><script language="javascript" type="text/javascript" src="../../../asdoc.js"></script><script language="javascript" type="text/javascript" src="../../../help.js"></script><script language="javascript" type="text/javascript" src="../../../cookies.js"></script><script language="javascript" type="text/javascript"><!--
+				asdocTitle = 'Container - BlackBerry® Tablet OS SDK for Adobe® AIR® API Reference';
+				var baseRef = '../../../';
+				window.onload = configPage;
+			--></script>
+<script type="text/javascript">
+			scrollToNameAnchor();
+		</script><table class="titleTable" cellpadding="0" cellspacing="0" id="titleTable" style="display:none"><tr><td class="titleTableTitle" align="left">BlackBerry® Tablet OS SDK for Adobe® AIR® API Reference</td><td class="titleTableTopNav" align="right"><a href="../../../package-summary.html" onclick="loadClassListFrame('../../../all-classes.html')">All Packages</a>&nbsp;|&nbsp;<a href="../../../class-summary.html" onclick="loadClassListFrame('../../../all-classes.html')">All Classes</a>&nbsp;|&nbsp;<a href="../../../all-index-A.html" onclick="loadClassListFrame('../../../index-list.html')">Index</a>&nbsp;|&nbsp;<a id="framesLink1" href="../../../index.html?qnx/ui/core/Container.html&amp;qnx/ui/core/class-list.html">Frames</a><a id="noFramesLink1" style="display:none" href="" onclick="parent.location=document.location"> No Frames </a></td><td class="titleTableLogo" align="right" rowspan="3"><img src="../../../images/logo.jpg" class="logoImage" alt=" Adobe Logo " title=" Adobe Logo "></td></tr><tr class="titleTableRow2"><td class="titleTableSubTitle" id="subTitle" align="left">Container</td><td class="titleTableSubNav" id="subNav" align="right"><a href="#propertySummary">Properties</a>&nbsp;| <a href="#methodSummary">Methods</a>&nbsp;| <a href="#includeExamplesSummary">Examples</a></td></tr><tr class="titleTableRow3"><td colspan="3">&nbsp;</td></tr></table><script language="javascript" type="text/javascript" xml:space="preserve">
+				<!--
+				
+					if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Container"); titleBar_setSubNav(false,true,false,false,false,false,false,false,true,true,false	,false,false,false,false,false);}	
+				-->
+			</script><div xmlns:fn="http://www.w3.org/2005/xpath-functions" class="MainContent"><table class="classHeaderTable" cellpadding="0" cellspacing="0"><tr><td class="classHeaderTableLabel">Package</td><td><a href="package-detail.html" onclick="javascript:loadClassListFrame('class-list.html')">qnx.ui.core</a></td></tr><tr><td class="classHeaderTableLabel">Class</td><td class="classSignature">public  class  Container</td></tr><tr><td class="classHeaderTableLabel">Inheritance</td><td class="inheritanceList">Container  <img src="../../../images/inherit-arrow.gif" title="Inheritance" alt="Inheritance" class="inheritArrow"> <a href="../../../qnx/ui/core/UIComponent.html">UIComponent</a> <img src="../../../images/inherit-arrow.gif" title="Inheritance" alt="Inheritance" class="inheritArrow"> flash.display.MovieClip</td></tr></table><p></p><p></p><p></p>
+ The <code>Container</code> class is the basic "container" that contains the interface components of an application. 
+ It handles the positioning, size, and layout of its children.
+ Containers are useful for segmenting the screen into compartments, and for organizing the layout and flow of all components within 
+ a compartment. 
+ <p>
+ The following example describes a typical layout scenario using containers:
+ </p>
+               <img src="../../../images/container.gif" ></img>
+ 
+               <p>
+ The layout above uses four containers, where the border and margin of each container is highlighted in a unique colour. This is done
+ by setting the container's <code>debugColor</code> property to a unique color code. The <code>debugColor</code> property is useful
+ for visualizing the bounds of each container while you develop your application. This allows you to tweak the details of the layout. 
+ </p>
+               <p>
+ The main container, <code>myMain</code> (yellow), encompasses the entire stage and contains the three subcontainers: <code>mySub</code>, <code>mySubRight</code>,
+ and <code>mySubBottom</code>. The 
+ following code listing shows the <code>myMain</code> container:
+ </p>
+               <div class="listing"><pre>
+ myMain = new Container();
+ myMain.margins = Vector.&lt;Number&gt;([20,20,20,20]);
+ myMain.flow = ContainerFlow.HORIZONTAL;
+ myMain.debugColor = 0xFFCC00;
+ addChild(myMain);
+ </pre></div>
+               <b>Flow and alignment</b>
+ 
+               <p>
+ The <b>
+                     <i>flow</i>
+                  </b> indicates the layout orientation, or direction of all subcomponents (children) within a parent container. The <code>myMain</code> container's <code>flow</code> property is set to 
+ <code>ContainerFlow.HORIZONTAL</code> meaning that the container's children (which may also be containers)
+ will appear horizontally opposed, or side by side within the container. The <code>margins</code> property takes a <code>Vector</code> of four numbers indicating, in order, margins
+ for the the left, top,
+ right, and bottom edges of the container. So <code>Vector.&lt;Number&gt;([20,40,20,40])</code>, would indicate top and bottom margins of 40 pixels, and left and right margins
+ of 20 pixels. A component will only overlap a margin if the container runs out of space. For the sake of the sample, the margin values are specified using literals.
+ </p>
+               <p>
+ The code for the <code>mySub</code> (red) container, which makes up the left side of the screen, is listed below:
+ </p>
+               <div class="listing"><pre>
+ // create subcontainer on left side of the screen //
+ mySub = new Container();
+ mySub.margins = Vector.&lt;Number&gt;([20,40,20,40]);    
+ mySub.debugColor = 0xFF3300;
+ mySub.size = 50;    
+ mySub.sizeUnit = SizeUnit.PERCENT;
+ mySub.flow = ContainerFlow.VERTICAL;
+ mySub.align = ContainerAlign.NEAR;
+ mySub.padding = 10;
+ </pre></div>
+               <p>
+ The <code>mySub</code> container uses a vertical flow (<code>ContainerFlow.VERTICAL</code>) meaning that all components within this 
+ container will appear vertically opposed, or one on top of another. It's also important to note that components will appear in the order
+ in which they are added to a container, such that the top-most component in the <code>mySub</code> container will be the component that is first added to the container. 
+ This is always true unless a component is docked, which is described later.</p>
+               <p>
+ The <code>size</code> and <code>sizeUnit</code> properties determine the size of the subcontainer, or rather, the amount of space the 
+ subcontainer will take up within the parent container. In this case, <code>size</code> is set to <code>50</code> and <code>sizeUnit</code> is set to <code>SizeUnit.PERCENT</code>
+ indicating that <code>mySub</code> will take up 50% of the main container. The default value of <code>sizeUnit</code> is pixels.
+ </p>
+               <p>
+ The <code>align</code> property determines the position, or alignment, of each subcomponent in the direction opposite to the flow of the container. In a container with a vertical
+ flow, this specifies the horizontal position (or x coordinate) of the subcomponent, relative to the left edge of the container. Conversely, in a container with a horizontal flow, the alignment specifies the vertical 
+ position (or y coordinate) of the component relative to the top edge of the container. The <code>align</code> property has three values: <code>ContainerAlign.NEAR</code>, 
+ <code>ContainerAlign.MID</code>,and <code>ContainerAlign.FAR</code>, where each value represents a position relative to the initial edge of the container. <code>ContainerAlign.NEAR</code>
+ is the closest, <code>ContainerAlign.FAR</code> is the furthest. <code>ContainerAlign.MID</code> is the default. 
+ </p>
+               <p>
+ The <code>padding</code> property sets the amount of space (in pixels) between each subcomponent. 
+ </p>
+ 
+ 
+               <p>
+ The sub container, <code>mySubRight</code> on the right-side of the screen is listed below:
+ </p>
+               <div class="listing"><pre>
+ mySubRight = new Container();
+ mySubRight.margins = Vector.&lt;Number&gt;([10,10,10,10]);            
+ mySubRight.size = 50;            
+ mySubRight.debugColor = 0x0033FF;
+ mySubRight.sizeUnit = SizeUnit.PERCENT;
+ mySubRight.flow = ContainerFlow.VERTICAL;
+ mySubRight.align = ContainerAlign.MID;
+ mySubRight.padding = 10;
+ </pre></div>
+               <p>
+ The final container, <code>mySubBottom</code> (green), is listed below:
+ </p>
+               <div class="listing"><pre>
+ // create subcontainer as the bottom frame //
+ mySubBottom = new Container();
+ mySubBottom.margins = Vector.&lt;Number&gt;([5,5,5,5]);            
+ mySubBottom.debugColor = 0x33FF33;
+ mySubBottom.size = 9;
+ mySubBottom.sizeUnit = SizeUnit.PERCENT;
+ mySubBottom.flow = ContainerFlow.HORIZONTAL;
+ mySubBottom.align = ContainerAlign.FAR;
+ mySubBottom.containment = Containment.DOCK_BOTTOM; 
+ </pre></div>
+               <p>
+ This container is docked to the bottom of the stage by setting the <code>containment</code> property to <code>Containment.DOCK_BOTTOM</code>. Docked children are 
+ handled first, leaving the remainder of the container for the rest of the children. You can dock a subcomponent to any of the 
+ four edges of a container, you can set a container to reside in the background of the stage (<code>Containment.BACKGROUND</code>), or you can specify that the component will not
+ repositioned by the parent container (<code>Containment.UNCONTAINED</code>). 
+ </p>
+               <b>Sizing</b>
+               <p>
+ A container can set the <b>
+                     <i>size</i>
+                  </b> of each subcomponent in the direction of the flow, only if the subcomponent implements the <i>IContainable</i> interface and only if
+ <i>IContainable.size</i> is not 0. Otherwise, the subcomponents dimensions are not changed during a layout operation.
+ </p>
+               <p>
+ A container can set the size of a subcomponent in the direction opposite
+ the container flow (height in a horizontal container, width in a vertical container) only if the subcomponent implements <i>IContainable</i> and <i>IContainable.sizeMode</i> is set
+ to <code>SizeMode.BOTH</code>. When this property is set, the subcomponent will fill the remaining container space (in the direction opposite to the flow of the container) and the 
+ container's align setting will be ignored.  
+ </p>
+               <p>
+ The <b>Back</b> button uses the <code>SizeMode</code> property to fill out the opposite direction in the bottom container. In other words, after a layout call, the <code>Back</code>
+ button will expand vertically (note that the container uses a horizontal flow) to fill the space in the bottom container: 
+ </p>
+               <div class="listing"><pre>
+   leftButton = new LabelButton();
+   leftButton.label = "Back";
+   leftButton.size = 100;
+   leftButton.sizeUnit = SizeUnit.PIXELS;
+   leftButton.sizeMode = SizeMode.BOTH;   
+   </pre></div>
+               <p>
+ Note that you must specify a size for the component (using the <code>size</code> property) otherwise the component will not resize when a layout call occurs. For the sake of the 
+ example, the <b>Next</b> button does not specify the <code>SizeMode</code> property.
+ </p>
+               <div class="listing"><pre>
+   rightButton = new LabelButton();
+   rightButton.label = "Next";
+   rightButton.size = 100;
+ </pre></div>
+               <b>Spacing</b>
+               <p>
+ The <b>Back</b> and <b>Next</b> buttons are positioned at the far bottom-right side of the container. This is accomplished by setting the 
+ <code>align</code> property to <code>ContainerAlign.FAR</code> but also by adding a spacer as the first subcomponent in the container. By default, the spacer is set to take up
+ 100 percent of the container, which pushes the other two components to the far right of the container. Notice that a second spacer is added to provide spacing between the buttons. This
+ could also have been accomplished by using the <code>padding</code> property.
+ </p>
+               <div class="listing"><pre>
+ mySubBottom.addChild(new Spacer()); 
+ mySubBottom.addChild(leftButton);
+ mySubBottom.addChild(new Spacer(3,SizeUnit.PIXELS));
+ mySubBottom.addChild(rightButton);
+ </pre></div>
+               <p>
+ Finally, and perhaps most importantly, we call the <code>myMain</code> container's <code>setSize</code> method, which sets the size of the main container:
+ </p>
+               <div class="listing"><pre>
+ //call setSize //
+ myMain.setSize(stage.stageWidth, stage.stageHeight);
+ </pre></div>
+               <p>
+ This in turn calls the <code>layout()</code> function which adjusts the
+ layout of the subcomponents according to the properties that are defined by each parent container. It's important to call this method only after each container and each subcomponent is 
+ defined. Otherwise, the call will have no effect.
+ </p>
+               <p>
+ The complete code for this layout is listed in the examples section below. 
+ </p>
+            <p></p><p><a href="#includeExamplesSummary">View the examples</a></p><p><span class="classHeaderTableLabel">See also</span></p><div class="seeAlso"><a href="Containment.html" target="">Containment</a></div><br/><hr></div><a name="propertySummary"></a><div class="summarySection"><div class="summaryTableTitle">Public Properties</div><div class="showHideLinks"><div id="hideInheritedProperty" class="hideInheritedProperty"><a class="showHideLink" href="#propertySummary" onclick="javascript:setInheritedVisible(false,'Property');"><img class="showHideLinkImage" src="../../../images/expanded.gif"> Hide Inherited Public Properties</a></div><div id="showInheritedProperty" class="showInheritedProperty"><a class="showHideLink" href="#propertySummary" onclick="javascript:setInheritedVisible(true,'Property');"><img class="showHideLinkImage" src="../../../images/collapsed.gif"> Show Inherited Public Properties</a></div></div><table cellspacing="0" cellpadding="3" class="summaryTable " id="summaryTableProperty"><tr><th>&nbsp;</th><th colspan="2">Property</th><th class="summaryTableOwnerCol">Defined By</th></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a href="#align" class="signatureLink">align</a> : String<div class="summaryTableDescription">
+		 Specifies the align, with which contained and non-resizable children are positioned.</div></td><td class="summaryTableOwnerCol">Container</td></tr><tr class="hideInheritedProperty"><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img src="../../../images/inheritedSummary.gif" alt="Inherited" title="Inherited" class="inheritedSummaryImage"></td><td class="summaryTableSignatureCol"><a href="../../../qnx/ui/core/UIComponent.html#containment" class="signatureLink">containment</a> : String<div class="summaryTableDescription">
+		 Gets or sets how a component is contained within a parent container.</div></td><td class="summaryTableOwnerCol"><a href="../../../qnx/ui/core/UIComponent.html">UIComponent</a></td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a href="#flow" class="signatureLink">flow</a> : String<div class="summaryTableDescription">
+		 Specifies the flow direction, with which any contained children are positioned.</div></td><td class="summaryTableOwnerCol">Container</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a href="#margins" class="signatureLink">margins</a> : Vector.&lt;Number&gt;<div class="summaryTableDescription">
+		 Gets or sets the internal margins for the container (the space just inside
+		 the border of the container).</div></td><td class="summaryTableOwnerCol">Container</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a href="#padding" class="signatureLink">padding</a> : Number<div class="summaryTableDescription">
+		 Specifies the internal padding in pixels for the container (the space
+		 between contained children of the container).</div></td><td class="summaryTableOwnerCol">Container</td></tr><tr class="hideInheritedProperty"><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img src="../../../images/inheritedSummary.gif" alt="Inherited" title="Inherited" class="inheritedSummaryImage"></td><td class="summaryTableSignatureCol"><a href="../../../qnx/ui/core/UIComponent.html#size" class="signatureLink">size</a> : Number<div class="summaryTableDescription">
+		 Gets or sets the size for this component (as a percentage of the
+		 container's size, or in pixels).</div></td><td class="summaryTableOwnerCol"><a href="../../../qnx/ui/core/UIComponent.html">UIComponent</a></td></tr><tr class="hideInheritedProperty"><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img src="../../../images/inheritedSummary.gif" alt="Inherited" title="Inherited" class="inheritedSummaryImage"></td><td class="summaryTableSignatureCol"><a href="../../../qnx/ui/core/UIComponent.html#sizeMode" class="signatureLink">sizeMode</a> : String<div class="summaryTableDescription">
+		 Gets or sets the size mode for this component.</div></td><td class="summaryTableOwnerCol"><a href="../../../qnx/ui/core/UIComponent.html">UIComponent</a></td></tr><tr class="hideInheritedProperty"><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img src="../../../images/inheritedSummary.gif" alt="Inherited" title="Inherited" class="inheritedSummaryImage"></td><td class="summaryTableSignatureCol"><a href="../../../qnx/ui/core/UIComponent.html#sizeUnit" class="signatureLink">sizeUnit</a> : String<div class="summaryTableDescription">
+		 Gets or sets the unit of measure for the size property.</div></td><td class="summaryTableOwnerCol"><a href="../../../qnx/ui/core/UIComponent.html">UIComponent</a></td></tr></table></div><a name="methodSummary"></a><div class="summarySection"><div class="summaryTableTitle">Public Methods </div><div class="showHideLinks"><div id="hideInheritedMethod" class="hideInheritedMethod"><a class="showHideLink" href="#methodSummary" onclick="javascript:setInheritedVisible(false,'Method');"><img class="showHideLinkImage" src="../../../images/expanded.gif"> Hide Inherited Public Methods</a></div><div id="showInheritedMethod" class="showInheritedMethod"><a class="showHideLink" href="#methodSummary" onclick="javascript:setInheritedVisible(true,'Method');"><img class="showHideLinkImage" src="../../../images/collapsed.gif"> Show Inherited Public Methods</a></div></div><table cellspacing="0" cellpadding="3" class="summaryTable " id="summaryTableMethod"><tr><th>&nbsp;</th><th colspan="2">Method</th><th class="summaryTableOwnerCol">Defined By</th></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#Container()" class="signatureLink">Container</a>(s:Number = 100, su:String = percent)</div><div class="summaryTableDescription">
+		 Constructs a Container instance given a size and size unit.</div></td><td class="summaryTableOwnerCol">Container</td></tr><tr class="hideInheritedMethod"><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img src="../../../images/inheritedSummary.gif" alt="Inherited" title="Inherited" class="inheritedSummaryImage"></td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="../../../qnx/ui/core/UIComponent.html#destroy()" class="signatureLink">destroy</a>():void</div><div class="summaryTableDescription">
+		Call this method when you want to have your object collected by the garbage collector.</div></td><td class="summaryTableOwnerCol"><a href="../../../qnx/ui/core/UIComponent.html">UIComponent</a></td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#layout()" class="signatureLink">layout</a>():void</div><div class="summaryTableDescription">
+		 Repositions the children of the container according to the flow and align settings
+		 of the container, and the containment and sizing attributes (if present) of the children.</div></td><td class="summaryTableOwnerCol">Container</td></tr><tr class="hideInheritedMethod"><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img src="../../../images/inheritedSummary.gif" alt="Inherited" title="Inherited" class="inheritedSummaryImage"></td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="../../../qnx/ui/core/UIComponent.html#setPosition()" class="signatureLink">setPosition</a>(x:Number, y:Number):void</div><div class="summaryTableDescription">
+		 Sets the x and y position of the component.</div></td><td class="summaryTableOwnerCol"><a href="../../../qnx/ui/core/UIComponent.html">UIComponent</a></td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#setSize()" class="signatureLink">setSize</a>(width:Number, height:Number):void</div><div class="summaryTableDescription">[override] 
+		 Called by the parent (other containers or the outer most parent) to
+		 set the size of the container.</div></td><td class="summaryTableOwnerCol">Container</td></tr></table></div><a name="protectedMethodSummary"></a><div class="summarySection"><div class="summaryTableTitle">Protected Methods </div><div class="showHideLinks"><div id="hideInheritedProtectedMethod" class="hideInheritedProtectedMethod"><a class="showHideLink" href="#protectedMethodSummary" onclick="javascript:setInheritedVisible(false,'ProtectedMethod');"><img class="showHideLinkImage" src="../../../images/expanded.gif"> Show Inherited Protected Methods</a></div><div id="showInheritedProtectedMethod" class="showInheritedProtectedMethod"><a class="showHideLink" href="#protectedMethodSummary" onclick="javascript:setInheritedVisible(true,'ProtectedMethod');"><img class="showHideLinkImage" src="../../../images/collapsed.gif"> Show Inherited Protected Methods</a></div></div><table cellspacing="0" cellpadding="3" class="summaryTable hideInheritedProtectedMethod" id="summaryTableProtectedMethod"><tr><th>&nbsp;</th><th colspan="2">Method</th><th class="summaryTableOwnerCol">Defined By</th></tr><tr class="hideInheritedProtectedMethod"><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img src="../../../images/inheritedSummary.gif" alt="Inherited" title="Inherited" class="inheritedSummaryImage"></td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="../../../qnx/ui/core/UIComponent.html#createInstance()" class="signatureLink">createInstance</a>(linkage:Object):DisplayObject</div><div class="summaryTableDescription">
+		Calling this method will attempt to create a DisplayObject instance based on the value of the linkage parameter.</div></td><td class="summaryTableOwnerCol"><a href="../../../qnx/ui/core/UIComponent.html">UIComponent</a></td></tr><tr class="hideInheritedProtectedMethod"><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img src="../../../images/inheritedSummary.gif" alt="Inherited" title="Inherited" class="inheritedSummaryImage"></td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="../../../qnx/ui/core/UIComponent.html#draw()" class="signatureLink">draw</a>():void</div><div class="summaryTableDescription">
+		Called every time you set the width and height of the component.</div></td><td class="summaryTableOwnerCol"><a href="../../../qnx/ui/core/UIComponent.html">UIComponent</a></td></tr><tr class="hideInheritedProtectedMethod"><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img src="../../../images/inheritedSummary.gif" alt="Inherited" title="Inherited" class="inheritedSummaryImage"></td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="../../../qnx/ui/core/UIComponent.html#onAdded()" class="signatureLink">onAdded</a>():void</div><div class="summaryTableDescription">
+		Called when the instance is added to the stage.</div></td><td class="summaryTableOwnerCol"><a href="../../../qnx/ui/core/UIComponent.html">UIComponent</a></td></tr><tr class="hideInheritedProtectedMethod"><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img src="../../../images/inheritedSummary.gif" alt="Inherited" title="Inherited" class="inheritedSummaryImage"></td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="../../../qnx/ui/core/UIComponent.html#onRemoved()" class="signatureLink">onRemoved</a>():void</div><div class="summaryTableDescription">
+		Called when the instance is removed from the stage.</div></td><td class="summaryTableOwnerCol"><a href="../../../qnx/ui/core/UIComponent.html">UIComponent</a></td></tr><tr class="hideInheritedProtectedMethod"><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol"><img src="../../../images/inheritedSummary.gif" alt="Inherited" title="Inherited" class="inheritedSummaryImage"></td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="../../../qnx/ui/core/UIComponent.html#setEnabled()" class="signatureLink">setEnabled</a>(val:Boolean):void</div><div class="summaryTableDescription">
+		Called when the enabled property changes.</div></td><td class="summaryTableOwnerCol"><a href="../../../qnx/ui/core/UIComponent.html">UIComponent</a></td></tr></table></div><script language="javascript" type="text/javascript"><!--
+										showHideInherited();
+										--></script><div class="MainContent"><div class="detailSectionHeader">Property Detail</div><a name="propertyDetail"></a><a name="align"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">align</td><td class="detailHeaderType">property</td></tr></table><div class="detailBody"><code>public var align:String</code><p></p><p></p><p>
+		 Specifies the align, with which contained and non-resizable children are positioned.
+		 <p>
+		 The <code>align</code> attribute is used to determine the position of the childen in the
+		 direction opposite to the flow of the container, with <i>near</i> implying
+		 upper or left-most, and <i>far</i> implying lower or right-most. This applies only
+		 to children which do not implement the <i>IContainable</i> interface or those which
+		 specify a 0 size.
+		 </p>
+		 Possible values are:
+		 <ul>
+		 <li><code>ContainerAlign.NEAR</code></li>
+		 <li><code>ContainerAlign.MID</code></li>
+		 <li><code>ContainerAlign.FAR</code></li>
+		 </ul>
+		 </p><p> The default value is <code>ContainerAlign.MID</code>.</p><p><span class="label">See also</span></p><div class="seeAlso"><a href="Container.html#layout()" target="">layout()</a></div></div><a name="propertyDetail"></a><a name="flow"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">flow</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code>public var flow:String</code><p></p><p></p><p>
+		 Specifies the flow direction, with which any contained children are positioned.
+		 
+		 <p>
+		 Possible values are:
+		 <ul>
+		 <li><code>ContainerFlow.VERTICAL</code></li>
+		 <li><code>ContainerFlow.HORIZONTAL</code></li>
+		 </ul>
+		 </p>
+		 </p><p> The default value is <code>ContainerFlow.VERTICAL</code>.</p><p><span class="label">See also</span></p><div class="seeAlso"><a href="Container.html#layout()" target="">layout()</a></div></div><a name="propertyDetail"></a><a name="margins"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">margins</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code>margins:Vector.&lt;Number&gt;</code><p></p><p></p><p>
+		 Gets or sets the internal margins for the container (the space just inside
+		 the border of the container). The <code>m</code> argument is represented as a
+		 vector of 4 numbers: the left, top,
+		 right and bottom edges respectively.
+		 
+		 </p><p> The default value is <code>[0, 0, 0, 0]</code>.</p><br/><span class="label"> Implementation </span><br/><code>&nbsp;&nbsp;&nbsp;&nbsp;public function get margins():Vector.&lt;Number&gt;</code><br/><code>&nbsp;&nbsp;&nbsp;&nbsp;public function set margins(value:Vector.&lt;Number&gt;):void</code><br/><p><span class="label">See also</span></p><div class="seeAlso"><a href="Container.html#layout()" target="">layout()</a></div></div><a name="propertyDetail"></a><a name="padding"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">padding</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code>padding:Number</code><p></p><p></p><p>
+		 Specifies the internal padding in pixels for the container (the space
+		 between contained children of the container).
+		 
+		 </p><p> The default value is <code>8</code>.</p><br/><span class="label"> Implementation </span><br/><code>&nbsp;&nbsp;&nbsp;&nbsp;public function get padding():Number</code><br/><code>&nbsp;&nbsp;&nbsp;&nbsp;public function set padding(value:Number):void</code><br/><p><span class="label">See also</span></p><div class="seeAlso"><a href="Container.html#layout()" target="">layout()</a></div></div><a name="constructorDetail"></a><div class="detailSectionHeader">Constructor Detail</div><a name="Container()"></a><a name="Container(Number,String)"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">Container</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">Constructor</td></tr></table><div class="detailBody"><code>public function Container(s:Number = 100, su:String = percent)</code><p></p><p>
+		 Constructs a <code>Container</code> instance given a size and size unit.
+		 
+		 </p><span class="label"> Parameters </span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20px"></td><td><code><span class="label">s</span>:Number</code> (default = <code>100</code>)<code></code> &mdash; A <code>Number</code> representing the size of the container. The default value is 100 (the default unit is percent).
+		 </td></tr><tr><td class="paramSpacer">&nbsp;</td></tr><tr><td width="20px"></td><td><code><span class="label">su</span>:String</code> (default = <code>percent</code>)<code></code> &mdash; A <code>String</code> representing the unit. Can be one of <code>SizeUnit.PERCENT</code> or <code>SizeUnit.PIXELS</code>. 
+		 The default value is <code>SizeUnit.PERCENT</code>.
+		 
+		 </td></tr></table><p><span class="label">See also</span></p><div class="seeAlso"><a href="SizeUnit.html" target="">qnx.ui.core.SizeUnit</a><br/><a href="Containment.html" target="">qnx.ui.core.Containment</a></div></div><a name="methodDetail"></a><div class="detailSectionHeader">Method Detail</div><a name="layout()"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">layout</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td></tr></table><div class="detailBody"><code> public function layout():void</code><p></p><p></p><p>
+		 Repositions the children of the container according to the flow and align settings
+		 of the container, and the containment and sizing attributes (if present) of the children.
+		 <p>
+		 Invisible children are not positioned by a container.
+		 </p>
+		 <p>
+		 A child is considered <i>docked</i> if it implements the <code>IContainable</code> interface and its
+		 <code>containment</code> property is set to <code>Containment.DOCK_LEFT</code>, <code>Containment.DOCK_TOP</code>,
+		 <code>Containment.DOCK_RIGHT</code> or <code>Containment.DOCK_BOTTOM</code>. Children which implement
+		 <code>IContainable</code> and specify a <code>containment</code> of <code>Containment.UNCONTAINED</code>
+		 will be ignored by the container.  Children which specify a <code>containment</code> of
+		 <code>Containment.BACKGROUND</code> will be sized to fill the entire area of the container.
+		 </p>
+		 <p>
+		 A child is considered <i>resizable</i> if it implements the <code>IContainable</code> interface and its
+		 <code>size</code> property is greater than 0.
+		 </p>
+		 <p>
+		 Containers will position docked children first around the edges of the container. They will
+		 then will position undocked children in the remaining area of the container. Undocked
+		 children which are resizable will be positioned and sized based on their <code>size</code>
+		 (and <code>sizeUnit</code>) property in the direction of the container flow, and will
+		 fill the remaining space in the direction opposite the flow.
+		 </p>
+		 <p>
+		 Undocked children which are not resizable will be positioned based on their width and
+		 height properties in the direction of the container flow, and will be aligned in the
+		 direction opposite the container flow based on the container's <code>align</code> property.
+		 </p>
+		 
+		 </p><p><span class="label">See also</span></p><div class="seeAlso"><a href="Container.html#flow" target="">flow</a><br/><a href="Container.html#align" target="">align</a><br/><a href="IContainable.html" target="">IContainable</a></div></div><a name="setSize()"></a><a name="setSize(Number,Number)"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">setSize</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code>override public function setSize(width:Number, height:Number):void</code><p></p><p></p><p>
+		 Called by the parent (other containers or the outer most parent) to
+		 set the size of the container.
+		 <p>
+		 The container will invoke <code>layout</code> automatically in response to this.
+		 </p>
+		 
+		 </p><p><span class="label"> Parameters </span><table cellpadding="0" cellspacing="0" border="0"><tr><td width="20px"></td><td><code><span class="label">width</span>:Number</code> &mdash; The new width (in pixels) for the <code>Container</code> component.
+		 </td></tr><tr><td class="paramSpacer">&nbsp;</td></tr><tr><td width="20px"></td><td><code><span class="label">height</span>:Number</code> &mdash; The new height (in pixels) for the <code>Container</code> component.
+		 
+		 </td></tr></table></p><p><span class="label">See also</span></p><div class="seeAlso"><a href="Container.html#layout()" target="">layout()</a></div></div><a name="includeExamplesSummary"></a><div class="detailSectionHeader">Examples</div><div class="detailBody">The code listing below provides the complete container layout that was illustrated in the class description above. 
+ <div class="listing"><pre>
+package
+{
+    import flash.display.Sprite;
+    import flash.text.TextFieldAutoSize;
+    import flash.text.TextFormat;
+    
+    import qnx.ui.buttons.LabelButton;
+    import qnx.ui.core.Container;
+    import qnx.ui.core.ContainerAlign;
+    import qnx.ui.core.ContainerFlow;
+    import qnx.ui.core.Containment;
+    import qnx.ui.core.SizeMode;
+    import qnx.ui.core.SizeUnit;
+    import qnx.ui.core.Spacer;
+    import qnx.ui.core.UIComponent;
+    import qnx.ui.text.Label;
+    import qnx.ui.text.TextInput;
+    
+    [SWF(height="600", width="1024", frameRate="30", backgroundColor="#FFFFFF")]
+    
+    // A simple container layout example //
+    
+    public class containerTest extends Sprite
+    {
+        //the containers // 
+        private var myMain:Container;
+        private var mySub:Container;
+        private var mySubRight:Container;
+        private var mySubBottom:Container;
+        
+        //the left-side of the screen labels //
+        private var firstLabel:Label;
+        private var secondLabel:Label;
+        private var thirdLabel:Label;
+        private var fourthLabel:Label;
+        
+        //text input for second sub container //
+        private var firstInput:TextInput;
+        
+        //the back and next buttons //
+        private var leftButton:LabelButton;
+        private var rightButton:LabelButton;
+        
+        
+        public function containerTest()
+        {
+            
+            // create main container //
+            myMain = new Container();
+            myMain.margins = Vector.&lt;Number&gt;([20,20,20,20]);
+            myMain.flow = ContainerFlow.HORIZONTAL;
+            myMain.debugColor = 0xFFCC00;
+            addChild(myMain);
+            
+            // create subcontainer on left side of the screen //
+            mySub = new Container();
+            mySub.margins = Vector.&lt;Number&gt;([20,40,20,40]);            
+            mySub.size = 50;            
+            mySub.debugColor = 0xFF3300;
+            mySub.sizeUnit = SizeUnit.PERCENT;
+            mySub.flow = ContainerFlow.VERTICAL;
+            mySub.align = ContainerAlign.NEAR;
+            mySub.padding = 10;
+            
+            // create second subcontainer on left side of the screen //
+            mySubRight = new Container();
+            mySubRight.margins = Vector.&lt;Number&gt;([10,10,10,10]);            
+            mySubRight.size = 50;            
+            mySubRight.debugColor = 0x0033FF;
+            mySubRight.sizeUnit = SizeUnit.PERCENT;
+            mySubRight.flow = ContainerFlow.VERTICAL;
+            mySubRight.align = ContainerAlign.MID;
+            mySubRight.padding = 10;
+            
+            // create subcontainer as the bottom frame //
+            mySubBottom = new Container();
+            mySubBottom.margins = Vector.&lt;Number&gt;([5,5,5,5]);            
+            mySubBottom.debugColor = 0x33FF33;
+            mySubBottom.size = 12;
+            mySubBottom.sizeUnit = SizeUnit.PERCENT;
+            mySubBottom.flow = ContainerFlow.HORIZONTAL;
+            mySubBottom.align = ContainerAlign.FAR;
+            mySubBottom.containment = Containment.DOCK_BOTTOM; 
+            
+            // create and add UI components to the left container//            
+            var labelFormat:TextFormat = new TextFormat();
+            labelFormat = new TextFormat();            
+            labelFormat.size = 22;
+            
+            firstLabel = new Label();
+            firstLabel.format = labelFormat;
+            firstLabel.text = "First label";
+            firstLabel.size=50;
+            firstLabel.sizeUnit = SizeUnit.PERCENT;
+            firstLabel.autoSize = TextFieldAutoSize.LEFT;
+            
+            mySub.addChild(firstLabel);
+            
+            secondLabel = new Label();
+            secondLabel.format = labelFormat;
+            secondLabel.text = "Second label";
+            secondLabel.size=50;
+            secondLabel.sizeUnit = SizeUnit.PERCENT;
+            secondLabel.autoSize = TextFieldAutoSize.LEFT;
+            
+            mySub.addChild(secondLabel);
+            
+            thirdLabel = new Label();
+            thirdLabel.format = labelFormat;
+            thirdLabel.text = "Third label";
+            thirdLabel.size=50;
+            thirdLabel.sizeUnit = SizeUnit.PERCENT;
+            thirdLabel.autoSize = TextFieldAutoSize.LEFT;
+            
+            mySub.addChild(thirdLabel);
+            
+            // create and add UI components for right side //
+            firstInput = new TextInput;
+            firstInput.width = 200;
+            
+            fourthLabel = new Label();
+            fourthLabel.format = labelFormat;            
+            fourthLabel.text = "Fourth label:";
+            fourthLabel.width = 200;
+            fourthLabel.size=30;
+            fourthLabel.sizeUnit = SizeUnit.PIXELS;
+                        
+            mySub.addChild(thirdLabel);
+            
+            mySubRight.addChild(new Spacer(60));
+            mySubRight.addChild(fourthLabel);
+            mySubRight.addChild(firstInput);
+            
+            // create and add back and next buttons //
+            leftButton = new LabelButton();
+            leftButton.label = "Back";
+            leftButton.size = 100;
+            leftButton.sizeUnit = SizeUnit.PIXELS;
+            leftButton.sizeMode = SizeMode.BOTH;            
+
+            rightButton = new LabelButton();
+            rightButton.label = "Next";
+            rightButton.size = 100;
+            
+            // add spacer then button then spacer then button //
+            mySubBottom.addChild(new Spacer()); 
+            mySubBottom.addChild(leftButton);
+            mySubBottom.addChild(new Spacer(3,SizeUnit.PIXELS));
+            mySubBottom.addChild(rightButton);
+            
+            // add subcontainers to main container //
+            myMain.addChild(mySub);   
+            myMain.addChild(mySubRight); 
+            myMain.addChild(mySubBottom);
+            
+            // call setSize //
+            myMain.setSize(stage.stageWidth, stage.stageHeight);
+        }
+        
+        
+    }
+}
+</pre></div>
+ 
+ </div><br/><br/><hr><br/><p></p><center class="copyright"><footer>Copyright 2010 Research In Motion Limited. 295 Phillip Street‚ Waterloo‚ Ontario‚ Canada‚ N2L 3W8. All Rights Reserved.</footer><br/>Thu Nov 18 2010, 04:57 PM -05:00  </center></div></body></html><!--Copyright 2010 Research In Motion Limited. 295 Phillip Street‚ Waterloo‚ Ontario‚ Canada‚ N2L 3W8. All Rights Reserved.<br/>Thu Nov 18 2010, 04:57 PM -05:00  -->

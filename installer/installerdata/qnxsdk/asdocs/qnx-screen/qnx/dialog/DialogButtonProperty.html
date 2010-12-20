@@ -1,0 +1,62 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><!-- saved from url=(0014)about:internet --><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><link rel="stylesheet" href="../../style.css" type="text/css" media="screen"><link rel="stylesheet" href="../../print.css" type="text/css" media="print"><link rel="stylesheet" href="../../override.css" type="text/css"><meta name="keywords" content="DialogButtonProperty,qnx.dialog.DialogButtonProperty,BOTTOM,BOTTOM_CENTER,CENTER,CONTEXT,ENABLED,LABEL,MIDDLE_CENTER,SIZE_FULL,SIZE_LARGE,SIZE_MEDIUM,SIZE_SMALL,SIZE_TALL,SKIN,TOP,TOP_CENTER,VISIBLE,align,confirmation,confirmationLabel,confirmationPrompt,desc_obj,dialogHeight,dialogSize,dialogWidth,hideOnButtonClick,id,inputField_txt,items,message,messageHtml,modalAlpha,multiSelect,newPassword,newPasswordLabel,newPasswordPrompt,password,passwordContainer,passwordLabel,passwordPrompt,password_txt,prompt,rememberMe,rememberMeLabel,resp_obj,selectedIndex,selectedIndices,text,title,titleHtml,username,usernameContainer,usernameLabel,usernamePrompt,username_txt"><title>qnx.dialog.DialogButtonProperty</title></head><body><script language="javascript" type="text/javascript" src="../../asdoc.js"></script><script language="javascript" type="text/javascript" src="../../help.js"></script><script language="javascript" type="text/javascript" src="../../cookies.js"></script><script language="javascript" type="text/javascript"><!--
+				asdocTitle = 'DialogButtonProperty - BlackBerry® Tablet OS SDK for Adobe® AIR® API Reference';
+				var baseRef = '../../';
+				window.onload = configPage;
+			--></script>
+<script type="text/javascript">
+			scrollToNameAnchor();
+		</script><table class="titleTable" cellpadding="0" cellspacing="0" id="titleTable" style="display:none"><tr><td class="titleTableTitle" align="left">BlackBerry® Tablet OS SDK for Adobe® AIR® API Reference</td><td class="titleTableTopNav" align="right"><a href="../../package-summary.html" onclick="loadClassListFrame('../../all-classes.html')">All Packages</a>&nbsp;|&nbsp;<a href="../../class-summary.html" onclick="loadClassListFrame('../../all-classes.html')">All Classes</a>&nbsp;|&nbsp;<a href="../../all-index-A.html" onclick="loadClassListFrame('../../index-list.html')">Index</a>&nbsp;|&nbsp;<a id="framesLink1" href="../../index.html?qnx/dialog/DialogButtonProperty.html&amp;qnx/dialog/class-list.html">Frames</a><a id="noFramesLink1" style="display:none" href="" onclick="parent.location=document.location"> No Frames </a></td><td class="titleTableLogo" align="right" rowspan="3"><img src="../../images/logo.jpg" class="logoImage" alt=" Adobe Logo " title=" Adobe Logo "></td></tr><tr class="titleTableRow2"><td class="titleTableSubTitle" id="subTitle" align="left">DialogButtonProperty</td><td class="titleTableSubNav" id="subNav" align="right"><a href="#methodSummary">Methods</a>&nbsp;| <a href="#constantSummary">Constants</a></td></tr><tr class="titleTableRow3"><td colspan="3">&nbsp;</td></tr></table><script language="javascript" type="text/javascript" xml:space="preserve">
+				<!--
+				
+					if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("DialogButtonProperty"); titleBar_setSubNav(true,false,false,false,false,false,false,false,true,false,false	,false,false,false,false,false);}	
+				-->
+			</script><div xmlns:fn="http://www.w3.org/2005/xpath-functions" class="MainContent"><table class="classHeaderTable" cellpadding="0" cellspacing="0"><tr><td class="classHeaderTableLabel">Package</td><td><a href="package-detail.html" onclick="javascript:loadClassListFrame('class-list.html')">qnx.dialog</a></td></tr><tr><td class="classHeaderTableLabel">Class</td><td class="classSignature">public  class  DialogButtonProperty</td></tr><tr><td class="classHeaderTableLabel">Inheritance</td><td class="inheritanceList">DialogButtonProperty  <img src="../../images/inherit-arrow.gif" title="Inheritance" alt="Inheritance" class="inheritArrow"> Object</td></tr></table><p></p><p></p><p></p>
+	 The <code>DialogButtonProperty</code> class contains dialog button properties. 
+	 
+	 <p>
+	 The properties enable you to modify the appearance or behavior of a button. In the following 
+	 listing, a dialog button is disabled by passing the <code>DialogButtonProperty.ENABLED</code> 
+	 property value (and the value <code>false</code>) into the 
+	 <code>setButtonPropertyAt</code> method: 
+	 </p>
+	 
+	              <div class="listing"><pre>
+        private function showAlertDialog():void
+        {
+           alert = new AlertDialog();
+          alert.title = "Meeting reminder";
+          alert.message = "The group benefits meeting in the Blue room is about to start.";
+          alert.addButton("Snooze");
+          alert.addButton("Cancel");
+          alert.addButton("Help");
+          alert.setButtonPropertyAt(DialogButtonProperty.ENABLED, false, 2);
+          alert.dialogSize= DialogSize.SIZE_SMALL;
+          alert.addEventListener(DialogEvent.DIALOG_BUTTON_CLICKED, dButtonClicked); 
+          alert.show(IowWindow.getAirWindow().group);
+         }
+     </pre></div>
+	              <p>
+	 The code snippet above produces the following dialog:
+	 </p>
+	              <img src="../../images/button_out.gif" ></img>
+	           <p></p><p><span class="classHeaderTableLabel">See also</span></p><div class="seeAlso"><a href="BaseDialog.html" target="">qnx.dialog.BaseDialog</a><br/><a href="BaseDialog.html#setButtonPropertyAt" target="">qnx.dialog.BaseDialog.setButtonPropertyAt</a></div><br/><hr></div><a name="methodSummary"></a><div class="summarySection"><div class="summaryTableTitle">Public Methods </div><table cellspacing="0" cellpadding="3" class="summaryTable " id="summaryTableMethod"><tr><th>&nbsp;</th><th colspan="2">Method</th><th class="summaryTableOwnerCol">Defined By</th></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><div class="summarySignature"><a href="#DialogButtonProperty()" class="signatureLink">DialogButtonProperty</a>()</div><div class="summaryTableDescription">
+	 Creates a DialogButtonProperty instance.</div></td><td class="summaryTableOwnerCol">DialogButtonProperty</td></tr></table></div><a name="constantSummary"></a><div class="summarySection"><div class="summaryTableTitle">Public Constants</div><table cellspacing="0" cellpadding="3" class="summaryTable " id="summaryTableConstant"><tr><th>&nbsp;</th><th colspan="2">Constant</th><th class="summaryTableOwnerCol">Defined By</th></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a href="#CONTEXT" class="signatureLink">CONTEXT</a> : String = context<div class="summaryTableDescription">[static] 
+		  A constant representing the button "context" property.</div></td><td class="summaryTableOwnerCol">DialogButtonProperty</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a href="#ENABLED" class="signatureLink">ENABLED</a> : String = enabled<div class="summaryTableDescription">[static] 
+		  A constant representing the button "enabled" property.</div></td><td class="summaryTableOwnerCol">DialogButtonProperty</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a href="#LABEL" class="signatureLink">LABEL</a> : String = label<div class="summaryTableDescription">[static] 
+		  A constant representing the button "label" property.</div></td><td class="summaryTableOwnerCol">DialogButtonProperty</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a href="#SKIN" class="signatureLink">SKIN</a> : String = skin<div class="summaryTableDescription">[static] 
+		  A constant representing the button "skin" property.</div></td><td class="summaryTableOwnerCol">DialogButtonProperty</td></tr><tr class=""><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a href="#VISIBLE" class="signatureLink">VISIBLE</a> : String = visible<div class="summaryTableDescription">[static] 
+		  A constant representing the button "visible" property.</div></td><td class="summaryTableOwnerCol">DialogButtonProperty</td></tr></table></div><script language="javascript" type="text/javascript"><!--
+										showHideInherited();
+										--></script><div class="MainContent"><a name="constructorDetail"></a><div class="detailSectionHeader">Constructor Detail</div><a name="DialogButtonProperty()"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">DialogButtonProperty</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">Constructor</td></tr></table><div class="detailBody"><code>public function DialogButtonProperty()</code><p></p><p>
+	 Creates a <code>DialogButtonProperty</code> instance.
+	 </p></div><div class="detailSectionHeader">Constant Detail</div><a name="constantDetail"></a><a name="CONTEXT"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">CONTEXT</td><td class="detailHeaderType">Constant</td></tr></table><div class="detailBody"><code>public static const CONTEXT:String = context</code><p></p><p></p><p>
+		  A constant representing the button "context" property. 
+		 </p></div><a name="constantDetail"></a><a name="ENABLED"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">ENABLED</td><td class="detailHeaderType">Constant</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code>public static const ENABLED:String = enabled</code><p></p><p></p><p>
+		  A constant representing the button "enabled" property.
+		 </p></div><a name="constantDetail"></a><a name="LABEL"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">LABEL</td><td class="detailHeaderType">Constant</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code>public static const LABEL:String = label</code><p></p><p></p><p>
+		  A constant representing the button "label" property.
+		 </p></div><a name="constantDetail"></a><a name="SKIN"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">SKIN</td><td class="detailHeaderType">Constant</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code>public static const SKIN:String = skin</code><p></p><p></p><p>
+		  A constant representing the button "skin" property. 
+		 </p></div><a name="constantDetail"></a><a name="VISIBLE"></a><table class="detailHeader" cellpadding="0" cellspacing="0"><tr><td class="detailHeaderName">VISIBLE</td><td class="detailHeaderType">Constant</td><td class="detailHeaderRule">&nbsp;</td></tr></table><div class="detailBody"><code>public static const VISIBLE:String = visible</code><p></p><p></p><p>
+		  A constant representing the button "visible" property.
+		 </p></div><br/><br/><hr><br/><p></p><center class="copyright"><footer>Copyright 2010 Research In Motion Limited. 295 Phillip Street‚ Waterloo‚ Ontario‚ Canada‚ N2L 3W8. All Rights Reserved.</footer><br/>Thu Nov 18 2010, 04:57 PM -05:00  </center></div></body></html><!--Copyright 2010 Research In Motion Limited. 295 Phillip Street‚ Waterloo‚ Ontario‚ Canada‚ N2L 3W8. All Rights Reserved.<br/>Thu Nov 18 2010, 04:57 PM -05:00  -->

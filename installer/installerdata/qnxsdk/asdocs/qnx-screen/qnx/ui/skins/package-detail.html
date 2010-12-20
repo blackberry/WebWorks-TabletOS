@@ -1,0 +1,170 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><!-- saved from url=(0014)about:internet --><!-- saved from url=(0014)about:internet --><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><link rel="stylesheet" href="../../../style.css" type="text/css" media="screen"><link rel="stylesheet" href="../../../print.css" type="text/css" media="print"><link rel="stylesheet" href="../../../override.css" type="text/css"><title>qnx.ui.skins Summary</title></head><body><script language="javascript" type="text/javascript" src="../../../asdoc.js"></script><script language="javascript" type="text/javascript" src="../../../help.js"></script><script language="javascript" type="text/javascript" src="../../../cookies.js"></script><script language="javascript" type="text/javascript"><!--
+				asdocTitle = 'qnx.ui.skins package - BlackBerry® Tablet OS SDK for Adobe® AIR® API Reference';
+				var baseRef = '../../../';
+				window.onload = configPage;
+			--></script>
+<script type="text/javascript">
+			scrollToNameAnchor();
+		</script><table class="titleTable" cellpadding="0" cellspacing="0" id="titleTable" style="display:none"><tr><td class="titleTableTitle" align="left">BlackBerry® Tablet OS SDK for Adobe® AIR® API Reference</td><td class="titleTableTopNav" align="right"><a href="../../../package-summary.html" onclick="loadClassListFrame('../../../all-classes.html')">All Packages</a>&nbsp;|&nbsp;<a href="../../../class-summary.html" onclick="loadClassListFrame('../../../all-classes.html')">All Classes</a>&nbsp;|&nbsp;<a href="../../../all-index-A.html" onclick="loadClassListFrame('../../../index-list.html')">Index</a>&nbsp;|&nbsp;<a id="framesLink1" href="../../../index.html?qnx/ui/skins/package-detail.html&amp;qnx/ui/skins/class-list.html">Frames</a><a id="noFramesLink1" style="display:none" href="" onclick="parent.location=document.location"> No Frames </a></td><td class="titleTableLogo" align="right" rowspan="3"><img src="../../../images/logo.jpg" class="logoImage" alt=" Adobe Logo " title=" Adobe Logo "></td></tr><tr class="titleTableRow2"><td class="titleTableSubTitle" id="subTitle" align="left">qnx.ui.skins</td><td class="titleTableSubNav" id="subNav" align="right"><a href="package-detail.html#interfaceSummary"> Interfaces </a>&nbsp;| <a href="package-detail.html#classSummary">Classes</a></td></tr><tr class="titleTableRow3"><td colspan="3">&nbsp;</td></tr></table><script language="javascript" type="text/javascript" xml:space="preserve">
+				<!--
+				
+					if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("qnx.ui.skins"); titleBar_setSubNav(false,false,false,false,false,false,false,false,false,false,false	,false,false,true,true,false);}	
+				-->
+			</script><div class="MainContent"><br><p> 
+		 
+		
+		<h1>Understanding skins</h1>
+		The <b>qnx.ui.skins</b> package contains the basic implementations of the component skins. The skins 
+		classes provide a customizable, consistent, look and feel for the SDK component set.  
+		    <p>
+		    The BlackBerry Tablet UI component set provides two distinct color themes: light and dark.
+		    The tablet uses the light themed component skins by default. The UI components vary in 
+		    their complexity and in the way that the implement skinning. For example, a basic button component is simple to
+		    skin when compared to a Section Tile List, which is is comprised of many parts. 
+		    The graphic assets that are used in skins take advantage of 9 slice scaling. This allows them to be resized with little or 
+		    no distortion. Skins contain visual assets that are used to reflect state changes. These can be any type of 
+		    <code>Display</code> Object. For example, a button
+		    may use multiple skin assets, where each asset reflects a button state (ie. down, up, disabled). These component
+		    states are defined in <code>qnx.ui.skins.SkinStates</code>
+		    </p>
+		    <p>
+		    Skins derive from the <code>qnx.ui.skins.UISkin</code>
+		    class that registers skins for certain states and handles the state changes to show the appropriate skin associated with
+		    the state.
+		    </p>
+		    <p>
+		    In order to create a custom skin, you must (at the very least) implement the <code>qnx.ui.skins.ISkin</code>
+		    interface. The quickest way to create a custom skin is to inherit from the </code>qnx.ui.skins.UISkin</code>
+		    class to take advantage of base functionality for handling state changes and registering skins. To create a custom
+		    skin, create a class that extends <code>qnx.ui.skins.UISkin</code>. To determine what assets are used for
+		    each state, they must be registered. To register assets, override the protected function <code>initializeStates</code>. 
+		    You can then register your skin assets by associating an asset with an intended intended state. 
+		    </p>
+		    
+		    <p>
+		    In the following code
+		    listing, the <code>initializeStates</code> function registers existing assets to their states, with the assumption
+		    that these assets have been created/instantiated in the class prior to their registration:
+ 		    </p>
+		    
+    <div class='listing'><pre>
+     <pre>
+    override protected function initializeStates():void 
+    {
+	setSkinState(SkinStates.UP, upSkin );
+	setSkinState( SkinStates.SELECTED, selectedSkin );
+	setSkinState( SkinStates.DISABLED, disabledSkin );
+	setSkinState( SkinStates.DOWN, downSkin );
+	 showSkin( upSkin );
+    }
+    </pre>
+    </pre></div>
+		    
+		 <p>    
+		    In the example above, a reference to each of the skins ( <code>upSkin</code>, <code>selectedSkin</code>, 
+		    <code>disabledSkin</code>, <code>downSkin</code> ) is being used to register against
+		    the state. Finally, <code>showSkin(upSkin)</code> is called to set the initial skin to show. 
+		  </p>
+		  
+		  <p>
+		  The following class illustrates how to make a custom skin for a basic button, with the assets being 
+		  created and drawn using the drawing API: 
+		  </p>
+		  
+<div class='listing'><pre>
+ <pre>
+  package
+  {
+	import qnx.ui.skins.SkinAssets;
+	import qnx.ui.skins.UISkin;
+	import qnx.ui.skins.SkinStates;
+
+
+	import flash.display.Sprite;
+
+	
+	public class CustomButtonSkin extends UISkin 
+	{
+		/**@private**/
+		protected var upSkin:Sprite;
+		/**@private**/
+		protected var selectedSkin:Sprite;
+		/**@private**/
+		protected var disabledSkin:Sprite;
+	    	 /**@private**/
+		protected var downSkin:Sprite;
+
+
+		/**
+		 *Create a custom button skin
+		 */
+		public function CustomButtonSkin() 
+		{
+			super( );
+		}
+
+	  
+		override protected function initializeStates():void 
+		{
+
+		upSkin = new Sprite();
+		upSkin.graphics.beginFill(0xFF6600);
+		upSkin.graphics.drawRect(0,0,200,200);
+		upSkin.graphics.endFill();
+
+		downSkin = new Sprite();
+		downSkin.graphics.beginFill(0x333333);
+		downSkin.graphics.drawRect(0,0,200,200);
+		downSkin.graphics.endFill();
+
+	    	disabledSkin = new Sprite();
+		disabledSkin.graphics.beginFill(0xCC0000);
+		disabledSkin.graphics.drawRect(0,0,200,200);
+		disabledSkin.graphics.endFill();
+
+	    	selectedSkin = new Sprite();
+		selectedSkin.graphics.beginFill(0x000000);
+		selectedSkin.graphics.drawRect(0,0,200,200);
+		selectedSkin.graphics.endFill();
+
+
+		setSkinState(SkinStates.UP, upSkin );
+		setSkinState(SkinStates.SELECTED,selectedSkin );
+		setSkinState( SkinStates.DISABLED, disabledSkin );
+		setSkinState( SkinStates.DOWN, downSkin );
+		showSkin( upSkin );
+
+		}
+	}
+  }
+</pre>
+</pre></div>
+    		
+    		<p>
+    		Once a skin is created, the skin can be applied to the component 
+    		using the methods exposed. For example, to apply a skin to a button,
+    		you can pass the skin class that you just created into the <code>setSkin</code> method:
+    		</p>
+<div class='listing'><pre> 
+<pre>
+   		
+myButton = new Button()
+myButton.width = 100;
+myButton.setSkin(CustomButtonSkin);
+addChild(myButton);
+</pre>
+</pre></div>
+    		
+    		
+		     <p>
+		    For a background on the skin assets that are shipped with this SDK, see 
+		    <a href="../../../skins-detail.html" onclick="javascript:loadClassListFrame('class-list.html');">Skin assets</a>.
+		    </p>
+		   
+		 
+	    </p><br><hr><a name="interfaceSummary"></a><div class="summaryTableTitle">Interfaces</div><table cellpadding="3" cellspacing="0" class="summaryTable"><tr><th>&nbsp;</th><th width="30%">Interface</th><th width="70%">Description</th></tr><tr class="prow1"><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableSecondCol"><i><a href="ISkin.html">ISkin</a></i></td><td class="summaryTableLastCol">
+	 The ISkin interface is the interface for component skins.</td></tr></table><a name="classSummary"></a><div class="summaryTableTitle">Classes</div><table cellpadding="3" cellspacing="0" class="summaryTable"><tr><th>&nbsp;</th><th width="30%">Class</th><th width="70%">Description</th></tr><tr class="prow1"><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableSecondCol"><a href="SkinAssets.html">SkinAssets</a></td><td class="summaryTableLastCol">
+	 This class contains references to embedded graphic assets which are used by the component skins
+	 for both the light and dark themes.</td></tr><tr class="prow0"><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableSecondCol"><a href="SkinStates.html">SkinStates</a></td><td class="summaryTableLastCol">
+	 The SkinStates class defines the skin states that are referenced by the skin classes.</td></tr><tr class="prow1"><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableSecondCol"><a href="UISkin.html">UISkin</a></td><td class="summaryTableLastCol">
+	 The UISkin class contains the base skin implementation for all UI component skins.</td></tr></table><p></p><div><p></p><center class="copyright"><footer>Copyright 2010 Research In Motion Limited. 295 Phillip Street‚ Waterloo‚ Ontario‚ Canada‚ N2L 3W8. All Rights Reserved.</footer><br/>Thu Nov 18 2010, 04:57 PM -05:00  </center></div></div></body></html><!--Copyright 2010 Research In Motion Limited. 295 Phillip Street‚ Waterloo‚ Ontario‚ Canada‚ N2L 3W8. All Rights Reserved.<br/>Thu Nov 18 2010, 04:57 PM -05:00  -->

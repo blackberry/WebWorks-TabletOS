@@ -1,0 +1,4 @@
+#!/bin/sh
+BIN=$(dirname "$0")
+LIB="$BIN/../lib"
+java -cp "$LIB/EccpressoJDK15ECC.jar:$LIB/EccpressoAll.jar:$LIB/KeyTool.jar" net.rim.device.codesigning.keytool.KeyTool "$@"
