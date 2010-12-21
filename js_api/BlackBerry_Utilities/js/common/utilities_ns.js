@@ -69,8 +69,8 @@
 				parseUri.strictMode = "strict"; 
 				var uri = parseUri(theUrl);
 				return {
-					get host() { return uri["host"]; },
-					get port() { return parseInt(uri["port"]); },
+					this.__defineGetter__("host", function() { return uri["host"]; }),
+					this.__defineGetter__("port", function() { return parseInt(uri["port"]); }),
 						
 					getUrlParameter : function(key) {
 						return uri.queryKey[key];
