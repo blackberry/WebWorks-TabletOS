@@ -83,7 +83,7 @@
 			},
 			
 			generateUniqueId = function() {
-				return Math.uuid(,10);
+				return Math.floor(Math.random() * Number.MAX_VALUE);
 			}
 		}
 	}
