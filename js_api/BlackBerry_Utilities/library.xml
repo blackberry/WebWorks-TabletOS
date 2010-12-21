@@ -4,6 +4,19 @@
 		<entryClass>blackberry.utils.Utilities</entryClass>
 	</extension>
 	
+	<platforms>
+		<platform value="AIR">
+			<target version="default" config="JS_ONLY" />
+		</platform>
+	</platforms>
+
+	<configurations>
+		<configuration name="JS_ONLY" version="1.0" comment="JavaScript only implementation">
+			<src type="text/javascript" path="../BlackBerry/js/common/blackberry_ns.js" comment="BlackBerry namespace common library" />
+			<src type="text/javascript" path="js/common/utilities_ns.js" comment="Utilities JS implementation" />
+		</configuration>
+	</configurations>
+	
 	<features>
 		<feature id="blackberry.utils" version="1.0.0" />
     </features>
@@ -18,13 +31,13 @@
     
 		<functions>
 			<func name="generateUniqueId" static="true" returns="Number" comment="This method will generate a unique numbers.">
-				<details>Returns a unique number.</details>
+				<details>Returns a unique number from JavaScript's Math.random() function.</details>
 			</func>
 			
-			<func name="parseURL" static="true" returns="URL" comment="parse an URL string into an URL object.">			
+			<func name="parseURL" static="true" returns="URL" comment="Parses a URL string and returns an URL object.">			
 				<param name="url" type="String" comment="The URL string to be parsed."/>			
 				<details>
-					An exception will be thrown if an invalid URL string is given. There currently is a known issue if you attempt to parse a local:/// path with this method. It will throw an invalid URL error. To work around this limitation you should string replace "local:///" with "local://".
+					A URL object is returned if the parsing is successful.
 				</details>
 			</func>
 		</functions>
