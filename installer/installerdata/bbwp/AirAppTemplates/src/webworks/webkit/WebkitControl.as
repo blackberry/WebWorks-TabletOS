@@ -25,12 +25,13 @@ package webworks.webkit
 	import flash.utils.Timer;
 	
 	import qnx.display.IowWindow;
-	import qnx.events.ExecJavascriptResultEvent;
-	import qnx.events.HtmlEvent;
-	import qnx.events.HtmlIntEvent;
-	import qnx.events.HtmlStringEvent;
-	import qnx.events.JavascriptMethodEvent;
-	import qnx.events.QNXLocationChangeEvent;
+	import qnx.events.JavaScriptResultEvent;
+	import qnx.events.WebViewEvent;
+	import qnx.events.JavaScriptCallbackEvent;
+	import qnx.events.ExtendedLocationChangeEvent;
+	import qnx.events.NetworkResourceRequestedEvent;
+	import qnx.events.UnknownProtocolEvent;
+
 	import qnx.media.QNXStageWebView;
 	
 	import webworks.access.Access;
@@ -64,34 +65,43 @@ package webworks.webkit
 			webView.viewPort = new Rectangle(defaults.x, defaults.y, defaults.width, defaults.height);
 			webView.addEventListener(ErrorEvent.ERROR, loadError);
 			webView.addEventListener(Event.COMPLETE, loadComplete);
-			webView.addEventListener(QNXLocationChangeEvent.QNX_LOCATION_CHANGING, locationChanging);
-			webView.addEventListener(QNXLocationChangeEvent.QNX_LOCATION_CHANGE, locationChanged); 
-			webView.addEventListener(JavascriptMethodEvent.JAVASCRIPT_METHOD_CALL, jsMethodCalled);
-			webView.addEventListener(ExecJavascriptResultEvent.EXEC_JAVASCRIPT_RESULT, jsExeced);	
-			webView.addEventListener(HtmlEvent.HTML_DOM_INITIALIZED, domInitialized);
-            webView.addEventListener(HtmlEvent.HTML_BROWSER_CREATED, htmlEventBrowserCreated);
-            webView.addEventListener(HtmlEvent.HTML_BROWSER_CREATE_FAILED, htmlEventHandler);
+
+			webView.addEventListener(LocationChangeEvent.LOCATION_CHANGING, locationChanging);
+			webView.addEventListener(LocationChangeEvent.LOCATION_CHANGE, locationChanged); 
+			webView.addEventListener(JavaScriptCallbackEvent.JAVASCRIPT_CALLBACK, jsMethodCalled);
+			webView.addEventListener(JavaScriptResultEvent.JAVASCRIPT_RESULT, jsExeced);	
+//			webView.addEventListener(HtmlEvent.HTML_DOM_INITIALIZED, domInitialized);
+            webView.addEventListener(WebViewEvent.CREATED, htmlEventBrowserCreated);
+//            webView.addEventListener(HtmlEvent.HTML_BROWSER_CREATE_FAILED, htmlEventHandler);
 			//webView.addEventListener(QNXRequestEvent, requestHandler); //the event need to be defined by webkit
+			webView.addEventListener(NetworkResourceRequestedEvent.NETWORK_RESOURCE_REQUESTED, networkResourceRequested);
+			webView.addEventListener(UnknownProtocolEvent.UNKNOWN_PROTOCOL, handleUnknownProtocol);			
 		}
 
-		/* enable this when QNXRequestEvent is defined 
-		private function requestHandler(event:QNXRequestEvent):void
+		private function networkResourceRequested(event:NetworkResourceRequestedEvent):void
 		{
-			dispatchEvent(new WebkitEvent(WebkitEvent.TAB_XHRRequest,
-				"device://blackberry.app/bbid/BBID/UserResource/path"));			
+			trace("networkResourceRequested: " + event.url);
+			dispatchEvent(new WebkitEvent(WebkitEvent.TAB_NETWORKRESOURCEREQUESTED, event.url));
+			Utilities.alert("networkResourceRequested: " + event.url, webView);
 		}
-		*/
 		
-		private function jsMethodCalled(event:JavascriptMethodEvent):void
+		private function handleUnknownProtocol(event:UnknownProtocolEvent):void
 		{
-		    trace(event.methodName + " called");
+			trace("handleUnknownProtocol: " + event.url);
+			dispatchEvent(new WebkitEvent(WebkitEvent.TAB_UNKNOWNPROTOCOL, event.url));
+			Utilities.alert("handleUnknownProtocol: " + event.url, webView);
+		}
+		
+		private function jsMethodCalled(event:JavaScriptCallbackEvent):void
+		{
+		    trace(event.name + " called");
 			//webView.sendJsMethodReturn("Hello World");
 			dispatchEvent(new WebkitEvent(WebkitEvent.TAB_JSMETHODCALL, event));
 		}
 		
-		private function jsExeced(event:ExecJavascriptResultEvent):void
+		private function jsExeced(event:JavaScriptResultEvent):void
 		{
-			trace("JS Result ID:" + event.resultId);
+			trace("JS Result ID:" + event.uniqueId);
 			trace("JS Result:" + event.result);
 			dispatchEvent(new WebkitEvent(WebkitEvent.TAB_JSEXECRESULT, event));			
 		}
@@ -108,12 +118,12 @@ package webworks.webkit
 			dispatchEvent(new WebkitEvent(WebkitEvent.TAB_LOAD_ERROR));
 		}
 		
-		private function locationChanged(event:QNXLocationChangeEvent):void
+		private function locationChanged(event:ExtendedLocationChangeEvent):void
 		{
 			trace("Location Changed");
 		}
 		
-		private function locationChanging(event:QNXLocationChangeEvent):void
+		private function locationChanging(event:ExtendedLocationChangeEvent):void
 		{
 			trace("QNX Location Changing");
 			var config : ConfigData = ConfigData.getInstance();
@@ -128,13 +138,13 @@ package webworks.webkit
 				dispatchEvent(new WebkitEvent(WebkitEvent.TAB_LOCATION_CHANGING,event));		
 		}
 		
-		private function domInitialized(event:HtmlEvent):void
+		private function domInitialized(event:WebViewEvent):void
 		{
 			trace("dom initialize event");
 			dispatchEvent(new WebkitEvent(WebkitEvent.TAB_DOMINITIALIZE, event));
 		}
                 
-        private function htmlEventBrowserCreated(event:HtmlEvent):void
+        private function htmlEventBrowserCreated(event:WebViewEvent):void
         {
             trace("WEBKITCONTROL: " + event.type, webView.windowUniqueId);
             uniqueID = webView.windowUniqueId;
@@ -142,7 +152,7 @@ package webworks.webkit
             dispatchEvent(new WebkitEvent(event.type, { creationID:creationID }));
         }
         
-        private function htmlEventHandler( event:HtmlEvent ):void
+        private function htmlEventHandler( event:WebViewEvent ):void
         {
             trace("WEBKITCONTROL: " + event.type);
             dispatchEvent( new WebkitEvent(event.type ) );
@@ -155,7 +165,7 @@ package webworks.webkit
 		}
 		public function sendJsMethodReturn(value:String):void
 		{
-			webView.sendJsMethodReturn(value);
+			webView.sendJavaScriptCallbackReturnValue(value);
 		}
 
 		public function executeJavaScript(js:String):void

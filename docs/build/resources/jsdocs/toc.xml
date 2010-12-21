@@ -5,6 +5,10 @@
 			<api>blackberry.app</api>
 		</item>
 		
+		<item topic="Application Events"  safeName="appEvent">
+			<api>blackberry.app.event</api>
+		</item>
+		
 		<item topic="Invoke"  safeName="invoke" >
 			<api>blackberry.invoke</api>
 		</item>

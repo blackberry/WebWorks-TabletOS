@@ -1,7 +1,7 @@
 <qnx>
 <initialWindow>
 <systemChrome>none</systemChrome>
-<transparent>false</transparent>
+<transparent>true</transparent>
 </initialWindow>
 <publisher>Sample Inc.</publisher>
 <category>core.internet</category>

@@ -68,8 +68,8 @@ package webworks.webkit
 
 			webView.addEventListener(LocationChangeEvent.LOCATION_CHANGING, locationChanging);
 			webView.addEventListener(LocationChangeEvent.LOCATION_CHANGE, locationChanged); 
-			webView.addEventListener(JavaScriptCallbackEvent.JAVASCRIPT_CALLBACK, jsMethodCalled);
-			webView.addEventListener(JavaScriptResultEvent.JAVASCRIPT_RESULT, jsExeced);	
+			webView.addEventListener(JavaScriptCallbackEvent.JAVA_SCRIPT_CALLBACK, jsMethodCalled);
+			webView.addEventListener(JavaScriptResultEvent.JAVA_SCRIPT_RESULT, jsExeced);	
 //			webView.addEventListener(HtmlEvent.HTML_DOM_INITIALIZED, domInitialized);
             webView.addEventListener(WebViewEvent.CREATED, htmlEventBrowserCreated);
 //            webView.addEventListener(HtmlEvent.HTML_BROWSER_CREATE_FAILED, htmlEventHandler);

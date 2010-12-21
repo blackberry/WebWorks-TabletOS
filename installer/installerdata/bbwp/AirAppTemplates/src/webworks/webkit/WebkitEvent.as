@@ -16,7 +16,7 @@
 package webworks.webkit
 {
 	import flash.events.Event;
-    import qnx.events.HtmlEvent;
+    import qnx.events.WebViewEvent;
 	
 	public class WebkitEvent extends Event
 	{
@@ -34,9 +34,13 @@ package webworks.webkit
 		public static const TAB_JSEXECRESULT:String         = "tabJSExecResult";
 		public static const TAB_XHRREQUEST:String           = "tabXHRRequest";
 		public static const TAB_DOMINITIALIZE:String        = "tabDomInitialized";
-        public static const HTML_BROWSER_CREATE_FAILED:String 	= HtmlEvent.HTML_BROWSER_CREATE_FAILED;
-        public static const HTML_BROWSER_CREATED:String 		= HtmlEvent.HTML_BROWSER_CREATED;
-        public static const HTML_BROWSER_DESTROYED:String 		= HtmlEvent.HTML_BROWSER_DESTROYED;
+		
+		public static const TAB_NETWORKRESOURCEREQUESTED:String = "tabNetworkResourceRequested";
+		public static const TAB_UNKNOWNPROTOCOL:String      = "tabUnknownProtocol";
+		
+//        public static const HTML_BROWSER_CREATE_FAILED:String 	= HtmlEvent.HTML_BROWSER_CREATE_FAILED;
+        public static const WEBVIEW_CREATED:String 			= WebViewEvent.CREATED;
+        public static const WEBVIEW_DESTROYED:String 		= WebViewEvent.DESTROYED;
 		
 		
 		public var data:Object;

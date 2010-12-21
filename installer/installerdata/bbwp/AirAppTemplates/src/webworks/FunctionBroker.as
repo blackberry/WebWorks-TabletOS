@@ -18,7 +18,7 @@ package webworks
 	import flash.events.EventDispatcher;
 	import flash.events.IEventDispatcher;
 	
-	import qnx.events.JavascriptMethodEvent;
+	import qnx.events.JavaScriptCallbackEvent;
 	import qnx.media.QNXStageWebView;
 	
 	import webworks.config.ConfigConstants;
@@ -42,11 +42,11 @@ package webworks
 		
 		//handle the event fired by qnx.callExtensionMethod() from javascript
 		//call API specified by the event data and return a JSON string
-		public function handleJSMethodCall(event:JavascriptMethodEvent):String
+		public function handleJSMethodCall(event:JavaScriptCallbackEvent):String
 		{
-			if ( event.methodName == null ) // event.methodName = device://host/featureid/methodname?par1=val...
+			if ( event.name == null ) // event.methodName = device://host/featureid/methodname?par1=val...
 				return null;
-			var device:DeviceURL = new DeviceURL(event.methodName);
+			var device:DeviceURL = new DeviceURL(event.name);
 			
 			if ( !device.isDeviceProtocol() )
 				return null;

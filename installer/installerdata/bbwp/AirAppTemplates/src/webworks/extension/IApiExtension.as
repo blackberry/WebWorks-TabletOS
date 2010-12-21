@@ -21,6 +21,6 @@ package webworks.extension {
 		function loadFeature(feature:String, version:String):void;
 		function unloadFeature():void;
 		function getFeatureList():Array;
-		function invokeFunction(method:String, parameters:String):Object;
+		function invokeFunction(method:String, parameters:String = ""):Object;
 	}
 }
