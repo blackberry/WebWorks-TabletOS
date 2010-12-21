@@ -21,5 +21,9 @@
 			<api>blackberry.ui.dialog</api>
 		</item>
 		
+		<item topic="Utilities"  safeName="Utils" >
+			<api>blackberry.utils</api>
+		</item>
+		
 	</section>
 </toc>
