@@ -68,8 +68,6 @@ package webworks.webkit
 
 			webView.addEventListener(LocationChangeEvent.LOCATION_CHANGING, locationChanging);
 			webView.addEventListener(LocationChangeEvent.LOCATION_CHANGE, locationChanged); 
-			webView.addEventListener(JavaScriptCallbackEvent.JAVASCRIPT_CALLBACK, jsMethodCalled);
-			webView.addEventListener(JavaScriptResultEvent.JAVASCRIPT_RESULT, jsExeced);	
 //			webView.addEventListener(HtmlEvent.HTML_DOM_INITIALIZED, domInitialized);
             webView.addEventListener(WebViewEvent.CREATED, htmlEventBrowserCreated);
 //            webView.addEventListener(HtmlEvent.HTML_BROWSER_CREATE_FAILED, htmlEventHandler);
@@ -90,20 +88,6 @@ package webworks.webkit
 			trace("handleUnknownProtocol: " + event.url);
 			dispatchEvent(new WebkitEvent(WebkitEvent.TAB_UNKNOWNPROTOCOL, event.url));
 			Utilities.alert("handleUnknownProtocol: " + event.url, webView);
-		}
-		
-		private function jsMethodCalled(event:JavaScriptCallbackEvent):void
-		{
-		    trace(event.name + " called");
-			//webView.sendJsMethodReturn("Hello World");
-			dispatchEvent(new WebkitEvent(WebkitEvent.TAB_JSMETHODCALL, event));
-		}
-		
-		private function jsExeced(event:JavaScriptResultEvent):void
-		{
-			trace("JS Result ID:" + event.uniqueId);
-			trace("JS Result:" + event.result);
-			dispatchEvent(new WebkitEvent(WebkitEvent.TAB_JSEXECRESULT, event));			
 		}
 			
 		private function loadComplete(event:Event):void
@@ -162,10 +146,6 @@ package webworks.webkit
 		{
 			trace("Go function called: " + address);
 			webView.loadURL(address);
-		}
-		public function sendJsMethodReturn(value:String):void
-		{
-			webView.sendJavaScriptCallbackReturnValue(value);
 		}
 
 		public function executeJavaScript(js:String):void

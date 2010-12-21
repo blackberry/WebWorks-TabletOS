@@ -133,7 +133,6 @@ package
             webWindow.addEventListener(WebkitEvent.WEBVIEW_CREATED, 		webkitWindowReady);
  			webWindow.addEventListener(WebkitEvent.TAB_LOCATION_CHANGING, webkitLocationChanging);
             webWindow.addEventListener(WebkitEvent.TAB_XHRREQUEST, webkitHandleRequest);	
-			webWindow.addEventListener(WebkitEvent.TAB_JSMETHODCALL, webkitJSMethodCall);
 			webWindow.addEventListener(WebkitEvent.TAB_DOMINITIALIZE, webkitDomInitialized);
  			addChild(webWindow);
 		}
@@ -145,26 +144,6 @@ package
 			if ( htmlEvent != null )
 			{
 			}
-		}
-		
-		//handle qnx.callExtensionMethod("methodname", parameters:array) from javascript
-		private function webkitJSMethodCall(event:WebkitEvent):void
-		{
-			var jsCallEvent:JavaScriptCallbackEvent;
-			var returnValue:String;
-			try
-			{
-				jsCallEvent = event.data as JavaScriptCallbackEvent;
-				returnValue = callAPI(jsCallEvent); 
-			}
-			catch(error:Error)
-			{
-				trace(error);
-				returnValue = error.message;
-			}
-			//this call is needed to return to Browser
-			webWindow.sendJsMethodReturn(returnValue); 	
-			trace("sendJsMethodReturn called");
 		}
 		
 		private function callAPI(event:JavaScriptCallbackEvent):String
