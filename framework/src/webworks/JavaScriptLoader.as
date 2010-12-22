@@ -41,7 +41,7 @@ package webworks
 		//register javascript file for features required by the url
 		public function registerJavaScript(url:String):void
 		{
-			loadCommonJSFiles();
+			//loadCommonJSFiles();
 			//insert js needed for feautes specified by the access
 			var access:Access = ConfigData.getInstance().getAccessByUrl(url);			
 			if ( access != null )

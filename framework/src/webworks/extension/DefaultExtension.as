@@ -5,6 +5,7 @@ package webworks.extension
 	
 	import json.JSON;
 	
+	
 	import qnx.media.QNXStageWebView;
 	
 	public class DefaultExtension implements IApiExtension {	
@@ -73,7 +74,7 @@ package webworks.extension
 			
 			javaScript += ");";
 			
-			this.webView.executeJavaScript(javaScript);		 
+			this.webView.executeJavaScript(javaScript);			 
 		} 
 		
 		private function getValueArray(keyValuePairs : Array) : Array {
