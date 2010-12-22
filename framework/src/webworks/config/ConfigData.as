@@ -34,7 +34,7 @@ package webworks.config
 		//-------------------------------------
 		private static var _instance:ConfigData = null; 
 		
-		private var _properties:Dictionary;		
+		private var _properties:Dictionary; // fake comments		
 		
 		public function ConfigData(blocker:SingletonEnforcer, target:IEventDispatcher=null)
 		{
