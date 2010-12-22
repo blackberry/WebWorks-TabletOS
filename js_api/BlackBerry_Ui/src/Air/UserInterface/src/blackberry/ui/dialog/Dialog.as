@@ -18,13 +18,9 @@ package blackberry.ui.dialog
 {
 	import flash.events.Event;
 	import flash.utils.*;
-	
-	import json.JSON;
-	
 	import qnx.dialog.AlertDialog;
-	import qnx.media.QNXStageWebView;
-	
 	import webworks.extension.DefaultExtension;
+
 	
 	/**
 	 * 
@@ -37,6 +33,7 @@ package blackberry.ui.dialog
 	 * author - Nukul Bhasin * Carolina Pinzon (Software Developers - Research in Motion)
 	 * 
 	 */
+
 	public class Dialog extends DefaultExtension
 	{	
 		private static const D_OK:int = 0;
@@ -110,7 +107,7 @@ package blackberry.ui.dialog
 			
 			alertDialog.addEventListener(Event.SELECT, alertButtonClicked);
 			
-			return alertDialog;
+			return alertDialog; 
 		}
 		
 		private function alertButtonClicked(event:Event):void {
