@@ -25,7 +25,7 @@ import blackberry.system.System;
    public class CustomData 
    { 
 // constants
-        public static const values:Object = {
+        public static const values:Object = { 
 
         "configXML" : "config.xml",
         "content" : "index.html", //"http://www.google.com",
