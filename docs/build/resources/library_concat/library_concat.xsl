@@ -15,24 +15,43 @@ Setting Variables
 <!--**************
 Templates
 **************-->
-<!-- The main template -->
-<xsl:template match="manifest">
-	<library>
-		<features>
-			<xsl:apply-templates select="$documents/library[@isWhitelist='true']/*" mode="features"/>
-		</features>
-		<xsl:apply-templates select="$documents/library/*" mode="objCopy"/>
-	</library>
-</xsl:template>
-
 <!-- Called by the variable "documents" to copy all library.xml to itself -->
 <xsl:template match="libraryPath" mode="copyDocument">
 	<xsl:apply-templates select="document(concat($libraryBasePath, text(), '/', $libraryFileName))" mode="copy"/>
 </xsl:template>
 
+<!-- The main template -->
+<xsl:template match="manifest">
+	<library>
+		<!-- Copy all the objects to the new library -->
+		<xsl:apply-templates select="$documents/library/object" />
+	</library>
+</xsl:template>
+
+<!-- Change the name of all entities to object, but copy everything else -->
+<xsl:template match="object">
+	<object>
+		<!-- Copy the attributes of the object -->
+		<xsl:copy-of select="@*"/>
+		<!-- Copy the features node which resides in the parent of the object -->
+		<xsl:copy-of select="parent::node()/features" />	
+		<!-- Now copy the object itself -->		
+		<xsl:apply-templates mode="copy"/>
+	</object>
+</xsl:template>
+
+<!-- Copy everything except the tests -->
+<xsl:template match="@*|node()" mode="copy">
+	<xsl:copy>
+		<xsl:copy-of select="@*"/>
+		<xsl:if test="empty(index-of($scrub, name()))">
+			<xsl:apply-templates mode="copy"/>
+		</xsl:if>
+	</xsl:copy>
+</xsl:template>
+
 <!-- Create feature node -->
-<xsl:template match="*" mode="features"/>
-<xsl:template match="class|namespace|object" mode="features">
+<xsl:template match="features">
 	<xsl:choose>
 		<xsl:when test="@whitelistName">
 			<xsl:call-template name="writeFeatureTag">
@@ -56,22 +75,5 @@ Templates
 		<xsl:value-of select="$comment"/>
 	</feature>
 </xsl:template>
-<!-- Change the name of all entities to object, but copy everything else -->
-<xsl:template match="*" mode="objCopy"/>
-<xsl:template match="class|namespace|object" mode="objCopy">
-	<object>
-		<xsl:copy-of select="@*"/>	
-		<xsl:apply-templates mode="copy"/>
-	</object>
-</xsl:template>
 
-<!-- Copy everything except the tests -->
-<xsl:template match="@*|node()" mode="copy">
-	<xsl:copy>
-		<xsl:copy-of select="@*"/>
-		<xsl:if test="empty(index-of($scrub, name()))">
-			<xsl:apply-templates mode="copy"/>
-		</xsl:if>
-	</xsl:copy>
-</xsl:template>
 </xsl:stylesheet>
