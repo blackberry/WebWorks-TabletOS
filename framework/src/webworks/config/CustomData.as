@@ -15,51 +15,28 @@
  */
 package webworks.config
 {
-
-
 import webworks.access.Access;
 import webworks.access.Feature;
+import webworks.config.ConfigConstants;
 
-import blackberry.system.System;
-
-   public class CustomData 
-   { 
+   public class CustomData
+   {
 // constants
         public static const values:Object = {
 
         "configXML" : "config.xml",
-        "content" : "index.html", //"http://www.google.com",
+        "content" : "http://www.google.com", //"index.html",
         "author" : "Lev",
         "name" : "invoked3.1.5step1",
         "foregroundSource" : "http://www.google.com",
         "icon" : "icon.jpg",
         "disableAllCache" :  true,
+		"hasMultiAccess" : true, // Boolean
         "accessList" : new Array(
                 new Access(
-                    "http://atg05-yyz.rim.net/yui_unittest/dev/",
-                    true,
-					new Array(
-						new Feature(
-							"Screen",
-							true,
-							"",
-							null),
-						new Feature(
-							"blackberry.invoke",
-							true,
-							"1.0.0.0",
-							null),
-						new Feature(
-							"blackberry.ui.dialog",
-							true,
-							"1.0.0.0",
-							null),
-						new Feature(
-							"blackberry.system",
-							true,
-							"1.0.0.0",
-							null)
-					)
+                    "file:///mlc/sandboxes/guest",
+                    false,
+                    null
                 )
             ,
                 new Access(
@@ -90,7 +67,7 @@ import blackberry.system.System;
                             "",
                             null),
                         new Feature(
-                            "blackberry.system",
+                            "blackberry.app",
                             true,
                             "1.0.0.0",
                             null)
@@ -119,7 +96,7 @@ import blackberry.system.System;
                             "",
                             null),
                         new Feature(
-                            "blackberry.system",
+                            "blackberry.app",
                             true,
                             "1.0.0.0",
                             null)
@@ -127,12 +104,6 @@ import blackberry.system.System;
                 )
             ),
 		
-	"widgetExtensions" : new Array( {"class" : new System(), 
-		                             "requiredJSFiles" : new Array("js/constants.js",
-																	"js/blackberry_ns.js",
-																	"js/direct.js", 
-									 								"js/system_dispatcher.js",
-																	"js/system_ns.js")}),
     "name" : "value"
         }
     }
