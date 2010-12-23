@@ -25,15 +25,15 @@ package webworks.webkit
 	import flash.utils.Timer;
 	
 	import qnx.display.IowWindow;
-	import qnx.events.ExtendedLocationChangeEvent;
-	import qnx.events.JavaScriptCallbackEvent;
 	import qnx.events.JavaScriptResultEvent;
+	import qnx.events.WebViewEvent;
+	import qnx.events.JavaScriptCallbackEvent;
+	import qnx.events.ExtendedLocationChangeEvent;
 	import qnx.events.NetworkResourceRequestedEvent;
 	import qnx.events.UnknownProtocolEvent;
-	import qnx.events.WebViewEvent;
+
 	import qnx.media.QNXStageWebView;
 	
-	import webworks.JavaScriptLoader;
 	import webworks.access.Access;
 	import webworks.config.ConfigConstants;
 	import webworks.config.ConfigData;
@@ -47,8 +47,6 @@ package webworks.webkit
         private var creationID:Number;
         private var uniqueID:String;
         private var windowObj:IowWindow;
-		private var url:String;
-		private var javascriptLoader:JavaScriptLoader;
 		
 		public function WebkitControl(_creationID:Number,_x:int, _y:int, _width:int, _height:int) {
 			defaults = new Object();
@@ -65,9 +63,6 @@ package webworks.webkit
 			webView = new QNXStageWebView();
 			webView.stage = this.stage;
 			webView.viewPort = new Rectangle(defaults.x, defaults.y, defaults.width, defaults.height);
-			
-			javascriptLoader = new JavaScriptLoader(this);
-			
 			webView.addEventListener(ErrorEvent.ERROR, loadError);
 			webView.addEventListener(Event.COMPLETE, loadComplete);
 
@@ -78,8 +73,7 @@ package webworks.webkit
 //            webView.addEventListener(HtmlEvent.HTML_BROWSER_CREATE_FAILED, htmlEventHandler);
 			//webView.addEventListener(QNXRequestEvent, requestHandler); //the event need to be defined by webkit
 			webView.addEventListener(NetworkResourceRequestedEvent.NETWORK_RESOURCE_REQUESTED, networkResourceRequested);
-			webView.addEventListener(UnknownProtocolEvent.UNKNOWN_PROTOCOL, handleUnknownProtocol);	
-			webView.addEventListener(WebViewEvent.JAVA_SCRIPT_WINDOW_OBJECT_CLEARED, handleJavaScriptWindowObjectCleared);
+			webView.addEventListener(UnknownProtocolEvent.UNKNOWN_PROTOCOL, handleUnknownProtocol);			
 		}
 
 		private function networkResourceRequested(event:NetworkResourceRequestedEvent):void
@@ -167,14 +161,6 @@ package webworks.webkit
 		public function get qnxWebView():QNXStageWebView
 		{
 			return webView;
-		}
-		
-		private function handleJavaScriptWindowObjectCleared(event:WebViewEvent ){
-			
-			javascriptLoader.registerJavaScript(webView.location);
-			
-		}
-		
-	
+		}		
 	}
 }
