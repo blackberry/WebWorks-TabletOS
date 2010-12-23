@@ -1,0 +1,75 @@
+<project>
+	<parent>
+		<groupId>net.rim.snarf</groupId>
+		<artifactId>snarf</artifactId>
+		<version>1.0.0.1</version>
+	</parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>installer</artifactId>
+	<version>${project.parent.version}-SNAPSHOT</version>
+	<name>${project.artifactId}-${project.version}</name>
+	<packaging>pom</packaging>
+
+	<properties>
+		<webworksZipPackage.dir>${project.build.directory}/webworks</webworksZipPackage.dir>
+		<webworksZipPackage.filename>WebWorksForPlaybook.zip</webworksZipPackage.filename>
+	</properties>
+
+    <build>
+        <!--<sourceDirectory>src</sourceDirectory>-->
+        <directory>target</directory>
+
+        <plugins>	  
+			  <plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+				  <execution>
+					<id>copy</id>
+					<phase>prepare-package</phase>
+					<goals>
+					  <goal>copy</goal>
+					</goals>
+					<configuration>
+					  <artifactItems>
+						<artifactItem>
+						  <groupId>net.rim.snarf</groupId>
+						  <artifactId>framework</artifactId>
+						  <version>${project.parent.version}-SNAPSHOT</version>
+						  <type>zip</type>
+						  <overWrite>true</overWrite>
+						  <outputDirectory>${webworksZipPackage.dir}</outputDirectory>
+						  <destFileName>${webworksZipPackage.filename}</destFileName>
+						</artifactItem>
+					  </artifactItems>
+					  <!-- other configurations here -->
+					</configuration>
+				  </execution>
+				</executions>
+			  </plugin>
+
+            <plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.6</version>
+				<executions>
+				  <execution>
+					<id>buildinstaller</id>
+					<phase>package</phase>
+					<goals>
+					  <goal>run</goal>
+					</goals>
+					<configuration>
+						<target>
+							<property name="webworksZipPackage.path" value="${webworksZipPackage.dir}/${webworksZipPackage.filename}"/>
+							<ant antfile="${basedir}/antbuild.xml"/>
+						</target>
+					</configuration>
+				  </execution>
+				</executions>
+            </plugin>       
+
+        </plugins>
+    </build>
+</project>
