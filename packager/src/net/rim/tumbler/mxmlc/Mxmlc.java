@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Map;
 
 import com.sun.jmx.trace.Trace;
 
@@ -32,6 +33,7 @@ import net.rim.tumbler.exception.PackageException;
 
 public class Mxmlc {
     private static final String TEMPLATE_MAIN_CLASS_FILE = "WebWorksAppTemplate.as";
+    private static final String JAVA_HOME = "JAVA_HOME";
 
     private String _tabletSdkPath;
     private String _mxmlcPath;
@@ -121,7 +123,7 @@ public class Mxmlc {
                     _templateMainClassPath,
                 };
             }
-            Process p = Runtime.getRuntime().exec(cmd);
+            Process p = buildProcess(cmd);
 
             OutputBuffer stdout = new OutputBuffer(p);
             ErrorBuffer stderr = new ErrorBuffer(p);
@@ -144,6 +146,33 @@ public class Mxmlc {
         }
     }
 
+    /**
+     * Builds a process with <code>JAVA_HOME</code> set as required on Windows.
+     * This is needed because the JRE is an undocumented prerequisite for the
+     * Tablet SDK but not for the WebWorks SDK (on Windows).
+     *
+     * @param cmd the command string array.
+     *
+     * @exception java.io.IOException
+     *            if an i/o error occurs.
+     */
+    private static Process buildProcess(String[] cmd)
+        throws IOException
+    {
+        ProcessBuilder builder = new ProcessBuilder(cmd);
+
+        Map<String,String> env = builder.environment();
+        if (!env.containsKey(JAVA_HOME)) {
+            String javaHome = FileManager.selectOnPlatform(
+                System.getProperty("java.home"),
+                null);
+            if (javaHome != null && !javaHome.isEmpty()) {
+                env.put(JAVA_HOME, javaHome);
+            }
+        }
+
+        return builder.start();
+    }
 
     private String getString(
             File source,

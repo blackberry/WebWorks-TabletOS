@@ -605,7 +605,8 @@ public class FileManager {
 
     /**
      * Returns either <code>msWindows</code> or <code>macOsx</code> based
-     * on the host platform.
+     * on the host platform. Supports <code>null</code> for either or both
+     * inputs.
      */
     public static String selectOnPlatform(String msWindows, String macOsx) {
         String os = System.getProperty("os.name").toLowerCase();
