@@ -23,6 +23,7 @@ import java.io.Writer;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import javax.xml.parsers.*;
 import javax.xml.transform.*;
 import javax.xml.transform.dom.*;
@@ -39,6 +40,8 @@ import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 
 public class AirPackager {
+    private static final String PATH = "Path";
+
     // HARD-CODED VALUES FOR DEMO USE ONLY
     private String _tabletSdkPath;
     private String _airPackagerPath;
@@ -181,7 +184,7 @@ public class AirPackager {
             String[] join = new String[cmd.length + n];
             System.arraycopy(cmd, 0, join, 0, cmd.length);
             System.arraycopy(files, 0, join, cmd.length, n);
-            Process p = Runtime.getRuntime().exec(join, null, new File(bindebugPath));
+            Process p = buildProcess(join, new File(bindebugPath));
 
             OutputBuffer stdout = new OutputBuffer(p);
             ErrorBuffer stderr = new ErrorBuffer(p);
@@ -202,6 +205,39 @@ public class AirPackager {
         } catch (InterruptedException ie) {
             throw new PackageException("EXCEPTION_AIRPACKAGER");        	
         }
+    }
+
+    /**
+     * Builds a process with the <code>bin</code> folder under <code>java.home</code>
+     * appended to <code>PATH</code> on Windows.
+     * This is needed because the JRE is an undocumented prerequisite for the
+     * Tablet SDK but not for the WebWorks SDK (on Windows).
+     *
+     * @param cmd the command string array.
+     * @param workingDirectory the working directory of the subprocess.
+     *
+     * @exception java.io.IOException
+     *            if an i/o error occurs.
+     */
+    private static Process buildProcess(String[] cmd, File workingDirectory)
+        throws IOException
+    {
+        ProcessBuilder builder = new ProcessBuilder(cmd);
+
+        String javaBin = FileManager.selectOnPlatform(
+            System.getProperty("java.home"),
+            null);
+        if (javaBin != null && !javaBin.isEmpty()) {
+            javaBin += File.separator + "bin";
+            Map<String,String> env = builder.environment();
+            if (env.containsKey(PATH)) {
+                env.put(PATH, env.get(PATH) + File.pathSeparator + javaBin);
+            } else {
+                env.put(PATH, javaBin);
+            }
+        }
+
+        return builder.directory(workingDirectory).start();
     }
 
     /**
