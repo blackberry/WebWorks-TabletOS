@@ -40,6 +40,8 @@ package webworks.webkit
 	import webworks.policy.WidgetPolicy;
 	import webworks.util.Utilities;
 	
+	import flash.utils.*;
+	
 	public class WebkitControl extends Sprite
 	{
 		private var webView:QNXStageWebView;
@@ -65,7 +67,7 @@ package webworks.webkit
 			webView.viewPort = new Rectangle(defaults.x, defaults.y, defaults.width, defaults.height);
 			webView.addEventListener(ErrorEvent.ERROR, loadError);
 			webView.addEventListener(Event.COMPLETE, loadComplete);
-
+//
 			webView.addEventListener(LocationChangeEvent.LOCATION_CHANGING, locationChanging);
 			webView.addEventListener(LocationChangeEvent.LOCATION_CHANGE, locationChanged); 
 //			webView.addEventListener(HtmlEvent.HTML_DOM_INITIALIZED, domInitialized);
@@ -73,7 +75,7 @@ package webworks.webkit
 //            webView.addEventListener(HtmlEvent.HTML_BROWSER_CREATE_FAILED, htmlEventHandler);
 			//webView.addEventListener(QNXRequestEvent, requestHandler); //the event need to be defined by webkit
 			webView.addEventListener(NetworkResourceRequestedEvent.NETWORK_RESOURCE_REQUESTED, networkResourceRequested);
-			webView.addEventListener(UnknownProtocolEvent.UNKNOWN_PROTOCOL, handleUnknownProtocol);			
+			webView.addEventListener(UnknownProtocolEvent.UNKNOWN_PROTOCOL, handleUnknownProtocol);
 		}
 
 		private function networkResourceRequested(event:NetworkResourceRequestedEvent):void
@@ -161,6 +163,19 @@ package webworks.webkit
 		public function get qnxWebView():QNXStageWebView
 		{
 			return webView;
-		}		
+		}
+		
+		public function setCustomHeader(h : String):void
+		{
+			trace("Custom HTTP Headers");
+			var chttp:Dictionary = new Dictionary();
+			chttp["Date"] = "Thurs, 23 December 2010 12:00:00 GMT-5";
+			chttp["Server"] = "";
+			chttp["Last-Modified"] = "";
+			chttp["Content-Length"] = "";
+			chttp["Content-Type"] = "";
+			webView.customHTTPHeaders(chttp);
+			
+		}
 	}
 }
