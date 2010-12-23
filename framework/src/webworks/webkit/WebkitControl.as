@@ -25,18 +25,18 @@ package webworks.webkit
 	import flash.utils.Timer;
 	
 	import qnx.display.IowWindow;
-	import qnx.events.JavaScriptResultEvent;
-	import qnx.events.WebViewEvent;
-	import qnx.events.JavaScriptCallbackEvent;
 	import qnx.events.ExtendedLocationChangeEvent;
+	import qnx.events.JavaScriptCallbackEvent;
+	import qnx.events.JavaScriptResultEvent;
 	import qnx.events.NetworkResourceRequestedEvent;
 	import qnx.events.UnknownProtocolEvent;
-
+	import qnx.events.WebViewEvent;
 	import qnx.media.QNXStageWebView;
 	
 	import webworks.access.Access;
 	import webworks.config.ConfigConstants;
 	import webworks.config.ConfigData;
+	import webworks.extension.AppNameSpaceGenerator;
 	import webworks.policy.WidgetPolicy;
 	import webworks.util.Utilities;
 	
@@ -70,12 +70,35 @@ package webworks.webkit
 //
 			webView.addEventListener(LocationChangeEvent.LOCATION_CHANGING, locationChanging);
 			webView.addEventListener(LocationChangeEvent.LOCATION_CHANGE, locationChanged); 
+//			webView.addEventListener(JavaScriptCallbackEvent.JAVASCRIPT_CALLBACK, jsMethodCalled);
+//			webView.addEventListener(JavaScriptResultEvent.JAVASCRIPT_RESULT, jsExeced);	
 //			webView.addEventListener(HtmlEvent.HTML_DOM_INITIALIZED, domInitialized);
             webView.addEventListener(WebViewEvent.CREATED, htmlEventBrowserCreated);
 //            webView.addEventListener(HtmlEvent.HTML_BROWSER_CREATE_FAILED, htmlEventHandler);
 			//webView.addEventListener(QNXRequestEvent, requestHandler); //the event need to be defined by webkit
 			webView.addEventListener(NetworkResourceRequestedEvent.NETWORK_RESOURCE_REQUESTED, networkResourceRequested);
 			webView.addEventListener(UnknownProtocolEvent.UNKNOWN_PROTOCOL, handleUnknownProtocol);
+			webView.addEventListener(WebViewEvent.DOCUMENT_LOAD_FINISHED, windowCleared);
+			
+		}
+		
+		private function windowCleared(event:WebViewEvent):void
+		{
+			var appNSGen:AppNameSpaceGenerator = new AppNameSpaceGenerator(ConfigData.getInstance().properties);
+			var myJsonProperties:String = appNSGen.appDataJson;
+			//var myJsonProperties:String = "{author:'Jason'}";
+			
+			webView.executeJavaScript("alert('Blackberry: '+blackberry);");
+			webView.executeJavaScript("alert('Blackberry.app: '+blackberry.app);");
+			//var js:String = "(function() {var json = arguments[0]; for(var prop in json) { if(json.hasOwnProperty(prop)) {blackberry.app.__defineGetter__(prop, function() { return json[prop]; });}}})(" + myJsonProperties + ");";
+			var js:String = "(function() {var json = arguments[0]; var json = arguments[0];var oldApp = blackberry.app;blackberry.app = json;blackberry.app.exit = oldApp.exit;})(" + myJsonProperties + ");";
+			//var js:String = "(function() { var json = arguments[0]; for(var prop in json) { alert('json[prop]='+json[prop]); blackberry.app[prop] = json[prop];} alert('2'); })(" + myJsonProperties + ");";
+			trace(js);
+			webView.executeJavaScript(js); // + myJsonProperties + ");");
+			//webView.executeJavaScript("function() { alert('arguments[0]' + arguments[0]); var json = arguments[0]; }(" + myJsonProperties + ");");
+			//for(prop in json) { blackberry.app[prop] = json[prop];}
+			//webView.executeJavaScript("blackberry.app = {author  : 'Jason'};");
+			trace(event.toString());			
 		}
 
 		private function networkResourceRequested(event:NetworkResourceRequestedEvent):void
@@ -90,8 +113,8 @@ package webworks.webkit
 			trace("handleUnknownProtocol: " + event.url);
 			dispatchEvent(new WebkitEvent(WebkitEvent.TAB_UNKNOWNPROTOCOL, event.url));
 			Utilities.alert("handleUnknownProtocol: " + event.url, webView);
-		}
-			
+		}		
+		
 		private function loadComplete(event:Event):void
 		{
 			trace("Load Complete");
@@ -149,7 +172,7 @@ package webworks.webkit
 			trace("Go function called: " + address);
 			webView.loadURL(address);
 		}
-
+		
 		public function executeJavaScript(js:String):void
 		{
 			webView.executeJavaScript(js);
