@@ -57,7 +57,6 @@ package
 	
  		private static var broker:FunctionBroker = new FunctionBroker();
 		
-		private var javascriptLoader:JavaScriptLoader;
 		
 		public function WebWorksAppTemplate() 
         {			
@@ -126,7 +125,7 @@ package
         {
             var creationID:Number = int(Math.random() * 1000000) + new Date().time;
             webWindow = new WebkitControl(creationID, 0, 0, stage.stageWidth,  stage.stageHeight);
-			javascriptLoader = new JavaScriptLoader(webWindow);
+			
 			webWindow.addEventListener(WebkitEvent.TAB_LOAD_COMPLETE, tabLoadComplete);
 			webWindow.addEventListener(WebkitEvent.TAB_LOAD_ERROR, 	webkitLoadError);
 //            webWindow.addEventListener(WebkitEvent.HTML_BROWSER_CREATE_FAILED, 	webkitWindowFailed);
@@ -188,7 +187,7 @@ package
 			if ( qnxEvent == null )
 				return;			
 			var url:String = qnxEvent.location; 
-			javascriptLoader.registerJavaScript(url);			
+					
 			// add loading screen only if the location changes
 			if (  url.search(webWindow.qnxWebView.location) < 0 )
 				loadingScreen.show(url);
