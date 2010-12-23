@@ -1,0 +1,40 @@
+<project>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>net.rim.snarf</groupId>
+    <artifactId>snarf</artifactId>
+    <version>1.0.0.1</version>
+    <name>${project.artifactId}-${project.version}</name>
+    <packaging>pom</packaging>
+
+	<modules>
+		<module>packager</module>
+		<module>framework</module>
+		<module>installer</module>
+	</modules>
+
+	<properties>
+	</properties>
+
+    <distributionManagement>
+       <repository>
+         <id>staging</id>
+         <name>Rim Internal Releases</name>
+         <url>http://maven.rim.net/nexus/service/local/staging/deploy/maven2</url>
+       </repository>
+
+       <snapshotRepository>
+         <id>waterloo-snapshots</id>
+         <name>Rim Internal Snapshots</name>
+         <url>http://maven.rim.net/nexus/content/repositories/waterloo-snapshots</url>
+       </snapshotRepository>
+
+       <site>
+         <id>rim-dev-site</id>
+         <name>Rim Internal Site</name>
+         <url>dav:http://maven.rim.net:8081/nexus/content/sites/rim-dev-site/${project.groupId}</url>
+       </site>
+    </distributionManagement>
+
+
+
+</project>

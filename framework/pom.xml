@@ -1,0 +1,97 @@
+<project>
+	<parent>
+		<groupId>net.rim.snarf</groupId>
+		<artifactId>snarf</artifactId>
+		<version>1.0.0.1</version>
+	</parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>framework</artifactId>
+	<version>${project.parent.version}-SNAPSHOT</version>
+	<name>${project.artifactId}-${project.version}</name>
+	<packaging>pom</packaging>
+
+	<properties>
+		<nativeLauncher.dir>${project.build.directory}/launcher</nativeLauncher.dir>
+		<bbwpjar.dir>${project.build.directory}/bbwpjar</bbwpjar.dir>
+	</properties>
+
+    <build>
+        <!--<sourceDirectory>src</sourceDirectory>-->
+        <directory>target</directory>
+        <finalName>WebWorksForPlaybook</finalName>
+
+        <plugins>	  
+			  <plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+				  <execution>
+					<id>copy</id>
+					<phase>prepare-package</phase>
+					<goals>
+					  <goal>copy</goal>
+					</goals>
+					<configuration>
+					  <artifactItems>
+						<artifactItem>
+						  <groupId>net.rim.snarf</groupId>
+						  <artifactId>winexe</artifactId>
+						  <version>1.0.1</version>
+						  <type>exe</type>
+						  <overWrite>true</overWrite>
+						  <outputDirectory>${nativeLauncher.dir}</outputDirectory>
+						  <destFileName>bbwp.exe</destFileName>
+						</artifactItem>
+
+						<artifactItem>
+						  <groupId>net.rim.snarf</groupId>
+						  <artifactId>macexe</artifactId>
+						  <version>1.0.1</version>
+						  <type>exe</type>
+						  <overWrite>true</overWrite>
+						  <outputDirectory>${nativeLauncher.dir}</outputDirectory>
+						  <destFileName>bbwp</destFileName>
+						</artifactItem>
+
+						<artifactItem>
+						  <groupId>net.rim.snarf</groupId>
+						  <artifactId>packager</artifactId>
+						  <version>${project.parent.version}-SNAPSHOT</version>
+						  <type>jar</type>
+						  <overWrite>true</overWrite>
+						  <outputDirectory>${bbwpjar.dir}</outputDirectory>
+						  <destFileName>bbwp.jar</destFileName>
+						</artifactItem>
+
+					  </artifactItems>
+					  <!-- other configurations here -->
+					</configuration>
+				  </execution>
+				</executions>
+			  </plugin>
+
+            <plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.2</version>
+				<executions>
+				  <execution>
+					<id>assembly</id>
+					<phase>package</phase>
+					<goals>
+					  <goal>single</goal>
+					</goals>
+					<configuration>          
+						<descriptors>
+							<descriptor>dist.xml</descriptor>
+						</descriptors>
+						<appendAssemblyId>false</appendAssemblyId> 
+					</configuration>
+				  </execution>
+				</executions>
+            </plugin>       
+
+        </plugins>
+    </build>
+</project>

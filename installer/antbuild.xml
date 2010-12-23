@@ -1,0 +1,102 @@
+<?xml version="1.0"?>
+
+<project name="BlackBerry WebWorks Installer" basedir="." default="dist-full">
+
+    <property name="IA.installation.dir" value="C:/Program Files/InstallAnywhere 2010 Enterprise"/> <!-- the default value -->
+	<property name="dist.installer.dir" value="dist-installer"/> <!-- the default value, should be set by caller -->
+	<property name="webworksZipPackage.path" value="WebWorksForPlaybook.zip"/> <!-- the default value, should be set by caller -->
+	
+	
+    <!-- Define installer information -->
+    <property name="installer.dir" value="${basedir}"/>
+    <property name="installer.data.dir" value="${installer.dir}/installerdata"/>
+	<property name="installer.data.bbwp.dir" value="${installer.data.dir}/bbwp"/>
+
+	<taskdef name="IABuildInstallerTask"
+		classname="com.zerog.ia.integration.ant.InstallAnywhereAntTask"
+		classpath="${IA.installation.dir}/resource/build/iaant.jar"/>
+
+    <!-- End of defining installer information -->
+    
+    <!-- ###################################################################
+          Main Targets
+         ################################################################### -->
+
+    <!-- ===================================================================
+          init target to creat required directories
+         =================================================================== -->
+	<target name="init">
+		<!--<antcall target="echoProperties" />-->
+    	<tstamp/>
+		
+		<delete dir="${installer.data.bbwp.dir}" quiet="true"/>
+    	<mkdir dir="${installer.data.bbwp.dir}"/>
+	</target>
+
+	
+	<target name="prepareDependencies">
+		<echo message="webworksZipPackage.path: ${webworksZipPackage.path}"/>
+		<echo message="webworksZipPackage.dir: ${webworksZipPackage.dir}"/>
+
+		<unzip src="${webworksZipPackage.path}" dest="${installer.data.bbwp.dir}"/>
+
+		<mkdir dir="${installer.data.bbwp.dir}/device_templates"/>
+		<mkdir dir="${installer.data.bbwp.dir}/ext"/>
+	</target>
+
+    
+    <!-- ===================================================================
+          dist-full target for scm build
+         =================================================================== -->
+	<target name="dist-full" depends="init" >
+		
+		<antcall target="prepareDependencies"/>
+
+		<!-- build Spider full installer -->
+		<antcall target="buildFullInstaller" />
+	</target>
+	
+
+	<!-- ===================================================================
+          create Spider-Full installer
+         =================================================================== -->
+	<target name="buildFullInstaller">
+		<delete>
+			<fileset dir="." includes="blackberry_tablet_sdk_Build_Output/**/*"/>
+		</delete>
+		
+		<!--  Create installer and move it to specified folder  -->
+		<IABuildInstallerTask
+			IAlocation="${IA.installation.dir}"
+			IAProjectFile="${installer.dir}/blackberry_tablet_sdk.iap_xml" >
+		</IABuildInstallerTask>
+		<!--  
+		<move tofile="${param.dest.dir}/${param.installer.name}" flatten="true">
+	  		<fileset dir="${installer.builderScript.dir}">
+				<include name="**/VM/*.exe"/>
+			</fileset>
+		</move>
+		-->
+
+	</target>
+
+
+
+    <!-- ===================================================================
+          Echo properties
+         =================================================================== -->
+	<!--<target name="echoProperties">
+		<echo message="******Current System Properities: Begin*********"/>
+		<echo message="java.version= ${java.version}"/>
+		<echo message="ant.version= ${ant.version}"/>
+		<echo message="ant.java.version= ${ant.java.version}"/>
+		<echo message="******Current System Properities: End***********"/>
+	</target>-->
+
+    <!-- ===================================================================
+          for test purpose
+         =================================================================== -->
+	<target name="test">
+	</target>
+
+</project>

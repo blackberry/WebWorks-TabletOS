@@ -25,12 +25,13 @@ import webworks.config.ConfigConstants;
         public static const values:Object = {
 
         "configXML" : "config.xml",
-        "content" : "index.html", //"http://www.google.com",
+        "content" : "http://www.google.com", //"index.html",
         "author" : "Lev",
         "name" : "invoked3.1.5step1",
         "foregroundSource" : "http://www.google.com",
         "icon" : "icon.jpg",
         "disableAllCache" :  true,
+		"hasMultiAccess" : true, // Boolean
         "accessList" : new Array(
                 new Access(
                     "file:///mlc/sandboxes/guest",
