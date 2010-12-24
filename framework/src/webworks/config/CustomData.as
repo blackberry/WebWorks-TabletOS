@@ -19,10 +19,12 @@ package webworks.config
 	
 	import webworks.access.Access;
 	import webworks.access.Feature;
+	
+	/* UNCOMMENT HERE
 	import webworks.extension.blackberry.Invoke.Invoke;
 	import webworks.extension.blackberry.Application.Application;
 	import webworks.extension.blackberry.System; 
-	
+	*/
 	public class CustomData
 	{ 
 		// constants
@@ -157,6 +159,7 @@ package webworks.config
 				)
 			),
 			
+			/* UNCOMMENT HERE
 			"widgetExtensions" : new Array( {"class" : new Invoke(), 
 				"requiredJSFiles" : new Array("js/a_constants.js", "js/b_blackberry_ns.js","js/c_xhr.js","js/d_app_dispatcher.js","js/e_app_ns.js", "js/utilities_ns.js", "js/system_dispatcher.js", "js/system_ns.js")},
 				{"class" : new Application(), 
@@ -164,7 +167,7 @@ package webworks.config
 				{"class" : new System(), 
 					"requiredJSFiles" : new Array("js/a_constants.js", "js/b_blackberry_ns.js","js/c_xhr.js","js/d_app_dispatcher.js","js/e_app_ns.js", "js/utilities_ns.js", "js/system_dispatcher.js", "js/system_ns.js")}
 				
-			),
+			),*/
 			"name" : "value"
 		}
 	}
