@@ -156,15 +156,14 @@ package webworks.webkit
 		{
 			trace("networkResourceRequested: " + event.url);
 			dispatchEvent(new WebkitEvent(WebkitEvent.TAB_NETWORKRESOURCEREQUESTED, event.url));
-			Utilities.alert("networkResourceRequested: " + event.url, webView);
+			//Utilities.alert("networkResourceRequested: " + event.url, webView);
 		}
 		
 		private function handleUnknownProtocol(event:UnknownProtocolEvent):void
 		{
 			trace("handleUnknownProtocol: " + event.url);
-			
 			dispatchEvent(new WebkitEvent(WebkitEvent.TAB_UNKNOWNPROTOCOL, event.url));
-//			Utilities.alert("handleUnknownProtocol: " + event.url, webView);
+			//Utilities.alert("handleUnknownProtocol: " + event.url, webView);
 		}		
 		
 		private function loadComplete(event:Event):void
