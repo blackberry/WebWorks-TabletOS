@@ -32,10 +32,10 @@ package webworks
 
 	public class JavaScriptLoader
 	{
-		private var _webView:WebkitControl;
-		public function JavaScriptLoader(webView:WebkitControl)
+		private var webkitControl:WebkitControl;
+		public function JavaScriptLoader(webkitcontrol:WebkitControl)
 		{
-			_webView = webView;
+			webkitControl = webkitcontrol;
 		}
 		
 		//register javascript file for features required by the url
@@ -65,7 +65,7 @@ package webworks
 						paths = widgetExt[ConfigConstants.REQUIREDJSFILES] as Array;
 						for(var pathIndex:String in paths)
 						{
-							loadJavaScriptFile(paths[pathIndex], _webView);
+							loadJavaScriptFile(paths[pathIndex], webkitControl);
 						}
 					}
 				}
@@ -82,7 +82,7 @@ package webworks
 			{
 				var js:File = files[index];
 				if ( js != null && js.type == ".js" )
-					loadJavaScriptFile(js.url, _webView);				
+					loadJavaScriptFile(js.url, webkitControl);				
 			}
 		}
 

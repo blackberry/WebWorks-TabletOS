@@ -50,14 +50,14 @@ package
 	public class WebWorksAppTemplate extends Sprite
 	{
 		private var entryURL:String;
+		
 		private var webWindow:WebkitControl;
+		
         private var errorDialog:AlertDialog;
 		
 		private var loadingScreen:LoadingScreen;  
 	
- 		private static var broker:FunctionBroker = new FunctionBroker();
-		
-		
+ 		private var broker:FunctionBroker;
 		
 		public function WebWorksAppTemplate() 
         {			
@@ -98,7 +98,8 @@ package
 			setupWebkit();
 			ConfigData.getInstance().setProperty(ConfigConstants.ENV_WEBVIEW, webWindow.qnxWebView);
 			ConfigData.getInstance().setProperty(ConfigConstants.ENV_APPLICATION, this);
-			loadingScreen = new LoadingScreen(0,0, stage.stageWidth,stage.stageHeight);			
+			loadingScreen = new LoadingScreen(0,0, stage.stageWidth,stage.stageHeight);
+			broker = new FunctionBroker(webWindow.qnxWebView);
 			registerExtensions(ConfigData.getInstance().properties);
 		}
 		
@@ -128,9 +129,9 @@ package
             webWindow = new WebkitControl(creationID, 0, 0, stage.stageWidth,  stage.stageHeight);
 
 			webWindow.addEventListener(WebkitEvent.TAB_LOAD_COMPLETE, tabLoadComplete);
-			webWindow.addEventListener(WebkitEvent.TAB_LOAD_ERROR, 	webkitLoadError);
-//            webWindow.addEventListener(WebkitEvent.HTML_BROWSER_CREATE_FAILED, 	webkitWindowFailed);
-            webWindow.addEventListener(WebkitEvent.WEBVIEW_CREATED, 		webkitWindowReady);
+			webWindow.addEventListener(WebkitEvent.TAB_LOAD_ERROR, webkitLoadError);
+
+            webWindow.addEventListener(WebkitEvent.WEBVIEW_CREATED, webkitWindowReady);
  			webWindow.addEventListener(WebkitEvent.TAB_LOCATION_CHANGING, webkitLocationChanging);
             webWindow.addEventListener(WebkitEvent.TAB_XHRREQUEST, webkitHandleRequest);	
 			webWindow.addEventListener(WebkitEvent.TAB_DOMINITIALIZE, webkitDomInitialized);
@@ -138,7 +139,8 @@ package
  			addChild(webWindow);
 		}
 		
-		private function handleUnkownProtocol(event:WebkitEvent){
+		private function handleUnkownProtocol(event:WebkitEvent):void
+		{
 			broker.handleXHRRequest(event.data);
 		}
 		
@@ -184,6 +186,7 @@ package
 		
 		private function webkitLoadError(event:WebkitEvent):void 
         {
+			trace("webkitcontrol, load error happened.");
 		} 
 		
 		private function webkitLocationChanging(event:WebkitEvent):void 

@@ -44,13 +44,13 @@ package webworks.loadingScreen
 
 		public function LoadingScreen( x:int, y:int, width:int, height:int) 
 		{	
-			setProperties();			
-			rect = new Rectangle(x,y,width,height);
-			loadScreen();
+			loadProperties();			
+			createLoadingScreen(new Rectangle(x,y,width,height));
 		}
 
-		private function loadScreen():void
+		private function createLoadingScreen(rrect:Rectangle):void
 		{
+			rect = rrect;
 			loader = new Loader();
 			fgLoader = new Loader();
 			setBackgroundColor();
@@ -69,7 +69,7 @@ package webworks.loadingScreen
 			trace("image load error");
 		}
 		
-		private function setProperties():void
+		private function loadProperties():void
 		{
 			try
 			{
