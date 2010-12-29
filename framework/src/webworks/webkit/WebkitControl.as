@@ -67,7 +67,7 @@ package webworks.webkit
 			webView = new QNXStageWebView();
 			webView.stage = this.stage;
 			webView.viewPort = new Rectangle(defaults.x, defaults.y, defaults.width, defaults.height);
-			
+			webView.enableCrossSiteXHR = true;
 			javascriptLoader = new JavaScriptLoader(this);
 			
 			webView.addEventListener(ErrorEvent.ERROR, loadError);
@@ -119,8 +119,9 @@ package webworks.webkit
 		private function handleUnknownProtocol(event:UnknownProtocolEvent):void
 		{
 			trace("handleUnknownProtocol: " + event.url);
+			
 			dispatchEvent(new WebkitEvent(WebkitEvent.TAB_UNKNOWNPROTOCOL, event.url));
-			Utilities.alert("handleUnknownProtocol: " + event.url, webView);
+//			Utilities.alert("handleUnknownProtocol: " + event.url, webView);
 		}		
 		
 		private function loadComplete(event:Event):void
@@ -196,7 +197,7 @@ package webworks.webkit
 			return webView;
 		}
 
-		private function onJavaScriptWindowObjectCleared(event:WebkitEvent):void{
+		private function onJavaScriptWindowObjectCleared(event:WebViewEvent):void{
 			javascriptLoader.registerJavaScript(webView.location);
 		}
 		
@@ -209,7 +210,8 @@ package webworks.webkit
 			chttp["Last-Modified"] = "";
 			chttp["Content-Length"] = "";
 			chttp["Content-Type"] = "";
-			webView.customHTTPHeaders(chttp);
+			//webView.customHTTPHeaders(chttp);
+			
 		}
 	}
 }

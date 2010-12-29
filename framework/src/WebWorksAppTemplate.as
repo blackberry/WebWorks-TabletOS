@@ -28,11 +28,11 @@ package
 	import flash.utils.Dictionary;
 	
 	import qnx.dialog.AlertDialog;
-    import qnx.display.IowWindow;
 	import qnx.dialog.DialogSize;
-	import qnx.events.WebViewEvent;
-	import qnx.events.JavaScriptCallbackEvent;
+	import qnx.display.IowWindow;
 	import qnx.events.ExtendedLocationChangeEvent;
+	import qnx.events.JavaScriptCallbackEvent;
+	import qnx.events.WebViewEvent;
 	
 	import webworks.FunctionBroker;
 	import webworks.JavaScriptLoader;
@@ -134,8 +134,14 @@ package
  			webWindow.addEventListener(WebkitEvent.TAB_LOCATION_CHANGING, webkitLocationChanging);
             webWindow.addEventListener(WebkitEvent.TAB_XHRREQUEST, webkitHandleRequest);	
 			webWindow.addEventListener(WebkitEvent.TAB_DOMINITIALIZE, webkitDomInitialized);
+			webWindow.addEventListener(WebkitEvent.TAB_UNKNOWNPROTOCOL, handleUnkownProtocol)
  			addChild(webWindow);
 		}
+		
+		private function handleUnkownProtocol(event:WebkitEvent){
+			broker.handleXHRRequest(event.data);
+		}
+		
 		
 		private function webkitDomInitialized(event:WebkitEvent):void
 		{

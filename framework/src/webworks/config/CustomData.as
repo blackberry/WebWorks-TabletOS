@@ -25,7 +25,7 @@ import webworks.config.ConfigConstants;
         public static const values:Object = {
 
         "configXML" : "config.xml",
-        "content" : "http://www.google.com", //"index.html",
+        "content" : "http://atg05-yyz.rim.net/yui/xhr.html", //"index.html",
         "author" : "Lev",
         "name" : "invoked3.1.5step1",
         "foregroundSource" : "http://www.google.com",
