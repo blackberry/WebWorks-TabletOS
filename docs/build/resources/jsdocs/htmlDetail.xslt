@@ -85,15 +85,13 @@
             </a>
           </h3>
           <xsl:choose>
-            <xsl:when test="@interface = 'true'">
-              <xsl:call-template name="functionDetails"/>
-            </xsl:when>
-            <xsl:otherwise>
+            <xsl:when test="@interface = 'false'">
               <xsl:call-template name="fieldDetails"/>
-            </xsl:otherwise>
+            </xsl:when>
           </xsl:choose>
-          
-          
+		  <xsl:for-each select="functions/func">
+			<xsl:call-template name="functionDetails"/>
+		  </xsl:for-each>
         </xsl:for-each>
       </xsl:when>
       <xsl:otherwise>

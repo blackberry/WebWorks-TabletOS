@@ -164,7 +164,8 @@ package webworks.loadingScreen
 		{
 			if ( onFirstLaunch && isFirstLaunch )
 			{
-			    //app.addChild(this);
+			    app.addChild(this);
+				webView.zOrder = 0;
 			    //webView.moveBehind();
 			}
 		}
@@ -173,7 +174,8 @@ package webworks.loadingScreen
 		{
 			if ( isLoadingScreenRequired(url))
 			{
-				//app.addChild(this);
+				app.addChild(this);
+				webView.zOrder = 0;
 				//webView.moveBehind();
 			}
 		}
@@ -182,7 +184,8 @@ package webworks.loadingScreen
 		{
 			if ( app.contains(this))
 			{
-		        //app.removeChild(this);
+		        app.removeChild(this);
+				webView.zOrder = 1;
 		        //webView.moveAhead();
 			}
 		}

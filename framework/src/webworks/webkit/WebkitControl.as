@@ -22,7 +22,11 @@ package webworks.webkit
 	import flash.events.LocationChangeEvent;
 	import flash.events.TimerEvent;
 	import flash.geom.Rectangle;
+	import flash.net.NetworkInfo;
+	import flash.net.NetworkInterface;
 	import flash.utils.Timer;
+	
+	import mx.core.EventPriority;
 	
 	import qnx.display.IowWindow;
 	import qnx.events.ExtendedLocationChangeEvent;
@@ -38,6 +42,7 @@ package webworks.webkit
 	import webworks.config.ConfigConstants;
 	import webworks.config.ConfigData;
 	import webworks.extension.AppNameSpaceGenerator;
+	import webworks.extension.SystemNameSpaceGenerator;
 	import webworks.policy.WidgetPolicy;
 	import webworks.util.Utilities;
 	
@@ -83,30 +88,68 @@ package webworks.webkit
 			//webView.addEventListener(QNXRequestEvent, requestHandler); //the event need to be defined by webkit
 			webView.addEventListener(NetworkResourceRequestedEvent.NETWORK_RESOURCE_REQUESTED, networkResourceRequested);
 			webView.addEventListener(UnknownProtocolEvent.UNKNOWN_PROTOCOL, handleUnknownProtocol);
-
 			webView.addEventListener(WebViewEvent.JAVA_SCRIPT_WINDOW_OBJECT_CLEARED, onJavaScriptWindowObjectCleared);
 
-			webView.addEventListener(WebViewEvent.DOCUMENT_LOAD_FINISHED, windowCleared);
+			webView.addEventListener(WebViewEvent.DOCUMENT_LOAD_FINISHED, documentLoadFinished);
+
 			
+			//Temp workaround code
+			webView.addEventListener(Event.NETWORK_CHANGE, onNetworkChange);
 		}
 		
-		private function windowCleared(event:WebViewEvent):void
+		private function documentLoadFinished(event:WebViewEvent):void
 		{
-			var appNSGen:AppNameSpaceGenerator = new AppNameSpaceGenerator(ConfigData.getInstance().properties);
-			var myJsonProperties:String = appNSGen.appDataJson;
-			//var myJsonProperties:String = "{author:'Jason'}";
+			attachAppJsWorkaround();
 			
-			webView.executeJavaScript("alert('Blackberry: '+blackberry);");
-			webView.executeJavaScript("alert('Blackberry.app: '+blackberry.app);");
-			//var js:String = "(function() {var json = arguments[0]; for(var prop in json) { if(json.hasOwnProperty(prop)) {blackberry.app.__defineGetter__(prop, function() { return json[prop]; });}}})(" + myJsonProperties + ");";
+			attachSystemJsWorkaround();
+			
+			trace(event.toString());			
+		}
+		
+		private function onNetworkChange(event:Event):void {
+			saveDataConnectionStateJs(areNetworkInterfacesActive());
+		}
+		
+		private function areNetworkInterfacesActive():Boolean{
+			var areActive : Boolean = false;
+			
+			NetworkInfo.networkInfo.findInterfaces().every(
+				function callback(item:NetworkInterface, index:int, vector:Vector.<NetworkInterface>):Boolean {
+					areActive = item.active || areActive;
+					
+					return !areActive;
+				}, this);
+			
+			return areActive;
+		}
+		
+		private function saveDataConnectionStateJs(haveConnection : Boolean):void {
+			var haveCoverageJs : String = "blackberry.system.dataCoverage = " + haveConnection + ";";
+			trace(haveCoverageJs);
+			webView.executeJavaScript(haveCoverageJs);
+		}
+		
+		private function saveAccessListJs():void {
+			var sysNSGen:SystemNameSpaceGenerator = new SystemNameSpaceGenerator();
+			var accessListInitJs : String = "blackberry.system.accessList = " + sysNSGen.accessListJson + ";";
+			trace(accessListInitJs);
+			webView.executeJavaScript(accessListInitJs);
+		}
+		
+		private function attachSystemJsWorkaround():void{
+			saveAccessListJs();
+			saveDataConnectionStateJs(areNetworkInterfacesActive());
+		}
+		
+		private function attachAppJsWorkaround():void{
+			var appNSGen:AppNameSpaceGenerator = new AppNameSpaceGenerator(ConfigData.getInstance().properties);
+			var myJsonProperties:String = appNSGen.appDataJson;	
+			
 			var js:String = "(function() {var json = arguments[0]; var json = arguments[0];var oldApp = blackberry.app;blackberry.app = json;blackberry.app.exit = oldApp.exit;})(" + myJsonProperties + ");";
-			//var js:String = "(function() { var json = arguments[0]; for(var prop in json) { alert('json[prop]='+json[prop]); blackberry.app[prop] = json[prop];} alert('2'); })(" + myJsonProperties + ");";
+			
 			trace(js);
-			webView.executeJavaScript(js); // + myJsonProperties + ");");
-			//webView.executeJavaScript("function() { alert('arguments[0]' + arguments[0]); var json = arguments[0]; }(" + myJsonProperties + ");");
-			//for(prop in json) { blackberry.app[prop] = json[prop];}
-			//webView.executeJavaScript("blackberry.app = {author  : 'Jason'};");
-			trace(event.toString());
+			
+			webView.executeJavaScript(js);
 		}
 
 		private function networkResourceRequested(event:NetworkResourceRequestedEvent):void
@@ -132,7 +175,7 @@ package webworks.webkit
 		
 		private function loadError(event:Event):void
 		{
-			trace("Load error");
+			trace("Load error: " + event.toString());
 			dispatchEvent(new WebkitEvent(WebkitEvent.TAB_LOAD_ERROR));
 		}
 		
@@ -143,7 +186,7 @@ package webworks.webkit
 		
 		private function locationChanging(event:ExtendedLocationChangeEvent):void
 		{
-			trace("QNX Location Changing");
+			trace("QNX Location Changing: " + event.toString());
 			var config : ConfigData = ConfigData.getInstance();
 			var access : Access = config.getAccessByUrl(event.location);
 			if (access==null && event.location!="about:blank" && !config.getProperty(ConfigConstants.HASMULTIACCESS))
@@ -201,17 +244,6 @@ package webworks.webkit
 			javascriptLoader.registerJavaScript(webView.location);
 		}
 		
-		public function setCustomHeader(h : String):void
-		{
-			trace("Custom HTTP Headers");
-			var chttp:Dictionary = new Dictionary();
-			chttp["Date"] = "Thurs, 23 December 2010 12:00:00 GMT-5";
-			chttp["Server"] = "";
-			chttp["Last-Modified"] = "";
-			chttp["Content-Length"] = "";
-			chttp["Content-Type"] = "";
-			//webView.customHTTPHeaders(chttp);
-			
-		}
+
 	}
 }

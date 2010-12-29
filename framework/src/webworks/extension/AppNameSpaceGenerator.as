@@ -11,7 +11,7 @@ package webworks.extension
 		private var _appData:Object;
 		private var _jsonAppData:String;
 		
-		private const keys:Array = ["author","authorEmail","authorURL","copyright","description","id","isForeground","license","licenseURL","version","name"]; 
+		private const keys:Array = ["author","authorEmail","authorURL","copyright","description","id","license","licenseURL","version","name"]; 
 		
 		public function AppNameSpaceGenerator(appData:Dictionary)
 		{
