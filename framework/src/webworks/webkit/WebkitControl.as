@@ -189,12 +189,13 @@ package webworks.webkit
 		
 		private function locationChanged(event:ExtendedLocationChangeEvent):void
 		{
-			trace("Location Changed");
+			trace("QNX Location Changed: " + event.location);
+			dispatchEvent(new WebkitEvent(WebkitEvent.TAB_LOCATION_CHANGED, event));
 		}
 		
 		private function locationChanging(event:ExtendedLocationChangeEvent):void
 		{
-			trace("QNX Location Changing: " + event.toString());
+			trace("QNX Location Changing: " + event.location);
 			var config : ConfigData = ConfigData.getInstance();
 			var access : Access = config.getAccessByUrl(event.location);
 			if (access==null && event.location!="about:blank" && !config.getProperty(ConfigConstants.HASMULTIACCESS))
@@ -204,7 +205,7 @@ package webworks.webkit
 				Utilities.alert(event.location + " is not allowed", webView);
 			}
 			else
-				dispatchEvent(new WebkitEvent(WebkitEvent.TAB_LOCATION_CHANGING,event));		
+				dispatchEvent(new WebkitEvent(WebkitEvent.TAB_LOCATION_CHANGING, event));		
 		}
 		
 		private function domInitialized(event:WebViewEvent):void

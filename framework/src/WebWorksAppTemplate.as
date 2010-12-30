@@ -135,6 +135,7 @@ package
 
             webWindow.addEventListener(WebkitEvent.WEBVIEW_CREATED, webkitWindowReady);
  			webWindow.addEventListener(WebkitEvent.TAB_LOCATION_CHANGING, webkitLocationChanging);
+			webWindow.addEventListener(WebkitEvent.TAB_LOCATION_CHANGED, webkitLocationChanged);
             webWindow.addEventListener(WebkitEvent.TAB_XHRREQUEST, webkitHandleRequest);	
 			webWindow.addEventListener(WebkitEvent.TAB_DOMINITIALIZE, webkitDomInitialized);
 			webWindow.addEventListener(WebkitEvent.TAB_UNKNOWNPROTOCOL, handleUnkownProtocol)
@@ -169,9 +170,8 @@ package
 		private function tabLoadComplete(event:WebkitEvent):void 
         {
 			trace("HTML LOAD DONE");
-			loadingScreen.hide();
 		}
-		
+
 		private function webkitWindowReady(event:WebkitEvent):void 
         {
 			loadURL(entryURL);
@@ -197,7 +197,10 @@ package
 			//register javascript
 			var qnxEvent:ExtendedLocationChangeEvent = event.data as ExtendedLocationChangeEvent;
 			if ( qnxEvent == null )
-				return;			
+			{
+				return;
+			}
+			
 			var url:String = qnxEvent.location; 
 					
 			// add loading screen only if the location changes
@@ -210,6 +213,12 @@ package
 			{
 				loadingScreen.clearFirstLaunchFlag();
 			}
+		}
+		
+		private function webkitLocationChanged(event:WebkitEvent):void 
+		{
+			trace("webkitLocationChanged event");
+			loadingScreen.hide();
 		}
 			
 		public function loadURL(url:String):void 

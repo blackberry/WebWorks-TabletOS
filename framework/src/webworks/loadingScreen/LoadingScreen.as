@@ -128,7 +128,7 @@ package webworks.loadingScreen
 		private function backgroundImageLoadComplete(event:Event):void
 		{
 			source = event.target.content;
-			resize(rect.width);
+			resize(rect.width, rect.height, false);
 		}
 		
 		private function setBackgroundColor():void
