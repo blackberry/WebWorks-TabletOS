@@ -24,6 +24,7 @@ package webworks.webkit
 	import flash.geom.Rectangle;
 	import flash.net.NetworkInfo;
 	import flash.net.NetworkInterface;
+	import flash.utils.*;
 	import flash.utils.Timer;
 	
 	import mx.core.EventPriority;
@@ -46,8 +47,6 @@ package webworks.webkit
 	import webworks.policy.WidgetPolicy;
 	import webworks.util.Utilities;
 	
-	import flash.utils.*;
-	
 	public class WebkitControl extends Sprite
 	{
 		private var webView:QNXStageWebView;
@@ -67,13 +66,23 @@ package webworks.webkit
 			_init();
 		}
 		
-		private function _init():void
-		{
+		private function _init():void {
 			webView = new QNXStageWebView();
 			webView.stage = this.stage;
 			webView.viewPort = new Rectangle(defaults.x, defaults.y, defaults.width, defaults.height);
 			webView.enableCrossSiteXHR = true;
 			javascriptLoader = new JavaScriptLoader(this);
+			
+			// set custom headers
+			var customHeadersString:String = "";
+			var customHeaders:Object = ConfigData.getInstance().getProperty(ConfigConstants.CUSTOMHEADERS);
+			for (var customName:String in customHeaders) {
+				customHeadersString += customName + ":" + customHeaders[customName] + " ";
+			}
+			
+			if(customHeadersString.length > 0) {
+				webView.customHTTPHeaders = customHeadersString;
+			}
 			
 			webView.addEventListener(ErrorEvent.ERROR, loadError);
 			webView.addEventListener(Event.COMPLETE, loadComplete);

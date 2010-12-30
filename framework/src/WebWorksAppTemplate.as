@@ -49,6 +49,8 @@ package
 	[SWF(width="1024", height="600", frameRate="30", backgroundColor="#000000")]
 	public class WebWorksAppTemplate extends Sprite
 	{
+		private static var LOCAL_PROTOCOL:String = "local:///";
+		
 		private var entryURL:String;
 		
 		private var webWindow:WebkitControl;
@@ -208,8 +210,7 @@ package
 		public function loadURL(url:String):void 
         {
 			if (url.indexOf(":") < 0) {
-				// add "local:///" protocol to it, using file:/// now
-				url = File.applicationDirectory.nativePath + "/" + url;
+				url = LOCAL_PROTOCOL + url;
 			}
 			loadingScreen.showOnFirstLaunch();
 			webWindow.go(url);
