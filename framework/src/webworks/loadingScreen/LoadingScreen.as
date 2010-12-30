@@ -149,7 +149,7 @@ package webworks.loadingScreen
 			}
 		}
 		
-		private function isLoadingScreenRequired(url:String):Boolean 
+		public function isLoadingScreenRequired(url:String):Boolean 
 		{
 			// Skip the first time because it's controlled by onFirstLaunch
 			if ( !isFirstLaunch )
@@ -168,24 +168,10 @@ package webworks.loadingScreen
 			return false;
 		}
 		
-		public function showOnFirstLaunch():void
+		public function show():void
 		{
-			if ( onFirstLaunch )
-			{
-			    app.addChild(this);
-				webView.zOrder = 0;
-			    //webView.moveBehind();
-			}
-		}
-		
-		public function show(url:String):void
-		{
-			if ( isLoadingScreenRequired(url))
-			{
-				app.addChild(this);
-				webView.zOrder = 0;
-				//webView.moveBehind();
-			}
+			app.addChild(this);
+			webView.zOrder = -1;
 		}
 		
 		public function hide():void
@@ -193,12 +179,16 @@ package webworks.loadingScreen
 			if ( app.contains(this))
 			{
 		        app.removeChild(this);
-				webView.zOrder = 1;
-		        //webView.moveAhead();
+				webView.zOrder = 0;
 			}
 		}
 		
-		public function get firstLaunch():Boolean
+		public function get showOnFirstLaunch():Boolean
+		{
+			return onFirstLaunch;
+		}
+		
+		public function get firstLaunchFlag():Boolean
 		{
 			return isFirstLaunch;
 		}

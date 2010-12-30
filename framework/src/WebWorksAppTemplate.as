@@ -201,12 +201,12 @@ package
 			var url:String = qnxEvent.location; 
 					
 			// add loading screen only if the location changes
-			if ( url.search(webWindow.qnxWebView.location) < 0 )
+			if ( url.search(webWindow.qnxWebView.location) < 0 && loadingScreen.isLoadingScreenRequired(url))
 			{
-				loadingScreen.show(url);
+				loadingScreen.show();
 			}
 
-			if (loadingScreen.firstLaunch) 
+			if (loadingScreen.firstLaunchFlag) 
 			{
 				loadingScreen.clearFirstLaunchFlag();
 			}
@@ -217,7 +217,11 @@ package
 			if (url.indexOf(":") < 0) {
 				url = LOCAL_PROTOCOL + url;
 			}
-			loadingScreen.showOnFirstLaunch();
+			
+			if (loadingScreen.showOnFirstLaunch) {
+				loadingScreen.show();
+			}
+			
 			webWindow.go(url);
 		}
 	}
