@@ -201,10 +201,15 @@ package
 			var url:String = qnxEvent.location; 
 					
 			// add loading screen only if the location changes
-			if (  url.search(webWindow.qnxWebView.location) < 0 )
+			if ( url.search(webWindow.qnxWebView.location) < 0 )
+			{
 				loadingScreen.show(url);
-			else
+			}
+
+			if (loadingScreen.firstLaunch) 
+			{
 				loadingScreen.clearFirstLaunchFlag();
+			}
 		}
 			
 		public function loadURL(url:String):void 
