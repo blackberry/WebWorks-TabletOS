@@ -42,6 +42,7 @@ public class BBWPProperties {
     private static final String NODE_COPYRIGHT = "developer_cn_signature";
     private static final String NODE_AIR_TEMPLATE = "air_template";
     private static final String NODE_TABLET_SDK = "tablet_sdk";
+    private static final String NODE_EXTENSION_REPO = "extension_repository";
 
     private String          _rapc;
     private String          _javac;
@@ -54,6 +55,7 @@ public class BBWPProperties {
     private String			_copyright;
     private String        	_airTemplate;
     private String        	_tabletSDK;
+    private String        	_extensionRepo;
     
     public BBWPProperties(String bbwpProperties, String sessionHome) throws Exception {
         // parse bbwp.properties
@@ -99,6 +101,10 @@ public class BBWPProperties {
     
     public String getTabletSDK() {
         return _tabletSDK;
+    }
+    
+    public String getExtensionRepo() {
+    	return _extensionRepo;
     }
     
     private void validate() throws Exception {
@@ -188,7 +194,9 @@ public class BBWPProperties {
         _additional = "";
 
         _airTemplate = "";
-        _tabletSDK = "";        
+        _tabletSDK = "";
+        
+        _extensionRepo = "ext";
         
         if (dom == null)
             return;
@@ -275,12 +283,18 @@ public class BBWPProperties {
                             _copyright = childlist.item(j).getNodeValue();
                         }
                     }
-                }
-                else if (nodename.equals(NODE_TABLET_SDK)) {
+                } else if (nodename.equals(NODE_TABLET_SDK)) {
                     NodeList childlist = node.getChildNodes();
                     for (int j = 0; j < childlist.getLength(); j++) {
                         if (childlist.item(j).getNodeType() == Node.TEXT_NODE) {
                             _tabletSDK = childlist.item(j).getNodeValue();
+                        }
+                    }
+                } else if (nodename.equals(NODE_EXTENSION_REPO)) {
+                    NodeList childlist = node.getChildNodes();
+                    for (int j = 0; j < childlist.getLength(); j++) {
+                        if (childlist.item(j).getNodeType() == Node.TEXT_NODE) {
+                        	_extensionRepo = childlist.item(j).getNodeValue();
                         }
                     }
                 }
