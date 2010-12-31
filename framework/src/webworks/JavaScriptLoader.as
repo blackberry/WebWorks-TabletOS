@@ -32,6 +32,8 @@ package webworks
 
 	public class JavaScriptLoader
 	{
+		private static var globalSharedJSFolder:String = "js/sharedglobal/";
+		
 		private var webkitControl:WebkitControl;
 		public function JavaScriptLoader(webkitcontrol:WebkitControl)
 		{
@@ -41,7 +43,7 @@ package webworks
 		//register javascript file for features required by the url
 		public function registerJavaScript(url:String):void
 		{
-			//loadCommonJSFiles();
+			loadCommonJSFiles();
 			//insert js needed for feautes specified by the access
 			var access:Access = ConfigData.getInstance().getAccessByUrl(url);			
 			if ( access != null )
@@ -76,7 +78,7 @@ package webworks
 		private function loadCommonJSFiles():void
 		{
 			//loop through the js folder and load all the files
-			var file:File = File.applicationDirectory.resolvePath("js");
+			var file:File = File.applicationDirectory.resolvePath(globalSharedJSFolder);
 			var files:Array = file.getDirectoryListing();
 			for(var index:String in files)
 			{
