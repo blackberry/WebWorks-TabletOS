@@ -49,15 +49,17 @@ package
 	[SWF(width="1024", height="600", frameRate="30", backgroundColor="#000000")]
 	public class WebWorksAppTemplate extends Sprite
 	{
+		private static var LOCAL_PROTOCOL:String = "local:///";
+		
 		private var entryURL:String;
+		
 		private var webWindow:WebkitControl;
+		
         private var errorDialog:AlertDialog;
 		
 		private var loadingScreen:LoadingScreen;  
 	
- 		private static var broker:FunctionBroker = new FunctionBroker();
-		
-		
+ 		private var broker:FunctionBroker;
 		
 		public function WebWorksAppTemplate() 
         {			
@@ -98,7 +100,8 @@ package
 			setupWebkit();
 			ConfigData.getInstance().setProperty(ConfigConstants.ENV_WEBVIEW, webWindow.qnxWebView);
 			ConfigData.getInstance().setProperty(ConfigConstants.ENV_APPLICATION, this);
-			loadingScreen = new LoadingScreen(0,0, stage.stageWidth,stage.stageHeight);			
+			loadingScreen = new LoadingScreen(0,0, stage.stageWidth,stage.stageHeight);
+			broker = new FunctionBroker(webWindow.qnxWebView);
 			registerExtensions(ConfigData.getInstance().properties);
 		}
 		
@@ -128,17 +131,19 @@ package
             webWindow = new WebkitControl(creationID, 0, 0, stage.stageWidth,  stage.stageHeight);
 
 			webWindow.addEventListener(WebkitEvent.TAB_LOAD_COMPLETE, tabLoadComplete);
-			webWindow.addEventListener(WebkitEvent.TAB_LOAD_ERROR, 	webkitLoadError);
-//            webWindow.addEventListener(WebkitEvent.HTML_BROWSER_CREATE_FAILED, 	webkitWindowFailed);
-            webWindow.addEventListener(WebkitEvent.WEBVIEW_CREATED, 		webkitWindowReady);
+			webWindow.addEventListener(WebkitEvent.TAB_LOAD_ERROR, webkitLoadError);
+
+            webWindow.addEventListener(WebkitEvent.WEBVIEW_CREATED, webkitWindowReady);
  			webWindow.addEventListener(WebkitEvent.TAB_LOCATION_CHANGING, webkitLocationChanging);
+			webWindow.addEventListener(WebkitEvent.TAB_LOCATION_CHANGED, webkitLocationChanged);
             webWindow.addEventListener(WebkitEvent.TAB_XHRREQUEST, webkitHandleRequest);	
 			webWindow.addEventListener(WebkitEvent.TAB_DOMINITIALIZE, webkitDomInitialized);
 			webWindow.addEventListener(WebkitEvent.TAB_UNKNOWNPROTOCOL, handleUnkownProtocol)
  			addChild(webWindow);
 		}
 		
-		private function handleUnkownProtocol(event:WebkitEvent){
+		private function handleUnkownProtocol(event:WebkitEvent):void
+		{
 			broker.handleXHRRequest(event.data);
 		}
 		
@@ -165,9 +170,8 @@ package
 		private function tabLoadComplete(event:WebkitEvent):void 
         {
 			trace("HTML LOAD DONE");
-			loadingScreen.hide();
 		}
-		
+
 		private function webkitWindowReady(event:WebkitEvent):void 
         {
 			loadURL(entryURL);
@@ -184,6 +188,7 @@ package
 		
 		private function webkitLoadError(event:WebkitEvent):void 
         {
+			trace("webkitcontrol, load error happened.");
 		} 
 		
 		private function webkitLocationChanging(event:WebkitEvent):void 
@@ -192,23 +197,40 @@ package
 			//register javascript
 			var qnxEvent:ExtendedLocationChangeEvent = event.data as ExtendedLocationChangeEvent;
 			if ( qnxEvent == null )
-				return;			
+			{
+				return;
+			}
+			
 			var url:String = qnxEvent.location; 
 					
 			// add loading screen only if the location changes
-			if (  url.search(webWindow.qnxWebView.location) < 0 )
-				loadingScreen.show(url);
-			else
+			if ( url.search(webWindow.qnxWebView.location) < 0 && loadingScreen.isLoadingScreenRequired(url))
+			{
+				loadingScreen.show();
+			}
+
+			if (loadingScreen.firstLaunchFlag) 
+			{
 				loadingScreen.clearFirstLaunchFlag();
+			}
+		}
+		
+		private function webkitLocationChanged(event:WebkitEvent):void 
+		{
+			trace("webkitLocationChanged event");
+			loadingScreen.hide();
 		}
 			
 		public function loadURL(url:String):void 
         {
 			if (url.indexOf(":") < 0) {
-				// add "local:///" protocol to it, using file:/// now
-				url = File.applicationDirectory.nativePath + "/" + url;
+				url = LOCAL_PROTOCOL + url;
 			}
-			loadingScreen.showOnFirstLaunch();
+			
+			if (loadingScreen.showOnFirstLaunch) {
+				loadingScreen.show();
+			}
+			
 			webWindow.go(url);
 		}
 	}

@@ -24,6 +24,7 @@ package webworks.webkit
 	import flash.geom.Rectangle;
 	import flash.net.NetworkInfo;
 	import flash.net.NetworkInterface;
+	import flash.utils.*;
 	import flash.utils.Timer;
 	
 	import mx.core.EventPriority;
@@ -46,8 +47,6 @@ package webworks.webkit
 	import webworks.policy.WidgetPolicy;
 	import webworks.util.Utilities;
 	
-	import flash.utils.*;
-	
 	public class WebkitControl extends Sprite
 	{
 		private var webView:QNXStageWebView;
@@ -67,13 +66,23 @@ package webworks.webkit
 			_init();
 		}
 		
-		private function _init():void
-		{
+		private function _init():void {
 			webView = new QNXStageWebView();
 			webView.stage = this.stage;
 			webView.viewPort = new Rectangle(defaults.x, defaults.y, defaults.width, defaults.height);
 			webView.enableCrossSiteXHR = true;
 			javascriptLoader = new JavaScriptLoader(this);
+			
+			// set custom headers
+			var customHeadersString:String = "";
+			var customHeaders:Object = ConfigData.getInstance().getProperty(ConfigConstants.CUSTOMHEADERS);
+			for (var customName:String in customHeaders) {
+				customHeadersString += customName + ":" + customHeaders[customName] + " ";
+			}
+			
+			if(customHeadersString.length > 0) {
+				webView.customHTTPHeaders = customHeadersString;
+			}
 			
 			webView.addEventListener(ErrorEvent.ERROR, loadError);
 			webView.addEventListener(Event.COMPLETE, loadComplete);
@@ -156,15 +165,14 @@ package webworks.webkit
 		{
 			trace("networkResourceRequested: " + event.url);
 			dispatchEvent(new WebkitEvent(WebkitEvent.TAB_NETWORKRESOURCEREQUESTED, event.url));
-			Utilities.alert("networkResourceRequested: " + event.url, webView);
+			//Utilities.alert("networkResourceRequested: " + event.url, webView);
 		}
 		
 		private function handleUnknownProtocol(event:UnknownProtocolEvent):void
 		{
 			trace("handleUnknownProtocol: " + event.url);
-			
 			dispatchEvent(new WebkitEvent(WebkitEvent.TAB_UNKNOWNPROTOCOL, event.url));
-//			Utilities.alert("handleUnknownProtocol: " + event.url, webView);
+			//Utilities.alert("handleUnknownProtocol: " + event.url, webView);
 		}		
 		
 		private function loadComplete(event:Event):void
@@ -181,12 +189,13 @@ package webworks.webkit
 		
 		private function locationChanged(event:ExtendedLocationChangeEvent):void
 		{
-			trace("Location Changed");
+			trace("QNX Location Changed: " + event.location);
+			dispatchEvent(new WebkitEvent(WebkitEvent.TAB_LOCATION_CHANGED, event));
 		}
 		
 		private function locationChanging(event:ExtendedLocationChangeEvent):void
 		{
-			trace("QNX Location Changing: " + event.toString());
+			trace("QNX Location Changing: " + event.location);
 			var config : ConfigData = ConfigData.getInstance();
 			var access : Access = config.getAccessByUrl(event.location);
 			if (access==null && event.location!="about:blank" && !config.getProperty(ConfigConstants.HASMULTIACCESS))
@@ -196,7 +205,7 @@ package webworks.webkit
 				Utilities.alert(event.location + " is not allowed", webView);
 			}
 			else
-				dispatchEvent(new WebkitEvent(WebkitEvent.TAB_LOCATION_CHANGING,event));		
+				dispatchEvent(new WebkitEvent(WebkitEvent.TAB_LOCATION_CHANGING, event));		
 		}
 		
 		private function domInitialized(event:WebViewEvent):void

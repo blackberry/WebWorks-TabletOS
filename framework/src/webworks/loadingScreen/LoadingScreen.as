@@ -24,8 +24,8 @@ package webworks.loadingScreen
 
 	public class LoadingScreen extends Sprite
 	{
-		private var loader:Loader;
-		private var fgLoader:Loader;
+		private var bgImageLoader:Loader;
+		private var fgImageLoader:Loader;
 		private var source:Bitmap;
 		private var foreground:Bitmap;
 		private var rect:Rectangle;
@@ -44,32 +44,40 @@ package webworks.loadingScreen
 
 		public function LoadingScreen( x:int, y:int, width:int, height:int) 
 		{	
-			setProperties();			
-			rect = new Rectangle(x,y,width,height);
-			loadScreen();
+			loadProperties();			
+			createLoadingScreen(new Rectangle(x,y,width,height));
 		}
 
-		private function loadScreen():void
+		private function createLoadingScreen(rrect:Rectangle):void
 		{
-			loader = new Loader();
-			fgLoader = new Loader();
+			rect = rrect;
 			setBackgroundColor();
-			loader.contentLoaderInfo.addEventListener(Event.COMPLETE, loadComplete);
-			loader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, imageIOError);
-			fgLoader.contentLoaderInfo.addEventListener(Event.COMPLETE, fgLoaded);
-			fgLoader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, imageIOError);
-			addChild(loader);
-			addChild(fgLoader);
-			loader.load(new URLRequest(backgroundImage)); 
-			fgLoader.load(new URLRequest(foregroundImage));
+			
+			if (backgroundImage.length > 0) 
+			{
+				bgImageLoader = new Loader();
+				bgImageLoader.contentLoaderInfo.addEventListener(Event.COMPLETE, backgroundImageLoadComplete);
+				bgImageLoader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, imageIOError);
+				addChild(bgImageLoader);
+				bgImageLoader.load(new URLRequest(backgroundImage));
+			}
+			
+			if (foregroundImage.length > 0) 
+			{
+				fgImageLoader = new Loader();
+				fgImageLoader.contentLoaderInfo.addEventListener(Event.COMPLETE, foregroundImageLoadComplete);
+				fgImageLoader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, imageIOError);
+				addChild(fgImageLoader);
+				fgImageLoader.load(new URLRequest(foregroundImage));
+			}
 		}
 
 		private function imageIOError(event:Event):void
 		{
-			trace("image load error");
+			trace("Image load error:" + event.toString());
 		}
 		
-		private function setProperties():void
+		private function loadProperties():void
 		{
 			try
 			{
@@ -107,7 +115,7 @@ package webworks.loadingScreen
 			}
 		}
 		
-		private function fgLoaded(event:Event):void
+		private function foregroundImageLoadComplete(event:Event):void
 		{
 		  	foreground = event.target.content;
 			//position the bitmap in the center of the stage
@@ -117,10 +125,10 @@ package webworks.loadingScreen
 				foreground.y = (rect.height - foreground.height)/2;
 			}
 		}
-		private function loadComplete(event:Event):void
+		private function backgroundImageLoadComplete(event:Event):void
 		{
 			source = event.target.content;
-			resize(rect.width);
+			resize(rect.width, rect.height, false);
 		}
 		
 		private function setBackgroundColor():void
@@ -141,8 +149,9 @@ package webworks.loadingScreen
 			}
 		}
 		
-		private function isLoadingScreenRequired(url:String):Boolean 
+		public function isLoadingScreenRequired(url:String):Boolean 
 		{
+			// Skip the first time because it's controlled by onFirstLaunch
 			if ( !isFirstLaunch )
 			{
 				var uri:URI = new URI(url);
@@ -155,29 +164,14 @@ package webworks.loadingScreen
 					return true;
 				}
 			}
-			if ( isFirstLaunch )
-				isFirstLaunch = false;
+
 			return false;
 		}
 		
-		public function showOnFirstLaunch():void
+		public function show():void
 		{
-			if ( onFirstLaunch && isFirstLaunch )
-			{
-			    app.addChild(this);
-				webView.zOrder = 0;
-			    //webView.moveBehind();
-			}
-		}
-		
-		public function show(url:String):void
-		{
-			if ( isLoadingScreenRequired(url))
-			{
-				app.addChild(this);
-				webView.zOrder = 0;
-				//webView.moveBehind();
-			}
+			app.addChild(this);
+			webView.zOrder = -1;
 		}
 		
 		public function hide():void
@@ -185,14 +179,23 @@ package webworks.loadingScreen
 			if ( app.contains(this))
 			{
 		        app.removeChild(this);
-				webView.zOrder = 1;
-		        //webView.moveAhead();
+				webView.zOrder = 0;
 			}
+		}
+		
+		public function get showOnFirstLaunch():Boolean
+		{
+			return onFirstLaunch;
+		}
+		
+		public function get firstLaunchFlag():Boolean
+		{
+			return isFirstLaunch;
 		}
 		
 		public function clearFirstLaunchFlag():void
 		{
-			isFirstLaunch = false;  
-		}
+			isFirstLaunch = false;
+		}		
 	}
 }

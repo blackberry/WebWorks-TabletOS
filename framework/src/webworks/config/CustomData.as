@@ -38,6 +38,7 @@ package webworks.config
 			
 			"configXML" : "config.xml",
 			//"content" : "http://atg05-yyz.rim.net/WebWork_Playbook/blackberry/system/system_default.htm",//"http://atg05-yyz.rim.net/WebWork_Playbook/blackberry/invoke/invoke_default.htm",//"http://atg05-yyz.rim.net/lei/utils_default.htm", //"http://atg05-yyz.rim.net/yui/", //"http://atg05-yyz.rim.net/webapi/blackberry/app/default.htm",//"http://atg05-yyz.rim.net/yui/bak_Nov23/index.htm", //"http://atg05-yyz.rim.net/yui/bak_Dec13/", //"http://dl.dropbox.com/u/6464031/JasonIndex.html",//"http://atg05-yyz.rim.net/yui/index.htm", //"http://dl.dropbox.com/u/6464031/JasonIndex.html",//"index.html", //"http://www.google.com",
+
 			//"content" : "http://atg05-yyz.rim.net/yui/xhr.html",
 			"content" : "local:///index.html",
 			"author" : "Lev",
@@ -54,6 +55,7 @@ package webworks.config
 			"icon" : "icon.jpg",
 			"hasMultiAccess"			: true, // Boolean
 			"disableAllCache" :  true,
+			"customHeaders"	: {"MyCustom": "XXXYYYZZZ"}, // Hashtable
 			"accessList" : new Array(
 				new Access(
 					"http://atg05-yyz.rim.net/yui_unittest/dev/",
