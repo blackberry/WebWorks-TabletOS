@@ -18,7 +18,9 @@ package blackberry.ui.dialog
 {
 	import flash.events.Event;
 	import flash.utils.*;
+	
 	import qnx.dialog.AlertDialog;
+	
 	import webworks.extension.DefaultExtension;
 
 	
@@ -111,8 +113,9 @@ package blackberry.ui.dialog
 		}
 		
 		private function alertButtonClicked(event:Event):void {
-			
-			evalJavaScriptEvent(jsCallbackID, event.target.selectedIndex);
+			var array:Array = new Array();
+			array[0] = event.target.selectedIndex;
+			evalJavaScriptEvent(jsCallbackID, array );
 		}
 		
 		private function dialogProperties (decodedProperties:Array):Dictionary {

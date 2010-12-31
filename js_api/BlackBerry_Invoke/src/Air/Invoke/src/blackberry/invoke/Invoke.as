@@ -13,7 +13,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package webworks.extension.blackberry.Invoke
+package blackberry.invoke
 {
 	import flash.net.URLRequest;
 	import flash.net.navigateToURL;

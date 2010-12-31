@@ -16,6 +16,7 @@
 
 (function () {
 	//We will not attach ourselves if the blackberry namespace doesn't exist
+
 	if(!this.blackberry) {
 		return;
 	}
@@ -26,10 +27,9 @@
 		this.blackberry.ui = {};
 	}
 	
-	var dialog = this.blackberry.ui.dialog;
 	var disp = this.blackberry.ui.dialog.dispatcher;
 	
-	blackberry.ui.dialog = {
+	this.blackberry.ui.dialog = {
 		customAsk : disp.customAsk,
 		
 		standardAsk : disp.standardAsk

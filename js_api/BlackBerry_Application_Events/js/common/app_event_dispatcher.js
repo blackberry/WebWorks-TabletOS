@@ -14,7 +14,8 @@
  * limitations under the License.
  */
 (function () {
-	var APPLICATION_EVENTS_URL = SERVER_URL + "app/events";
+	var MINI_BROKER_LOCATION = "blackberry/app/event";
+	
 	
 	if(!this.blackberry) {
 		return; //nothing to dispatch
@@ -23,18 +24,20 @@
 	if(!this.blackberry.app) {
 		this.blackberry.app = {};
 	}
-
+	
 	function addEvent(eventType, onClickHandler) {
+		
 		var onClickHandlerId = blackberry.events.registerEventHandler("onClick", onClickHandler);
 		
-		var request = new blackberry.transport.RemoteFunctionCall(APPLICATION_EVENTS_URL + "/" + eventType);
-		request.addParam(onClick, onClickHandlerId);
-		
-		request.makeSyncCall(); //don't care about the return value
+		var request = new blackberry.transport.RemoteFunctionCall(MINI_BROKER_LOCATION + "/" + eventType);
+		request.addParam("onClick", onClickHandlerId);
+		request.makeAsyncCall(); //don't care about the return value
 	}
 	
-	this.blackberry.app.events = {
+	
+	this.blackberry.app.event = {
 		//Override the delegates for each namespace method
+			
 		dispatcher : {
 			"onBackground" : function(onClickHandler) {
 				addEvent("onBackground",onClickHandler);
@@ -45,4 +48,6 @@
 			}
 		}
 	};	
+	
+
 })();

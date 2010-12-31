@@ -145,7 +145,7 @@ package webworks.webkit
 			var appNSGen:AppNameSpaceGenerator = new AppNameSpaceGenerator(ConfigData.getInstance().properties);
 			var myJsonProperties:String = appNSGen.appDataJson;	
 			
-			var js:String = "(function() {var json = arguments[0]; var json = arguments[0];var oldApp = blackberry.app;blackberry.app = json;blackberry.app.exit = oldApp.exit;})(" + myJsonProperties + ");";
+			var js:String = "(function() {var json = arguments[0]; var json = arguments[0];var oldApp = blackberry.app;blackberry.app = json;blackberry.app.exit = oldApp.exit;blackberry.app.event = oldApp.event;})(" + myJsonProperties + ");";
 			
 			trace(js);
 			

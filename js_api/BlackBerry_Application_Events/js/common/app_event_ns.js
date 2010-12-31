@@ -15,6 +15,7 @@
  */
 (function () {
 	//We will not attach ourselves if the blackberry namespace doesn't exist
+	
 	if(!this.blackberry) {
 		return;
 	}
@@ -25,10 +26,9 @@
 		this.blackberry.app = {};
 	}
 	
-	var events = this.blackberry.app.events;
-	var disp = this.blackberry.app.events.dispatcher;
+	var disp = this.blackberry.app.event.dispatcher;	
 	
-	events = {
+	this.blackberry.app.event = {
 		onBackground : disp.onBackground,
 		
 		onForeground : disp.onForeground

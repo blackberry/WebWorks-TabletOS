@@ -15,7 +15,8 @@
 */
 
 (function () {
-	var MINI_BROKER_LOCATION = SERVER_URL + "blackberry/ui/dialog";
+
+	var MINI_BROKER_LOCATION = "blackberry/ui/dialog";
 	
 	var CUSTOM_ASK = "customAsk";
 	var STANDARD_ASK = "standardAsk";
@@ -39,7 +40,7 @@
 	
 	if(!this.blackberry.ui) {
 		this.blackberry.ui = {};
-	}
+	}	
 	
 	function validateParametersExist(message, buttons) {
 		if(!message) {
@@ -105,7 +106,7 @@
 			recall.addParam(ARGS_SETTINGS, settings);
 		}
 				
-	    return recall.makeASyncCall();
+	    return recall.makeAsyncCall();
 		
 	}
 	

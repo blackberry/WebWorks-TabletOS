@@ -6,11 +6,13 @@ package blackberry.system.event {
 	
 	public class SystemEvents extends DefaultExtension{
 		
-		internal var jsFunctionIDlevel:String;
-		internal var jsFunctionIDstate:String;
+		internal var jsFunctionIDlevel:Array;
+		internal var jsFunctionIDstate:Array;
 		
 		public function SystemEvents(){
 			super();
+			jsFunctionIDlevel = new Array();
+			jsFunctionIDstate = new Array();
 		}		
 		
 		public override function getFeatureList():Array{
@@ -18,7 +20,7 @@ package blackberry.system.event {
 		}
 		
 		public function deviceBatteryLevelChange(param:String):void{ 
-			jsFunctionIDlevel = param;
+			jsFunctionIDlevel[jsFunctionIDlevel.length] = param;
 			var device:Device = Device.device;		
 			device.addEventListener(DeviceBatteryEvent.LEVEL_CHANGE, batteryLevelChange);		
 			device.batteryMonitoringEnabled = true;		
@@ -26,7 +28,7 @@ package blackberry.system.event {
 		}
 		
 		public function deviceBatteryStateChange(param:String):void{ 
-			jsFunctionIDstate = param;
+			jsFunctionIDstate[jsFunctionIDstate.length] = param;
 			var device:Device = Device.device;	 		
 			device.addEventListener( DeviceBatteryEvent.STATE_CHANGE, batteryStateChange );	
 			
@@ -37,14 +39,19 @@ package blackberry.system.event {
 			
 			var level:Array = new Array(1);
 			level[0] = event.batteryLevel;
-			
-			evalJavaScriptEvent(jsFunctionIDlevel, level);		
+			for (var i:Number=0; i<jsFunctionIDlevel.length ; i++){
+				evalJavaScriptEvent(jsFunctionIDlevel[i], level);
+			}
+	
 		}
 		
 		private function batteryStateChange( event:DeviceBatteryEvent ) : void{
 			var level:Array = new Array(1);
 			level[0] = event.batteryState;
-			evalJavaScriptEvent(jsFunctionIDstate, level);				
+			for (var i:Number=0; i<jsFunctionIDstate.length ; i++){
+				evalJavaScriptEvent(jsFunctionIDstate[i], level);
+			}
+						
 		}
 		
 	}
