@@ -16,7 +16,7 @@
 			<src type="text/javascript" path="js/common/ui/dialog_dispatcher.js" comment="Dialog JS XHR dispatcher" />
 			<src type="text/javascript" path="js/common/ui/dialog_ns.js" comment="Dialog JS interface" />
 			<src type="text/javascript" path="../Common_JS/transport/xhr/xhr.js" comment="JS XHR connection utilities" />
-			<src type="text/actionscript" path="src/Air/UserInterface/src/blackberry/ui" comment="ActionScript implementation" />
+			<src type="text/actionscript" path="src/Air/UserInterface/src" comment="ActionScript implementation" />
 		</configuration>
 	</configurations>
   

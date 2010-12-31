@@ -14,6 +14,7 @@
 		<configuration name="JS_ONLY" version="1.0" comment="JavaScript only implementation">
 			<src type="text/javascript" path="../BlackBerry/js/common/blackberry_ns.js" comment="BlackBerry namespace common library" />
 			<src type="text/javascript" path="js/common/utilities_ns.js" comment="Utilities JS implementation" />
+			<src type="text/actionscript" path="src/Air/System/src" comment="ActionScript implementation" />
 		</configuration>
 	</configurations>
 	

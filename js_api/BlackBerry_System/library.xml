@@ -16,7 +16,7 @@
 			<src type="text/javascript" path="js/common/system_dispatcher.js" comment="System JS XHR dispatcher" />
 			<src type="text/javascript" path="js/common/system_ns.js" comment="System JS interface" />
 			<src type="text/javascript" path="../Common_JS/transport/xhr/xhr.js" comment="JS XHR connection utilities" />
-			<src type="text/actionscript" path="src/Air/System/src/blackberry/system" comment="ActionScript implementation" />
+			<src type="text/actionscript" path="src/Air/System/src" comment="ActionScript implementation" />
 		</configuration>
 	</configurations>
 	
