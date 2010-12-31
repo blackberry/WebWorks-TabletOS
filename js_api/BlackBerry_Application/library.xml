@@ -16,7 +16,7 @@
 			<src type="text/javascript" path="js/common/app_dispatcher.js" comment="Application JS XHR dispatcher" />
 			<src type="text/javascript" path="js/common/app_ns.js" comment="Application JS interface" />
 			<src type="text/javascript" path="../Common_JS/transport/xhr/xhr.js" comment="JS XHR connection utilities" />
-			<src type="text/actionscript" path="src/Air/Application/src/" comment="ActionScript implementation" />
+			<src type="text/actionscript" path="src/Air/Application/src/webworks/extension" comment="ActionScript implementation" />
 		</configuration>
 	</configurations>
 	
