@@ -16,12 +16,12 @@
 package webworks.config
 {
 
-	import blackberry.Application.Application;
-	import blackberry.applicationEvents.ApplicationEvent;
-	import blackberry.invoke.Invoke;
-	import blackberry.system.System;
-	import blackberry.system.event.SystemEvents;
-	import blackberry.ui.dialog.Dialog;
+	//import blackberry.Application.Application;
+	//import blackberry.applicationEvents.ApplicationEvent;
+	//import blackberry.invoke.Invoke;
+	//import blackberry.system.System;
+	//import blackberry.system.event.SystemEvents;
+	//import blackberry.ui.dialog.Dialog;
 	
 	import webworks.access.Access;
 	import webworks.access.Feature;
@@ -56,6 +56,14 @@ package webworks.config
 			"hasMultiAccess"			: true, // Boolean
 			"disableAllCache" :  true,
 			"customHeaders"	: {"MyCustom": "XXXYYYZZZ"}, // Hashtable
+			
+			"loadingScreenColor"		: "#00FF00", // String
+			//"backgroundImage"			: "", // String
+			//"foregroundImage"			: "pic1.jpg", // String
+			//"onFirstLaunch"				: true, // Boolean
+			//"onLocalPageLoad"			: false, // Boolean
+			"onRemotePageLoad"			: true, // Boolean
+			
 			"accessList" : new Array(
 				new Access(
 					"http://atg05-yyz.rim.net/yui_unittest/dev/",
