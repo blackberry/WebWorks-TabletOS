@@ -24,7 +24,7 @@ package webworks.webkit
 		public static const TAB_INACTIVE:String 			= "tabInactiveEvent";
 		public static const TAB_LOAD_COMPLETE:String 		= "tabLoadCompleteEvent";
 		public static const TAB_LOAD_ERROR:String 			= "tabLoadErrorEvent";
-		public static const TAB_LOCATION_UPDATE:String 		= "tabLocationUpdateEvent";
+		public static const TAB_LOCATION_CHANGED:String 	= "tabLocationChangedEvent";
 		public static const TAB_LOCATION_CHANGING:String	= "tabLocationChangingEvent";
 		public static const TAB_PROGRESS_UPDATE:String 		= "tabProgressUpdateEvent";
 		public static const TAB_SNAPSHOT_UPDATE:String 		= "tabSnapshotUpdateEvent";

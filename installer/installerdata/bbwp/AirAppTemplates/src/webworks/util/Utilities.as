@@ -21,7 +21,7 @@ package webworks.util
 
 	public class Utilities
 	{
-		private static var LOCAL_PROTOCOL : String              = "local://";
+		private static var LOCAL_PROTOCOL : String              = "local:///";
 		private static var FILE_PROTOCOL : String 				= "file://";
 		private static var HTTP_PROTOCOL : String               = "http://";
 		private static var HTTPS_PROTOCOL : String              = "https://";	
