@@ -11,11 +11,9 @@
 	</platforms>
 
 	<configurations>
-		<configuration name="AIR_XHR" version="1.0" comment="XHR architecture/Air implementation">
-			<src type="text/javascript" path="../BlackBerry/js/common/blackberry_ns.js" comment="BlackBerry namespace common library" />
+		<configuration name="AIR_XHR" version="1.0" comment="XHR architecture/Air implementation">			
 			<src type="text/javascript" path="js/common/ui/dialog_dispatcher.js" comment="Dialog JS XHR dispatcher" />
-			<src type="text/javascript" path="js/common/ui/dialog_ns.js" comment="Dialog JS interface" />
-			<src type="text/javascript" path="../Common_JS/transport/xhr/xhr.js" comment="JS XHR connection utilities" />
+			<src type="text/javascript" path="js/common/ui/dialog_ns.js" comment="Dialog JS interface" />			
 			<src type="text/actionscript" path="src/Air/UserInterface/src" comment="ActionScript implementation" />
 		</configuration>
 	</configurations>

@@ -51,12 +51,6 @@
 		
 		isMassStorageActive : disp.isMassStorageActive,
 		
-		//Temporary fix for sync function call - to be removed
-		dataCoverage : false,
-		
-		//Temporary fix for sync function call - to be removed
-		accessList : []
-		
 	};
 	
 	/*
@@ -73,6 +67,4 @@
 	bb.system.__defineGetter__("model", disp.model);
 	bb.system.__defineGetter__("scriptApiVersion", disp.scriptApiVersion);
 	bb.system.__defineGetter__("softwareVersion", disp.softwareVersion);
-	
-	
 })();
