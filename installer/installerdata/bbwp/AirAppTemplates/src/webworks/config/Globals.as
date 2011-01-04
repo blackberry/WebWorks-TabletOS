@@ -15,6 +15,8 @@
  */
 package webworks.config
 {
+	import flash.utils.Dictionary;
+
 	public class Globals
 	{
 		// constants
@@ -23,7 +25,7 @@ package webworks.config
 			"configXMLDoc" 				: null, // XML Document
 			
 			"backButtonBehavior"		: "back", // String
-			"customHeaders"				: null, // Hashtable
+			"customHeaders"				: {Date: "Dec 23 2010, 13:30 GTM-5"}, // Hashtable
 			"version"					: "1.0.0", // String
 			
 			"author"					: "", // String

@@ -4,6 +4,7 @@
 		<libraryPath>/BlackBerry_Application_Events</libraryPath>
 		<libraryPath>/BlackBerry_Invoke</libraryPath>
 		<libraryPath>/BlackBerry_System</libraryPath>
+		<libraryPath>/BlackBerry_System_Events</libraryPath>
 		<libraryPath>/BlackBerry_Ui</libraryPath>
 		<libraryPath>/BlackBerry_Utilities</libraryPath>
 	</libraries>
