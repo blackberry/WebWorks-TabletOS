@@ -13,7 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-function foo()
-{
-	alert("Hello foo()");
-} 
+(function () {
+	//We will not attach ourselves if the blackberry namespace doesn't exist
+	
+	if(!this.blackberry) {
+		return;
+	}
+	
+	var bb = this.blackberry;
+	
+	if(!this.blackberry.app) {
+		this.blackberry.app = {};
+	}
+	
+	var disp = this.blackberry.app.event.dispatcher;	
+	
+	this.blackberry.app.event = {
+		onBackground : disp.onBackground,
+		
+		onForeground : disp.onForeground
+	};
+	
+
+})();
