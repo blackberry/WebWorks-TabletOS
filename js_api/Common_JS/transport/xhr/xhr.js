@@ -52,7 +52,7 @@
 				var request = new XMLHttpRequest();
 				
 				request.open("POST", uri, isAsync);
-				request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+				request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded"); 
 				
 				return request;
 			};
@@ -68,7 +68,9 @@
 				var requestUri = composeUri();
 				var request = createXhrRequest(requestUri, false);
 				
-				request.send();
+				try {
+					request.send();
+				} catch(e) {}
 		
 				return JSON.parse(request.responseText); //retrieve result encoded as JSON
 			};
@@ -86,7 +88,9 @@
 					}
 				};
 				
-				request.send();	
+				try {
+					request.send();
+				} catch(e) {}
 			};
 		}
 	};
