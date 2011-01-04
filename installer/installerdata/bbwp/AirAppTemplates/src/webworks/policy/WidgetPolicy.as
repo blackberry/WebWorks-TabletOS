@@ -114,7 +114,7 @@ package webworks.policy
 							}
 							
 							// Retrieve WidgetAccess set for the specified authority                        
-							folderAccess = _authorityCollection.get(schemeString + "://" +authString);   
+							folderAccess = _authorityCollection[schemeString + "://" +authString];   
 							
 							// Special case: no access element was found for a file protocol request.  
 							// This is added since file protocol was allowed through the above check

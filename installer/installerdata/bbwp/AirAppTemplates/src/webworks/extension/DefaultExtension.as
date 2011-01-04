@@ -62,7 +62,7 @@ package webworks.extension
 		} 
 		
 		protected function evalJavaScriptEvent(id:String,params:Array) : void {
-			var javaScript:String = "blackberry.events.getHandlerById("+id+")(";
+			var javaScript:String = "blackberry.events.getEventHandler("+id+")(";
 			
 			for (var i:Number=0; i<params.length;i++){
 				if(i== 0){

@@ -34,9 +34,12 @@ package webworks
 	 * 
 	*/
 	public class FunctionBroker extends EventDispatcher
-	{		
-		public function FunctionBroker(target:IEventDispatcher=null)
+	{
+		private var webView:QNXStageWebView;
+		
+		public function FunctionBroker(webview:QNXStageWebView, target:IEventDispatcher=null)
 		{
+			webView = webview;
 			super(target);
 		}
 		
@@ -52,7 +55,6 @@ package webworks
 				return null;
 
 			//validate the feature
-			var webView:QNXStageWebView = ConfigData.getInstance().getProperty(ConfigConstants.ENV_WEBVIEW) as QNXStageWebView;
 			if ( webView == null )
 				return null;
 
@@ -80,7 +82,6 @@ package webworks
 		//parse the url, check the feature available and invoke the feature
 		public function handleXHRRequest(obj:Object):Object
 		{			
-			var webView:QNXStageWebView = ConfigData.getInstance().getProperty(ConfigConstants.ENV_WEBVIEW) as QNXStageWebView;
 			if ( webView == null )
 				return null;
 			

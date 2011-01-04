@@ -32,16 +32,18 @@ package webworks
 
 	public class JavaScriptLoader
 	{
-		private var _webView:WebkitControl;
-		public function JavaScriptLoader(webView:WebkitControl)
+		private static var globalSharedJSFolder:String = "js/sharedglobal/";
+		
+		private var webkitControl:WebkitControl;
+		public function JavaScriptLoader(webkitcontrol:WebkitControl)
 		{
-			_webView = webView;
+			webkitControl = webkitcontrol;
 		}
 		
 		//register javascript file for features required by the url
 		public function registerJavaScript(url:String):void
 		{
-			//loadCommonJSFiles();
+			loadCommonJSFiles();
 			//insert js needed for feautes specified by the access
 			var access:Access = ConfigData.getInstance().getAccessByUrl(url);			
 			if ( access != null )
@@ -65,7 +67,7 @@ package webworks
 						paths = widgetExt[ConfigConstants.REQUIREDJSFILES] as Array;
 						for(var pathIndex:String in paths)
 						{
-							loadJavaScriptFile(paths[pathIndex], _webView);
+							loadJavaScriptFile(paths[pathIndex], webkitControl);
 						}
 					}
 				}
@@ -76,13 +78,13 @@ package webworks
 		private function loadCommonJSFiles():void
 		{
 			//loop through the js folder and load all the files
-			var file:File = File.applicationDirectory.resolvePath("js");
+			var file:File = File.applicationDirectory.resolvePath(globalSharedJSFolder);
 			var files:Array = file.getDirectoryListing();
 			for(var index:String in files)
 			{
 				var js:File = files[index];
 				if ( js != null && js.type == ".js" )
-					loadJavaScriptFile(js.url, _webView);				
+					loadJavaScriptFile(js.url, webkitControl);				
 			}
 		}
 
