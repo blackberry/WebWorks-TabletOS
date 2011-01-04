@@ -35,26 +35,43 @@
 	this.blackberry.system = {
 		//Override the delegates for each namespace method
 		dispatcher : {
+					
 			"model" : function() {
-				return makeCall("model");
+				return "0";
 			},
 			"scriptApiVersion" : function() {
-				return makeCall("scriptApiVersion");
+				return "1.0.0.0";
 			},
 			"softwareVersion" : function() {
-				return makeCall("softwareVersion"); 
+				return "QNX";
 			},
 			"hasCapability" : function(desiredCapability) {
-				return makeCall("hasCapability", {capability : desiredCapability}); 
+				var supportedCapabilities = ["media.audio.capture","media.video.capture",
+				"media.recording","network.bluetooth","network.wlan"];
+				for (i in supportedCapabilities) {
+				       if (supportedCapabilities[i] == desiredCapability) return true;
+				   }
+				return false;
+				
 			},
 			"hasDataCoverage" : function() {
-				return makeCall("hasDataCoverage");
+				return blackberry.system.dataCoverage;
 			},
 			"hasPermission" : function(desiredModule) {
-				return makeCall("hasPermission", {module : desiredModule}); 
+				var al = blackberry.system.accessList;
+				var permission = 0; // if blackberry.denied, set to 0			
+								
+				for (var i in al){
+					permission = (al[i] == desiredModule) ? 0 : 1;		
+					if(!permission)
+						break;
+				}
+						
+				return permission;			
+			
 			},
 			"isMassStorageActive" : function() {
-				return makeCall("isMassStorageActive");
+				return false;
 			}
 		}
 	};	
