@@ -20,6 +20,7 @@ package webworks
 	import flash.filesystem.File;
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;
+	import flash.utils.Dictionary;
 	import flash.utils.getTimer;
 	
 	import webworks.access.Access;
@@ -80,12 +81,45 @@ package webworks
 			//loop through the js folder and load all the files
 			var file:File = File.applicationDirectory.resolvePath(globalSharedJSFolder);
 			var files:Array = file.getDirectoryListing();
-			for(var index:String in files)
-			{
+			
+			var tempFilesNames:Dictionary = new Dictionary();
+						
+			var sortedFiles:Array = new Array(files.length);
+			
+			for(var index:String in files){
+				
+				
 				var js:File = files[index];
-				if ( js != null && js.type == ".js" )
-					loadJavaScriptFile(js.url, webkitControl);				
+				if ( js != null && js.type == ".js" ){
+					var url:String = js.url;
+					var split:Array = js.url.split("/");									
+					var name1:String = split[split.length-1];//using name variable name gives a warning because its defined in parent.	
+					tempFilesNames[name1] = js.url;
+				}
+				
 			}
+			
+			sortedFiles = extractKeysFrom(tempFilesNames);
+			sortedFiles.sort();
+			
+			for each(var name : * in sortedFiles){
+								
+				var url1:String = tempFilesNames[name];//using url variable name gives a warning because its defined in parent.				
+				loadJavaScriptFile(url1, webkitControl);				
+			}		
+
+		}
+		
+		private function extractKeysFrom(source : Dictionary) : Array{
+			var output : Array = [];
+			
+			// Note that Dictionary’s Keys are untyped as they can contain
+			// any value.
+			for (var prop : * in source)
+			{
+				output.push(prop);
+			}
+			return output;
 		}
 
 		//load the js file and execute
