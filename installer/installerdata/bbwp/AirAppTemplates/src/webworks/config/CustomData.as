@@ -16,12 +16,12 @@
 package webworks.config
 {
 
-	//import blackberry.Application.Application;
-	//import blackberry.applicationEvents.ApplicationEvent;
-	//import blackberry.invoke.Invoke;
-	//import blackberry.system.System;
-	//import blackberry.system.event.SystemEvents;
-	//import blackberry.ui.dialog.Dialog;
+//	import blackberry.Application.Application;
+//	import blackberry.applicationEvents.ApplicationEvent;
+//	import blackberry.invoke.Invoke;
+//	import blackberry.system.System;
+//	import blackberry.system.event.SystemEvents;
+//	import blackberry.ui.dialog.Dialog;
 	
 	import webworks.access.Access;
 	import webworks.access.Feature;
@@ -255,8 +255,9 @@ package webworks.config
 //				,
 //				{"class" : new SystemEvents(), 
 //							"requiredJSFiles" : new Array("js/system_event_dispatcher.js","js/system_event_ns.js")}
+//				
 				
-				
+
 //				
 			),
 			"name" : "value"
