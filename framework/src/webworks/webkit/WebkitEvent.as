@@ -30,11 +30,6 @@ package webworks.webkit
 		public static const TAB_SNAPSHOT_UPDATE:String 		= "tabSnapshotUpdateEvent";
 		public static const TAB_TITLE_UPDATE:String 		= "tabTitleUpdateEvent";
 		
-		public static const TAB_JSMETHODCALL:String         = "tabJSMethodCall";
-		public static const TAB_JSEXECRESULT:String         = "tabJSExecResult";
-		public static const TAB_XHRREQUEST:String           = "tabXHRRequest";
-		public static const TAB_DOMINITIALIZE:String        = "tabDomInitialized";
-		
 		public static const TAB_NETWORKRESOURCEREQUESTED:String = "tabNetworkResourceRequested";
 		public static const TAB_UNKNOWNPROTOCOL:String      = "tabUnknownProtocol";
 		
