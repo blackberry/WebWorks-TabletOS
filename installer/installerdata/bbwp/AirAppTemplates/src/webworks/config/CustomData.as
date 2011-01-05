@@ -16,12 +16,12 @@
 package webworks.config
 {
 
-	//import blackberry.Application.Application;
-	//import blackberry.applicationEvents.ApplicationEvent;
-	//import blackberry.invoke.Invoke;
-	//import blackberry.system.System;
-	//import blackberry.system.event.SystemEvents;
-	//import blackberry.ui.dialog.Dialog;
+	import blackberry.Application.Application;
+	import blackberry.applicationEvents.ApplicationEvent;
+	import blackberry.invoke.Invoke;
+	import blackberry.system.System;
+	import blackberry.system.event.SystemEvents;
+	import blackberry.ui.dialog.Dialog;
 	
 	import webworks.access.Access;
 	import webworks.access.Feature;
@@ -236,27 +236,28 @@ package webworks.config
 				
 				
 			//limited common 	
-//				{"class" : new Invoke(), 
-//									"requiredJSFiles" : new Array("js/constants.js", "js/blackberry_ns.js","js/xhr.js","js/invoke_dispatcher.js","js/invoke_ns.js")}
-//				,
-//				{"class" : new Application(), 
-//					"requiredJSFiles" : new Array("js/app_dispatcher.js","js/app_ns.js", "js/utilities_ns.js")}
-//				,
-//				{"class" : new System(), 
-//					"requiredJSFiles" : new Array( "js/system_dispatcher_temp.js", "js/system_ns_temp.js")}
-//				,
-//				{"class" : new ApplicationEvent(), 
-//					"requiredJSFiles" : new Array("js/events_ns.js","js/app_event_dispatcher.js","js/app_event_ns.js")}
-//				
-//				,
-//				{"class" : new Dialog(), 
-//					"requiredJSFiles" : new Array("js/dialog_dispatcher.js","js/dialog_ns.js")}
-//				
-//				,
-//				{"class" : new SystemEvents(), 
-//							"requiredJSFiles" : new Array("js/system_event_dispatcher.js","js/system_event_ns.js")}
+/*				{"class" : new Invoke(), 
+									"requiredJSFiles" : new Array("js/constants.js", "js/blackberry_ns.js","js/xhr.js","js/invoke_dispatcher.js","js/invoke_ns.js")}
+				,
+				{"class" : new Application(), 
+					"requiredJSFiles" : new Array("js/app_dispatcher.js","js/app_ns.js", "js/utilities_ns.js")}
+				,
+				{"class" : new System(), 
+					"requiredJSFiles" : new Array( "js/system_dispatcher_temp.js", "js/system_ns_temp.js")}
+				,
+				{"class" : new ApplicationEvent(), 
+					"requiredJSFiles" : new Array("js/events_ns.js","js/app_event_dispatcher.js","js/app_event_ns.js")}
+				
+				,
+				{"class" : new Dialog(), 
+					"requiredJSFiles" : new Array("js/dialog_dispatcher.js","js/dialog_ns.js")}
+				
+				,
+				{"class" : new SystemEvents(), 
+							"requiredJSFiles" : new Array("js/system_event_dispatcher.js","js/system_event_ns.js")}
 				
 				
+*/
 //				
 			),
 			"name" : "value"
