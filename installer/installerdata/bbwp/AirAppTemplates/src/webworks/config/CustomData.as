@@ -236,7 +236,7 @@ package webworks.config
 				
 				
 			//limited common 	
-/*				{"class" : new Invoke(), 
+				{"class" : new Invoke(), 
 									"requiredJSFiles" : new Array("js/constants.js", "js/blackberry_ns.js","js/xhr.js","js/invoke_dispatcher.js","js/invoke_ns.js")}
 				,
 				{"class" : new Application(), 
@@ -257,7 +257,7 @@ package webworks.config
 							"requiredJSFiles" : new Array("js/system_event_dispatcher.js","js/system_event_ns.js")}
 				
 				
-*/
+
 //				
 			),
 			"name" : "value"
