@@ -12,8 +12,8 @@
 
 	<configurations>
 		<configuration name="AIR_XHR" version="1.0" comment="XHR architecture/Air implementation">			
-			<src type="text/javascript" path="js/common/ui/dialog_dispatcher.js" comment="Dialog JS XHR dispatcher" />
-			<src type="text/javascript" path="js/common/ui/dialog_ns.js" comment="Dialog JS interface" />			
+			<src type="text/javascript" path="js/common/dialog/dialog_dispatcher.js" comment="Dialog JS XHR dispatcher" />
+			<src type="text/javascript" path="js/common/dialog/dialog_ns.js" comment="Dialog JS interface" />			
 			<src type="text/actionscript" path="src/Air/UserInterface/src" comment="ActionScript implementation" />
 		</configuration>
 	</configurations>
