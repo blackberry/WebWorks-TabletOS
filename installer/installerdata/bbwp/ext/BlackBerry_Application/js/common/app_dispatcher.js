@@ -37,7 +37,9 @@
 		var recall = new blackberry.transport.RemoteFunctionCall(APPLICATION_URL + "/" + uri);		
 		return recall.makeSyncCall();
 	} 
-
+	
+	var oldApp = this.blackberry.app;
+	
 	this.blackberry.app = {
 		//Override the delegates for each namespace method
 		dispatcher : {	
@@ -88,5 +90,7 @@
 			}
 		
 		}
-	};	
+	};
+	
+	this.blackberry.app.event = oldApp.event;
 })();

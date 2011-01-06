@@ -22,7 +22,14 @@
 	var bb = this.blackberry;
 	var disp = this.blackberry.system.dispatcher;
 	
-	bb.system = {
+	if(!this.blackberry.system) {
+		alert("blackberry.system is not defined");
+		this.blackberry.system = {};
+	}
+	
+	var oldSystem = this.blackberry.system;
+	
+	this.blackberry.system = {
 		/*
 		 * The function will check the capability String passed through the capability argument. The possible capabilities are:
 		 * input.keyboard.issuretype 
@@ -58,6 +65,8 @@
 		accessList : []
 		
 	};
+	
+	this.blackberry.system.event = oldSystem.event;
 	
 	/*
 	 * Define constants that will be returned by the hasPermission() method. 
