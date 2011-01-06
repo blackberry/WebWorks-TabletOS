@@ -239,9 +239,8 @@ package webworks.webkit
 		}
 
 		private function onJavaScriptWindowObjectCleared(event:WebViewEvent):void{
-			javascriptLoader.registerJavaScript(webView.location);
+			event.preventDefault();
+			javascriptLoader.registerJavaScript(webView.location, event);
 		}
-		
-
 	}
 }
