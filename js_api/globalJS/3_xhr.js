@@ -68,7 +68,9 @@
 				var requestUri = composeUri();
 				var request = createXhrRequest(requestUri, false);
 				
-				request.send();
+				try {
+					request.send();
+				} catch(e) {}
 		
 				return JSON.parse(request.responseText); //retrieve result encoded as JSON
 			};
@@ -84,9 +86,11 @@
 				         var response = JSON.parse(request.responseText);
 				         responseCallback(response.Response); //call the client code with the parsed response
 					}
-				};
+				};				
 				
-				request.send();	
+				try {
+					request.send();	
+				} catch(e) {}
 			};
 		}
 	};
