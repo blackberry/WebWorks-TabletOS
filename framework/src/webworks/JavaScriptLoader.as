@@ -66,6 +66,7 @@ package webworks
 							extension.loadFeature(feature.getID(), feature.getVersion());
 						//register js files for the feature
 						paths = widgetExt[ConfigConstants.REQUIREDJSFILES] as Array;
+						paths.sort();
 						for(var pathIndex:String in paths)
 						{
 							loadJavaScriptFile(paths[pathIndex], webkitControl);
@@ -81,47 +82,17 @@ package webworks
 			//loop through the js folder and load all the files
 			var file:File = File.applicationDirectory.resolvePath(globalSharedJSFolder);
 			var files:Array = file.getDirectoryListing();
-			
-			var tempFilesNames:Dictionary = new Dictionary();
-						
-			var sortedFiles:Array = new Array(files.length);
-			
+			//sort the array based on the "url" field in default way, case-sensitive Z precedes a, ascending a preceds b, 1 preceds 2
+			files.sortOn("url");
 			for(var index:String in files){
-				
-				
 				var js:File = files[index];
 				if ( js != null && js.type == ".js" ){
 					var url:String = js.url;
-					var split:Array = js.url.split("/");									
-					var name1:String = split[split.length-1];//using name variable name gives a warning because its defined in parent.	
-					tempFilesNames[name1] = js.url;
+  				    loadJavaScriptFile(url, webkitControl);
 				}
-				
-			}
-			
-			sortedFiles = extractKeysFrom(tempFilesNames);
-			sortedFiles.sort();
-			
-			for each(var name : * in sortedFiles){
-								
-				var url1:String = tempFilesNames[name];//using url variable name gives a warning because its defined in parent.				
-				loadJavaScriptFile(url1, webkitControl);				
 			}		
-
 		}
-		
-		private function extractKeysFrom(source : Dictionary) : Array{
-			var output : Array = [];
 			
-			// Note that Dictionary’s Keys are untyped as they can contain
-			// any value.
-			for (var prop : * in source)
-			{
-				output.push(prop);
-			}
-			return output;
-		}
-
 		//load the js file and execute
 		private function loadJavaScriptFile(filename:String, webWindow:WebkitControl):void {			
 			
