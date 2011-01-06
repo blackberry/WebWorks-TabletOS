@@ -132,12 +132,9 @@ package
 
 			webWindow.addEventListener(WebkitEvent.TAB_LOAD_COMPLETE, tabLoadComplete);
 			webWindow.addEventListener(WebkitEvent.TAB_LOAD_ERROR, webkitLoadError);
-
             webWindow.addEventListener(WebkitEvent.WEBVIEW_CREATED, webkitWindowReady);
  			webWindow.addEventListener(WebkitEvent.TAB_LOCATION_CHANGING, webkitLocationChanging);
 			webWindow.addEventListener(WebkitEvent.TAB_LOCATION_CHANGED, webkitLocationChanged);
-            webWindow.addEventListener(WebkitEvent.TAB_XHRREQUEST, webkitHandleRequest);	
-			webWindow.addEventListener(WebkitEvent.TAB_DOMINITIALIZE, webkitDomInitialized);
 			webWindow.addEventListener(WebkitEvent.TAB_UNKNOWNPROTOCOL, handleUnkownProtocol)
  			addChild(webWindow);
 		}
@@ -146,27 +143,7 @@ package
 		{
 			broker.handleXHRRequest(event.data);
 		}
-		
-		
-		private function webkitDomInitialized(event:WebkitEvent):void
-		{
-			trace("webkitcontrol, dom initialized");
-			var htmlEvent:WebViewEvent = event.data as WebViewEvent;
-			if ( htmlEvent != null )
-			{
-			}
-		}
-		
-		private function callAPI(event:JavaScriptCallbackEvent):String
-		{
-			return broker.handleJSMethodCall(event);
-		}
-
-		private function webkitHandleRequest(event:WebkitEvent):Object
-		{			
-			return broker.handleXHRRequest(event);
-		}
-		
+			
 		private function tabLoadComplete(event:WebkitEvent):void 
         {
 			trace("HTML LOAD DONE");
@@ -177,16 +154,7 @@ package
 			loadURL(entryURL);
 		}
         
-        private function webkitWindowFailed(event:WebkitEvent):void
-        {
-            errorDialog = new AlertDialog();
-            errorDialog.title = "Browser Webkit Error";
-            errorDialog.message = "Could not create webkit instance";
-            errorDialog.addButton("Ok");
-            errorDialog.show(IowWindow.getAirWindow().group);
-        }
-		
-		private function webkitLoadError(event:WebkitEvent):void 
+ 		private function webkitLoadError(event:WebkitEvent):void 
         {
 			trace("webkitcontrol, load error happened.");
 		} 

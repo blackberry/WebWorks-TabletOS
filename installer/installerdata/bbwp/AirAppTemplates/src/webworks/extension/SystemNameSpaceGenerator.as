@@ -17,12 +17,12 @@ package webworks.extension
 		{
 			var permissions : Access = ConfigData.getInstance().getAccessByUrl("http://rim.net");
 			var permissionList:Array = [];
-			
-			var features:Array = permissions.getFeatures();
-			for(var i:int = 0; i< features.length; i++) {
-				permissionList.push(features[i].getID());
+			if ( permissions != null ) {
+			    var features:Array = permissions.getFeatures();
+			    for(var i:int = 0; i< features.length; i++) {
+				    permissionList.push(features[i].getID());
+			    }
 			}
-			
 			_jsonAccessList = (new json.JSONEncoder(permissionList)).getString(); 
 		}
 		

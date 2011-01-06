@@ -89,12 +89,7 @@ package webworks.webkit
 
 			webView.addEventListener(LocationChangeEvent.LOCATION_CHANGING, locationChanging);
 			webView.addEventListener(LocationChangeEvent.LOCATION_CHANGE, locationChanged); 
-//			webView.addEventListener(JavaScriptCallbackEvent.JAVASCRIPT_CALLBACK, jsMethodCalled);
-//			webView.addEventListener(JavaScriptResultEvent.JAVASCRIPT_RESULT, jsExeced);	
-//			webView.addEventListener(HtmlEvent.HTML_DOM_INITIALIZED, domInitialized);
             webView.addEventListener(WebViewEvent.CREATED, htmlEventBrowserCreated);
-//            webView.addEventListener(HtmlEvent.HTML_BROWSER_CREATE_FAILED, htmlEventHandler);
-			//webView.addEventListener(QNXRequestEvent, requestHandler); //the event need to be defined by webkit
 			webView.addEventListener(NetworkResourceRequestedEvent.NETWORK_RESOURCE_REQUESTED, networkResourceRequested);
 			webView.addEventListener(UnknownProtocolEvent.UNKNOWN_PROTOCOL, handleUnknownProtocol);
 			webView.addEventListener(WebViewEvent.JAVA_SCRIPT_WINDOW_OBJECT_CLEARED, onJavaScriptWindowObjectCleared);
@@ -207,13 +202,7 @@ package webworks.webkit
 			else
 				dispatchEvent(new WebkitEvent(WebkitEvent.TAB_LOCATION_CHANGING, event));		
 		}
-		
-		private function domInitialized(event:WebViewEvent):void
-		{
-			trace("dom initialize event");
-			dispatchEvent(new WebkitEvent(WebkitEvent.TAB_DOMINITIALIZE, event));
-		}
-                
+		               
         private function htmlEventBrowserCreated(event:WebViewEvent):void
         {
             trace("WEBKITCONTROL: " + event.type, webView.windowUniqueId);

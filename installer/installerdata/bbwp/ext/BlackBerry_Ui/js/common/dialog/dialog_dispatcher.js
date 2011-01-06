@@ -29,7 +29,7 @@
 	var ARGS_NUMBER = "number";
 	var ARGS_SETTINGS = "settings";
 	
-	var SETTNGS_LENGTH = 3;
+	var SETTINGS_LENGTH = 3;
 	
 	var ONCLICKHANDLERID = "onClickHandlerId";
 	
@@ -48,7 +48,7 @@
 		}
 		
 		if(!buttons) {
-			throw new Error("Required argument missing: buttons[].");
+			throw new Error("Required argument missing: buttons[]."); 
 		}
 	}
 	
@@ -56,7 +56,7 @@
 	
 		var i= 0;
 		
-		if(settings.length != SETTNGS_LENGTH){
+		if(settings.length != SETTINGS_LENGTH){
 			throw new Error("Settings argument length should be" + SETTINGS_LENGTH);
 		}
 
@@ -71,7 +71,7 @@
 		}
 
 		for (i=0; i<DIALOG_LOCS.length; i++){
-			if (settings[2] == DIALOG_LOC[i]) {
+			if (settings[2] == DIALOG_LOCS[i]) {
 				break;
 			}
 		}
@@ -93,10 +93,10 @@
 	    recall.addParam(ARGS_MESSAGE, message);
 				
 		if(type == "customAsk"){
-			recall.addParam(ARGS_BUTTONS,buttons);
+			recall.addParam(ARGS_BUTTONS, buttons);
 		}
 		else {
-			recall.addParam(ARGS_NUMBER,buttons);
+			recall.addParam(ARGS_NUMBER, buttons);
 		}
 			
 	    recall.addParam(ONCLICKHANDLERID, onClickHandlerId);

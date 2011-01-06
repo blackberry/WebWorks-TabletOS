@@ -66,7 +66,7 @@
 			<param name="message" type="String" comment="Message to be displayed in the dialog." />
 			<param name="buttons" type="String" array="true" comment="Array of string choices that will be presented to the user in the form of buttons." />
 			<param name="onOptionSelected" type="OnOptionSelectedCallback" comment="Optional callback function that will be invoked when the user makes a selection." />
-			<param name="settings" type="String" array="true" comment="Optional array of string choices that allow the user to manipulate the size, location and title of the dialog." />
+			<param name="settings" type="String" array="true" comment="Optional array of string choices that allow the user to manipulate the size, location and title of the dialog. Said array must contain the desired title, size and position of the dialog in question, and in that order." />
 		</func>
     </functions>
   
