@@ -16,22 +16,16 @@
 
 (function () {
 
-	var MINI_BROKER_LOCATION = "blackberry/ui/dialog";
+	var DIALOG_URL = "blackberry/ui/dialog";
 	
 	var CUSTOM_ASK = "customAsk";
 	var STANDARD_ASK = "standardAsk";
 	
-	var DIALOG_SIZES = ['small','full','large','medium','tall'];
-	var DIALOG_LOCS = ['bottomCenter','middleCenter','topCenter'];
-	
 	var ARGS_MESSAGE = "message";
 	var ARGS_BUTTONS = "buttons";
-	var ARGS_NUMBER = "number";
-	var ARGS_SETTINGS = "settings";
+	var ARGS_DIALOG_TYPE = "type";
 	
-	var SETTINGS_LENGTH = 3;
-	
-	var ONCLICKHANDLERID = "onClickHandlerId";
+	var ON_CLICK_HANDLER_ID = "onClickHandlerId";
 	
 	
 	if(!this.blackberry) {
@@ -48,66 +42,45 @@
 		}
 		
 		if(!buttons) {
-			throw new Error("Required argument missing: buttons[]."); 
+			throw new Error("Required argument missing: buttons[].");
 		}
-	}
-	
-	function validateSettingsArray(settings) {
-	
-		var i= 0;
-		
-		if(settings.length != SETTINGS_LENGTH){
-			throw new Error("Settings argument length should be" + SETTINGS_LENGTH);
-		}
-
-		for (i=0; i<DIALOG_SIZES.length; i++){
-			if (settings[1] == DIALOG_SIZES[i]) {
-			  break;
-			}
-		}
-
-		if (i == (DIALOG_SIZES.length - 1)){
-		    throw new Error("Size argument required once, at the second index");
-		}
-
-		for (i=0; i<DIALOG_LOCS.length; i++){
-			if (settings[2] == DIALOG_LOCS[i]) {
-				break;
-			}
-		}
-
-		if (i == (DIALOG_LOCS.length - 1)){
-		    throw new Error("Location argument required once, at the third index");
-		} 
 	}
 	
 	function requestDialog(type, message, buttons, onClickHandler, settings) {
-		validateParametersExist(message, buttons);
+		var onClickId = blackberry.events.registerEventHandler("onClick", onClickHandler);
 		
-		var onClickHandlerId = blackberry.events.registerEventHandler("onClick", onClickHandler);
+		var remoteCall = new blackberry.transport.RemoteFunctionCall(DIALOG_URL + "/" + type);
 		
-		var url = MINI_BROKER_LOCATION + "/" + type;
-						
-		var recall = new blackberry.transport.RemoteFunctionCall(url);
-		
-	    recall.addParam(ARGS_MESSAGE, message);
+	    remoteCall.addParam(ARGS_MESSAGE, message);
 				
 		if(type == "customAsk"){
-			recall.addParam(ARGS_BUTTONS, buttons);
+			validateParametersExist(message, buttons);
+			
+			var buttonList = "";
+			for(var i = 0; i < buttons.length; i++) {
+				if(i > 0) {
+					buttonList += ",";
+				}
+				buttonList += buttons[i];
+			}
+			remoteCall.addParam(ARGS_BUTTONS,buttonList);
 		}
 		else {
-			recall.addParam(ARGS_NUMBER, buttons);
+			remoteCall.addParam(ARGS_DIALOG_TYPE,buttons);
 		}
 			
-	    recall.addParam(ONCLICKHANDLERID, onClickHandlerId);
+	    remoteCall.addParam(ON_CLICK_HANDLER_ID, onClickId);
 
 		if(settings) {
-			validateSettingsArray(settings);
-			recall.addParam(ARGS_SETTINGS, settings);
+			//Temporarily add the known settings in pre-defined order. If they are not defined, add them as empty to preserve ordering
+			remoteCall.addParam("title", settings["title"] ? settings["title"] : "");
+			
+			remoteCall.addParam("size", settings["size"] ? settings["size"] : "");
+			
+			remoteCall.addParam("position", settings["position"] ? settings["position"] : "");
 		}
 				
-	    return recall.makeAsyncCall();
-		
+	    return remoteCall.makeAsyncCall();	
 	}
 	
 	this.blackberry.ui.dialog = {
