@@ -21,6 +21,7 @@
 	
 	var bb = this.blackberry;
 	var disp = this.blackberry.app.dispatcher;
+	var oldApp = this.blackberry.app;
 	
 	bb.app = {
 		
@@ -62,6 +63,7 @@
 		
 	};
 	
+	this.blackberry.app.event = oldApp.event;
 	/*
 	 * Getters for read-only properties
 	 */
