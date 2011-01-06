@@ -66,7 +66,7 @@ package blackberry.ui.dialog
 			return FEATUREID;
 		}
 	
-		public function standardAsk(eMessage:String,eStandardType:int,eOnClick:String,eSettings:Array = null):void {	
+		public function standardAsk(eMessage:String,eStandardType:int,eOnClick:String, ...eSettings):void {	
 			
 			jsCallbackID = eOnClick;
 			var eNewSettings:Dictionary = null;
@@ -77,14 +77,15 @@ package blackberry.ui.dialog
 			myDialog.show();	
 		}
 		
-		public function customAsk(eMessage:String,eButtons:Array,eOnClick:String,eSettings:Array = null):void {
+		public function customAsk(eMessage:String,eButtons:String,eOnClick:String,...eSettings):void {
 			
 			jsCallbackID = eOnClick;
 			var eNewSettings:Dictionary = null;
 			if (eSettings != null){
 				eNewSettings = dialogProperties(eSettings);
 			}
-			var myDialog:AlertDialog = createDialog(eMessage, eButtons, eNewSettings);
+			var buttons : Array = eButtons.split(",");
+			var myDialog:AlertDialog = createDialog(eMessage, buttons, eNewSettings);
 			myDialog.show();
 		}
 		
