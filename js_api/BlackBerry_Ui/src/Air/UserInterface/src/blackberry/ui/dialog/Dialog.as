@@ -38,12 +38,6 @@ package blackberry.ui.dialog
 
 	public class Dialog extends DefaultExtension
 	{	
-		private static const D_OK:int = 0;
-		private static const D_SAVE:int = 1;
-		private static const D_DELETE:int = 2;
-		private static const D_YES_NO:int = 3;
-		private static const D_OK_CANCEL:int = 4;
-		
 		private static const LOC_BOTTOM:String = "bottomCenter"; 
 		private static const LOC_CENTER:String = "middleCenter";
 		private static const LOC_TOP:String = "topCenter";
@@ -56,7 +50,7 @@ package blackberry.ui.dialog
 		
 		private const FEATUREID:Array = new Array ("blackberry.ui.dialog");
 		
-		private var jsCallbackID:String = "";
+		private var _jsCallbackID:String = "";
 		
 		public function Dialog() {
 			super();
@@ -66,29 +60,17 @@ package blackberry.ui.dialog
 			return FEATUREID;
 		}
 	
-		public function standardAsk(eMessage:String,eStandardType:int,eOnClick:String,eSettings:Array = null):void {	
+		public function ask(eMessage:String, eButtons:String, eOnClick:String, ...eSettings):void {
+			_jsCallbackID = eOnClick;
 			
-			jsCallbackID = eOnClick;
-			var eNewSettings:Dictionary = null;
-			if (eSettings != null){
-				eNewSettings = dialogProperties(eSettings);
-			}
-			var myDialog:AlertDialog = createDialog(eMessage, standardButtons(eStandardType), eNewSettings);
-			myDialog.show();	
-		}
-		
-		public function customAsk(eMessage:String,eButtons:Array,eOnClick:String,eSettings:Array = null):void {
+			var eNewSettings:Dictionary = dialogProperties();
+			var buttons : Array = eButtons.split(",");
+			var myDialog:AlertDialog = createDialog(eMessage, buttons, eNewSettings);
 			
-			jsCallbackID = eOnClick;
-			var eNewSettings:Dictionary = null;
-			if (eSettings != null){
-				eNewSettings = dialogProperties(eSettings);
-			}
-			var myDialog:AlertDialog = createDialog(eMessage, eButtons, eNewSettings);
 			myDialog.show();
 		}
 		
-		private function createDialog(eMessage:String,eButtons:Array,eSettings:Dictionary = null):AlertDialog {
+		private function createDialog(eMessage:String, eButtons:Array, eSettings:Dictionary = null):AlertDialog {
 			
 			var alertDialog:AlertDialog = new AlertDialog();
 			alertDialog.message = eMessage;
@@ -97,15 +79,9 @@ package blackberry.ui.dialog
 				alertDialog.addButton(eButtons[i]);
 			}
 			
-			if (eSettings == null) {
-				alertDialog.title = "";
-				alertDialog.dialogSize = SIZE_MEDIUM;
-				alertDialog.align = LOC_CENTER;	
-			} else {
-				alertDialog.title = eSettings["title"];
-				alertDialog.dialogSize = eSettings["size"];
-				alertDialog.align = eSettings["position"];
-			}	
+			alertDialog.title = eSettings["title"];
+			alertDialog.dialogSize = eSettings["size"];
+			alertDialog.align = eSettings["position"];	
 			
 			alertDialog.addEventListener(Event.SELECT, alertButtonClicked);
 			
@@ -115,28 +91,21 @@ package blackberry.ui.dialog
 		private function alertButtonClicked(event:Event):void {
 			var array:Array = new Array();
 			array[0] = event.target.selectedIndex;
-			evalJavaScriptEvent(jsCallbackID, array );
+			evalJavaScriptEvent(_jsCallbackID, array );
 		}
 		
-		private function dialogProperties (decodedProperties:Array):Dictionary {
+		private function dialogProperties() : Dictionary {
 			var settings:Dictionary = new Dictionary();
-			settings["title"] = decodedProperties[0];
-			settings["size"] = decodedProperties[1];
-			settings["position"] = decodedProperties[2];
+			
+			var title : String = super.getParameterByName("title") as String;
+			var size : String = super.getParameterByName("size") as String;
+			var position : String = super.getParameterByName("position") as String;
+			
+			settings["title"] = (title == null) ? "" : title;
+			settings["size"] = (size == null) ? SIZE_MEDIUM : size;
+			settings["position"] = (position == null) ? LOC_CENTER : position;
 			
 			return settings;
-		}
-		
-		private function standardButtons (standardType:int):Array {
-			var standardOps:Array = new Array;
-			
-			standardOps[D_OK] = new Array("0K");
-			standardOps[D_SAVE] = new Array("Save","Cancel");
-			standardOps[D_DELETE] = new Array("Delete","Cancel");
-			standardOps[D_YES_NO] = new Array("Yes","No");
-			standardOps[D_OK_CANCEL] = new Array("OK","Cancel");
-			
-			return standardOps[standardType];
 		}
 		
 	}

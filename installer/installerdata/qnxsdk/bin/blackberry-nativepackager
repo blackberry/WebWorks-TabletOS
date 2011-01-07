@@ -1,4 +1,0 @@
-#!/bin/sh
-here=$(dirname "$0")
-LIB="$here/../lib"
-java -Xmx512M -cp "$LIB/EccpressoJDK15ECC.jar:$LIB/EccpressoAll.jar:$LIB/BarSigner.jar:$LIB/BarDeploy.jar:$LIB/BarAir.jar:$LIB/BarPackager.jar" com.qnx.bbt.nativepackager.BarNativePackager "$@"

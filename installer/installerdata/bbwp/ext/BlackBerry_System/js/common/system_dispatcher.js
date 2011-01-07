@@ -31,6 +31,8 @@
 		
 		return request.makeSyncCall(); //don't care about the return value
 	}
+	
+	var oldSystem = this.blackberry.system;
 
 	this.blackberry.system = {
 		//Override the delegates for each namespace method
@@ -74,5 +76,8 @@
 				return false;
 			}
 		}
-	};	
+	};
+	this.blackberry.system.event = oldSystem.event;
+	
+	
 })();
