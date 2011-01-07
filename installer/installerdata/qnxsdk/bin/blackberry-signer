@@ -1,4 +1,0 @@
-#!/bin/sh
-here=$(dirname "$0")
-LIB="$here/../lib"
-java -cp "$LIB/EccpressoJDK15ECC.jar:$LIB/EccpressoAll.jar:$LIB/BarSigner.jar" net.rim.device.codesigning.barsigner.BarSigner "$@"
