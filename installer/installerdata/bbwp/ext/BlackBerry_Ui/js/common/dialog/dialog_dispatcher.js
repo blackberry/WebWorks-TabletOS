@@ -15,17 +15,15 @@
 */
 
 (function () {
-
 	var DIALOG_URL = "blackberry/ui/dialog";
-	
-	var CUSTOM_ASK = "customAsk";
-	var STANDARD_ASK = "standardAsk";
 	
 	var ARGS_MESSAGE = "message";
 	var ARGS_BUTTONS = "buttons";
-	var ARGS_DIALOG_TYPE = "type";
+	var ARGS_TITLE = "title";
+	var ARGS_SIZE = "size";
+	var ARGS_POSITION = "position";
 	
-	var ON_CLICK_HANDLER_ID = "onClickHandlerId";
+	var ARGS_ON_CLICK_HANDLER_ID = "onClickHandlerId";
 	
 	
 	if(!this.blackberry) {
@@ -34,9 +32,20 @@
 	
 	if(!this.blackberry.ui) {
 		this.blackberry.ui = {};
-	}	
+	}
 	
-	function validateParametersExist(message, buttons) {
+	function getButtonsForDialogType(dialogType) {
+		switch(dialogType) {
+			case blackberry.ui.dialog.D_OK : return ["Ok"];
+			case blackberry.ui.dialog.D_SAVE : return ["Save", "Discard"];
+			case blackberry.ui.dialog.D_DELETE : return ["Delete", "Cancel"];
+			case blackberry.ui.dialog.D_YES_NO : return ["Yes", "No"];
+			case blackberry.ui.dialog.D_OK_CANCEL : return ["Ok", "Cancel"];
+			default: throw new Error("Invalid dialog type: " + dialogType);
+		}
+	}
+	
+	function validateRequiredParameters(message, buttons) {
 		if(!message) {
 			throw new Error("Required argument missing: message.");
 		}
@@ -44,43 +53,54 @@
 		if(!buttons) {
 			throw new Error("Required argument missing: buttons[].");
 		}
+		
+		if(buttons.size == 0) {
+			throw new Error("Dialog requires at least one button, " + buttons.size + " provided.");
+		}
 	}
 	
-	function requestDialog(type, message, buttons, onClickHandler, settings) {
-		var onClickId = blackberry.events.registerEventHandler("onClick", onClickHandler);
-		
-		var remoteCall = new blackberry.transport.RemoteFunctionCall(DIALOG_URL + "/" + type);
-		
-	    remoteCall.addParam(ARGS_MESSAGE, message);
-				
-		if(type == "customAsk"){
-			validateParametersExist(message, buttons);
-			
-			var buttonList = "";
-			for(var i = 0; i < buttons.length; i++) {
-				if(i > 0) {
-					buttonList += ",";
-				}
-				buttonList += buttons[i];
+	function generateCommaSeparatedButtonList(buttonArray) {
+		var buttonList = "";
+		for(var i = 0; i < buttonArray.length; i++) {
+			if(i > 0) {
+				buttonList += ",";
 			}
-			remoteCall.addParam(ARGS_BUTTONS,buttonList);
+			buttonList += buttonArray[i];
 		}
-		else {
-			remoteCall.addParam(ARGS_DIALOG_TYPE,buttons);
-		}
-			
-	    remoteCall.addParam(ON_CLICK_HANDLER_ID, onClickId);
+		
+		return buttonList;
+	}
+	
+	function generateRequest(message, buttonList, onClickHandlerId, settings) {
+		var remoteCall = new blackberry.transport.RemoteFunctionCall(DIALOG_URL + "/ask");
+		remoteCall.addParam(ARGS_MESSAGE, message); 
+		remoteCall.addParam(ARGS_BUTTONS, buttonList);
+		remoteCall.addParam(ARGS_ON_CLICK_HANDLER_ID, onClickHandlerId);
 
 		if(settings) {
-			//Temporarily add the known settings in pre-defined order. If they are not defined, add them as empty to preserve ordering
-			remoteCall.addParam("title", settings["title"] ? settings["title"] : "");
+			if(settings[ARGS_TITLE]) {
+				remoteCall.addParam(ARGS_TITLE, settings[ARGS_TITLE]);
+			}
 			
-			remoteCall.addParam("size", settings["size"] ? settings["size"] : "");
+			if(settings[ARGS_SIZE]) {
+				remoteCall.addParam(ARGS_SIZE, settings[ARGS_SIZE]);
+			}
 			
-			remoteCall.addParam("position", settings["position"] ? settings["position"] : "");
+			if(settings[ARGS_POSITION]) {
+				remoteCall.addParam(ARGS_POSITION, settings[ARGS_POSITION]);
+			}
 		}
 				
-	    return remoteCall.makeAsyncCall();	
+	    return remoteCall;
+	}
+	
+	function requestDialog(message, buttons, onClickHandler, settings) {
+		validateRequiredParameters(message, buttons);
+		
+		var onClickId = blackberry.events.registerEventHandler("onClick", onClickHandler);
+		var buttonList = generateCommaSeparatedButtonList(buttons);
+		
+		return generateRequest(message, buttonList, onClickId, settings);
 	}
 	
 	this.blackberry.ui.dialog = {
@@ -88,11 +108,12 @@
 		dispatcher : {
 		
 			"customAsk" : function(message, buttons, onClickHandler, settings) {
-				requestDialog(CUSTOM_ASK, message, buttons, onClickHandler, settings);
+				requestDialog(message, buttons, onClickHandler, settings).makeAsyncCall();
 			},
 			
-			"standardAsk" : function(message, buttons, onClickHandler,settings) {
-				requestDialog(STANDARD_ASK, message, buttons, onClickHandler, settings);
+			"standardAsk" : function(message, dialogType, onClickHandler, settings) {
+				var buttons = getButtonsForDialogType(dialogType);
+				requestDialog(message, buttons, onClickHandler, settings).makeAsyncCall();
 			}
 		}
 	};	

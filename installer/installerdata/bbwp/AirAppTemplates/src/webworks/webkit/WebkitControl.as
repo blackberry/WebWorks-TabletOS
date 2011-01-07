@@ -103,9 +103,15 @@ package webworks.webkit
 		
 		private function documentLoadFinished(event:WebViewEvent):void
 		{
-			attachAppJsWorkaround();
+			if (ConfigData.getInstance().isFeatureAllowed("blackberry.app", webView.location))
+			{				
+				attachAppJsWorkaround();
+			}
 			
-			attachSystemJsWorkaround();
+			if (ConfigData.getInstance().isFeatureAllowed("blackberry.system", webView.location))
+			{
+				attachSystemJsWorkaround();
+			}
 			
 			trace(event.toString());			
 		}
@@ -239,9 +245,8 @@ package webworks.webkit
 		}
 
 		private function onJavaScriptWindowObjectCleared(event:WebViewEvent):void{
-			javascriptLoader.registerJavaScript(webView.location);
+			event.preventDefault();
+			javascriptLoader.registerJavaScript(webView.location, event);
 		}
-		
-
 	}
 }
