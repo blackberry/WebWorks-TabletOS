@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- This script was automatically generated using InstallAnywhere 2010 Enterprise, Build 3972
      STATUS: Fully-Functional UNLICENSED Trial Edition
-     DATE:   Thu Jan 06 00:08:42 EST 2011 -->
-<InstallAnywhere_Deployment_Project increments="4055">
+     DATE:   Fri Jan 07 15:31:29 EST 2011 -->
+<InstallAnywhere_Deployment_Project increments="3984">
 	<!-- ** DO NOT EDIT ** Essential authorization and configuration data ** DO NOT EDIT ** -->
 	<essentialScriptInfo>
 		<versionID major="11" minor="5" revision="0"/>
@@ -10,9 +10,9 @@
 		<scriptID>12,42,11,85,78,76,73,67,69,78,83,69,68</scriptID>
 		<buildID>3,13,71,87,105,110,100,111,119,115,32,88,80,44,32,53,46,49,44,32,120,56,54,59,32,74,97,118,97,32,49,46,54,46,48,95,49,53,44,32,83,117,110,32,77,105,99,114,111,115,121,115,116,101,109,115,32,73,110,99,46,44,32,104,116,116,112,58,47,47,106,97,118,97,46,115,117,110,46,99,111,109,47,59,32,101,110,44,32,85,110,107,110,111,119,110,59,32,67,112,49,50,53,50</buildID>
 		<!-- The authorizationID may change between project saves and builds.  This does not effect the integrity of the project, nor do changes in this value represent changes in the actual InstallAnywhere project. -->
-		<authorizationID>1,0,0,32,83,-70,20,0,64,99,70,101,125,121,100,96,105,48,48,49,56,52,67,98,113,112,124,44,81,100,99,62,57,15,14,14,16,-22,105,13,1,0,0</authorizationID>
+		<authorizationID>1,0,0,32,99,42,68,-112,64,99,70,101,125,121,100,96,105,48,48,49,56,52,67,98,113,112,124,44,81,100,99,62,57,15,14,10,20,-19,98,13,1,0,0</authorizationID>
 	</essentialScriptInfo>
-	<installationObjects uniqueObjects="154">
+	<installationObjects uniqueObjects="152">
 		<object class="com.zerog.ia.installer.Installer" objectID="61c3cf33921d">
 			<property name="belongsToUninstallPhase">
 				<boolean>false</boolean>
@@ -64,7 +64,7 @@
 								<string><![CDATA[bbwp.jar]]></string>
 							</property>
 							<property name="fileSize">
-								<long>79546</long>
+								<long>79545</long>
 							</property>
 							<property name="macBinary">
 								<boolean>false</boolean>
@@ -1165,85 +1165,6 @@ You may cancel this installation at any time by clicking the 'Cancel' button.]]>
 						</object>
 					</method>
 					<method name="addElement">
-						<object class="com.zerog.ia.installer.actions.PlugInAction" objectID="53a93be8aafa">
-							<property name="belongsToUninstallPhase">
-								<boolean>false</boolean>
-							</property>
-							<property name="rollbackEnabledCancel">
-								<boolean>true</boolean>
-							</property>
-							<property name="rollbackEnabledError">
-								<boolean>true</boolean>
-							</property>
-							<property name="showPleaseWaitPanel">
-								<boolean>true</boolean>
-							</property>
-							<property name="showIndeterminateDialog">
-								<boolean>true</boolean>
-							</property>
-							<property name="dialogLabel">
-								<string><![CDATA[Configuring $PRODUCT_NAME$...]]></string>
-							</property>
-							<property name="clientClassFullName">
-								<string><![CDATA[com.zerog.ia.customcode.util.fileutils.CopyDirectory]]></string>
-							</property>
-							<property name="resourcePath">
-								<string><![CDATA[$IA_HOME$\plugins]]></string>
-							</property>
-							<property name="resourceName">
-								<string><![CDATA[CopyDirectory.jar]]></string>
-							</property>
-							<property name="runsAfterFileDeletesNotBefore">
-								<boolean>false</boolean>
-							</property>
-							<property name="comment">
-								<string><![CDATA[]]></string>
-							</property>
-							<property name="descriptiveName">
-								<string><![CDATA[Copy Directory]]></string>
-							</property>
-							<property name="variables">
-								<object class="java.util.Vector">
-									<method name="addElement">
-										<object class="com.zerog.ia.installer.util.VariablePropertyDataNonBiDi" objectID="fa82f875a34f">
-											<property name="propertyValue">
-												<string><![CDATA[$USER_INSTALL_DIR$/bbwp/qnxsdk]]></string>
-											</property>
-											<property name="propertyName">
-												<string><![CDATA[CopyDirectory_Source]]></string>
-											</property>
-											<property name="bidiOption">
-												<int>0</int>
-											</property>
-										</object>
-									</method>
-									<method name="addElement">
-										<object class="com.zerog.ia.installer.util.VariablePropertyDataNonBiDi" objectID="09d1a8849155">
-											<property name="propertyValue">
-												<string><![CDATA[$USER_INSTALL_DIR$/bbwp/blackberry-tablet-sdk]]></string>
-											</property>
-											<property name="propertyName">
-												<string><![CDATA[CopyDirectory_Destination]]></string>
-											</property>
-											<property name="bidiOption">
-												<int>0</int>
-											</property>
-										</object>
-									</method>
-								</object>
-							</property>
-							<property name="sourceJarPath">
-								<string><![CDATA[/opt/InstallAnywhere/plugins/CopyDirectory.jar]]></string>
-							</property>
-							<property name="hasHelp">
-								<boolean>false</boolean>
-							</property>
-							<property name="hasSpecialImage">
-								<boolean>false</boolean>
-							</property>
-						</object>
-					</method>
-					<method name="addElement">
 						<object class="com.zerog.ia.installer.actions.ExecuteScript" objectID="7672336896c3">
 							<property name="belongsToUninstallPhase">
 								<boolean>false</boolean>
@@ -2193,7 +2114,7 @@ For information on configuration of the SDK please visit www.blackberry.com/deve
 						<object refID="61c284359209"/>
 					</property>
 					<property name="win32MagicFolder">
-						<object refID="61c284359209"/>
+						<object class="com.zerog.ia.installer.util.magicfolders.ProgramsDirMF" factoryID="159" objectID="657b6212b365"/>
 					</property>
 					<property name="solarisMagicFolderPath">
 						<string><![CDATA[Adobe Flash Builder 4]]></string>
@@ -2202,7 +2123,7 @@ For information on configuration of the SDK please visit www.blackberry.com/deve
 						<string><![CDATA[]]></string>
 					</property>
 					<property name="win32MagicFolderPath">
-						<string><![CDATA[]]></string>
+						<string><![CDATA[Research In Motion\BlackBerry WebWorks Packager for PlayBook]]></string>
 					</property>
 					<property name="os400MagicFolderPath">
 						<string><![CDATA[blackberry-tablet-sdk-0.9.0]]></string>
@@ -2434,7 +2355,7 @@ For information on configuration of the SDK please visit www.blackberry.com/deve
 					</method>
 					<method name="put">
 						<string><![CDATA[com.zerog.ia.project.build.last.date]]></string>
-						<string><![CDATA[January 6, 2011 12:02:49 AM EST]]></string>
+						<string><![CDATA[January 6, 2011 2:54:17 PM EST]]></string>
 					</method>
 					<method name="put">
 						<string><![CDATA[com.zerog.ia.build.platform.windows.vm]]></string>
@@ -2506,7 +2427,7 @@ For information on configuration of the SDK please visit www.blackberry.com/deve
 					</method>
 					<method name="put">
 						<string><![CDATA[com.zerog.ia.project.save.last.date]]></string>
-						<string><![CDATA[January 6, 2011 12:08:41 AM EST]]></string>
+						<string><![CDATA[January 7, 2011 3:31:29 PM EST]]></string>
 					</method>
 					<method name="put">
 						<string><![CDATA[com.zerog.ia.build.options.optimization.platform.cdrom]]></string>
@@ -2738,7 +2659,7 @@ For information on configuration of the SDK please visit www.blackberry.com/deve
 						<string><![CDATA[BlackBerryWebWorksSDK]]></string>
 					</property>
 					<property name="productName">
-						<string><![CDATA[BlackBerry® WebWorks SDK]]></string>
+						<string><![CDATA[BlackBerry WebWorks SDK for PlayBook]]></string>
 					</property>
 					<property name="productID">
 						<object class="com.zerog.registry.UUID">
