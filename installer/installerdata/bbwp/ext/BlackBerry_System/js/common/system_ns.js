@@ -23,7 +23,6 @@
 	var disp = this.blackberry.system.dispatcher;
 	
 	if(!this.blackberry.system) {
-		alert("blackberry.system is not defined");
 		this.blackberry.system = {};
 	}
 	
@@ -66,7 +65,9 @@
 		
 	};
 	
-	this.blackberry.system.event = oldSystem.event;
+	if(oldSystem) {
+		this.blackberry.system.event = oldSystem.event;
+	}
 	
 	/*
 	 * Define constants that will be returned by the hasPermission() method. 

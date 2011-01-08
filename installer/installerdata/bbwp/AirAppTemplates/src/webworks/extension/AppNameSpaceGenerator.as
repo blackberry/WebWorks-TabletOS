@@ -1,6 +1,9 @@
 package webworks.extension
 {
+	import flash.desktop.NativeApplication;
 	import flash.utils.Dictionary;
+	import flash.utils.setInterval;
+	import flash.utils.setTimeout;
 	
 	import json.JSONEncoder;
 	
@@ -8,26 +11,40 @@ package webworks.extension
 
 	public class AppNameSpaceGenerator
 	{
-		private var _appData:Object;
-		private var _jsonAppData:String;
+		private var _getters:Array;
 		
-		private const keys:Array = ["author","authorEmail","authorURL","copyright","description","id","license","licenseURL","version","name"]; 
+		private const APP_PROPERTIES:Array = ["author","authorEmail","authorURL","copyright","description","id","license","licenseURL","version","name"]; 
 		
-		public function AppNameSpaceGenerator(appData:Dictionary)
+		public function AppNameSpaceGenerator(appConfigData:Dictionary)
 		{
-			_appData = new Object();
+			_getters = new Array();
 			
-			for (var i:int = 0; i < keys.length; i++)
-			{
-				_appData[keys[i]] = appData[keys[i]];
-			}			
-			_jsonAppData = (new json.JSONEncoder(_appData)).getString(); 
+			for (var i:int = 0; i < APP_PROPERTIES.length; i++) {
+				_getters.push(generatePropertyGetter(APP_PROPERTIES[i], appConfigData[APP_PROPERTIES[i]]));
+			} 
 		}
 		
-		public function get appDataJson():String
+		public function get appNamespaceWorkaround():String
 		{
-			return _jsonAppData;
-		}	
+			return generateExecutableScript();
+		}
+		
+		private function generateExecutableScript() : String {
+			var js : String = "(function() { if(!blackberry.app){ blackberry.app = {}; }";
+			
+			for each(var getter : String in _getters) {
+				js += getter;
+			}
+			
+			js += "})();"
+			
+			return js;
+		}
+		
+		private function generatePropertyGetter(prop : String, value : String) : String {
+			//Sample: blackberry.app.__defineGetter__("author", disp.author);
+			return "blackberry.app.__defineGetter__('" + prop + "', function(){return '" + value + "'});";
+		}
 		
 	}
 }

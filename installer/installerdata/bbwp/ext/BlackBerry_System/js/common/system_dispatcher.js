@@ -48,8 +48,8 @@
 				return "QNX";
 			},
 			"hasCapability" : function(desiredCapability) {
-				var supportedCapabilities = ["location.gps", "media.audio.capture", 
-				"media.video.capture", "media.recording", "network.bluetooth", "network.wlan"];
+				var supportedCapabilities = ["location.gps","media.audio.capture","media.video.capture",
+				"media.recording","network.bluetooth","network.wlan"];
 				for (i in supportedCapabilities) {
 				       if (supportedCapabilities[i] == desiredCapability) return true;
 				   }
@@ -77,7 +77,8 @@
 			}
 		}
 	};
-	this.blackberry.system.event = oldSystem.event;
 	
-	
+	if(oldSystem) {
+		this.blackberry.system.event = oldSystem.event;
+	}
 })();

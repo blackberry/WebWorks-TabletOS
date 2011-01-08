@@ -63,7 +63,6 @@
 		
 	};
 	
-	this.blackberry.app.event = oldApp.event;
 	/*
 	 * Getters for read-only properties
 	 */
@@ -73,9 +72,12 @@
 	bb.app.__defineGetter__("copyright", disp.copyright);
 	bb.app.__defineGetter__("description", disp.description);
 	bb.app.__defineGetter__("id", disp.id);
-	bb.app.__defineGetter__("isForeground", disp.isForeground);
 	bb.app.__defineGetter__("license", disp.license);
 	bb.app.__defineGetter__("licenseURL", disp.licenseURL);
 	bb.app.__defineGetter__("name", disp.name);
 	bb.app.__defineGetter__("version", disp.version);
+	
+	if(oldApp) {
+		this.blackberry.app.event = oldApp.event;
+	}
 })();
