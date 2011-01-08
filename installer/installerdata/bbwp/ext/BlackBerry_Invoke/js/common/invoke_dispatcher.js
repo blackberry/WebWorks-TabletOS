@@ -113,7 +113,7 @@
 					default:
 						throw APP_TYPE_ERROR;
 				}
-				return remote.makeSyncCall();
+				return remote.makeAsyncCall();
 			}			
 			
 			
