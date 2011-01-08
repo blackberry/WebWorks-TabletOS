@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- This script was automatically generated using InstallAnywhere 2010 Enterprise, Build 3972
      STATUS: Fully Functional LICENSED Edition
-     DATE:   Sat Jan 08 00:12:37 EST 2011 -->
+     DATE:   Sat Jan 08 13:12:53 EST 2011 -->
 <InstallAnywhere_Deployment_Project increments="3388">
 	<!-- ** DO NOT EDIT ** Essential authorization and configuration data ** DO NOT EDIT ** -->
 	<essentialScriptInfo>
@@ -10,7 +10,7 @@
 		<scriptID>12,42,11,70,49,57,54,74,78,74,74,78,72,45,69,68,74,45,75,70,74,74,70,78,78,69,74,88</scriptID>
 		<buildID>3,13,71,87,105,110,100,111,119,115,32,88,80,44,32,53,46,49,44,32,120,56,54,59,32,74,97,118,97,32,49,46,54,46,48,95,49,53,44,32,83,117,110,32,77,105,99,114,111,115,121,115,116,101,109,115,32,73,110,99,46,44,32,104,116,116,112,58,47,47,106,97,118,97,46,115,117,110,46,99,111,109,47,59,32,101,110,44,32,85,110,107,110,111,119,110,59,32,67,112,49,50,53,50</buildID>
 		<!-- The authorizationID may change between project saves and builds.  This does not effect the integrity of the project, nor do changes in this value represent changes in the actual InstallAnywhere project. -->
-		<authorizationID>1,0,0,32,99,15,99,32,80,112,118,100,85,99,113,97,113,65,81,84,74,67,70,68,72,74,64,69,66,69,64,95,71,5,2,13,17,26,100,13,1,0,0</authorizationID>
+		<authorizationID>1,0,0,32,99,-33,-77,-96,80,112,118,100,85,99,113,97,113,65,81,84,74,67,70,68,72,74,64,69,66,69,64,95,71,5,2,14,27,20,102,13,1,0,0</authorizationID>
 	</essentialScriptInfo>
 	<installationObjects uniqueObjects="133">
 		<object class="com.zerog.ia.installer.Installer" objectID="61c3cf33921d">
@@ -64,7 +64,7 @@
 								<string><![CDATA[bbwp.jar]]></string>
 							</property>
 							<property name="fileSize">
-								<long>79546</long>
+								<long>79547</long>
 							</property>
 							<property name="macBinary">
 								<boolean>false</boolean>
@@ -280,7 +280,7 @@ You may cancel this installation at any time by clicking the 'Cancel' button.]]>
 								<boolean>true</boolean>
 							</property>
 							<property name="componentUUID">
-								<string><![CDATA[658a8482-1eea-11b2-827c-8779579a82d7]]></string>
+								<string><![CDATA[7a20a9ae-1eff-11b2-ae4a-c3295e7963ea]]></string>
 							</property>
 							<property name="highestVersionOnly">
 								<boolean>false</boolean>
@@ -1626,7 +1626,7 @@ For information on configuration of the SDK please visit www.blackberry.com/deve
 					</method>
 					<method name="put">
 						<string><![CDATA[com.zerog.ia.project.build.last.date]]></string>
-						<string><![CDATA[January 8, 2011 12:12:37 AM EST]]></string>
+						<string><![CDATA[January 8, 2011 12:24:11 PM EST]]></string>
 					</method>
 					<method name="put">
 						<string><![CDATA[com.zerog.ia.build.platform.windows.vm]]></string>
@@ -1698,7 +1698,7 @@ For information on configuration of the SDK please visit www.blackberry.com/deve
 					</method>
 					<method name="put">
 						<string><![CDATA[com.zerog.ia.project.save.last.date]]></string>
-						<string><![CDATA[January 8, 2011 12:12:37 AM EST]]></string>
+						<string><![CDATA[January 8, 2011 1:12:53 PM EST]]></string>
 					</method>
 					<method name="put">
 						<string><![CDATA[com.zerog.ia.build.options.optimization.platform.cdrom]]></string>
@@ -1935,7 +1935,7 @@ For information on configuration of the SDK please visit www.blackberry.com/deve
 					<property name="productID">
 						<object class="com.zerog.registry.UUID">
 							<method name="update">
-								<string><![CDATA[d0e2f292-1efe-11b2-b63a-c83667acc8e9]]></string>
+								<string><![CDATA[79d4af00-1eff-11b2-9505-c3295e7963ea]]></string>
 							</method>
 						</object>
 					</property>
@@ -1957,7 +1957,7 @@ For information on configuration of the SDK please visit www.blackberry.com/deve
 								<int>0</int>
 							</property>
 							<property name="subRevision">
-								<int>0</int>
+								<int>13</int>
 							</property>
 						</object>
 					</property>
@@ -1965,7 +1965,7 @@ For information on configuration of the SDK please visit www.blackberry.com/deve
 						<string><![CDATA[]]></string>
 					</property>
 					<property name="vendorName">
-						<string><![CDATA[Research In Motion Limited]]></string>
+						<string><![CDATA[Research In Motion]]></string>
 					</property>
 					<property name="vendorID">
 						<object class="com.zerog.registry.UUID">
@@ -1981,7 +1981,7 @@ For information on configuration of the SDK please visit www.blackberry.com/deve
 						<string><![CDATA[]]></string>
 					</property>
 					<property name="copyright">
-						<string><![CDATA[]]></string>
+						<string><![CDATA[Research In Motion]]></string>
 					</property>
 					<property name="license">
 						<string><![CDATA[Commercial]]></string>
@@ -2574,7 +2574,7 @@ Thank you for choosing $PRODUCT_NAME$!]]></string>
 									<property name="uniqueId">
 										<object class="com.zerog.registry.UUID">
 											<method name="update">
-												<string><![CDATA[658a8482-1eea-11b2-827c-8779579a82d7]]></string>
+												<string><![CDATA[7a20a9ae-1eff-11b2-ae4a-c3295e7963ea]]></string>
 											</method>
 										</object>
 									</property>
@@ -3358,7 +3358,7 @@ Thank you for choosing $PRODUCT_NAME$!]]></string>
 												<boolean>false</boolean>
 											</property>
 											<property name="totalSize">
-												<long>121398680</long>
+												<long>1</long>
 											</property>
 											<property name="macBinary">
 												<boolean>false</boolean>
@@ -3396,7 +3396,7 @@ Thank you for choosing $PRODUCT_NAME$!]]></string>
 												<boolean>false</boolean>
 											</property>
 											<property name="totalSize">
-												<long>49995</long>
+												<long>1</long>
 											</property>
 											<property name="macBinary">
 												<boolean>false</boolean>
@@ -3434,7 +3434,7 @@ Thank you for choosing $PRODUCT_NAME$!]]></string>
 												<boolean>false</boolean>
 											</property>
 											<property name="totalSize">
-												<long>4887</long>
+												<long>1</long>
 											</property>
 											<property name="macBinary">
 												<boolean>false</boolean>
@@ -3513,7 +3513,7 @@ Thank you for choosing $PRODUCT_NAME$!]]></string>
 												<boolean>false</boolean>
 											</property>
 											<property name="totalSize">
-												<long>80243</long>
+												<long>1</long>
 											</property>
 											<property name="macBinary">
 												<boolean>false</boolean>
@@ -3551,7 +3551,7 @@ Thank you for choosing $PRODUCT_NAME$!]]></string>
 												<boolean>false</boolean>
 											</property>
 											<property name="totalSize">
-												<long>165370</long>
+												<long>1</long>
 											</property>
 											<property name="macBinary">
 												<boolean>false</boolean>
