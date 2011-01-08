@@ -22,7 +22,6 @@
 	var APP_COPYRIGHT = "copyright";
 	var APP_DESCRIPTION = "description";
 	var APP_ID = "id";
-	var APP_IS_FOREGROUND = "isForeground";
 	var APP_LICENCE = "license";
 	var APP_LICENCE_URL = "licenseURL";
 	var APP_NAME = "name";
@@ -92,5 +91,7 @@
 		}
 	};
 	
-	this.blackberry.app.event = oldApp.event;
+	if(oldApp) {
+		this.blackberry.app.event = oldApp.event;
+	}
 })();
