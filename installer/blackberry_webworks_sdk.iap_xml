@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- This script was automatically generated using InstallAnywhere 2010 Enterprise, Build 3972
-     STATUS: Fully-Functional UNLICENSED Trial Edition
-     DATE:   Fri Jan 07 15:31:29 EST 2011 -->
-<InstallAnywhere_Deployment_Project increments="3984">
+     STATUS: Fully Functional LICENSED Edition
+     DATE:   Sat Jan 08 00:12:37 EST 2011 -->
+<InstallAnywhere_Deployment_Project increments="3388">
 	<!-- ** DO NOT EDIT ** Essential authorization and configuration data ** DO NOT EDIT ** -->
 	<essentialScriptInfo>
 		<versionID major="11" minor="5" revision="0"/>
 		<editionID>49,49,46,53,32,69,110,116,101,114,112,114,105,115,101,32,66,117,105,108,100,32,51,57,55,50</editionID>
-		<scriptID>12,42,11,85,78,76,73,67,69,78,83,69,68</scriptID>
+		<scriptID>12,42,11,70,49,57,54,74,78,74,74,78,72,45,69,68,74,45,75,70,74,74,70,78,78,69,74,88</scriptID>
 		<buildID>3,13,71,87,105,110,100,111,119,115,32,88,80,44,32,53,46,49,44,32,120,56,54,59,32,74,97,118,97,32,49,46,54,46,48,95,49,53,44,32,83,117,110,32,77,105,99,114,111,115,121,115,116,101,109,115,32,73,110,99,46,44,32,104,116,116,112,58,47,47,106,97,118,97,46,115,117,110,46,99,111,109,47,59,32,101,110,44,32,85,110,107,110,111,119,110,59,32,67,112,49,50,53,50</buildID>
 		<!-- The authorizationID may change between project saves and builds.  This does not effect the integrity of the project, nor do changes in this value represent changes in the actual InstallAnywhere project. -->
-		<authorizationID>1,0,0,32,99,42,68,-112,64,99,70,101,125,121,100,96,105,48,48,49,56,52,67,98,113,112,124,44,81,100,99,62,57,15,14,10,20,-19,98,13,1,0,0</authorizationID>
+		<authorizationID>1,0,0,32,99,15,99,32,80,112,118,100,85,99,113,97,113,65,81,84,74,67,70,68,72,74,64,69,66,69,64,95,71,5,2,13,17,26,100,13,1,0,0</authorizationID>
 	</essentialScriptInfo>
-	<installationObjects uniqueObjects="152">
+	<installationObjects uniqueObjects="133">
 		<object class="com.zerog.ia.installer.Installer" objectID="61c3cf33921d">
 			<property name="belongsToUninstallPhase">
 				<boolean>false</boolean>
@@ -64,7 +64,7 @@
 								<string><![CDATA[bbwp.jar]]></string>
 							</property>
 							<property name="fileSize">
-								<long>79545</long>
+								<long>79546</long>
 							</property>
 							<property name="macBinary">
 								<boolean>false</boolean>
@@ -269,6 +269,120 @@ You may cancel this installation at any time by clicking the 'Cancel' button.]]>
 						</object>
 					</method>
 					<method name="addElement">
+						<object class="com.zerog.ia.installer.actions.RegistryFindAction" objectID="76351712ab68">
+							<property name="belongsToUninstallPhase">
+								<boolean>false</boolean>
+							</property>
+							<property name="rollbackEnabledCancel">
+								<boolean>true</boolean>
+							</property>
+							<property name="rollbackEnabledError">
+								<boolean>true</boolean>
+							</property>
+							<property name="componentUUID">
+								<string><![CDATA[658a8482-1eea-11b2-827c-8779579a82d7]]></string>
+							</property>
+							<property name="highestVersionOnly">
+								<boolean>false</boolean>
+							</property>
+							<property name="compareMode">
+								<int>1</int>
+							</property>
+							<property name="version">
+								<string><![CDATA[]]></string>
+							</property>
+							<property name="compareVersion">
+								<boolean>false</boolean>
+							</property>
+							<property name="searchLocationOnly">
+								<boolean>false</boolean>
+							</property>
+							<property name="countVariable">
+								<string><![CDATA[$REG_COMPONENT_COUNT$]]></string>
+							</property>
+							<property name="versionsVariable">
+								<string><![CDATA[$REG_COMPONENT_VERSIONS$]]></string>
+							</property>
+							<property name="locationsVariable">
+								<string><![CDATA[$REG_COMPONENT_LOCATIONS$]]></string>
+							</property>
+							<property name="comment">
+								<string><![CDATA[Find prev version]]></string>
+							</property>
+						</object>
+					</method>
+					<method name="addElement">
+						<object class="com.zerog.ia.installer.actions.ShowDialogAction" objectID="765ff50f84d8">
+							<property name="belongsToUninstallPhase">
+								<boolean>false</boolean>
+							</property>
+							<property name="rollbackEnabledCancel">
+								<boolean>true</boolean>
+							</property>
+							<property name="rollbackEnabledError">
+								<boolean>true</boolean>
+							</property>
+							<property name="title">
+								<string><![CDATA[Previous Installation Found]]></string>
+							</property>
+							<property name="label">
+								<string><![CDATA[Previous Installation Found]]></string>
+							</property>
+							<property name="narrative">
+								<string><![CDATA[Please uninstall previous versions and try again.]]></string>
+							</property>
+							<property name="dismissalAction">
+								<int>0</int>
+							</property>
+							<property name="cancelDismissalAction">
+								<int>1</int>
+							</property>
+							<property name="detailsDismissalAction">
+								<int>1</int>
+							</property>
+							<property name="buttonLabel">
+								<string><![CDATA[OK]]></string>
+							</property>
+							<property name="cancelButtonLabel">
+								<string><![CDATA[Cancel]]></string>
+							</property>
+							<property name="detailsButtonLabel">
+								<string><![CDATA[Details...]]></string>
+							</property>
+							<property name="variableName">
+								<string><![CDATA[$CHOSEN_DIALOG_BUTTON$]]></string>
+							</property>
+							<property name="buttonCombination">
+								<int>0</int>
+							</property>
+							<property name="alertLevel">
+								<int>0</int>
+							</property>
+							<rules logicalOperation="AND">
+								<object class="com.zerog.ia.installer.rules.CompareVariableNumerically" objectID="7660c45684e7">
+									<property name="belongsToUninstallPhase">
+										<boolean>false</boolean>
+									</property>
+									<property name="rollbackEnabledCancel">
+										<boolean>true</boolean>
+									</property>
+									<property name="rollbackEnabledError">
+										<boolean>true</boolean>
+									</property>
+									<property name="operation">
+										<string><![CDATA[not equal to]]></string>
+									</property>
+									<property name="operandOne">
+										<string><![CDATA[$REG_COMPONENT_COUNT$]]></string>
+									</property>
+									<property name="operandTwo">
+										<string><![CDATA[0]]></string>
+									</property>
+								</object>
+							</rules>
+						</object>
+					</method>
+					<method name="addElement">
 						<object class="com.zerog.ia.installer.actions.LicenseAgrAction" objectID="1128675ebeba">
 							<property name="belongsToUninstallPhase">
 								<boolean>false</boolean>
@@ -325,7 +439,7 @@ You may cancel this installation at any time by clicking the 'Cancel' button.]]>
 						</object>
 					</method>
 					<method name="addElement">
-						<object class="com.zerog.ia.installer.actions.ChooseFolder" objectID="c394627b9e4b">
+						<object class="com.zerog.ia.installer.actions.InstallDirAction" objectID="777ac9aebb17">
 							<property name="belongsToUninstallPhase">
 								<boolean>false</boolean>
 							</property>
@@ -342,27 +456,15 @@ You may cancel this installation at any time by clicking the 'Cancel' button.]]>
 								<string><![CDATA[Choose Install Folder]]></string>
 							</property>
 							<property name="prompt">
-								<string><![CDATA[Where Would You Like to Install?]]></string>
+								<string><![CDATA[&Where Would You Like to Install?]]></string>
 							</property>
-							<property name="selection">
-								<string><![CDATA[$USER_INSTALL_DIR_1$]]></string>
-							</property>
-							<property name="defaultFile">
-								<string><![CDATA[]]></string>
-							</property>
-							<property name="magicFolderId">
-								<int>994</int>
+							<property name="canSpecifyInstallFolderName">
+								<boolean>false</boolean>
 							</property>
 							<property name="additionalText">
-								<string><![CDATA[Please select the folder where do you want to install this product to.]]></string>
-							</property>
-							<property name="parentFolder">
-								<string><![CDATA[$PATH_OF_SELECTED_FILE$]]></string>
+								<string><![CDATA[Please choose a destination folder for this installation.]]></string>
 							</property>
 							<property name="canManuallyEnterPath">
-								<boolean>true</boolean>
-							</property>
-							<property name="checkPermissions">
 								<boolean>true</boolean>
 							</property>
 							<property name="labelOption">
@@ -372,124 +474,12 @@ You may cancel this installation at any time by clicking the 'Cancel' button.]]>
 								<int>2</int>
 							</property>
 							<property name="help">
-								<object class="com.zerog.ia.installer.util.Help" objectID="c39c9af99e4c">
+								<object class="com.zerog.ia.installer.util.Help" objectID="777ac9afbb17">
 									<property name="showHelp">
 										<boolean>false</boolean>
 									</property>
 								</object>
 							</property>
-						</object>
-					</method>
-					<method name="addElement">
-						<object class="com.zerog.ia.installer.actions.ShowDialogAction" objectID="9b02f9fda7a8">
-							<property name="belongsToUninstallPhase">
-								<boolean>false</boolean>
-							</property>
-							<property name="rollbackEnabledCancel">
-								<boolean>true</boolean>
-							</property>
-							<property name="rollbackEnabledError">
-								<boolean>true</boolean>
-							</property>
-							<property name="title">
-								<string><![CDATA[Folder exists]]></string>
-							</property>
-							<property name="label">
-								<string><![CDATA[Install folder exists]]></string>
-							</property>
-							<property name="narrative">
-								<string><![CDATA[$USER_INSTALL_DIR_1$/blackberry-tablet-sdk-0.9.0 exists already. Do you want to remove the existing folder before install? If you choose No, you have to select a different folder to install this product to.]]></string>
-							</property>
-							<property name="dismissalAction">
-								<int>1</int>
-							</property>
-							<property name="cancelDismissalAction">
-								<int>0</int>
-							</property>
-							<property name="detailsDismissalAction">
-								<int>1</int>
-							</property>
-							<property name="buttonLabel">
-								<string><![CDATA[Yes]]></string>
-							</property>
-							<property name="cancelButtonLabel">
-								<string><![CDATA[No]]></string>
-							</property>
-							<property name="detailsButtonLabel">
-								<string><![CDATA[Details...]]></string>
-							</property>
-							<property name="variableName">
-								<string><![CDATA[$CHOSEN_DIALOG_BUTTON$]]></string>
-							</property>
-							<property name="buttonCombination">
-								<int>1</int>
-							</property>
-							<property name="alertLevel">
-								<int>3</int>
-							</property>
-							<rules logicalOperation="AND">
-								<object class="com.zerog.ia.installer.rules.FileFolderPathChk" objectID="9b02f9fea7a8">
-									<property name="belongsToUninstallPhase">
-										<boolean>false</boolean>
-									</property>
-									<property name="rollbackEnabledCancel">
-										<boolean>true</boolean>
-									</property>
-									<property name="rollbackEnabledError">
-										<boolean>true</boolean>
-									</property>
-									<property name="path">
-										<string><![CDATA[$USER_INSTALL_DIR_1$/blackberry-tablet-sdk-0.9.0]]></string>
-									</property>
-									<property name="checkIsFileFolder">
-										<boolean>true</boolean>
-									</property>
-									<property name="isFile">
-										<boolean>false</boolean>
-									</property>
-									<property name="checkExists">
-										<boolean>true</boolean>
-									</property>
-									<property name="exists">
-										<boolean>true</boolean>
-									</property>
-									<property name="checkReadWrite">
-										<boolean>false</boolean>
-									</property>
-									<property name="isReadable">
-										<boolean>true</boolean>
-									</property>
-									<property name="isWriteable">
-										<boolean>true</boolean>
-									</property>
-									<property name="checksInUseNotNotInUse">
-										<boolean>false</boolean>
-									</property>
-									<property name="checkInUse">
-										<boolean>false</boolean>
-									</property>
-								</object>
-								<object class="com.zerog.ia.installer.rules.CompareVariable" objectID="9b049110a7a8">
-									<property name="belongsToUninstallPhase">
-										<boolean>false</boolean>
-									</property>
-									<property name="rollbackEnabledCancel">
-										<boolean>true</boolean>
-									</property>
-									<property name="rollbackEnabledError">
-										<boolean>true</boolean>
-									</property>
-									<property name="operation">
-										<string><![CDATA[contains]]></string>
-									</property>
-									<property name="operandOne">
-										<string><![CDATA[$USER_INPUT_RESULTS$]]></string>
-									</property>
-									<property name="operandTwo">
-										<string><![CDATA[No]]></string>
-									</property>
-								</object>
-							</rules>
 						</object>
 					</method>
 					<method name="addElement">
@@ -847,28 +837,6 @@ You may cancel this installation at any time by clicking the 'Cancel' button.]]>
 									</property>
 								</object>
 							</rules>
-						</object>
-					</method>
-					<method name="addElement">
-						<object class="com.zerog.ia.installer.actions.EditVariableTable" objectID="a0d37ecc8e58">
-							<property name="belongsToUninstallPhase">
-								<boolean>false</boolean>
-							</property>
-							<property name="rollbackEnabledCancel">
-								<boolean>true</boolean>
-							</property>
-							<property name="rollbackEnabledError">
-								<boolean>true</boolean>
-							</property>
-							<property name="name">
-								<string><![CDATA[$USER_INSTALL_DIR$]]></string>
-							</property>
-							<property name="value">
-								<string><![CDATA[$USER_INSTALL_DIR_1$]]></string>
-							</property>
-							<property name="passByValue">
-								<boolean>true</boolean>
-							</property>
 						</object>
 					</method>
 					<method name="addElement">
@@ -1259,701 +1227,6 @@ You may cancel this installation at any time by clicking the 'Cancel' button.]]>
 						</object>
 					</method>
 					<method name="addElement">
-						<object class="com.zerog.ia.installer.actions.DeleteFolderAction" objectID="6c148284ae7b">
-							<property name="belongsToUninstallPhase">
-								<boolean>false</boolean>
-							</property>
-							<property name="rollbackEnabledCancel">
-								<boolean>true</boolean>
-							</property>
-							<property name="rollbackEnabledError">
-								<boolean>true</boolean>
-							</property>
-							<property name="targetAction">
-								<object class="com.zerog.ia.installer.actions.InstallDirectory" objectID="dd79262aa668">
-									<property name="belongsToUninstallPhase">
-										<boolean>false</boolean>
-									</property>
-									<property name="rollbackEnabledCancel">
-										<boolean>true</boolean>
-									</property>
-									<property name="rollbackEnabledError">
-										<boolean>true</boolean>
-									</property>
-									<property name="unixPermissions">
-										<string><![CDATA[775]]></string>
-									</property>
-									<property name="sourceName">
-										<string><![CDATA[]]></string>
-									</property>
-									<property name="overrideUnixPermissions">
-										<boolean>false</boolean>
-									</property>
-									<property name="sourcePath">
-										<string><![CDATA[$IA_PROJECT_DIR$\installerdata\qnxsdk]]></string>
-									</property>
-									<property name="shouldUninstall">
-										<boolean>true</boolean>
-									</property>
-									<property name="destinationName">
-										<string><![CDATA[qnxsdk]]></string>
-									</property>
-									<property name="removeRecursively">
-										<boolean>true</boolean>
-									</property>
-									<property name="totalSize">
-										<long>1</long>
-									</property>
-									<property name="macBinary">
-										<boolean>false</boolean>
-									</property>
-									<visualChildren>
-										<object class="com.zerog.ia.installer.actions.InstallDirectory" objectID="45cc00f0ba74">
-											<property name="belongsToUninstallPhase">
-												<boolean>false</boolean>
-											</property>
-											<property name="rollbackEnabledCancel">
-												<boolean>true</boolean>
-											</property>
-											<property name="rollbackEnabledError">
-												<boolean>true</boolean>
-											</property>
-											<property name="unixPermissions">
-												<string><![CDATA[775]]></string>
-											</property>
-											<property name="sourceName">
-												<string><![CDATA[]]></string>
-											</property>
-											<property name="overrideUnixPermissions">
-												<boolean>false</boolean>
-											</property>
-											<property name="sourcePath">
-												<string><![CDATA[$IA_PROJECT_DIR$\installerdata\qnxsdk\asdocs]]></string>
-											</property>
-											<property name="shouldUninstall">
-												<boolean>true</boolean>
-											</property>
-											<property name="destinationName">
-												<string><![CDATA[asdocs]]></string>
-											</property>
-											<property name="removeRecursively">
-												<boolean>false</boolean>
-											</property>
-											<property name="totalSize">
-												<long>1</long>
-											</property>
-											<property name="macBinary">
-												<boolean>false</boolean>
-											</property>
-										</object>
-										<object class="com.zerog.ia.installer.actions.InstallDirectory" objectID="45cc164ebac3">
-											<property name="belongsToUninstallPhase">
-												<boolean>false</boolean>
-											</property>
-											<property name="rollbackEnabledCancel">
-												<boolean>true</boolean>
-											</property>
-											<property name="rollbackEnabledError">
-												<boolean>true</boolean>
-											</property>
-											<property name="unixPermissions">
-												<string><![CDATA[775]]></string>
-											</property>
-											<property name="sourceName">
-												<string><![CDATA[]]></string>
-											</property>
-											<property name="overrideUnixPermissions">
-												<boolean>false</boolean>
-											</property>
-											<property name="sourcePath">
-												<string><![CDATA[$IA_PROJECT_DIR$\installerdata\qnxsdk\bin]]></string>
-											</property>
-											<property name="shouldUninstall">
-												<boolean>true</boolean>
-											</property>
-											<property name="destinationName">
-												<string><![CDATA[bin]]></string>
-											</property>
-											<property name="removeRecursively">
-												<boolean>false</boolean>
-											</property>
-											<property name="totalSize">
-												<long>1</long>
-											</property>
-											<property name="macBinary">
-												<boolean>false</boolean>
-											</property>
-											<visualChildren>
-												<object class="com.zerog.ia.installer.actions.InstallFile" objectID="45cc165dbac4">
-													<property name="belongsToUninstallPhase">
-														<boolean>false</boolean>
-													</property>
-													<property name="rollbackEnabledCancel">
-														<boolean>true</boolean>
-													</property>
-													<property name="rollbackEnabledError">
-														<boolean>true</boolean>
-													</property>
-													<property name="unixPermissions">
-														<string><![CDATA[664]]></string>
-													</property>
-													<property name="sourceName">
-														<string><![CDATA[blackberry-airpackager.bat]]></string>
-													</property>
-													<property name="overrideUnixPermissions">
-														<boolean>false</boolean>
-													</property>
-													<property name="sourcePath">
-														<string><![CDATA[$IA_PROJECT_DIR$\installerdata\qnxsdk\bin\]]></string>
-													</property>
-													<property name="shouldUninstall">
-														<boolean>true</boolean>
-													</property>
-													<property name="destinationName">
-														<string><![CDATA[blackberry-airpackager.bat]]></string>
-													</property>
-													<property name="fileSize">
-														<long>237</long>
-													</property>
-													<property name="macBinary">
-														<boolean>false</boolean>
-													</property>
-													<property name="targetCheckKind">
-														<int>0</int>
-													</property>
-												</object>
-												<object class="com.zerog.ia.installer.actions.InstallFile" objectID="45cc166cbac4">
-													<property name="belongsToUninstallPhase">
-														<boolean>false</boolean>
-													</property>
-													<property name="rollbackEnabledCancel">
-														<boolean>true</boolean>
-													</property>
-													<property name="rollbackEnabledError">
-														<boolean>true</boolean>
-													</property>
-													<property name="unixPermissions">
-														<string><![CDATA[664]]></string>
-													</property>
-													<property name="sourceName">
-														<string><![CDATA[blackberry-deploy]]></string>
-													</property>
-													<property name="overrideUnixPermissions">
-														<boolean>false</boolean>
-													</property>
-													<property name="sourcePath">
-														<string><![CDATA[$IA_PROJECT_DIR$\installerdata\qnxsdk\bin\]]></string>
-													</property>
-													<property name="shouldUninstall">
-														<boolean>true</boolean>
-													</property>
-													<property name="destinationName">
-														<string><![CDATA[blackberry-deploy]]></string>
-													</property>
-													<property name="fileSize">
-														<long>85</long>
-													</property>
-													<property name="macBinary">
-														<boolean>false</boolean>
-													</property>
-													<property name="targetCheckKind">
-														<int>0</int>
-													</property>
-												</object>
-												<object class="com.zerog.ia.installer.actions.InstallFile" objectID="45cc166dbac4">
-													<property name="belongsToUninstallPhase">
-														<boolean>false</boolean>
-													</property>
-													<property name="rollbackEnabledCancel">
-														<boolean>true</boolean>
-													</property>
-													<property name="rollbackEnabledError">
-														<boolean>true</boolean>
-													</property>
-													<property name="unixPermissions">
-														<string><![CDATA[664]]></string>
-													</property>
-													<property name="sourceName">
-														<string><![CDATA[blackberry-deploy.bat]]></string>
-													</property>
-													<property name="overrideUnixPermissions">
-														<boolean>false</boolean>
-													</property>
-													<property name="sourcePath">
-														<string><![CDATA[$IA_PROJECT_DIR$\installerdata\qnxsdk\bin\]]></string>
-													</property>
-													<property name="shouldUninstall">
-														<boolean>true</boolean>
-													</property>
-													<property name="destinationName">
-														<string><![CDATA[blackberry-deploy.bat]]></string>
-													</property>
-													<property name="fileSize">
-														<long>53</long>
-													</property>
-													<property name="macBinary">
-														<boolean>false</boolean>
-													</property>
-													<property name="targetCheckKind">
-														<int>0</int>
-													</property>
-												</object>
-												<object class="com.zerog.ia.installer.actions.InstallFile" objectID="45cc167cbac4">
-													<property name="belongsToUninstallPhase">
-														<boolean>false</boolean>
-													</property>
-													<property name="rollbackEnabledCancel">
-														<boolean>true</boolean>
-													</property>
-													<property name="rollbackEnabledError">
-														<boolean>true</boolean>
-													</property>
-													<property name="unixPermissions">
-														<string><![CDATA[664]]></string>
-													</property>
-													<property name="sourceName">
-														<string><![CDATA[blackberry-keytool]]></string>
-													</property>
-													<property name="overrideUnixPermissions">
-														<boolean>false</boolean>
-													</property>
-													<property name="sourcePath">
-														<string><![CDATA[$IA_PROJECT_DIR$\installerdata\qnxsdk\bin\]]></string>
-													</property>
-													<property name="shouldUninstall">
-														<boolean>true</boolean>
-													</property>
-													<property name="destinationName">
-														<string><![CDATA[blackberry-keytool]]></string>
-													</property>
-													<property name="fileSize">
-														<long>175</long>
-													</property>
-													<property name="macBinary">
-														<boolean>false</boolean>
-													</property>
-													<property name="targetCheckKind">
-														<int>0</int>
-													</property>
-												</object>
-												<object class="com.zerog.ia.installer.actions.InstallFile" objectID="45cc167dbac4">
-													<property name="belongsToUninstallPhase">
-														<boolean>false</boolean>
-													</property>
-													<property name="rollbackEnabledCancel">
-														<boolean>true</boolean>
-													</property>
-													<property name="rollbackEnabledError">
-														<boolean>true</boolean>
-													</property>
-													<property name="unixPermissions">
-														<string><![CDATA[664]]></string>
-													</property>
-													<property name="sourceName">
-														<string><![CDATA[blackberry-keytool.bat]]></string>
-													</property>
-													<property name="overrideUnixPermissions">
-														<boolean>false</boolean>
-													</property>
-													<property name="sourcePath">
-														<string><![CDATA[$IA_PROJECT_DIR$\installerdata\qnxsdk\bin\]]></string>
-													</property>
-													<property name="shouldUninstall">
-														<boolean>true</boolean>
-													</property>
-													<property name="destinationName">
-														<string><![CDATA[blackberry-keytool.bat]]></string>
-													</property>
-													<property name="fileSize">
-														<long>150</long>
-													</property>
-													<property name="macBinary">
-														<boolean>false</boolean>
-													</property>
-													<property name="targetCheckKind">
-														<int>0</int>
-													</property>
-												</object>
-												<object class="com.zerog.ia.installer.actions.InstallFile" objectID="45cc167cbac5">
-													<property name="belongsToUninstallPhase">
-														<boolean>false</boolean>
-													</property>
-													<property name="rollbackEnabledCancel">
-														<boolean>true</boolean>
-													</property>
-													<property name="rollbackEnabledError">
-														<boolean>true</boolean>
-													</property>
-													<property name="unixPermissions">
-														<string><![CDATA[664]]></string>
-													</property>
-													<property name="sourceName">
-														<string><![CDATA[blackberry-nativepackager]]></string>
-													</property>
-													<property name="overrideUnixPermissions">
-														<boolean>false</boolean>
-													</property>
-													<property name="sourcePath">
-														<string><![CDATA[$IA_PROJECT_DIR$\installerdata\qnxsdk\bin\]]></string>
-													</property>
-													<property name="shouldUninstall">
-														<boolean>true</boolean>
-													</property>
-													<property name="destinationName">
-														<string><![CDATA[blackberry-nativepackager]]></string>
-													</property>
-													<property name="fileSize">
-														<long>246</long>
-													</property>
-													<property name="macBinary">
-														<boolean>false</boolean>
-													</property>
-													<property name="targetCheckKind">
-														<int>0</int>
-													</property>
-												</object>
-												<object class="com.zerog.ia.installer.actions.InstallFile" objectID="45cc169bbac5">
-													<property name="belongsToUninstallPhase">
-														<boolean>false</boolean>
-													</property>
-													<property name="rollbackEnabledCancel">
-														<boolean>true</boolean>
-													</property>
-													<property name="rollbackEnabledError">
-														<boolean>true</boolean>
-													</property>
-													<property name="unixPermissions">
-														<string><![CDATA[664]]></string>
-													</property>
-													<property name="sourceName">
-														<string><![CDATA[blackberry-nativepackager.bat]]></string>
-													</property>
-													<property name="overrideUnixPermissions">
-														<boolean>false</boolean>
-													</property>
-													<property name="sourcePath">
-														<string><![CDATA[$IA_PROJECT_DIR$\installerdata\qnxsdk\bin\]]></string>
-													</property>
-													<property name="shouldUninstall">
-														<boolean>true</boolean>
-													</property>
-													<property name="destinationName">
-														<string><![CDATA[blackberry-nativepackager.bat]]></string>
-													</property>
-													<property name="fileSize">
-														<long>243</long>
-													</property>
-													<property name="macBinary">
-														<boolean>false</boolean>
-													</property>
-													<property name="targetCheckKind">
-														<int>0</int>
-													</property>
-												</object>
-												<object class="com.zerog.ia.installer.actions.InstallFile" objectID="45cc16abbac5">
-													<property name="belongsToUninstallPhase">
-														<boolean>false</boolean>
-													</property>
-													<property name="rollbackEnabledCancel">
-														<boolean>true</boolean>
-													</property>
-													<property name="rollbackEnabledError">
-														<boolean>true</boolean>
-													</property>
-													<property name="unixPermissions">
-														<string><![CDATA[664]]></string>
-													</property>
-													<property name="sourceName">
-														<string><![CDATA[blackberry-packager]]></string>
-													</property>
-													<property name="overrideUnixPermissions">
-														<boolean>false</boolean>
-													</property>
-													<property name="sourcePath">
-														<string><![CDATA[$IA_PROJECT_DIR$\installerdata\qnxsdk\bin\]]></string>
-													</property>
-													<property name="shouldUninstall">
-														<boolean>true</boolean>
-													</property>
-													<property name="destinationName">
-														<string><![CDATA[blackberry-packager]]></string>
-													</property>
-													<property name="fileSize">
-														<long>78</long>
-													</property>
-													<property name="macBinary">
-														<boolean>false</boolean>
-													</property>
-													<property name="targetCheckKind">
-														<int>0</int>
-													</property>
-												</object>
-												<object class="com.zerog.ia.installer.actions.InstallFile" objectID="45cc16acbac5">
-													<property name="belongsToUninstallPhase">
-														<boolean>false</boolean>
-													</property>
-													<property name="rollbackEnabledCancel">
-														<boolean>true</boolean>
-													</property>
-													<property name="rollbackEnabledError">
-														<boolean>true</boolean>
-													</property>
-													<property name="unixPermissions">
-														<string><![CDATA[664]]></string>
-													</property>
-													<property name="sourceName">
-														<string><![CDATA[blackberry-packager.bat]]></string>
-													</property>
-													<property name="overrideUnixPermissions">
-														<boolean>false</boolean>
-													</property>
-													<property name="sourcePath">
-														<string><![CDATA[$IA_PROJECT_DIR$\installerdata\qnxsdk\bin\]]></string>
-													</property>
-													<property name="shouldUninstall">
-														<boolean>true</boolean>
-													</property>
-													<property name="destinationName">
-														<string><![CDATA[blackberry-packager.bat]]></string>
-													</property>
-													<property name="fileSize">
-														<long>46</long>
-													</property>
-													<property name="macBinary">
-														<boolean>false</boolean>
-													</property>
-													<property name="targetCheckKind">
-														<int>0</int>
-													</property>
-												</object>
-												<object class="com.zerog.ia.installer.actions.InstallFile" objectID="45cc16bbbac5">
-													<property name="belongsToUninstallPhase">
-														<boolean>false</boolean>
-													</property>
-													<property name="rollbackEnabledCancel">
-														<boolean>true</boolean>
-													</property>
-													<property name="rollbackEnabledError">
-														<boolean>true</boolean>
-													</property>
-													<property name="unixPermissions">
-														<string><![CDATA[664]]></string>
-													</property>
-													<property name="sourceName">
-														<string><![CDATA[blackberry-signer]]></string>
-													</property>
-													<property name="overrideUnixPermissions">
-														<boolean>false</boolean>
-													</property>
-													<property name="sourcePath">
-														<string><![CDATA[$IA_PROJECT_DIR$\installerdata\qnxsdk\bin\]]></string>
-													</property>
-													<property name="shouldUninstall">
-														<boolean>true</boolean>
-													</property>
-													<property name="destinationName">
-														<string><![CDATA[blackberry-signer]]></string>
-													</property>
-													<property name="fileSize">
-														<long>183</long>
-													</property>
-													<property name="macBinary">
-														<boolean>false</boolean>
-													</property>
-													<property name="targetCheckKind">
-														<int>0</int>
-													</property>
-												</object>
-												<object class="com.zerog.ia.installer.actions.InstallFile" objectID="45cc16bcbac5">
-													<property name="belongsToUninstallPhase">
-														<boolean>false</boolean>
-													</property>
-													<property name="rollbackEnabledCancel">
-														<boolean>true</boolean>
-													</property>
-													<property name="rollbackEnabledError">
-														<boolean>true</boolean>
-													</property>
-													<property name="unixPermissions">
-														<string><![CDATA[664]]></string>
-													</property>
-													<property name="sourceName">
-														<string><![CDATA[blackberry-signer.bat]]></string>
-													</property>
-													<property name="overrideUnixPermissions">
-														<boolean>false</boolean>
-													</property>
-													<property name="sourcePath">
-														<string><![CDATA[$IA_PROJECT_DIR$\installerdata\qnxsdk\bin\]]></string>
-													</property>
-													<property name="shouldUninstall">
-														<boolean>true</boolean>
-													</property>
-													<property name="destinationName">
-														<string><![CDATA[blackberry-signer.bat]]></string>
-													</property>
-													<property name="fileSize">
-														<long>156</long>
-													</property>
-													<property name="macBinary">
-														<boolean>false</boolean>
-													</property>
-													<property name="targetCheckKind">
-														<int>0</int>
-													</property>
-												</object>
-											</visualChildren>
-										</object>
-										<object class="com.zerog.ia.installer.actions.InstallDirectory" objectID="45cc16bcbac6">
-											<property name="belongsToUninstallPhase">
-												<boolean>false</boolean>
-											</property>
-											<property name="rollbackEnabledCancel">
-												<boolean>true</boolean>
-											</property>
-											<property name="rollbackEnabledError">
-												<boolean>true</boolean>
-											</property>
-											<property name="unixPermissions">
-												<string><![CDATA[775]]></string>
-											</property>
-											<property name="sourceName">
-												<string><![CDATA[]]></string>
-											</property>
-											<property name="overrideUnixPermissions">
-												<boolean>false</boolean>
-											</property>
-											<property name="sourcePath">
-												<string><![CDATA[$IA_PROJECT_DIR$\installerdata\qnxsdk\frameworks]]></string>
-											</property>
-											<property name="shouldUninstall">
-												<boolean>true</boolean>
-											</property>
-											<property name="destinationName">
-												<string><![CDATA[frameworks]]></string>
-											</property>
-											<property name="removeRecursively">
-												<boolean>false</boolean>
-											</property>
-											<property name="totalSize">
-												<long>1</long>
-											</property>
-											<property name="macBinary">
-												<boolean>false</boolean>
-											</property>
-										</object>
-										<object class="com.zerog.ia.installer.actions.InstallDirectory" objectID="45cc16dabacb">
-											<property name="belongsToUninstallPhase">
-												<boolean>false</boolean>
-											</property>
-											<property name="rollbackEnabledCancel">
-												<boolean>true</boolean>
-											</property>
-											<property name="rollbackEnabledError">
-												<boolean>true</boolean>
-											</property>
-											<property name="unixPermissions">
-												<string><![CDATA[775]]></string>
-											</property>
-											<property name="sourceName">
-												<string><![CDATA[]]></string>
-											</property>
-											<property name="overrideUnixPermissions">
-												<boolean>false</boolean>
-											</property>
-											<property name="sourcePath">
-												<string><![CDATA[$IA_PROJECT_DIR$\installerdata\qnxsdk\lib]]></string>
-											</property>
-											<property name="shouldUninstall">
-												<boolean>true</boolean>
-											</property>
-											<property name="destinationName">
-												<string><![CDATA[lib]]></string>
-											</property>
-											<property name="removeRecursively">
-												<boolean>false</boolean>
-											</property>
-											<property name="totalSize">
-												<long>1</long>
-											</property>
-											<property name="macBinary">
-												<boolean>false</boolean>
-											</property>
-										</object>
-										<object class="com.zerog.ia.installer.actions.InstallDirectory" objectID="45cc170abad0">
-											<property name="belongsToUninstallPhase">
-												<boolean>false</boolean>
-											</property>
-											<property name="rollbackEnabledCancel">
-												<boolean>true</boolean>
-											</property>
-											<property name="rollbackEnabledError">
-												<boolean>true</boolean>
-											</property>
-											<property name="unixPermissions">
-												<string><![CDATA[775]]></string>
-											</property>
-											<property name="sourceName">
-												<string><![CDATA[]]></string>
-											</property>
-											<property name="overrideUnixPermissions">
-												<boolean>false</boolean>
-											</property>
-											<property name="sourcePath">
-												<string><![CDATA[$IA_PROJECT_DIR$\installerdata\qnxsdk\samples]]></string>
-											</property>
-											<property name="shouldUninstall">
-												<boolean>true</boolean>
-											</property>
-											<property name="destinationName">
-												<string><![CDATA[samples]]></string>
-											</property>
-											<property name="removeRecursively">
-												<boolean>false</boolean>
-											</property>
-											<property name="totalSize">
-												<long>1</long>
-											</property>
-											<property name="macBinary">
-												<boolean>false</boolean>
-											</property>
-										</object>
-									</visualChildren>
-								</object>
-							</property>
-							<property name="useInstalledFile">
-								<boolean>true</boolean>
-							</property>
-							<property name="destination">
-								<string><![CDATA[]]></string>
-							</property>
-							<property name="uninstallFlag">
-								<boolean>true</boolean>
-							</property>
-							<property name="rollbackEnabledCancel">
-								<boolean>true</boolean>
-							</property>
-							<property name="rollbackEnabledError">
-								<boolean>true</boolean>
-							</property>
-							<property name="folderOptions">
-								<int>90</int>
-							</property>
-							<property name="renames">
-								<boolean>false</boolean>
-							</property>
-							<property name="overrideUnixPermissions">
-								<boolean>false</boolean>
-							</property>
-							<property name="unixPermissions">
-								<string><![CDATA[777]]></string>
-							</property>
-							<property name="targetCheckKind">
-								<int>0</int>
-							</property>
-						</object>
-					</method>
-					<method name="addElement">
 						<object class="com.zerog.ia.installer.actions.InstallFinishAction" objectID="61c3cf629232">
 							<property name="belongsToUninstallPhase">
 								<boolean>false</boolean>
@@ -2059,8 +1332,6 @@ For information on configuration of the SDK please visit www.blackberry.com/deve
 							<property name="prompt">
 								<string><![CDATA[Congratulations! $PRODUCT_NAME$ has been successfully installed to:
  $USER_INSTALL_DIR$
-
-For information on configuration of the SDK please visit www.blackberry.com/developers/tabletos
 ]]></string>
 							</property>
 							<property name="guiGroups">
@@ -2123,7 +1394,7 @@ For information on configuration of the SDK please visit www.blackberry.com/deve
 						<string><![CDATA[]]></string>
 					</property>
 					<property name="win32MagicFolderPath">
-						<string><![CDATA[Research In Motion\BlackBerry WebWorks Packager for PlayBook]]></string>
+						<string><![CDATA[Research In Motion$\$BlackBerry WebWorks Packager for PlayBook]]></string>
 					</property>
 					<property name="os400MagicFolderPath">
 						<string><![CDATA[blackberry-tablet-sdk-0.9.0]]></string>
@@ -2264,7 +1535,7 @@ For information on configuration of the SDK please visit www.blackberry.com/deve
 								<boolean>true</boolean>
 							</property>
 							<property name="buildOutputLocation">
-								<string><![CDATA[C:\p4\depot\dev\kwhatmough\snarf\FROM_GIT2\installer\blackberry_webworks_sdk_Build_Output]]></string>
+								<string><![CDATA[C:\installer_data\v1.0.0.11\iadata\installer\blackberry_webworks_sdk_Build_Output]]></string>
 							</property>
 							<property name="relatedProjectSettings">
 								<object class="com.zerog.ia.installer.RelatedProjectSettings" objectID="48a0dcf8928b">
@@ -2355,7 +1626,7 @@ For information on configuration of the SDK please visit www.blackberry.com/deve
 					</method>
 					<method name="put">
 						<string><![CDATA[com.zerog.ia.project.build.last.date]]></string>
-						<string><![CDATA[January 6, 2011 2:54:17 PM EST]]></string>
+						<string><![CDATA[January 8, 2011 12:12:37 AM EST]]></string>
 					</method>
 					<method name="put">
 						<string><![CDATA[com.zerog.ia.build.platform.windows.vm]]></string>
@@ -2427,7 +1698,7 @@ For information on configuration of the SDK please visit www.blackberry.com/deve
 					</method>
 					<method name="put">
 						<string><![CDATA[com.zerog.ia.project.save.last.date]]></string>
-						<string><![CDATA[January 7, 2011 3:31:29 PM EST]]></string>
+						<string><![CDATA[January 8, 2011 12:12:37 AM EST]]></string>
 					</method>
 					<method name="put">
 						<string><![CDATA[com.zerog.ia.build.options.optimization.platform.cdrom]]></string>
@@ -3941,22 +3212,6 @@ Thank you for choosing $PRODUCT_NAME$!]]></string>
 												<object refID="794abe78bd51"/>
 											</visualChildren>
 										</object>
-										<object refID="45cc165dbac4"/>
-										<object refID="45cc166cbac4"/>
-										<object refID="45cc166dbac4"/>
-										<object refID="45cc167cbac4"/>
-										<object refID="45cc167dbac4"/>
-										<object refID="45cc167cbac5"/>
-										<object refID="45cc169bbac5"/>
-										<object refID="45cc16abbac5"/>
-										<object refID="45cc16acbac5"/>
-										<object refID="45cc16bbbac5"/>
-										<object refID="45cc16bcbac5"/>
-										<object refID="45cc164ebac3"/>
-										<object refID="45cc170abad0"/>
-										<object refID="45cc16dabacb"/>
-										<object refID="45cc16bcbac6"/>
-										<object refID="45cc00f0ba74"/>
 										<object class="com.zerog.ia.installer.actions.InstallFile" objectID="6a5b77a48dc2">
 											<property name="belongsToUninstallPhase">
 												<boolean>false</boolean>
@@ -3993,44 +3248,6 @@ Thank you for choosing $PRODUCT_NAME$!]]></string>
 											</property>
 											<property name="targetCheckKind">
 												<int>0</int>
-											</property>
-										</object>
-										<object class="com.zerog.ia.installer.actions.InstallDirectory" objectID="6a5b77b38dc2">
-											<property name="belongsToUninstallPhase">
-												<boolean>false</boolean>
-											</property>
-											<property name="rollbackEnabledCancel">
-												<boolean>true</boolean>
-											</property>
-											<property name="rollbackEnabledError">
-												<boolean>true</boolean>
-											</property>
-											<property name="unixPermissions">
-												<string><![CDATA[775]]></string>
-											</property>
-											<property name="sourceName">
-												<string><![CDATA[]]></string>
-											</property>
-											<property name="overrideUnixPermissions">
-												<boolean>false</boolean>
-											</property>
-											<property name="sourcePath">
-												<string><![CDATA[$IA_PROJECT_DIR$\installerdata\bbwp\AirAppTemplates\src\webworks]]></string>
-											</property>
-											<property name="shouldUninstall">
-												<boolean>true</boolean>
-											</property>
-											<property name="destinationName">
-												<string><![CDATA[webworks]]></string>
-											</property>
-											<property name="removeRecursively">
-												<boolean>false</boolean>
-											</property>
-											<property name="totalSize">
-												<long>1</long>
-											</property>
-											<property name="macBinary">
-												<boolean>false</boolean>
 											</property>
 										</object>
 										<object class="com.zerog.ia.installer.actions.InstallFile" objectID="6a5b78018dd3">
@@ -4109,7 +3326,7 @@ Thank you for choosing $PRODUCT_NAME$!]]></string>
 												<int>0</int>
 											</property>
 										</object>
-										<object class="com.zerog.ia.installer.actions.InstallDirectory" objectID="6a5bc4a28dd3">
+										<object class="com.zerog.ia.installer.actions.InstallDirectory" objectID="6d126584b678">
 											<property name="belongsToUninstallPhase">
 												<boolean>false</boolean>
 											</property>
@@ -4129,25 +3346,62 @@ Thank you for choosing $PRODUCT_NAME$!]]></string>
 												<boolean>false</boolean>
 											</property>
 											<property name="sourcePath">
-												<string><![CDATA[$IA_PROJECT_DIR$\installerdata\bbwp\ext]]></string>
+												<string><![CDATA[$IA_PROJECT_DIR$\installerdata\blackberry-tablet-sdk]]></string>
 											</property>
 											<property name="shouldUninstall">
 												<boolean>true</boolean>
 											</property>
 											<property name="destinationName">
-												<string><![CDATA[ext]]></string>
+												<string><![CDATA[blackberry-tablet-sdk]]></string>
 											</property>
 											<property name="removeRecursively">
 												<boolean>false</boolean>
 											</property>
 											<property name="totalSize">
-												<long>1</long>
+												<long>121398680</long>
 											</property>
 											<property name="macBinary">
 												<boolean>false</boolean>
 											</property>
 										</object>
-										<object refID="dd79262aa668"/>
+										<object class="com.zerog.ia.installer.actions.InstallDirectory" objectID="6d1150b4b674">
+											<property name="belongsToUninstallPhase">
+												<boolean>false</boolean>
+											</property>
+											<property name="rollbackEnabledCancel">
+												<boolean>true</boolean>
+											</property>
+											<property name="rollbackEnabledError">
+												<boolean>true</boolean>
+											</property>
+											<property name="unixPermissions">
+												<string><![CDATA[775]]></string>
+											</property>
+											<property name="sourceName">
+												<string><![CDATA[]]></string>
+											</property>
+											<property name="overrideUnixPermissions">
+												<boolean>false</boolean>
+											</property>
+											<property name="sourcePath">
+												<string><![CDATA[$IA_PROJECT_DIR$\installerdata\bbwp\AirAppTemplates\src\json]]></string>
+											</property>
+											<property name="shouldUninstall">
+												<boolean>true</boolean>
+											</property>
+											<property name="destinationName">
+												<string><![CDATA[json]]></string>
+											</property>
+											<property name="removeRecursively">
+												<boolean>false</boolean>
+											</property>
+											<property name="totalSize">
+												<long>49995</long>
+											</property>
+											<property name="macBinary">
+												<boolean>false</boolean>
+											</property>
+										</object>
 										<object class="com.zerog.ia.installer.actions.InstallDirectory" objectID="6d10f204b672">
 											<property name="belongsToUninstallPhase">
 												<boolean>false</boolean>
@@ -4180,7 +3434,7 @@ Thank you for choosing $PRODUCT_NAME$!]]></string>
 												<boolean>false</boolean>
 											</property>
 											<property name="totalSize">
-												<long>1</long>
+												<long>4887</long>
 											</property>
 											<property name="macBinary">
 												<boolean>false</boolean>
@@ -4227,7 +3481,7 @@ Thank you for choosing $PRODUCT_NAME$!]]></string>
 												<object refID="6d10f204b672"/>
 											</visualChildren>
 										</object>
-										<object class="com.zerog.ia.installer.actions.InstallDirectory" objectID="6d1150b4b674">
+										<object class="com.zerog.ia.installer.actions.InstallDirectory" objectID="6a5bc4a28dd3">
 											<property name="belongsToUninstallPhase">
 												<boolean>false</boolean>
 											</property>
@@ -4247,19 +3501,57 @@ Thank you for choosing $PRODUCT_NAME$!]]></string>
 												<boolean>false</boolean>
 											</property>
 											<property name="sourcePath">
-												<string><![CDATA[$IA_PROJECT_DIR$\installerdata\bbwp\AirAppTemplates\src\json]]></string>
+												<string><![CDATA[$IA_PROJECT_DIR$\installerdata\bbwp\ext]]></string>
 											</property>
 											<property name="shouldUninstall">
 												<boolean>true</boolean>
 											</property>
 											<property name="destinationName">
-												<string><![CDATA[json]]></string>
+												<string><![CDATA[ext]]></string>
 											</property>
 											<property name="removeRecursively">
 												<boolean>false</boolean>
 											</property>
 											<property name="totalSize">
-												<long>1</long>
+												<long>80243</long>
+											</property>
+											<property name="macBinary">
+												<boolean>false</boolean>
+											</property>
+										</object>
+										<object class="com.zerog.ia.installer.actions.InstallDirectory" objectID="6a5b77b38dc2">
+											<property name="belongsToUninstallPhase">
+												<boolean>false</boolean>
+											</property>
+											<property name="rollbackEnabledCancel">
+												<boolean>true</boolean>
+											</property>
+											<property name="rollbackEnabledError">
+												<boolean>true</boolean>
+											</property>
+											<property name="unixPermissions">
+												<string><![CDATA[775]]></string>
+											</property>
+											<property name="sourceName">
+												<string><![CDATA[]]></string>
+											</property>
+											<property name="overrideUnixPermissions">
+												<boolean>false</boolean>
+											</property>
+											<property name="sourcePath">
+												<string><![CDATA[$IA_PROJECT_DIR$\installerdata\bbwp\AirAppTemplates\src\webworks]]></string>
+											</property>
+											<property name="shouldUninstall">
+												<boolean>true</boolean>
+											</property>
+											<property name="destinationName">
+												<string><![CDATA[webworks]]></string>
+											</property>
+											<property name="removeRecursively">
+												<boolean>false</boolean>
+											</property>
+											<property name="totalSize">
+												<long>165370</long>
 											</property>
 											<property name="macBinary">
 												<boolean>false</boolean>
@@ -4352,44 +3644,6 @@ Thank you for choosing $PRODUCT_NAME$!]]></string>
 												<object refID="6a5b77a48dc1"/>
 											</visualChildren>
 										</object>
-										<object class="com.zerog.ia.installer.actions.InstallDirectory" objectID="6d126584b678">
-											<property name="belongsToUninstallPhase">
-												<boolean>false</boolean>
-											</property>
-											<property name="rollbackEnabledCancel">
-												<boolean>true</boolean>
-											</property>
-											<property name="rollbackEnabledError">
-												<boolean>true</boolean>
-											</property>
-											<property name="unixPermissions">
-												<string><![CDATA[775]]></string>
-											</property>
-											<property name="sourceName">
-												<string><![CDATA[]]></string>
-											</property>
-											<property name="overrideUnixPermissions">
-												<boolean>false</boolean>
-											</property>
-											<property name="sourcePath">
-												<string><![CDATA[$IA_PROJECT_DIR$\installerdata\blackberry-tablet-sdk]]></string>
-											</property>
-											<property name="shouldUninstall">
-												<boolean>true</boolean>
-											</property>
-											<property name="destinationName">
-												<string><![CDATA[blackberry-tablet-sdk]]></string>
-											</property>
-											<property name="removeRecursively">
-												<boolean>false</boolean>
-											</property>
-											<property name="totalSize">
-												<long>1</long>
-											</property>
-											<property name="macBinary">
-												<boolean>false</boolean>
-											</property>
-										</object>
 										<object class="com.zerog.ia.installer.actions.InstallDirectory" objectID="794abe09bd36">
 											<property name="belongsToUninstallPhase">
 												<boolean>false</boolean>
@@ -4428,7 +3682,6 @@ Thank you for choosing $PRODUCT_NAME$!]]></string>
 												<boolean>false</boolean>
 											</property>
 											<visualChildren>
-												<object refID="dd79262aa668"/>
 												<object refID="6d126584b678"/>
 												<object refID="794abe68bd4d"/>
 												<object refID="6a5b77948db8"/>
@@ -5130,15 +4383,11 @@ and any path to a file to save to the file]]></string>
 			</installChildren>
 		</object>
 	</installationObjects>
-	<restorationObjects count="9">
-		<object refID="45cc00f0ba74"/>
-		<object refID="45cc16bcbac6"/>
-		<object refID="45cc16dabacb"/>
-		<object refID="45cc170abad0"/>
-		<object refID="6a5b77b38dc2"/>
-		<object refID="6a5bc4a28dd3"/>
-		<object refID="6d10f204b672"/>
-		<object refID="6d1150b4b674"/>
+	<restorationObjects count="5">
 		<object refID="6d126584b678"/>
+		<object refID="6d1150b4b674"/>
+		<object refID="6d10f204b672"/>
+		<object refID="6a5bc4a28dd3"/>
+		<object refID="6a5b77b38dc2"/>
 	</restorationObjects>
 </InstallAnywhere_Deployment_Project>
