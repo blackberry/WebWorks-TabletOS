@@ -103,15 +103,9 @@ package webworks.webkit
 		
 		private function documentLoadFinished(event:WebViewEvent):void
 		{
-			if (ConfigData.getInstance().isFeatureAllowed("blackberry.app", webView.location))
-			{				
-				attachAppJsWorkaround();
-			}
+			attachAppJsWorkaround();
 			
-			if (ConfigData.getInstance().isFeatureAllowed("blackberry.system", webView.location))
-			{
-				attachSystemJsWorkaround();
-			}
+			attachSystemJsWorkaround();
 			
 			trace(event.toString());			
 		}
@@ -153,13 +147,11 @@ package webworks.webkit
 		
 		private function attachAppJsWorkaround():void{
 			var appNSGen:AppNameSpaceGenerator = new AppNameSpaceGenerator(ConfigData.getInstance().properties);
-			var myJsonProperties:String = appNSGen.appDataJson;	
+			var workaround:String = appNSGen.appNamespaceWorkaround;	
 			
-			var js:String = "(function() {var json = arguments[0]; var json = arguments[0];var oldApp = blackberry.app;blackberry.app = json;blackberry.app.exit = oldApp.exit;blackberry.app.event = oldApp.event;})(" + myJsonProperties + ");";
+			trace(workaround);
 			
-			trace(js);
-			
-			webView.executeJavaScript(js);
+			webView.executeJavaScript(workaround);
 		}
 
 		private function networkResourceRequested(event:NetworkResourceRequestedEvent):void
@@ -245,8 +237,9 @@ package webworks.webkit
 		}
 
 		private function onJavaScriptWindowObjectCleared(event:WebViewEvent):void{
-			event.preventDefault();
-			javascriptLoader.registerJavaScript(webView.location, event);
+			javascriptLoader.registerJavaScript(webView.location);
 		}
+		
+
 	}
 }
