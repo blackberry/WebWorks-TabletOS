@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
 Implementation-Vendor: Research In Motion
-Implementation-Version: 1.0.0.12
+Implementation-Version: 1.0.0.13
 Main-Class: net.rim.tumbler.WidgetPackager
 
