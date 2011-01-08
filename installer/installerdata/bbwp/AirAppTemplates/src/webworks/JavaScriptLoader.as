@@ -16,12 +16,15 @@
 package webworks
 {
 	import flash.events.Event;
+	import flash.events.EventDispatcher;
 	import flash.events.IOErrorEvent;
 	import flash.filesystem.File;
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;
 	import flash.utils.Dictionary;
 	import flash.utils.getTimer;
+	
+	import qnx.events.WebViewEvent;
 	
 	import webworks.access.Access;
 	import webworks.access.Feature;
@@ -30,21 +33,28 @@ package webworks
 	import webworks.extension.IApiExtension;
 	import webworks.policy.WidgetPolicy;
 	import webworks.webkit.WebkitControl;
+	import webworks.webkit.WebkitEvent;
 
-	public class JavaScriptLoader
+	public class JavaScriptLoader extends  EventDispatcher
 	{
 		private static var globalSharedJSFolder:String = "js/sharedglobal/";
 		
 		private var webkitControl:WebkitControl;
+		private var jsfiles:Array;
+		private var fileToLoad:String;
+		private var index:int = 0;
+		private var event:WebViewEvent;
+		
 		public function JavaScriptLoader(webkitcontrol:WebkitControl)
 		{
 			webkitControl = webkitcontrol;
 		}
-		
+				
 		//register javascript file for features required by the url
-		public function registerJavaScript(url:String):void
+		public function registerJavaScript(url:String, e:WebViewEvent):void
 		{
-			loadCommonJSFiles();
+			event = e;
+			jsfiles = getCommonJSFiles();
 			//insert js needed for feautes specified by the access
 			var access:Access = ConfigData.getInstance().getAccessByUrl(url);			
 			if ( access != null )
@@ -67,55 +77,71 @@ package webworks
 						//register js files for the feature
 						paths = widgetExt[ConfigConstants.REQUIREDJSFILES] as Array;
 						paths.sort();
-						for(var pathIndex:String in paths)
-						{
-							loadJavaScriptFile(paths[pathIndex], webkitControl);
-						}
+						jsfiles = jsfiles.concat(paths);
 					}
 				}
-			}			
+			}
+			
+			if ( jsfiles.length > 0 )
+				loadJavaScriptFiles();
 		}
 		
 		//Load common JavaScript files
-		private function loadCommonJSFiles():void
+		private function getCommonJSFiles():Array
 		{
 			//loop through the js folder and load all the files
 			var file:File = File.applicationDirectory.resolvePath(globalSharedJSFolder);
 			var files:Array = file.getDirectoryListing();
 			//sort the array based on the "url" field in default way, case-sensitive Z precedes a, ascending a preceds b, 1 preceds 2
 			files.sortOn("url");
+			var urls:Array = new Array();
 			for(var index:String in files){
 				var js:File = files[index];
 				if ( js != null && js.type == ".js" ){
 					var url:String = js.url;
-  				    loadJavaScriptFile(url, webkitControl);
+  				    urls.push(js.url);
 				}
-			}		
+			}
+			return urls;
 		}
-			
-		//load the js file and execute
-		private function loadJavaScriptFile(filename:String, webWindow:WebkitControl):void {			
-			
-			var myTextLoader:URLLoader = new URLLoader();			
-			myTextLoader.addEventListener(Event.COMPLETE, onJavaScriptFileLoaded);		
-			myTextLoader.addEventListener(IOErrorEvent.IO_ERROR, onJavaScriptFileError);
-			
-			myTextLoader.load(new URLRequest(filename));
-			
-			trace("Loading JavaScript file: " + filename);
-			
-			function onJavaScriptFileLoaded(e:Event):void {
-				
-				trace("start loading JS file: " + filename);
-				var start:int = getTimer();
-				webWindow.executeJavaScript(e.target.data);
-				trace("single call to .executeJavaScript() time:" + ( getTimer() - start) + "ms");
-				trace("Loaded JavaScript file: " + filename);				
+		
+		//start loading js files in files, start with element at index
+		private function loadJavaScriptFiles():void {
+			index = 0;
+			loadJavaScriptFile();
+		}
+		
+		private function loadJavaScriptFile():void {
+			if ( index >= jsfiles.length ){
+				dispatchEvent(event);
+				return;
 			}
 			
-			function onJavaScriptFileError(e:Event):void {
-				trace("ERROR: Unable to load JavaScript file: " + filename + " message: " + e.toString());
-			}	
+			fileToLoad = jsfiles[index];
+			
+			var myTextLoader:URLLoader = new URLLoader();			
+			myTextLoader.addEventListener(Event.COMPLETE, onJavaScriptFileLoaded,false);		
+			myTextLoader.addEventListener(IOErrorEvent.IO_ERROR, onJavaScriptFileError,false);
+			
+			myTextLoader.load(new URLRequest(fileToLoad));
+
+			trace("Loading JavaScript file: " + fileToLoad);			
+		}
+		
+		private function onJavaScriptFileLoaded(e:Event):void {
+			//trace("start loading JS file: " + filename);
+			var start:int = getTimer();
+			webkitControl.executeJavaScript(e.target.data);
+			trace("single call to .executeJavaScript() time:" + ( getTimer() - start) + "ms");
+			trace("Loaded JavaScript file: " + fileToLoad);
+			index++;
+			loadJavaScriptFile();
+		}
+		
+		private function onJavaScriptFileError(e:Event):void {
+			trace("ERROR: Unable to load JavaScript file: " + fileToLoad + " message: " + e.toString());
+			index++;
+			loadJavaScriptFile();			
 		}		
 	}
 }
