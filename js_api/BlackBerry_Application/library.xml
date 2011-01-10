@@ -49,7 +49,6 @@
 			<property name="version" static="true" type="String" readonly="true" comment="The version of the widget that is specified in the config.xml file."/>
 			<property name="license" static="true" type="String" readonly="true" comment="The license of the widget that is specified in the config.xml file."/>
 			<property name="copyright" static="true" type="String" readonly="true" comment="The copyright information of the widget that is specified in the config.xml file."/>
-			<property name="isForeground" static="true" type="Boolean" readonly="true" comment="Returns true if the widget's main screen is active." />
 			<property name="licenseURL" static="true" type="String" readonly="true" comment="The license URL of the widget that is specified in the config.xml file." />
 	    </properties>
 
