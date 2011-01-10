@@ -43,7 +43,7 @@ package webworks.extension
 		
 		private function generatePropertyGetter(prop : String, value : String) : String {
 			//Sample: blackberry.app.__defineGetter__("author", disp.author);
-			return "blackberry.app.__defineGetter__('" + prop + "', function(){return '" + value + "'});";
+			return "blackberry.app.__defineGetter__('" + prop + "', function(){return \"" + value + "\";});";
 		}
 		
 	}
