@@ -65,9 +65,6 @@
 			"id" : function() {
 				return makeAppCall(APP_ID);
 			},
-			"isForeground" : function() {
-				return makeAppCall(APP_IS_FOREGROUND);
-			},
 			"license" : function() {
 				return makeAppCall(APP_LICENCE);
 			},
