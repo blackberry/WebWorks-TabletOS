@@ -36,11 +36,15 @@
 	6) Delete the tablet SDK files under installerdata.
 	-->
 	<target name="copy.installer.files">
-		
+		<copy todir="${installer.air.templates.dir}/src/">
+			<fileset dir="${framework.src.dir}" includes="webworks/**, *.xml, WebWorksAppTemplate*" />
+		</copy>
 	</target>
 	
 	<target name="cleanup">
-		<echo>Deleting temporary files from installer folder...</echo>
+		<echo>Deleting temporary files from installer folder:</echo>
 		<!-- Delete all source files copied into installer folder during "copy.installer.files" step -->
+		<echo>${installer.air.templates.dir}...</echo>
+		<delete dir="${installer.air.templates.dir}" />
 	</target>
 </project>
