@@ -4,14 +4,26 @@
 	<property file="${build.properties.file}" />
 	
 	<target name="init">
-	</target>
-	
-	<!--Up the build number in Manifest.mf -->
-	<target name="update.version">
+		<echo>Reading build number from ${build.num.file}...</echo>
+		<buildnumber file="${build.num.file}" />
+		<echo>Using build number: ${build.number}</echo>
 	</target>
 	
 	<!--Compile the packager class files. Jar-up bbwp.jar. -->
 	<target name="build.bbwp.jar">
+		<echo>Building Java packager...</echo>
+		<javac srcdir="${packager.src.dir}" destdir="${packager.bin.dir}" excludes="TumblerLauncher/**"/>
+		
+		<echo>Building TumblerPackager...NOT IMPLEMENTED</echo>
+		
+		<echo>Packaging Java classes into JAR...</echo>
+		<jar destfile="${basedir}\bbwp.jar" basedir="${packager.bin.dir}"> 
+			<manifest>
+				<attribute name="Implementation-Vendor" value="Research In Motion"/>
+				<attribute name="Implementation-Version" value="${packager.version}.${build.number}"/>
+				<attribute name="Main-Class" value="net.rim.tumbler.WidgetPackager"/>
+			</manifest>
+		</jar>
 	</target>
 	
 	<!--
@@ -24,9 +36,11 @@
 	6) Delete the tablet SDK files under installerdata.
 	-->
 	<target name="copy.installer.files">
+		
 	</target>
 	
 	<target name="cleanup">
-		
+		<echo>Deleting temporary files from installer folder...</echo>
+		<!-- Delete all source files copied into installer folder during "copy.installer.files" step -->
 	</target>
 </project>
