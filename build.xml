@@ -45,9 +45,11 @@
 			<fileset dir="${common.as.src.dir}" includes="json/**" />
 		</copy>
 		<!-- Copy shared global files -->
-		<copy todir="${installer.air.templates.src.dir}">
-			<fileset dir="${jsapi.dir}" includes="globalJS/**" />
+		<copy todir="${installer.js.global.dir}" >
+			<fileset dir="${jsapi.dir}/globalJS" includes="*" />
 		</copy>
+		<!--Copy the API source -->
+		
 	</target>
 	
 	<target name="cleanup">
