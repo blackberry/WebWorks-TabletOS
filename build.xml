@@ -1,0 +1,32 @@
+<project name="BuildSnarf" basedir=".">
+	
+	<property name="build.properties.file" location="${basedir}/build.properties" />
+	<property file="${build.properties.file}" />
+	
+	<target name="init">
+	</target>
+	
+	<!--Up the build number in Manifest.mf -->
+	<target name="update.version">
+	</target>
+	
+	<!--Compile the packager class files. Jar-up bbwp.jar. -->
+	<target name="build.bbwp.jar">
+	</target>
+	
+	<!--
+	Prepare deployment files for installer:
+	1) Copy bbwp.jar to installerdata. 
+	2) Copy the appropriate JavaScript APIs to the ext folder under installerdata, pruning filenames that begin with ".".
+	3) Copy the JSON source files to the correct location under installerdata.
+	4) Copy the shared global source files to the correct location under installerdata.
+	5) Copy the template files to the correct location under installerdata.
+	6) Delete the tablet SDK files under installerdata.
+	-->
+	<target name="copy.installer.files">
+	</target>
+	
+	<target name="cleanup">
+		
+	</target>
+</project>
