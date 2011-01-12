@@ -37,18 +37,22 @@
 	-->
 	<target name="copy.installer.files">
 		<!-- Copy the framework/webworks package and root folder descriptor files/entry class -->
+		<echo>Copying framework source from ${framework.src.dir} to ${installer.air.templates.src.dir}...</echo>
 		<copy todir="${installer.air.templates.src.dir}">
 			<fileset dir="${framework.src.dir}" includes="webworks/**, *.xml, WebWorksAppTemplate*" />
 		</copy>
 		<!-- Copy JSON Library -->
+		<echo>Copying JSON Libary source from ${common.as.src.dir} to ${installer.air.templates.src.dir}...</echo>
 		<copy todir="${installer.air.templates.src.dir}">
 			<fileset dir="${common.as.src.dir}" includes="json/**" />
 		</copy>
 		<!-- Copy shared global files -->
+		<echo>Copying shared JS source from ${jsapi.dir}/globalJS to ${installer.js.global.dir}...</echo>
 		<copy todir="${installer.js.global.dir}" >
 			<fileset dir="${jsapi.dir}/globalJS" includes="*" />
 		</copy>
 		<!--Copy the API source -->
+		<echo>Copying API source to ${installer.ext.dir}...</echo>
 		<copy todir="${installer.ext.dir}" >
 			<fileset dir="${jsapi.dir}" includes="BlackBerry_*/**" excludes="**/.*"/>
 		</copy>
