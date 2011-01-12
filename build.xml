@@ -49,7 +49,9 @@
 			<fileset dir="${jsapi.dir}/globalJS" includes="*" />
 		</copy>
 		<!--Copy the API source -->
-		
+		<copy todir="${installer.ext.dir}" >
+			<fileset dir="${jsapi.dir}" includes="BlackBerry_*/**" excludes="**/.*"/>
+		</copy>
 	</target>
 	
 	<target name="cleanup">
@@ -57,6 +59,9 @@
 		<!-- Delete all source files copied into installer folder during "copy.installer.files" step -->
 		<echo>${installer.air.templates.src.dir}...</echo>
 		<delete dir="${installer.air.templates.src.dir}" />
+		
+		<echo>${installer.ext.dir}...</echo>
+		<delete dir="${installer.ext.dir}" />
 		
 		<echo>${installer.air.bin.dir}/bbwp.jar...</echo>
 		<delete file="${installer.air.bin.dir}/bbwp.jar" />
