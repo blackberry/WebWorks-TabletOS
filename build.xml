@@ -36,16 +36,26 @@
 	6) Delete the tablet SDK files under installerdata.
 	-->
 	<target name="copy.installer.files">
-		<copy todir="${installer.air.templates.dir}/src/">
+		<!-- Copy the framework/webworks package and root folder descriptor files/entry class -->
+		<copy todir="${installer.air.templates.src.dir}">
 			<fileset dir="${framework.src.dir}" includes="webworks/**, *.xml, WebWorksAppTemplate*" />
+		</copy>
+		<!-- Copy JSON Library -->
+		<copy todir="${installer.air.templates.src.dir}">
+			<fileset dir="${common.as.src.dir}" includes="json/**" />
+		</copy>
+		<!-- Copy shared global files -->
+		<copy todir="${installer.air.templates.src.dir}">
+			<fileset dir="${jsapi.dir}" includes="globalJS/**" />
 		</copy>
 	</target>
 	
 	<target name="cleanup">
 		<echo>Deleting temporary files from installer folder:</echo>
 		<!-- Delete all source files copied into installer folder during "copy.installer.files" step -->
-		<echo>${installer.air.templates.dir}...</echo>
-		<delete dir="${installer.air.templates.dir}" />
+		<echo>${installer.air.templates.src.dir}...</echo>
+		<delete dir="${installer.air.templates.src.dir}" />
+		
 		<echo>${installer.air.bin.dir}/bbwp.jar...</echo>
 		<delete file="${installer.air.bin.dir}/bbwp.jar" />
 	</target>
