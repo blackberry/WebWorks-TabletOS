@@ -17,7 +17,7 @@
 		<echo>Building TumblerPackager...NOT IMPLEMENTED</echo>
 		
 		<echo>Packaging Java classes into JAR...</echo>
-		<jar destfile="${basedir}\bbwp.jar" basedir="${packager.bin.dir}"> 
+		<jar destfile="${installer.air.bin.dir}\bbwp.jar" basedir="${packager.bin.dir}"> 
 			<manifest>
 				<attribute name="Implementation-Vendor" value="Research In Motion"/>
 				<attribute name="Implementation-Version" value="${packager.version}.${build.number}"/>
@@ -46,5 +46,7 @@
 		<!-- Delete all source files copied into installer folder during "copy.installer.files" step -->
 		<echo>${installer.air.templates.dir}...</echo>
 		<delete dir="${installer.air.templates.dir}" />
+		<echo>${installer.air.bin.dir}/bbwp.jar...</echo>
+		<delete file="${installer.air.bin.dir}/bbwp.jar" />
 	</target>
 </project>
