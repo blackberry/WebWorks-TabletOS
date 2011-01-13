@@ -15,8 +15,8 @@
 		<echo>Using build number: ${build.number}</echo>
 		
 		<echo>Deleting previous build output from ${installer.output.dir} and ${installer.migr.conf.dir}...</echo>
-		<delete dir="${installer.air.templates.src.dir}" />
-		<delete dir="${installer.air.templates.src.dir}" />
+		<delete dir="${installer.output.dir}" />
+		<delete dir="${installer.migr.conf.dir}" />
 	</target>
 	
 	<!--Compile the packager class files. Jar-up bbwp.jar. -->
