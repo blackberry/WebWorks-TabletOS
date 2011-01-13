@@ -1,0 +1,134 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>Asynchronous Tests Prototype Page</title>
+        <script type="text/javascript" src="yui_js/yui_base_min.js"></script>
+		<script type="text/javascript" src="yui_js/dump_min.js"></script>
+		<script type="text/javascript" src="yui_js/substitute_min.js"></script>
+		<script type="text/javascript" src="yui_js/oop_min.js"></script>
+		<script type="text/javascript" src="yui_js/dom_min.js"></script>
+		<script type="text/javascript" src="yui_js/yui_later_min.js"></script>
+		<script type="text/javascript" src="yui_js/event_custom_base_min.js"></script>
+		<script type="text/javascript" src="yui_js/event_base_min.js"></script>
+		<script type="text/javascript" src="yui_js/pluginhost_min.js"></script>
+		<script type="text/javascript" src="yui_js/node_min.js"></script>
+		<script type="text/javascript" src="yui_js/event_delegate_min.js"></script>
+		<script type="text/javascript" src="yui_js/json_min.js"></script>
+		<script type="text/javascript" src="yui_js/event_simulate_min.js"></script>
+		<script type="text/javascript" src="yui_js/test_min.js"></script>
+		
+		<script src="rim_yui_wrapper.js" type="text/javascript"></script>
+                
+        <script type="text/javascript">
+            var testing = blackberry.tests;
+            testing.setupFramework(generateTestCaseCallback);
+                     
+            //We're passing in the Y parameter and expecting back an array of test cases
+            function generateTestCaseCallback(Y){
+                var testCases = new Array();
+                var Assert = Y.Assert;
+                
+                testCases["suiteName"] = "XHR Asynchronous Tests";
+                
+                //---------------------------------------------------------------------
+                // Test methods - names must begin with "test"
+                // or to contain the word "should" when a "friendly name" is used
+                //---------------------------------------------------------------------
+                testCases[0] = new Y.Test.Case({
+
+					name: "XHR Asynchronous test",
+					
+
+					setUp : function () {
+						//Setup code goes here
+					},
+
+					tearDown : function () {
+						//Teardown code goes here
+					},
+
+					"XHR should return valid data": function () {						
+						var xhrObject = new XMLHttpRequest();
+						var test = this;
+
+						xhrObject.onreadystatechange=
+							function(){
+								if(xhrObject.readyState==4) {
+									Assert.areEqual(xhrObject.responseText, "Hello from Ajax cross-origin1");
+									test.resume();
+								}
+							};
+
+						xhrObject.open("GET","http://atg05-yyz.rim.net/WebAPI_UnitTest/cross_origin.htm",true);
+						xhrObject.send(null);
+						test.wait(3000);
+					},
+				});
+
+                /*
+                testCases[0] = new Y.Test.Case({
+                    name: "XHR Asynchronous test",
+					xhrObject: new XMLHttpRequest(),
+					setUp : function () {	
+					},
+				 
+					tearDown : function () {
+						//Teardown code goes here
+						//delete this.xhrObject;
+					},
+					
+					"XHR should return valid data": function () {						
+					var test = this;
+
+					xhrObject.onreadystatechange=
+						function(){
+							if(xhrObject.readyState==4) {
+								Assert.areEqual(xhrObject.responseText, "Hello from Ajax cross-origin");
+								test.resume();
+						    }
+						};
+
+					xhrObject.open("GET","http://atg05-yyz.rim.net/WebAPI_UnitTest/cross_origin.htm",true);
+					xhrObject.send(null);
+					test.wait(3000);
+				    
+					});
+
+					/*
+					testXHR_Async_cross_origin: function () {						
+						var result;
+						var xhrObject = new XMLHttpRequest();
+						var test = this;
+						xhrObject.onreadystatechange=function(){
+							if(xhrObject.readyState==4)
+							{
+								var responseVal = xhrObject.responseText;        
+								if (responseVal == "Hello from Ajax cross-origin") {
+									result = true;
+								} else{
+									result = false;
+								}   
+								test.resume(function(){
+									Y.Assert.areEqual(true, result , "Asynchronous test failed.");
+								});	
+							}        
+						};
+						xhrObject.open("GET","http://atg05-yyz.rim.net/WebAPI_UnitTest/cross_origin.htm",true);
+						xhrObject.send(null);
+						test.wait(1000);
+					} 
+
+					                
+                });
+				
+				*/
+				
+				
+				
+                return testCases;
+            }
+        </script>
+    </head>
+    <body>
+        <div id="output" />
+    </body>
+</html>
