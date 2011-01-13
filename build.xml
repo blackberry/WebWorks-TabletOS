@@ -24,7 +24,10 @@
 		<echo>Building Java packager...</echo>
 		<javac srcdir="${packager.src.dir}" destdir="${packager.bin.dir}" excludes="TumblerLauncher/**"/>
 		
-		<echo>Building TumblerPackager...NOT IMPLEMENTED</echo>
+		<echo>Copying log message resource to output folder...</echo>
+		<copy todir="${packager.bin.dir}/net/rim/tumbler/log/resources">
+			<fileset dir="${packager.src.dir}/net/rim/tumbler/log/resources" />
+		</copy>
 		
 		<echo>Packaging Java classes into JAR...</echo>
 		<jar destfile="${installer.air.bin.dir}\bbwp.jar" basedir="${packager.bin.dir}"> 
