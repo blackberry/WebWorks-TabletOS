@@ -73,8 +73,10 @@
 		non-distributable Adobe components.
 		-->
 		<!--Copy the BlackBerry SDK for temporary location on the M drive -->
-		<echo>Copying BlackBerry SDK to ${installer.data.dir}...</echo>
-		<unzip dest="${installer.data.dir}" src="${sdk.zip}" />
+		<echo>Unzipping BlackBerry SDK to ${installer.data.dir} from ${sdk.zip.dir}/*b{sdk.build.num}/blackberry-tablet-sdk.zip...</echo>
+		<unzip dest="${installer.data.dir}" >
+			<fileset dir="${sdk.zip.dir}" includes="*b${sdk.build.num}/blackberry-tablet-sdk.zip" />
+		</unzip>
 	</target>
 	
 	<target name="build.installer">
