@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- This script was automatically generated using InstallAnywhere 2010 Enterprise, Build 3972
      STATUS: Fully Functional LICENSED Edition
-     DATE:   Sat Jan 08 13:12:53 EST 2011 -->
-<InstallAnywhere_Deployment_Project increments="3388">
+     DATE:   Wed Jan 12 10:50:34 EST 2011 -->
+<InstallAnywhere_Deployment_Project increments="3137">
 	<!-- ** DO NOT EDIT ** Essential authorization and configuration data ** DO NOT EDIT ** -->
 	<essentialScriptInfo>
 		<versionID major="11" minor="5" revision="0"/>
@@ -10,9 +10,9 @@
 		<scriptID>12,42,11,70,49,57,54,74,78,74,74,78,72,45,69,68,74,45,75,70,74,74,70,78,78,69,74,88</scriptID>
 		<buildID>3,13,71,87,105,110,100,111,119,115,32,88,80,44,32,53,46,49,44,32,120,56,54,59,32,74,97,118,97,32,49,46,54,46,48,95,49,53,44,32,83,117,110,32,77,105,99,114,111,115,121,115,116,101,109,115,32,73,110,99,46,44,32,104,116,116,112,58,47,47,106,97,118,97,46,115,117,110,46,99,111,109,47,59,32,101,110,44,32,85,110,107,110,111,119,110,59,32,67,112,49,50,53,50</buildID>
 		<!-- The authorizationID may change between project saves and builds.  This does not effect the integrity of the project, nor do changes in this value represent changes in the actual InstallAnywhere project. -->
-		<authorizationID>1,0,0,32,99,-33,-77,-96,80,112,118,100,85,99,113,97,113,65,81,84,74,67,70,68,72,74,64,69,66,69,64,95,71,5,2,14,27,20,102,13,1,0,0</authorizationID>
+		<authorizationID>1,0,0,32,115,-21,-48,-112,80,112,118,100,85,99,113,97,113,65,81,84,74,67,70,68,72,74,64,69,66,69,64,95,71,5,2,5,13,27,106,13,1,0,0</authorizationID>
 	</essentialScriptInfo>
-	<installationObjects uniqueObjects="133">
+	<installationObjects uniqueObjects="128">
 		<object class="com.zerog.ia.installer.Installer" objectID="61c3cf33921d">
 			<property name="belongsToUninstallPhase">
 				<boolean>false</boolean>
@@ -1626,7 +1626,7 @@ For information on configuration of the SDK please visit www.blackberry.com/deve
 					</method>
 					<method name="put">
 						<string><![CDATA[com.zerog.ia.project.build.last.date]]></string>
-						<string><![CDATA[January 8, 2011 12:24:11 PM EST]]></string>
+						<string><![CDATA[January 10, 2011 2:33:15 AM EST]]></string>
 					</method>
 					<method name="put">
 						<string><![CDATA[com.zerog.ia.build.platform.windows.vm]]></string>
@@ -1698,7 +1698,7 @@ For information on configuration of the SDK please visit www.blackberry.com/deve
 					</method>
 					<method name="put">
 						<string><![CDATA[com.zerog.ia.project.save.last.date]]></string>
-						<string><![CDATA[January 8, 2011 1:12:53 PM EST]]></string>
+						<string><![CDATA[January 12, 2011 10:50:34 AM EST]]></string>
 					</method>
 					<method name="put">
 						<string><![CDATA[com.zerog.ia.build.options.optimization.platform.cdrom]]></string>
@@ -3212,7 +3212,7 @@ Thank you for choosing $PRODUCT_NAME$!]]></string>
 												<object refID="794abe78bd51"/>
 											</visualChildren>
 										</object>
-										<object class="com.zerog.ia.installer.actions.InstallFile" objectID="6a5b77a48dc2">
+										<object class="com.zerog.ia.installer.actions.InstallDirCont" objectID="8e5fc4cc9506">
 											<property name="belongsToUninstallPhase">
 												<boolean>false</boolean>
 											</property>
@@ -3222,119 +3222,11 @@ Thank you for choosing $PRODUCT_NAME$!]]></string>
 											<property name="rollbackEnabledError">
 												<boolean>true</boolean>
 											</property>
-											<property name="unixPermissions">
-												<string><![CDATA[664]]></string>
-											</property>
-											<property name="sourceName">
-												<string><![CDATA[blackberry-tablet.xml]]></string>
-											</property>
-											<property name="overrideUnixPermissions">
+											<property name="useFilterExtensions">
 												<boolean>false</boolean>
 											</property>
-											<property name="sourcePath">
-												<string><![CDATA[$IA_PROJECT_DIR$\installerdata\bbwp\AirAppTemplates\src\]]></string>
-											</property>
-											<property name="shouldUninstall">
-												<boolean>true</boolean>
-											</property>
-											<property name="destinationName">
-												<string><![CDATA[blackberry-tablet.xml]]></string>
-											</property>
-											<property name="fileSize">
-												<long>190</long>
-											</property>
-											<property name="macBinary">
-												<boolean>false</boolean>
-											</property>
-											<property name="targetCheckKind">
-												<int>0</int>
-											</property>
-										</object>
-										<object class="com.zerog.ia.installer.actions.InstallFile" objectID="6a5b78018dd3">
-											<property name="belongsToUninstallPhase">
-												<boolean>false</boolean>
-											</property>
-											<property name="rollbackEnabledCancel">
-												<boolean>true</boolean>
-											</property>
-											<property name="rollbackEnabledError">
-												<boolean>true</boolean>
-											</property>
-											<property name="unixPermissions">
-												<string><![CDATA[664]]></string>
-											</property>
-											<property name="sourceName">
-												<string><![CDATA[WebWorksAppTemplate-app.xml]]></string>
-											</property>
-											<property name="overrideUnixPermissions">
-												<boolean>false</boolean>
-											</property>
-											<property name="sourcePath">
-												<string><![CDATA[$IA_PROJECT_DIR$\installerdata\bbwp\AirAppTemplates\src\]]></string>
-											</property>
-											<property name="shouldUninstall">
-												<boolean>true</boolean>
-											</property>
-											<property name="destinationName">
-												<string><![CDATA[WebWorksAppTemplate-app.xml]]></string>
-											</property>
-											<property name="fileSize">
-												<long>7543</long>
-											</property>
-											<property name="macBinary">
-												<boolean>false</boolean>
-											</property>
-											<property name="targetCheckKind">
-												<int>0</int>
-											</property>
-										</object>
-										<object class="com.zerog.ia.installer.actions.InstallFile" objectID="6a5b78118dd3">
-											<property name="belongsToUninstallPhase">
-												<boolean>false</boolean>
-											</property>
-											<property name="rollbackEnabledCancel">
-												<boolean>true</boolean>
-											</property>
-											<property name="rollbackEnabledError">
-												<boolean>true</boolean>
-											</property>
-											<property name="unixPermissions">
-												<string><![CDATA[664]]></string>
-											</property>
-											<property name="sourceName">
-												<string><![CDATA[WebWorksAppTemplate.as]]></string>
-											</property>
-											<property name="overrideUnixPermissions">
-												<boolean>false</boolean>
-											</property>
-											<property name="sourcePath">
-												<string><![CDATA[$IA_PROJECT_DIR$\installerdata\bbwp\AirAppTemplates\src\]]></string>
-											</property>
-											<property name="shouldUninstall">
-												<boolean>true</boolean>
-											</property>
-											<property name="destinationName">
-												<string><![CDATA[WebWorksAppTemplate.as]]></string>
-											</property>
-											<property name="fileSize">
-												<long>6422</long>
-											</property>
-											<property name="macBinary">
-												<boolean>false</boolean>
-											</property>
-											<property name="targetCheckKind">
-												<int>0</int>
-											</property>
-										</object>
-										<object class="com.zerog.ia.installer.actions.InstallDirectory" objectID="6d126584b678">
-											<property name="belongsToUninstallPhase">
-												<boolean>false</boolean>
-											</property>
-											<property name="rollbackEnabledCancel">
-												<boolean>true</boolean>
-											</property>
-											<property name="rollbackEnabledError">
-												<boolean>true</boolean>
+											<property name="totalSize">
+												<long>0</long>
 											</property>
 											<property name="unixPermissions">
 												<string><![CDATA[775]]></string>
@@ -3344,6 +3236,9 @@ Thank you for choosing $PRODUCT_NAME$!]]></string>
 											</property>
 											<property name="overrideUnixPermissions">
 												<boolean>false</boolean>
+											</property>
+											<property name="directoryChosen">
+												<boolean>true</boolean>
 											</property>
 											<property name="sourcePath">
 												<string><![CDATA[$IA_PROJECT_DIR$\installerdata\blackberry-tablet-sdk]]></string>
@@ -3351,20 +3246,42 @@ Thank you for choosing $PRODUCT_NAME$!]]></string>
 											<property name="shouldUninstall">
 												<boolean>true</boolean>
 											</property>
+											<property name="rollbackEnabledCancel">
+												<boolean>true</boolean>
+											</property>
+											<property name="rollbackEnabledError">
+												<boolean>true</boolean>
+											</property>
 											<property name="destinationName">
+												<string><![CDATA[blackberry-tablet-sdk\]]></string>
+											</property>
+											<property name="createDirectory">
+												<boolean>true</boolean>
+											</property>
+											<property name="directoryName">
 												<string><![CDATA[blackberry-tablet-sdk]]></string>
 											</property>
-											<property name="removeRecursively">
-												<boolean>false</boolean>
-											</property>
-											<property name="totalSize">
-												<long>1</long>
+											<property name="patternMatcher">
+												<object class="com.zerog.ia.installer.SimplePatternMatcher" objectID="8e5fc4cd9506">
+													<property name="includePatterns">
+														<object class="java.util.Vector"/>
+													</property>
+													<property name="excludePatterns">
+														<object class="java.util.Vector"/>
+													</property>
+												</object>
 											</property>
 											<property name="macBinary">
 												<boolean>false</boolean>
 											</property>
+											<property name="targetCheckKind">
+												<int>0</int>
+											</property>
+											<property name="recursivelyUninstall">
+												<boolean>false</boolean>
+											</property>
 										</object>
-										<object class="com.zerog.ia.installer.actions.InstallDirectory" objectID="6d1150b4b674">
+										<object class="com.zerog.ia.installer.actions.InstallDirCont" objectID="8e6c57869623">
 											<property name="belongsToUninstallPhase">
 												<boolean>false</boolean>
 											</property>
@@ -3373,6 +3290,12 @@ Thank you for choosing $PRODUCT_NAME$!]]></string>
 											</property>
 											<property name="rollbackEnabledError">
 												<boolean>true</boolean>
+											</property>
+											<property name="useFilterExtensions">
+												<boolean>false</boolean>
+											</property>
+											<property name="totalSize">
+												<long>0</long>
 											</property>
 											<property name="unixPermissions">
 												<string><![CDATA[775]]></string>
@@ -3383,244 +3306,8 @@ Thank you for choosing $PRODUCT_NAME$!]]></string>
 											<property name="overrideUnixPermissions">
 												<boolean>false</boolean>
 											</property>
-											<property name="sourcePath">
-												<string><![CDATA[$IA_PROJECT_DIR$\installerdata\bbwp\AirAppTemplates\src\json]]></string>
-											</property>
-											<property name="shouldUninstall">
+											<property name="directoryChosen">
 												<boolean>true</boolean>
-											</property>
-											<property name="destinationName">
-												<string><![CDATA[json]]></string>
-											</property>
-											<property name="removeRecursively">
-												<boolean>false</boolean>
-											</property>
-											<property name="totalSize">
-												<long>1</long>
-											</property>
-											<property name="macBinary">
-												<boolean>false</boolean>
-											</property>
-										</object>
-										<object class="com.zerog.ia.installer.actions.InstallDirectory" objectID="6d10f204b672">
-											<property name="belongsToUninstallPhase">
-												<boolean>false</boolean>
-											</property>
-											<property name="rollbackEnabledCancel">
-												<boolean>true</boolean>
-											</property>
-											<property name="rollbackEnabledError">
-												<boolean>true</boolean>
-											</property>
-											<property name="unixPermissions">
-												<string><![CDATA[775]]></string>
-											</property>
-											<property name="sourceName">
-												<string><![CDATA[]]></string>
-											</property>
-											<property name="overrideUnixPermissions">
-												<boolean>false</boolean>
-											</property>
-											<property name="sourcePath">
-												<string><![CDATA[$IA_PROJECT_DIR$\installerdata\bbwp\AirAppTemplates\src\js\sharedglobal]]></string>
-											</property>
-											<property name="shouldUninstall">
-												<boolean>true</boolean>
-											</property>
-											<property name="destinationName">
-												<string><![CDATA[sharedglobal]]></string>
-											</property>
-											<property name="removeRecursively">
-												<boolean>false</boolean>
-											</property>
-											<property name="totalSize">
-												<long>1</long>
-											</property>
-											<property name="macBinary">
-												<boolean>false</boolean>
-											</property>
-										</object>
-										<object class="com.zerog.ia.installer.actions.InstallDirectory" objectID="6d10f204b671">
-											<property name="belongsToUninstallPhase">
-												<boolean>false</boolean>
-											</property>
-											<property name="rollbackEnabledCancel">
-												<boolean>true</boolean>
-											</property>
-											<property name="rollbackEnabledError">
-												<boolean>true</boolean>
-											</property>
-											<property name="unixPermissions">
-												<string><![CDATA[775]]></string>
-											</property>
-											<property name="sourceName">
-												<string><![CDATA[]]></string>
-											</property>
-											<property name="overrideUnixPermissions">
-												<boolean>false</boolean>
-											</property>
-											<property name="sourcePath">
-												<string><![CDATA[$IA_PROJECT_DIR$\installerdata\bbwp\AirAppTemplates\src\js]]></string>
-											</property>
-											<property name="shouldUninstall">
-												<boolean>true</boolean>
-											</property>
-											<property name="destinationName">
-												<string><![CDATA[js]]></string>
-											</property>
-											<property name="removeRecursively">
-												<boolean>false</boolean>
-											</property>
-											<property name="totalSize">
-												<long>1</long>
-											</property>
-											<property name="macBinary">
-												<boolean>false</boolean>
-											</property>
-											<visualChildren>
-												<object refID="6d10f204b672"/>
-											</visualChildren>
-										</object>
-										<object class="com.zerog.ia.installer.actions.InstallDirectory" objectID="6a5bc4a28dd3">
-											<property name="belongsToUninstallPhase">
-												<boolean>false</boolean>
-											</property>
-											<property name="rollbackEnabledCancel">
-												<boolean>true</boolean>
-											</property>
-											<property name="rollbackEnabledError">
-												<boolean>true</boolean>
-											</property>
-											<property name="unixPermissions">
-												<string><![CDATA[775]]></string>
-											</property>
-											<property name="sourceName">
-												<string><![CDATA[]]></string>
-											</property>
-											<property name="overrideUnixPermissions">
-												<boolean>false</boolean>
-											</property>
-											<property name="sourcePath">
-												<string><![CDATA[$IA_PROJECT_DIR$\installerdata\bbwp\ext]]></string>
-											</property>
-											<property name="shouldUninstall">
-												<boolean>true</boolean>
-											</property>
-											<property name="destinationName">
-												<string><![CDATA[ext]]></string>
-											</property>
-											<property name="removeRecursively">
-												<boolean>false</boolean>
-											</property>
-											<property name="totalSize">
-												<long>1</long>
-											</property>
-											<property name="macBinary">
-												<boolean>false</boolean>
-											</property>
-										</object>
-										<object class="com.zerog.ia.installer.actions.InstallDirectory" objectID="6a5b77b38dc2">
-											<property name="belongsToUninstallPhase">
-												<boolean>false</boolean>
-											</property>
-											<property name="rollbackEnabledCancel">
-												<boolean>true</boolean>
-											</property>
-											<property name="rollbackEnabledError">
-												<boolean>true</boolean>
-											</property>
-											<property name="unixPermissions">
-												<string><![CDATA[775]]></string>
-											</property>
-											<property name="sourceName">
-												<string><![CDATA[]]></string>
-											</property>
-											<property name="overrideUnixPermissions">
-												<boolean>false</boolean>
-											</property>
-											<property name="sourcePath">
-												<string><![CDATA[$IA_PROJECT_DIR$\installerdata\bbwp\AirAppTemplates\src\webworks]]></string>
-											</property>
-											<property name="shouldUninstall">
-												<boolean>true</boolean>
-											</property>
-											<property name="destinationName">
-												<string><![CDATA[webworks]]></string>
-											</property>
-											<property name="removeRecursively">
-												<boolean>false</boolean>
-											</property>
-											<property name="totalSize">
-												<long>1</long>
-											</property>
-											<property name="macBinary">
-												<boolean>false</boolean>
-											</property>
-										</object>
-										<object class="com.zerog.ia.installer.actions.InstallDirectory" objectID="6a5b77a48dc1">
-											<property name="belongsToUninstallPhase">
-												<boolean>false</boolean>
-											</property>
-											<property name="rollbackEnabledCancel">
-												<boolean>true</boolean>
-											</property>
-											<property name="rollbackEnabledError">
-												<boolean>true</boolean>
-											</property>
-											<property name="unixPermissions">
-												<string><![CDATA[775]]></string>
-											</property>
-											<property name="sourceName">
-												<string><![CDATA[]]></string>
-											</property>
-											<property name="overrideUnixPermissions">
-												<boolean>false</boolean>
-											</property>
-											<property name="sourcePath">
-												<string><![CDATA[$IA_PROJECT_DIR$\installerdata\bbwp\AirAppTemplates\src]]></string>
-											</property>
-											<property name="shouldUninstall">
-												<boolean>true</boolean>
-											</property>
-											<property name="destinationName">
-												<string><![CDATA[src]]></string>
-											</property>
-											<property name="removeRecursively">
-												<boolean>false</boolean>
-											</property>
-											<property name="totalSize">
-												<long>1</long>
-											</property>
-											<property name="macBinary">
-												<boolean>false</boolean>
-											</property>
-											<visualChildren>
-												<object refID="6a5b77a48dc2"/>
-												<object refID="6a5b77b38dc2"/>
-												<object refID="6d10f204b671"/>
-												<object refID="6d1150b4b674"/>
-												<object refID="6a5b78018dd3"/>
-												<object refID="6a5b78118dd3"/>
-											</visualChildren>
-										</object>
-										<object class="com.zerog.ia.installer.actions.InstallDirectory" objectID="6a5b77948db8">
-											<property name="belongsToUninstallPhase">
-												<boolean>false</boolean>
-											</property>
-											<property name="rollbackEnabledCancel">
-												<boolean>true</boolean>
-											</property>
-											<property name="rollbackEnabledError">
-												<boolean>true</boolean>
-											</property>
-											<property name="unixPermissions">
-												<string><![CDATA[775]]></string>
-											</property>
-											<property name="sourceName">
-												<string><![CDATA[]]></string>
-											</property>
-											<property name="overrideUnixPermissions">
-												<boolean>false</boolean>
 											</property>
 											<property name="sourcePath">
 												<string><![CDATA[$IA_PROJECT_DIR$\installerdata\bbwp\AirAppTemplates]]></string>
@@ -3628,21 +3315,109 @@ Thank you for choosing $PRODUCT_NAME$!]]></string>
 											<property name="shouldUninstall">
 												<boolean>true</boolean>
 											</property>
+											<property name="rollbackEnabledCancel">
+												<boolean>true</boolean>
+											</property>
+											<property name="rollbackEnabledError">
+												<boolean>true</boolean>
+											</property>
 											<property name="destinationName">
+												<string><![CDATA[AirAppTemplates\]]></string>
+											</property>
+											<property name="createDirectory">
+												<boolean>true</boolean>
+											</property>
+											<property name="directoryName">
 												<string><![CDATA[AirAppTemplates]]></string>
 											</property>
-											<property name="removeRecursively">
-												<boolean>false</boolean>
-											</property>
-											<property name="totalSize">
-												<long>1</long>
+											<property name="patternMatcher">
+												<object class="com.zerog.ia.installer.SimplePatternMatcher" objectID="8e6c57879623">
+													<property name="includePatterns">
+														<object class="java.util.Vector"/>
+													</property>
+													<property name="excludePatterns">
+														<object class="java.util.Vector"/>
+													</property>
+												</object>
 											</property>
 											<property name="macBinary">
 												<boolean>false</boolean>
 											</property>
-											<visualChildren>
-												<object refID="6a5b77a48dc1"/>
-											</visualChildren>
+											<property name="targetCheckKind">
+												<int>0</int>
+											</property>
+											<property name="recursivelyUninstall">
+												<boolean>false</boolean>
+											</property>
+										</object>
+										<object class="com.zerog.ia.installer.actions.InstallDirCont" objectID="8e6ce01f966a">
+											<property name="belongsToUninstallPhase">
+												<boolean>false</boolean>
+											</property>
+											<property name="rollbackEnabledCancel">
+												<boolean>true</boolean>
+											</property>
+											<property name="rollbackEnabledError">
+												<boolean>true</boolean>
+											</property>
+											<property name="useFilterExtensions">
+												<boolean>false</boolean>
+											</property>
+											<property name="totalSize">
+												<long>0</long>
+											</property>
+											<property name="unixPermissions">
+												<string><![CDATA[775]]></string>
+											</property>
+											<property name="sourceName">
+												<string><![CDATA[]]></string>
+											</property>
+											<property name="overrideUnixPermissions">
+												<boolean>false</boolean>
+											</property>
+											<property name="directoryChosen">
+												<boolean>true</boolean>
+											</property>
+											<property name="sourcePath">
+												<string><![CDATA[$IA_PROJECT_DIR$\installerdata\bbwp\ext]]></string>
+											</property>
+											<property name="shouldUninstall">
+												<boolean>true</boolean>
+											</property>
+											<property name="rollbackEnabledCancel">
+												<boolean>true</boolean>
+											</property>
+											<property name="rollbackEnabledError">
+												<boolean>true</boolean>
+											</property>
+											<property name="destinationName">
+												<string><![CDATA[ext\]]></string>
+											</property>
+											<property name="createDirectory">
+												<boolean>true</boolean>
+											</property>
+											<property name="directoryName">
+												<string><![CDATA[ext]]></string>
+											</property>
+											<property name="patternMatcher">
+												<object class="com.zerog.ia.installer.SimplePatternMatcher" objectID="8e6ce020966a">
+													<property name="includePatterns">
+														<object class="java.util.Vector"/>
+													</property>
+													<property name="excludePatterns">
+														<object class="java.util.Vector"/>
+													</property>
+												</object>
+											</property>
+											<property name="macBinary">
+												<boolean>false</boolean>
+											</property>
+											<property name="targetCheckKind">
+												<int>0</int>
+											</property>
+											<property name="recursivelyUninstall">
+												<boolean>false</boolean>
+											</property>
 										</object>
 										<object class="com.zerog.ia.installer.actions.InstallDirectory" objectID="794abe09bd36">
 											<property name="belongsToUninstallPhase">
@@ -3682,10 +3457,10 @@ Thank you for choosing $PRODUCT_NAME$!]]></string>
 												<boolean>false</boolean>
 											</property>
 											<visualChildren>
-												<object refID="6d126584b678"/>
 												<object refID="794abe68bd4d"/>
-												<object refID="6a5b77948db8"/>
-												<object refID="6a5bc4a28dd3"/>
+												<object refID="8e5fc4cc9506"/>
+												<object refID="8e6c57869623"/>
+												<object refID="8e6ce01f966a"/>
 												<object refID="794abe67bd4d"/>
 												<object refID="894183afbc06"/>
 												<object refID="d0ccbcde9988"/>
@@ -4383,11 +4158,5 @@ and any path to a file to save to the file]]></string>
 			</installChildren>
 		</object>
 	</installationObjects>
-	<restorationObjects count="5">
-		<object refID="6d126584b678"/>
-		<object refID="6d1150b4b674"/>
-		<object refID="6d10f204b672"/>
-		<object refID="6a5bc4a28dd3"/>
-		<object refID="6a5b77b38dc2"/>
-	</restorationObjects>
+	<restorationObjects count="0"/>
 </InstallAnywhere_Deployment_Project>
