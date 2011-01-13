@@ -15,8 +15,8 @@
 		<echo>Using build number: ${build.number}</echo>
 		
 		<echo>Deleting previous build output from ${installer.output.dir} and ${installer.migr.conf.dir}...</echo>
-		<delete dir="${installer.air.templates.src.dir}" />
-		<delete dir="${installer.air.templates.src.dir}" />
+		<delete dir="${installer.output.dir}" />
+		<delete dir="${installer.migr.conf.dir}" />
 	</target>
 	
 	<!--Compile the packager class files. Jar-up bbwp.jar. -->
@@ -24,7 +24,10 @@
 		<echo>Building Java packager...</echo>
 		<javac srcdir="${packager.src.dir}" destdir="${packager.bin.dir}" excludes="TumblerLauncher/**"/>
 		
-		<echo>Building TumblerPackager...NOT IMPLEMENTED</echo>
+		<echo>Copying log message resource to output folder...</echo>
+		<copy todir="${packager.bin.dir}/net/rim/tumbler/log/resources">
+			<fileset dir="${packager.src.dir}/net/rim/tumbler/log/resources" />
+		</copy>
 		
 		<echo>Packaging Java classes into JAR...</echo>
 		<jar destfile="${installer.air.bin.dir}\bbwp.jar" basedir="${packager.bin.dir}"> 
@@ -73,8 +76,10 @@
 		non-distributable Adobe components.
 		-->
 		<!--Copy the BlackBerry SDK for temporary location on the M drive -->
-		<echo>Copying BlackBerry SDK to ${installer.data.dir}...</echo>
-		<unzip dest="${installer.data.dir}" src="${sdk.zip}" />
+		<echo>Unzipping BlackBerry SDK to ${installer.data.dir} from ${sdk.zip.dir}/*b{sdk.build.num}/blackberry-tablet-sdk.zip...</echo>
+		<unzip dest="${installer.data.dir}" >
+			<fileset dir="${sdk.zip.dir}" includes="*b${sdk.build.num}/blackberry-tablet-sdk.zip" />
+		</unzip>
 	</target>
 	
 	<target name="build.installer">
