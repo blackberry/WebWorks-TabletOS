@@ -60,15 +60,15 @@
 				return blackberry.system.dataCoverage;
 			},
 			"hasPermission" : function(desiredModule) {
-				var al = blackberry.system.accessList;
-				var permission = 0; // if blackberry.denied, set to 0			
+				var al = blackberry.system.accessList;				
+				var permission = 1; // if blackberry.denied, set to 1			
 								
 				for (var i in al){
 					permission = (al[i] == desiredModule) ? 0 : 1;		
 					if(!permission)
 						break;
 				}
-						
+				
 				return permission;			
 			
 			},
