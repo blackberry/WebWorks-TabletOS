@@ -100,7 +100,7 @@
 			<func name="hasDataCoverage" returns="Boolean" static="true"
 				comment="Returns true if the device is in coverage, otherwise returns false. This can be used in conjunction with the blackberry.network property to find out what kind of coverage it is in.">
 				<details>
-					Returns true if the PlayBook has either a Sapphire or WiFi connection active.
+					Returns true if the PlayBook has any network interface active.
                 </details>
 			</func>
 
