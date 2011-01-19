@@ -76,7 +76,6 @@ package webworks
 							extension.loadFeature(feature.getID(), feature.getVersion());
 						//register js files for the feature
 						paths = widgetExt[ConfigConstants.REQUIREDJSFILES] as Array;
-						paths.sort();
 						jsfiles = jsfiles.concat(paths);
 					}
 				}
