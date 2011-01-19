@@ -1,13 +1,6 @@
 package webworks.extension
 {
-	import flash.desktop.NativeApplication;
 	import flash.utils.Dictionary;
-	import flash.utils.setInterval;
-	import flash.utils.setTimeout;
-	
-	import json.JSONEncoder;
-	
-	import webworks.config.ConfigData;
 
 	public class AppNameSpaceGenerator
 	{

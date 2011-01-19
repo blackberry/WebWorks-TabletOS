@@ -1,18 +1,13 @@
 package webworks.loadingScreen
 {
 	import flash.display.Bitmap;
-	import flash.display.BitmapData;
-	import flash.display.DisplayObject;
 	import flash.display.Graphics;
-	import flash.display.GraphicsBitmapFill;
 	import flash.display.Loader;
 	import flash.display.Sprite;
-	import flash.display.StageDisplayState;
 	import flash.events.Event;
 	import flash.events.IOErrorEvent;
 	import flash.geom.Rectangle;
 	import flash.net.URLRequest;
-	import flash.text.TextField;
 	
 	import qnx.media.QNXStageWebView;
 	
@@ -20,7 +15,6 @@ package webworks.loadingScreen
 	import webworks.config.ConfigData;
 	import webworks.uri.URI;
 	import webworks.util.Utilities;
-	import webworks.webkit.WebkitControl;
 
 	public class LoadingScreen extends Sprite
 	{
