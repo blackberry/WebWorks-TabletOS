@@ -21,7 +21,6 @@ package webworks
 	import flash.filesystem.File;
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;
-	import flash.utils.Dictionary;
 	import flash.utils.getTimer;
 	
 	import qnx.events.WebViewEvent;
@@ -31,9 +30,7 @@ package webworks
 	import webworks.config.ConfigConstants;
 	import webworks.config.ConfigData;
 	import webworks.extension.IApiExtension;
-	import webworks.policy.WidgetPolicy;
 	import webworks.webkit.WebkitControl;
-	import webworks.webkit.WebkitEvent;
 
 	public class JavaScriptLoader extends  EventDispatcher
 	{

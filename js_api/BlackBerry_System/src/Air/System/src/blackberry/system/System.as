@@ -18,8 +18,6 @@ package blackberry.system
 	import flash.net.NetworkInfo;
 	import flash.net.NetworkInterface;
 	
-	import mx.states.OverrideBase;
-	
 	import qnx.system.Device;
 	
 	import webworks.config.ConfigConstants;

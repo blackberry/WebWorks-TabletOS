@@ -18,11 +18,7 @@ package webworks.policy
 	
 	import flash.utils.Dictionary;
 	
-	import qnx.qnx_internal;
-	
 	import webworks.access.Access;
-	import webworks.access.Feature;
-	import webworks.config.ConfigConstants;
 	import webworks.uri.URI;
 	import webworks.util.Utilities;
 	public class WidgetPolicy

@@ -18,12 +18,10 @@ package webworks.config
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.events.IEventDispatcher;
-	import flash.sensors.Accelerometer;
 	import flash.utils.Dictionary;
 	
 	import webworks.access.Access;
 	import webworks.access.Feature;
-	import webworks.errors.AccessError;
 	import webworks.extension.IApiExtension;
 	import webworks.policy.WidgetPolicy;
 	

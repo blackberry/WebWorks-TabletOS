@@ -21,7 +21,6 @@ package webworks
 	import qnx.events.JavaScriptCallbackEvent;
 	import qnx.media.QNXStageWebView;
 	
-	import webworks.config.ConfigConstants;
 	import webworks.config.ConfigData;
 	import webworks.errors.AccessError;
 	import webworks.extension.IApiExtension;

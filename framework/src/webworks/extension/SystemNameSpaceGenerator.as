@@ -1,12 +1,8 @@
 package webworks.extension
 {
-	import flash.utils.Dictionary;
-	
 	import json.JSONEncoder;
 	
 	import webworks.access.Access;
-	import webworks.access.Feature;
-	import webworks.config.ConfigConstants;
 	import webworks.config.ConfigData;
 	
 	public class SystemNameSpaceGenerator
