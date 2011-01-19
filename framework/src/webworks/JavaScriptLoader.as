@@ -17,11 +17,10 @@ package webworks
 {
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
-	import flash.events.IOErrorEvent;
-	import flash.filesystem.File;
+	import flash.filesystem.*;
+	import flash.net.NetworkInfo;
+	import flash.net.NetworkInterface;
 	import flash.net.URLLoader;
-	import flash.net.URLRequest;
-	import flash.utils.getTimer;
 	
 	import qnx.events.WebViewEvent;
 	
@@ -29,7 +28,9 @@ package webworks
 	import webworks.access.Feature;
 	import webworks.config.ConfigConstants;
 	import webworks.config.ConfigData;
+	import webworks.extension.AppNameSpaceGenerator;
 	import webworks.extension.IApiExtension;
+	import webworks.extension.SystemNameSpaceGenerator;
 	import webworks.webkit.WebkitControl;
 
 	public class JavaScriptLoader extends  EventDispatcher
@@ -44,7 +45,10 @@ package webworks
 		
 		public function JavaScriptLoader(webkitcontrol:WebkitControl)
 		{
-			webkitControl = webkitcontrol;
+			webkitControl = webkitcontrol;			
+			//Temp workaround code
+			webkitControl.addEventListener(Event.NETWORK_CHANGE, onNetworkChange);
+
 		}
 				
 		//register javascript file for features required by the url
@@ -95,6 +99,7 @@ package webworks
 				var js:File = files[index];
 				if ( js != null && js.type == ".js" ){
 					var url:String = js.url;
+					trace(url);					
   				    urls.push(js.url);
 				}
 			}
@@ -108,36 +113,96 @@ package webworks
 		}
 		
 		private function loadJavaScriptFile():void {
-			if ( index >= jsfiles.length ){
-				dispatchEvent(event);
-				return;
+			while(index < jsfiles.length)
+			{			
+				fileToLoad = jsfiles[index];
+				
+				var myTextLoader:URLLoader = new URLLoader();
+				
+				var myPattern:RegExp = /app:\//;
+				
+				var file:File = File.applicationDirectory;
+				
+				//Check to see if the file to load has 'app:/' at the begining of the path
+				// if so remove it 
+				file = file.resolvePath(fileToLoad.replace(myPattern, ""));				
+				
+				//Synchronous Read the file
+				var fs:FileStream = new FileStream();
+				fs.open(file, FileMode.READ);
+				var data:String = fs.readUTFBytes(fs.bytesAvailable);
+				
+				webkitControl.executeJavaScript(data);
+				trace("Loaded: " + file.name);		
+				
+				fs.close();
+				index++;
 			}
 			
-			fileToLoad = jsfiles[index];
+			//Now that all of the original js has been loaded,
+			// load the workaround js
+			loadWorkarounds();
 			
-			var myTextLoader:URLLoader = new URLLoader();			
-			myTextLoader.addEventListener(Event.COMPLETE, onJavaScriptFileLoaded,false);		
-			myTextLoader.addEventListener(IOErrorEvent.IO_ERROR, onJavaScriptFileError,false);
-			
-			myTextLoader.load(new URLRequest(fileToLoad));
-
-			trace("Loading JavaScript file: " + fileToLoad);			
+			dispatchEvent(event);
+		
 		}
 		
-		private function onJavaScriptFileLoaded(e:Event):void {
-			//trace("start loading JS file: " + filename);
-			var start:int = getTimer();
-			webkitControl.executeJavaScript(e.target.data);
-			trace("single call to .executeJavaScript() time:" + ( getTimer() - start) + "ms");
-			trace("Loaded JavaScript file: " + fileToLoad);
-			index++;
-			loadJavaScriptFile();
+		private function loadWorkarounds():void
+		{
+			if (ConfigData.getInstance().isFeatureAllowed("blackberry.app", webkitControl.qnxWebView.location)) {				
+				attachAppJsWorkaround();
+			}
+			
+			if (ConfigData.getInstance().isFeatureAllowed("blackberry.system", webkitControl.qnxWebView.location)) {
+				attachSystemJsWorkaround();
+			}
+			
+			trace(event.toString());			
 		}
 		
-		private function onJavaScriptFileError(e:Event):void {
-			trace("ERROR: Unable to load JavaScript file: " + fileToLoad + " message: " + e.toString());
-			index++;
-			loadJavaScriptFile();			
-		}		
+		private function onNetworkChange(event:Event):void {
+			saveDataConnectionStateJs(areNetworkInterfacesActive());
+		}
+		
+		
+		private function areNetworkInterfacesActive():Boolean{
+			var areActive : Boolean = false;
+			
+			NetworkInfo.networkInfo.findInterfaces().every(
+				function callback(item:NetworkInterface, index:int, vector:Vector.<NetworkInterface>):Boolean {
+					areActive = item.active || areActive;
+					
+					return !areActive;
+				}, this);
+			
+			return areActive;
+		}
+		
+		private function saveDataConnectionStateJs(haveConnection : Boolean):void {
+			var haveCoverageJs : String = "blackberry.system.dataCoverage = " + haveConnection + ";";
+			trace(haveCoverageJs);
+			webkitControl.executeJavaScript(haveCoverageJs);
+		}
+		
+		private function saveAccessListJs():void {
+			var sysNSGen:SystemNameSpaceGenerator = new SystemNameSpaceGenerator(webkitControl.qnxWebView.location);
+			var accessListInitJs : String = "blackberry.system.accessList = " + sysNSGen.accessListJson + ";";
+			trace(accessListInitJs);
+			webkitControl.executeJavaScript(accessListInitJs);
+		}
+		
+		private function attachSystemJsWorkaround():void{
+			saveAccessListJs();
+			saveDataConnectionStateJs(areNetworkInterfacesActive());
+		}
+		
+		private function attachAppJsWorkaround():void{
+			var appNSGen:AppNameSpaceGenerator = new AppNameSpaceGenerator(ConfigData.getInstance().properties);
+			var workaround:String = appNSGen.appNamespaceWorkaround;	
+			
+			trace(workaround);
+			
+			webkitControl.executeJavaScript(workaround);
+		}
 	}
 }
