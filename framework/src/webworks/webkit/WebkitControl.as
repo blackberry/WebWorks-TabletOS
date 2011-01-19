@@ -41,9 +41,7 @@ package webworks.webkit
 	import webworks.JavaScriptLoader;
 	import webworks.access.Access;
 	import webworks.config.ConfigConstants;
-	import webworks.config.ConfigData;
-	import webworks.extension.AppNameSpaceGenerator;
-	import webworks.extension.SystemNameSpaceGenerator;
+	import webworks.config.ConfigData;	
 	import webworks.policy.WidgetPolicy;
 	import webworks.util.Utilities;
 	
@@ -94,69 +92,11 @@ package webworks.webkit
 			webView.addEventListener(UnknownProtocolEvent.UNKNOWN_PROTOCOL, handleUnknownProtocol);
 			webView.addEventListener(WebViewEvent.JAVA_SCRIPT_WINDOW_OBJECT_CLEARED, onJavaScriptWindowObjectCleared);
 
-			webView.addEventListener(WebViewEvent.DOCUMENT_LOAD_FINISHED, documentLoadFinished);
+
 
 			
-			//Temp workaround code
-			webView.addEventListener(Event.NETWORK_CHANGE, onNetworkChange);
-		}
+		}		
 		
-		private function documentLoadFinished(event:WebViewEvent):void
-		{
-			if (ConfigData.getInstance().isFeatureAllowed("blackberry.app", webView.location)) {				
-				attachAppJsWorkaround();
-			}
-			
-			if (ConfigData.getInstance().isFeatureAllowed("blackberry.system", webView.location)) {
-				attachSystemJsWorkaround();
-			}
-			
-			trace(event.toString());			
-		}
-		
-		private function onNetworkChange(event:Event):void {
-			saveDataConnectionStateJs(areNetworkInterfacesActive());
-		}
-		
-		private function areNetworkInterfacesActive():Boolean{
-			var areActive : Boolean = false;
-			
-			NetworkInfo.networkInfo.findInterfaces().every(
-				function callback(item:NetworkInterface, index:int, vector:Vector.<NetworkInterface>):Boolean {
-					areActive = item.active || areActive;
-					
-					return !areActive;
-				}, this);
-			
-			return areActive;
-		}
-		
-		private function saveDataConnectionStateJs(haveConnection : Boolean):void {
-			var haveCoverageJs : String = "blackberry.system.dataCoverage = " + haveConnection + ";";
-			trace(haveCoverageJs);
-			webView.executeJavaScript(haveCoverageJs);
-		}
-		
-		private function saveAccessListJs():void {
-			var sysNSGen:SystemNameSpaceGenerator = new SystemNameSpaceGenerator();
-			var accessListInitJs : String = "blackberry.system.accessList = " + sysNSGen.accessListJson + ";";
-			trace(accessListInitJs);
-			webView.executeJavaScript(accessListInitJs);
-		}
-		
-		private function attachSystemJsWorkaround():void{
-			saveAccessListJs();
-			saveDataConnectionStateJs(areNetworkInterfacesActive());
-		}
-		
-		private function attachAppJsWorkaround():void{
-			var appNSGen:AppNameSpaceGenerator = new AppNameSpaceGenerator(ConfigData.getInstance().properties);
-			var workaround:String = appNSGen.appNamespaceWorkaround;	
-			
-			trace(workaround);
-			
-			webView.executeJavaScript(workaround);
-		}
 
 		private function networkResourceRequested(event:NetworkResourceRequestedEvent):void
 		{

@@ -13,9 +13,9 @@ package webworks.extension
 	{
 		private var _jsonAccessList:String;
 		
-		public function SystemNameSpaceGenerator()
+		public function SystemNameSpaceGenerator(location:String)
 		{
-			var permissions : Access = ConfigData.getInstance().getAccessByUrl("http://rim.net");
+			var permissions : Access = ConfigData.getInstance().getAccessByUrl(location);
 			var permissionList:Array = [];
 			if ( permissions != null ) {
 			    var features:Array = permissions.getFeatures();
