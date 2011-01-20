@@ -15,6 +15,7 @@
  */
 package net.rim.tumbler.extension;
 
+// equals() and hashCode() are based on pathname
 class ConfiguredPathname {
     private String _pathname;
     private String _relativeToPackage;
@@ -34,5 +35,24 @@ class ConfiguredPathname {
 
     public String getRelativeToPackage() {
         return _relativeToPackage;
+    }
+
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (!(o instanceof ConfiguredPathname)) {
+            return false;
+        }
+        ConfiguredPathname other = (ConfiguredPathname)o;
+
+        return _pathname == null
+            ? other._pathname == null
+            : _pathname.equals(other._pathname);
+    }
+
+    public int hashCode() {
+        return _pathname.hashCode();
     }
 }
