@@ -14,7 +14,7 @@
 		<configuration name="AIR_XHR" version="1.0" comment="For XHR architecture for Java implementation">
 			<src type="text/javascript" path="js/common/app_event_dispatcher.js" comment="Application JS XHR dispatcher" />
 			<src type="text/javascript" path="js/common/app_event_ns.js" comment="Application JS interface" />
-			<src type="text/actionscript" path="src/Air/ApplicationEvents/src/webworks/extension" comment="ActionScript implementation" />
+			<src type="text/actionscript" path="src/Air/ApplicationEvents/src" comment="ActionScript implementation" />
 		</configuration>
 	</configurations>
 	

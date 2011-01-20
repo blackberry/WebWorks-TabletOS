@@ -17,14 +17,10 @@ package webworks
 {
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
-	import flash.events.IOErrorEvent;
 	import flash.filesystem.*;
 	import flash.net.NetworkInfo;
 	import flash.net.NetworkInterface;
 	import flash.net.URLLoader;
-	import flash.net.URLRequest;
-	import flash.utils.Dictionary;
-	import flash.utils.getTimer;
 	
 	import qnx.events.WebViewEvent;
 	
@@ -35,9 +31,7 @@ package webworks
 	import webworks.extension.AppNameSpaceGenerator;
 	import webworks.extension.IApiExtension;
 	import webworks.extension.SystemNameSpaceGenerator;
-	import webworks.policy.WidgetPolicy;
 	import webworks.webkit.WebkitControl;
-	import webworks.webkit.WebkitEvent;
 
 	public class JavaScriptLoader extends  EventDispatcher
 	{
@@ -83,7 +77,6 @@ package webworks
 							extension.loadFeature(feature.getID(), feature.getVersion());
 						//register js files for the feature
 						paths = widgetExt[ConfigConstants.REQUIREDJSFILES] as Array;
-						paths.sort();
 						jsfiles = jsfiles.concat(paths);
 					}
 				}

@@ -15,24 +15,15 @@
  */ 
 package webworks.webkit
 {
-	import flash.display.Graphics;
 	import flash.display.Sprite;
 	import flash.events.ErrorEvent;
 	import flash.events.Event;
 	import flash.events.LocationChangeEvent;
-	import flash.events.TimerEvent;
 	import flash.geom.Rectangle;
-	import flash.net.NetworkInfo;
-	import flash.net.NetworkInterface;
 	import flash.utils.*;
-	import flash.utils.Timer;
-	
-	import mx.core.EventPriority;
 	
 	import qnx.display.IowWindow;
 	import qnx.events.ExtendedLocationChangeEvent;
-	import qnx.events.JavaScriptCallbackEvent;
-	import qnx.events.JavaScriptResultEvent;
 	import qnx.events.NetworkResourceRequestedEvent;
 	import qnx.events.UnknownProtocolEvent;
 	import qnx.events.WebViewEvent;
@@ -41,8 +32,7 @@ package webworks.webkit
 	import webworks.JavaScriptLoader;
 	import webworks.access.Access;
 	import webworks.config.ConfigConstants;
-	import webworks.config.ConfigData;	
-	import webworks.policy.WidgetPolicy;
+	import webworks.config.ConfigData;
 	import webworks.util.Utilities;
 	
 	public class WebkitControl extends Sprite
