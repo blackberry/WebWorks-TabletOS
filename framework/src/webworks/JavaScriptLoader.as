@@ -114,28 +114,32 @@ package webworks
 		
 		private function loadJavaScriptFile():void {
 			while(index < jsfiles.length)
-			{			
-				fileToLoad = jsfiles[index];
-				
-				var myTextLoader:URLLoader = new URLLoader();
-				
+			{
+				fileToLoad = jsfiles[index];				
+
 				var myPattern:RegExp = /app:\//;
 				
 				var file:File = File.applicationDirectory;
 				
 				//Check to see if the file to load has 'app:/' at the begining of the path
 				// if so remove it 
-				file = file.resolvePath(fileToLoad.replace(myPattern, ""));				
+
+				file = file.resolvePath(fileToLoad.replace(myPattern, ""));
 				
 				//Synchronous Read the file
-				var fs:FileStream = new FileStream();
-				fs.open(file, FileMode.READ);
-				var data:String = fs.readUTFBytes(fs.bytesAvailable);
+				try {
+					var fs:FileStream = new FileStream();
+					fs.open(file, FileMode.READ);
+					var data:String = fs.readUTFBytes(fs.bytesAvailable);
+					
+					webkitControl.executeJavaScript(data);
+					trace("Loaded: " + file.name);
+					
+					fs.close();
+				}catch(e:Error) {
+					trace("ERROR: Unable to load JavaScript file: " + file.name + " message: " + e.toString());
+				}
 				
-				webkitControl.executeJavaScript(data);
-				trace("Loaded: " + file.name);		
-				
-				fs.close();
 				index++;
 			}
 			
