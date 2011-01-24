@@ -152,6 +152,8 @@ public class ExtensionMap {
                             NodeList nl8 = ((Element)nl7.item(k)).getElementsByTagName("src");
                             for (int m = 0; m < nl8.getLength(); m++) {
                                 String path = ((Element)nl8.item(m)).getAttribute("path");
+                                // remove trailing '/' or '\\' characters
+                                path = FileManager.removeTrailingSeparators(path);
                                 if (path.length() > 0) {
                                     File f = new File(extFolder, path);
                                     if (f.isDirectory()) {

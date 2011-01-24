@@ -614,4 +614,40 @@ public class FileManager {
             ? msWindows
             : macOsx;
     }
+
+    /**
+     * Returns a copy of <code>path</code> with trailing separator characters
+     * removed. For example:
+     * <pre>
+     *     removeTrailingSeparators("/foo/bar/") returns "/foo/bar"
+     * </pre>
+     * Here, a separator character is <code>'/'</code> or <code>'\\'</code>.
+     * Also, here, a separator character is considered trailing only if there exists
+     * a non-separator character somewhere before it in the string. For example:
+     * <pre>
+     *     removeTrailingSeparators("/") returns "/"
+     *     removeTrailingSeparators("//") returns "//"
+     *     removeTrailingSeparators("//foo") returns "//foo"
+     *     removeTrailingSeparators("//foo/") returns "//foo"
+     * </pre>
+     *
+     * @param path the input string possibly ending in one or more separator characters.
+     * 
+     * @return a copy of <code>path</code> with trailing separator characters
+     * removed.
+     */
+    public static String removeTrailingSeparators(String path) {
+        boolean nonSeparatorFound = false;
+        int len = path.length();
+        int i;
+
+        for (i = len - 1; i >= 0; i--) {
+            if (path.charAt(i) != '/' && path.charAt(i) != '\\') {
+                nonSeparatorFound = true;
+                break;
+            }
+        }
+
+        return path.substring(0, (nonSeparatorFound ? i+1 : len));
+    }
 }
