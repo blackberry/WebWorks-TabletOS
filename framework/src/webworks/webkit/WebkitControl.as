@@ -80,11 +80,7 @@ package webworks.webkit
             webView.addEventListener(WebViewEvent.CREATED, htmlEventBrowserCreated);
 			webView.addEventListener(NetworkResourceRequestedEvent.NETWORK_RESOURCE_REQUESTED, networkResourceRequested);
 			webView.addEventListener(UnknownProtocolEvent.UNKNOWN_PROTOCOL, handleUnknownProtocol);
-			webView.addEventListener(WebViewEvent.JAVA_SCRIPT_WINDOW_OBJECT_CLEARED, onJavaScriptWindowObjectCleared);
-
-
-
-			
+			webView.addEventListener(WebViewEvent.JAVA_SCRIPT_WINDOW_OBJECT_CLEARED, onJavaScriptWindowObjectCleared);	
 		}		
 		
 
@@ -174,7 +170,5 @@ package webworks.webkit
 			event.preventDefault();
 			javascriptLoader.registerJavaScript(webView.location, event);
 		}
-		
-
 	}
 }

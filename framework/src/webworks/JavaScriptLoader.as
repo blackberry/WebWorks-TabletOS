@@ -20,7 +20,6 @@ package webworks
 	import flash.filesystem.*;
 	import flash.net.NetworkInfo;
 	import flash.net.NetworkInterface;
-	import flash.net.URLLoader;
 	
 	import qnx.events.WebViewEvent;
 	
@@ -148,9 +147,13 @@ package webworks
 			loadWorkarounds();
 			
 			dispatchEvent(event);
-		
 		}
 		
+		/*
+		###### Temporary workaround code for blackberry.app and blackberry.system namespaces ######
+		
+		BEGIN WORKAROUND
+		*/
 		private function loadWorkarounds():void
 		{
 			if (ConfigData.getInstance().isFeatureAllowed("blackberry.app", webkitControl.qnxWebView.location)) {				
@@ -208,5 +211,8 @@ package webworks
 			
 			webkitControl.executeJavaScript(workaround);
 		}
+		/*
+		END WORKAROUND
+		*/
 	}
 }
