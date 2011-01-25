@@ -30,37 +30,6 @@
 		 */
 		exit : disp.exit,
 		
-		/*
-		 * This function will move the application to the background.
-		 */
-		requestBackground : disp.requestBackground,
-		
-		/*
-		 * This function will move the application to the foreground.
-		 */
-		requestForeground : disp.requestForeground,
-		
-		/*
-		 * This method will set the icon that appears in the Home Screen of the device.
-		 * 
-		 * @param uri Fully qualified, white-listed path to the image resource, for example: local:///resourceFolder/icons/icon.png.
-		 * @param hover Optional - If set to true then the hover icon for the application is changed. Set to false by default.
-		 * 
-		 * @return True if successful, false otherwise. Changes are not persisted across device resets. On PlayBook always returns
-		 * 			false as this operation is not supported.
-		 */
-		setHomeScreenIcon : disp.setHomeScreenIcon,
-		
-		/*
-		 * This method will set the text for the icon that appears in the Home Screen of the device.
-		 * 
-		 * @param text Text to appear on the home screen icon.
-		 * 
-		 * @return True if successful, false otherwise. Changes are not persisted across device resets. On PlayBook always returns
-		 * 			false as this operation is not supported.
-		 */
-		setHomeScreenName :  disp.setHomeScreenName
-		
 	};
 	
 	/*
