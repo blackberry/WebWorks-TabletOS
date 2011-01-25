@@ -13,9 +13,11 @@ package webworks.loadingScreen
 	
 	import webworks.config.ConfigConstants;
 	import webworks.config.ConfigData;
+	import webworks.config.TransitionConstants;
 	import webworks.uri.URI;
 	import webworks.util.Utilities;
-
+	import webworks.webkit.WebkitControl;
+	
 	public class LoadingScreen extends Sprite
 	{
 		private var bgImageLoader:Loader;
@@ -32,6 +34,7 @@ package webworks.loadingScreen
 		private var onFirstLaunch:Boolean = false;
 		private var onLocalPageLoad:Boolean  = false;
 		private var onRemotePageLoad:Boolean = false;
+		private var canMoveAhead:Boolean;
 		
 		private var app:WebWorksAppTemplate;
 		private var webView:QNXStageWebView;
@@ -46,6 +49,7 @@ package webworks.loadingScreen
 		{
 			rect = rrect;
 			setBackgroundColor();
+			canMoveAhead = false;
 			
 			if (backgroundImage.length > 0) 
 			{
@@ -146,39 +150,54 @@ package webworks.loadingScreen
 		public function isLoadingScreenRequired(url:String):Boolean 
 		{
 			// Skip the first time because it's controlled by onFirstLaunch
-			if ( !isFirstLaunch )
+			if (!isFirstLaunch)
 			{
 				var uri:URI = new URI(url);
-				if ( onLocalPageLoad && ( Utilities.isLocalURI(uri) || Utilities.isFileURI(uri))) 
-				{
+				if (onLocalPageLoad && (Utilities.isLocalURI(uri) || Utilities.isFileURI(uri))) {
 					return true;
 				}
-				if ( onRemotePageLoad && (Utilities.isHttpURI(uri) || Utilities.isHttpsURI(uri))) 
-				{
+				if (onRemotePageLoad && (Utilities.isHttpURI(uri) || Utilities.isHttpsURI(uri))) {
 					return true;
 				}
 			}
-
 			return false;
 		}
 		
-		public function show():void
+		public function show(url:String):void
 		{
-			app.addChild(this);
-			webView.zOrder = -1;
+			if (showOnFirstLaunch || isLoadingScreenRequired(url)) {
+				app.addChild(this);
+				webView.zOrder = -1;
+				
+				if (app.transitionEffect.transitionType != TransitionConstants.TRANSITION_NONE && isLoadingScreenRequired(url)) {
+					canMoveAhead = false;
+					app.transitionEffect.createEffect();
+				} else {
+					canMoveAhead = true;
+				}
+			}
 		}
 		
 		public function hide():void
 		{
-			if ( app.contains(this))
+			if (app.contains(this))
 			{
+				app.transitionEffect.resetEffect();
 		        app.removeChild(this);
 				webView.zOrder = 0;
 			}
 		}
 		
+		public function hideIfNecessary():void{
+			if (canMoveAhead) {
+				hide();
+			} else {
+				canMoveAhead = true;
+			}			
+		}
+
 		public function get showOnFirstLaunch():Boolean
-		{
+		{	
 			return onFirstLaunch;
 		}
 		

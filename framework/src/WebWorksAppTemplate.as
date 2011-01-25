@@ -41,6 +41,7 @@ package
 	import webworks.config.ConfigData;
 	import webworks.extension.IApiExtension;
 	import webworks.loadingScreen.LoadingScreen;
+	import webworks.loadingScreen.Transitions;
 	import webworks.policy.WidgetPolicy;
 	import webworks.uri.URI;
 	import webworks.webkit.WebkitControl;
@@ -52,29 +53,24 @@ package
 		private static var LOCAL_PROTOCOL:String = "local:///";
 		
 		private var entryURL:String;
-		
 		private var webWindow:WebkitControl;
-		
         private var errorDialog:AlertDialog;
-		
-		private var loadingScreen:LoadingScreen;  
-	
+		private var loadingScreen:LoadingScreen;
+		private var transitions:Transitions;
  		private var broker:FunctionBroker;
 		
 		public function WebWorksAppTemplate() 
         {			
-			if ( stage ) 
-            {
+			if (stage) {
 				init();
-			} else 
-            {
-				addEventListener( Event.ADDED_TO_STAGE, init );
+			} else {
+				addEventListener(Event.ADDED_TO_STAGE, init);
 			}
 		}
 		
 		private function init(e:Event = null):void 
         {
-			removeEventListener( Event.ADDED_TO_STAGE, init );
+			removeEventListener(Event.ADDED_TO_STAGE, init);
 			entryURL = ConfigData.getInstance().getProperty(ConfigConstants.CONTENT);
 			NativeApplication.nativeApplication.addEventListener(Event.ACTIVATE, appActive);
 			NativeApplication.nativeApplication.addEventListener(Event.DEACTIVATE, appBackground);
@@ -101,6 +97,7 @@ package
 			ConfigData.getInstance().setProperty(ConfigConstants.ENV_WEBVIEW, webWindow.qnxWebView);
 			ConfigData.getInstance().setProperty(ConfigConstants.ENV_APPLICATION, this);
 			loadingScreen = new LoadingScreen(0,0, stage.stageWidth,stage.stageHeight);
+			transitions = new Transitions(loadingScreen);
 			broker = new FunctionBroker(webWindow.qnxWebView);
 			registerExtensions(ConfigData.getInstance().properties);
 		}
@@ -111,7 +108,7 @@ package
 			for(var key:String in widgetExtensions)
 			{
 				var extension:IApiExtension = widgetExtensions[key][ConfigConstants.ENTRYCLASS] as IApiExtension;
-				if ( extension != null )
+				if (extension != null)
 				{
 					extension.register(env);
 				}
@@ -164,7 +161,7 @@ package
 			trace("webkitLocationChanging event");
 			//register javascript
 			var qnxEvent:ExtendedLocationChangeEvent = event.data as ExtendedLocationChangeEvent;
-			if ( qnxEvent == null )
+			if (qnxEvent == null)
 			{
 				return;
 			}
@@ -172,9 +169,9 @@ package
 			var url:String = qnxEvent.location; 
 					
 			// add loading screen only if the location changes
-			if ( url.search(webWindow.qnxWebView.location) < 0 && loadingScreen.isLoadingScreenRequired(url))
+			if (url.search(webWindow.qnxWebView.location) < 0 && loadingScreen.isLoadingScreenRequired(url))
 			{
-				loadingScreen.show();
+				loadingScreen.show(url);
 			}
 
 			if (loadingScreen.firstLaunchFlag) 
@@ -186,7 +183,7 @@ package
 		private function webkitLocationChanged(event:WebkitEvent):void 
 		{
 			trace("webkitLocationChanged event");
-			loadingScreen.hide();
+			loadingScreen.hideIfNecessary();
 		}
 			
 		public function loadURL(url:String):void 
@@ -196,10 +193,14 @@ package
 			}
 			
 			if (loadingScreen.showOnFirstLaunch) {
-				loadingScreen.show();
+				loadingScreen.show(url);
 			}
-			
 			webWindow.go(url);
+		}
+		
+		public function get transitionEffect():Transitions
+		{
+			return transitions;
 		}
 	}
 }
