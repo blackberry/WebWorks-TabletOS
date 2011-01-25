@@ -26,15 +26,32 @@
 		<example><![CDATA[
 <script type="text/javascript">
 
-  function newData(isNewData)
+  function makeTable()
   {
-      if (isNewData && !blackberry.app.isForeground)
-      {
-         // Notify our user via text on the homescreen
-         blackberry.app.setHomeScreenName("New data");
-      }
-      else
-        alert("New data has arrived");
+	try
+	{
+		var details = document.getElementById("details");
+		if (details)
+		{
+			var output = "<table>";
+			output += "<tr><td><b>Author</b></td><td>" + blackberry.app.author + "</td></tr>";
+			output += "<tr><td><b>Author Email</b></td><td>" + blackberry.app.authorEmail + "</td></tr>";
+			output += "<tr><td><b>Author URL</b></td><td>" + blackberry.app.authorURL + "</td></tr>";
+			output += "<tr><td><b>Copyright</b></td><td>" + blackberry.app.copyright + "</td></tr>";
+			output += "<tr><td><b>Description</b></td><td>" + blackberry.app.description + "</td></tr>";
+			output += "<tr><td><b>ID</b></td><td>" + blackberry.app.id + "</td></tr>";
+			output += "<tr><td><b>ifForeground</b></td><td>" + blackberry.app.isForeground + "</td></tr>";
+			output += "<tr><td><b>License</b></td><td>" + blackberry.app.license + "</td></tr>";
+			output += "<tr><td><b>License URL</b></td><td>" + blackberry.app.licenseURL + "</td></tr>";
+			output += "<tr><td><b>Name</b></td><td>" + blackberry.app.name + "</td></tr>";
+			output += "<tr><td><b>Version</b></td><td>" + blackberry.app.version + "</td></tr>";
+			
+			details.innerHTML = output;
+		}
+	} 
+	catch(e) {
+		alert("Exception in displayDetails: " + e);
+	}
   }
 
 </script>]]></example>

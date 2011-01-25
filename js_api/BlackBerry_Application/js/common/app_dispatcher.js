@@ -33,7 +33,7 @@
 	}
 	
 	function makeAppCall(uri) {
-		var recall = new blackberry.transport.RemoteFunctionCall(APPLICATION_URL + "/" + uri);		
+		var recall = new blackberry.transport.RemoteFunctionCall(APPLICATION_URL + "/" + uri);
 		return recall.makeSyncCall();
 	} 
 	
@@ -47,7 +47,7 @@
 			/*
 			 * Dispatch the properties
 			 */
-			"author" : function() {				
+			"author" : function() {
 				return makeAppCall(APP_AUTHOR);
 			},
 			"authorEmail" : function() {
@@ -71,7 +71,7 @@
 			"licenseURL" : function() {
 				return makeAppCall(APP_LICENCE_URL);
 			},
-			"name" : function() {				
+			"name" : function() {
 				return makeAppCall(APP_NAME);
 			},
 			"version" : function() {
