@@ -15,9 +15,6 @@
  */
 package net.rim.tumbler.airpackager;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.FileFilter;
@@ -27,7 +24,6 @@ import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import javax.imageio.ImageIO;
 import javax.xml.parsers.*;
 import javax.xml.transform.*;
 import javax.xml.transform.dom.*;
@@ -45,11 +41,6 @@ import org.xml.sax.SAXException;
 
 public class AirPackager {
     private static final String PATH = "Path";
-
-    // For splash screen image
-    private static final int SCREEN_WIDTH = 1024;
-    private static final int SCREEN_HEIGHT = 600;
-    private static final String SPLASHSCREEN_FORMAT = "png";
 
     // HARD-CODED VALUES FOR DEMO USE ONLY
     private String _tabletSdkPath;
@@ -109,14 +100,6 @@ public class AirPackager {
             		iconFile.renameTo(new File(sourcePath,iconPath));
             	}
             }                        
-
-            //
-            // Create a splash screen consistent with the loading screen.
-            // If the widget config doesn't specify loading screen data,
-            // splashscreenFilename will be null.
-            //
-            String splashscreenFilename = createSplashscreen(sourcePath);
-
             //
             // Copy src files to the bin-debug folder
             //            
@@ -157,7 +140,7 @@ public class AirPackager {
             
             File bbt = new File(sourcePath, "Blackberry-Tablet.xml");
             File bbtDes = new File(bindebugPath, "Blackberry-Tablet.xml");
-            prepareBBTXML(bbt, bbtDes, iconPath, splashscreenFilename);
+            prepareBBTXML(bbt, bbtDes,iconPath);
             
             int size = fileList.size();
             String[] files = new String[size];
@@ -361,8 +344,7 @@ public class AirPackager {
     private void prepareBBTXML(
             File infile,
             File destFile,
-            String iconPath,
-            String splashscreenFilename) // may be null
+            String iconPath)
             throws IOException
         {
             Writer w = null;
@@ -385,14 +367,6 @@ public class AirPackager {
                     image.appendChild(d.createTextNode(iconPath));
                     icon.appendChild(image);                	
                 }                
-
-                // Splash screen
-                if (splashscreenFilename != null) {
-                    Element splashscreen = d.createElement("splashscreen");
-                    splashscreen.appendChild(d.createTextNode(splashscreenFilename));
-                    d.getFirstChild().appendChild(splashscreen);
-                }
-
                 TransformerFactory tf = TransformerFactory.newInstance();
                 Transformer t = tf.newTransformer();
                 DOMSource s = new DOMSource(d);
@@ -468,61 +442,4 @@ public class AirPackager {
         }
         return false;
     }    
-
-    /**
-     * Create a splash screen image on disk and return its name, or null
-     * if no splash screen is created. A splash screen is not created if
-     * the widget config specifies no loading screen data.
-     *
-     * @param directory the destination folder for the image file, if one
-     *        is created. Also used to locate the foreground and background
-     *        images.
-     *
-     * @return the name of the splash screen image file on disk, or null
-     * if none created.
-     */
-    private String createSplashscreen(String directory)
-        throws IOException
-    {
-        // Get string args from widget config. They may be null.
-        String arg0 = _widgetConfig.getLoadingScreenColour();
-        String arg1 = _widgetConfig.getBackgroundImage();
-        String arg2 = _widgetConfig.getForegroundImage();
-
-        //
-        // If the widget config doesn't specify loading screen data,
-        // do not create a splash screen.
-        //
-        if (arg0 == null && arg1 == null && arg2 == null) {
-            return null;
-        }
-
-        Color bgcolor = arg0 == null
-            ? Color.WHITE
-            : Color.decode(arg0);
-        BufferedImage bgImage = arg1 == null
-            ? null
-            : ImageIO.read(new File(directory, arg1));
-        BufferedImage fgImage = arg2 == null
-            ? null
-            : ImageIO.read(new File(directory, arg2));
-        BufferedImage composition = new BufferedImage(SCREEN_WIDTH, SCREEN_HEIGHT, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g = composition.createGraphics();
-
-        g.setBackground(bgcolor);
-        g.clearRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-
-        if (bgImage != null) {
-            g.drawImage(bgImage, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, null);
-        }
-
-        if (fgImage != null) {
-            g.drawImage(fgImage, (SCREEN_WIDTH - fgImage.getWidth())/2, (SCREEN_HEIGHT - fgImage.getHeight())/2, null);
-        }
-
-        File out = File.createTempFile("spsh", "."+SPLASHSCREEN_FORMAT, new File(directory));
-        ImageIO.write(composition, SPLASHSCREEN_FORMAT, out);
-
-        return out.getName();
-    }
 }
