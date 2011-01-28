@@ -66,7 +66,7 @@ public class SigningSupport {
                     barFullname,
                     "RDK"
                 };
-//                execAndCheck(cmd1, barFile);
+                execAndCheck(cmd1, barFile);
 
                 //
                 // 2. Developer signing

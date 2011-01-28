@@ -70,10 +70,9 @@ public class WidgetPackager {
     private static final int COMMAND_LINE_EXCEPTION = 5;
 
     /**
-     * Enables signing. Currently <code>false</code> for Beta release.
-     * TODO: Turn this on for post-Beta releases, to enable signing.
+     * Enables signing.
      */
-    private static final boolean ENABLE_SIGNING = false;
+    private static final boolean ENABLE_SIGNING = true;
     
     public static void main(String[] args) {
         WidgetPackager wp = new WidgetPackager();
