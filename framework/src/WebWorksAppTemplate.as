@@ -169,7 +169,7 @@ package
 			var url:String = qnxEvent.location; 
 					
 			// add loading screen only if the location changes
-			if (url.search(webWindow.qnxWebView.location) < 0 && loadingScreen.isLoadingScreenRequired(url))
+			if (url.search(webWindow.qnxWebView.originalLocation) < 0 && loadingScreen.isLoadingScreenRequired(url))
 			{
 				loadingScreen.show(url);
 			}
