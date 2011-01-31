@@ -180,11 +180,14 @@ public class AirPackager {
                 buildId = "0";
             }
 
+            //
+            // Target is bar-debug unless we are signing.
+            //
             String[] cmd = {
                 _airPackagerPath,
                 "-package",
                 "-target",
-                "bar-debug",
+                (SessionManager.getInstance().requireSigning() ? "bar" : "bar-debug"),
                 "-buildId",
                 buildId,
                 outputPath
