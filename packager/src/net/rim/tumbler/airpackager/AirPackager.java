@@ -167,9 +167,18 @@ public class AirPackager {
             // For AIR, the build number is specified separately from the
             // version string using the -buildId parameter.
             //
-            String buildId = _widgetConfig.getNumVersionParts() > 3
-                ? _widgetConfig.getVersionParts(3)
-                : "0";
+            // For signing, the bbwp command-line interface supports -buildId
+            // as an override.
+            //
+            String buildId;
+            String buildIdOverride = SessionManager.getInstance().getBuildId();
+            if (!buildIdOverride.isEmpty()) {
+                buildId = buildIdOverride;
+            } else if (_widgetConfig.getNumVersionParts() > 3) {
+                buildId = _widgetConfig.getVersionParts(3);
+            } else {
+                buildId = "0";
+            }
 
             String[] cmd = {
                 _airPackagerPath,

@@ -32,6 +32,7 @@ public class CmdLineHandler {
     private static final String         OPTION_PASSWORD = "/g";
     private static final String         OPTION_CSK_PASSWORD = "/gcsk";
     private static final String         OPTION_P12_PASSWORD = "/gp12";
+    private static final String         OPTION_BUILD_ID = "/buildId";
     private static final String         OPTION_OUTPUTDIR = "/o";
     private static final String         OPTION_VERBOSE = "/v";
     private static final String         OPTION_HELP = "/h";
@@ -42,6 +43,7 @@ public class CmdLineHandler {
     private String          _password;
     private String          _cskPassword;
     private String          _p12Password;
+    private String          _buildId;
     private String          _outputDir;
     private boolean         _requireSource;
     private String          _sourceDir;
@@ -123,6 +125,7 @@ public class CmdLineHandler {
                 _password,
                 _cskPassword,
                 _p12Password,
+                _buildId,
                 _requireSource,
                 _sourceDir,
                 _debugMode,
@@ -151,6 +154,7 @@ public class CmdLineHandler {
         _password = "";
         _cskPassword = "";
         _p12Password = "";
+        _buildId = "";
         _outputDir = "";
         _requireSource = false;
         _sourceDir = "";
@@ -201,6 +205,15 @@ public class CmdLineHandler {
                     String followingParameter = params[index + 1];
                     if (followingParameter.charAt(0) != '/') {
                         _p12Password = followingParameter;
+                        index++;
+                    }
+                }
+                index++;
+            } else if (isPlayBook() && param.equals(OPTION_BUILD_ID)) {
+                if (params.length > index + 1) {
+                    String followingParameter = params[index + 1];
+                    if (followingParameter.charAt(0) != '/') {
+                        _buildId = followingParameter;
                         index++;
                     }
                 }

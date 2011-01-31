@@ -48,6 +48,7 @@ public class SessionManager {
     private String          _password;
     private String          _cskPassword;
     private String          _p12Password;
+    private String          _buildId;
     private String          _outputFolder;
     private boolean         _requireSource;
     private String          _sourceFolder;
@@ -81,6 +82,7 @@ public class SessionManager {
             String password,
             String cskPassword,
             String p12Password,
+            String buildId,
             boolean requireSource,
             String sourceFolder,
             boolean debugMode,
@@ -96,6 +98,7 @@ public class SessionManager {
                 password,
                 cskPassword,
                 p12Password,
+                buildId,
                 requireSource,
                 sourceFolder,
                 debugMode,
@@ -117,6 +120,7 @@ public class SessionManager {
             String password,
             String cskPassword,
             String p12Password,
+            String buildId,
             boolean requireSource,
             String sourceFolder,
             boolean debugMode,
@@ -130,6 +134,7 @@ public class SessionManager {
         _password = password;
         _cskPassword = cskPassword;
         _p12Password = p12Password;
+        _buildId = buildId;
         _outputFolder = outputFolder;
         _requireSource = requireSource;
         _sourceFolder = sourceFolder;
@@ -237,6 +242,10 @@ public class SessionManager {
 
     public String getP12Password() {
         return _p12Password;
+    }
+
+    public String getBuildId() {
+        return _buildId;
     }
 
     public String getOutputFolder() {
