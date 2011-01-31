@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- This script was automatically generated using InstallAnywhere 2010 Enterprise, Build 3972
      STATUS: Fully Functional LICENSED Edition
-     DATE:   Wed Jan 12 10:50:34 EST 2011 -->
+     DATE:   Mon Jan 31 11:01:57 EST 2011 -->
 <InstallAnywhere_Deployment_Project increments="3137">
 	<!-- ** DO NOT EDIT ** Essential authorization and configuration data ** DO NOT EDIT ** -->
 	<essentialScriptInfo>
@@ -10,7 +10,7 @@
 		<scriptID>12,42,11,70,49,57,54,74,78,74,74,78,72,45,69,68,74,45,75,70,74,74,70,78,78,69,74,88</scriptID>
 		<buildID>3,13,71,87,105,110,100,111,119,115,32,88,80,44,32,53,46,49,44,32,120,56,54,59,32,74,97,118,97,32,49,46,54,46,48,95,49,53,44,32,83,117,110,32,77,105,99,114,111,115,121,115,116,101,109,115,32,73,110,99,46,44,32,104,116,116,112,58,47,47,106,97,118,97,46,115,117,110,46,99,111,109,47,59,32,101,110,44,32,85,110,107,110,111,119,110,59,32,67,112,49,50,53,50</buildID>
 		<!-- The authorizationID may change between project saves and builds.  This does not effect the integrity of the project, nor do changes in this value represent changes in the actual InstallAnywhere project. -->
-		<authorizationID>1,0,0,32,115,-21,-48,-112,80,112,118,100,85,99,113,97,113,65,81,84,74,67,70,68,72,74,64,69,66,69,64,95,71,5,2,5,13,27,106,13,1,0,0</authorizationID>
+		<authorizationID>1,0,0,32,-45,-53,16,32,80,112,118,100,85,99,113,97,113,65,81,84,74,67,70,68,72,74,64,69,66,69,64,95,71,5,2,7,13,31,108,13,1,0,0</authorizationID>
 	</essentialScriptInfo>
 	<installationObjects uniqueObjects="128">
 		<object class="com.zerog.ia.installer.Installer" objectID="61c3cf33921d">
@@ -1698,7 +1698,7 @@ For information on configuration of the SDK please visit www.blackberry.com/deve
 					</method>
 					<method name="put">
 						<string><![CDATA[com.zerog.ia.project.save.last.date]]></string>
-						<string><![CDATA[January 12, 2011 10:50:34 AM EST]]></string>
+						<string><![CDATA[January 31, 2011 11:01:56 AM EST]]></string>
 					</method>
 					<method name="put">
 						<string><![CDATA[com.zerog.ia.build.options.optimization.platform.cdrom]]></string>
@@ -2864,6 +2864,7 @@ Thank you for choosing $PRODUCT_NAME$!]]></string>
 	<air_template>AirAppTemplates</air_template>
 	<tablet_sdk>$USER_INSTALL_DIR$/bbwp/blackberry-tablet-sdk</tablet_sdk>
 	<extension_repository>ext</extension_repository>
+	<!-- <developer_cn_signature></developer_cn_signature> -->
 </wcp>
 ]]></string>
 											</property>
@@ -3044,6 +3045,7 @@ Thank you for choosing $PRODUCT_NAME$!]]></string>
 	<air_template>AirAppTemplates</air_template>
 	<tablet_sdk>$USER_INSTALL_DIR$\bbwp\blackberry-tablet-sdk</tablet_sdk>
 	<extension_repository>ext</extension_repository>
+	<!-- <developer_cn_signature></developer_cn_signature> -->
 </wcp>
 ]]></string>
 											</property>
