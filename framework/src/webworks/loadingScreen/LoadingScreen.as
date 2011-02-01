@@ -194,7 +194,7 @@ package webworks.loadingScreen
 				hide();
 			} else {
 				canMoveAhead = true;
-			}			
+			}
 		}
 
 		public function get showOnFirstLaunch():Boolean

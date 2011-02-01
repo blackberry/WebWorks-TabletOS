@@ -22,6 +22,7 @@ package webworks
 	import flash.net.NetworkInterface;
 	
 	import qnx.events.WebViewEvent;
+	import qnx.events.WindowObjectClearedEvent;
 	
 	import webworks.access.Access;
 	import webworks.access.Feature;
@@ -40,7 +41,7 @@ package webworks
 		private var jsfiles:Array;
 		private var fileToLoad:String;
 		private var index:int = 0;
-		private var event:WebViewEvent;
+		private var event:WindowObjectClearedEvent;
 		
 		public function JavaScriptLoader(webkitcontrol:WebkitControl)
 		{
@@ -51,7 +52,7 @@ package webworks
 		}
 				
 		//register javascript file for features required by the url
-		public function registerJavaScript(url:String, e:WebViewEvent):void
+		public function registerJavaScript(url:String, e:WindowObjectClearedEvent):void
 		{
 			event = e;
 			jsfiles = getCommonJSFiles();
@@ -130,8 +131,8 @@ package webworks
 					var fs:FileStream = new FileStream();
 					fs.open(file, FileMode.READ);
 					var data:String = fs.readUTFBytes(fs.bytesAvailable);
-					
-					webkitControl.executeJavaScript(data);
+					event.script += data;			
+					//webkitControl.executeJavaScript(data);
 					trace("Loaded: " + file.name);
 					
 					fs.close();
@@ -188,14 +189,16 @@ package webworks
 		private function saveDataConnectionStateJs(haveConnection : Boolean):void {
 			var haveCoverageJs : String = "blackberry.system.dataCoverage = " + haveConnection + ";";
 			trace(haveCoverageJs);
-			webkitControl.executeJavaScript(haveCoverageJs);
+			event.script += haveCoverageJs;
+			//webkitControl.executeJavaScript(haveCoverageJs);
 		}
 		
 		private function saveAccessListJs():void {
 			var sysNSGen:SystemNameSpaceGenerator = new SystemNameSpaceGenerator(webkitControl.qnxWebView.location);
 			var accessListInitJs : String = "blackberry.system.accessList = " + sysNSGen.accessListJson + ";";
 			trace(accessListInitJs);
-			webkitControl.executeJavaScript(accessListInitJs);
+			event.script += accessListInitJs;
+			//webkitControl.executeJavaScript(accessListInitJs);
 		}
 		
 		private function attachSystemJsWorkaround():void{
@@ -208,8 +211,8 @@ package webworks
 			var workaround:String = appNSGen.appNamespaceWorkaround;	
 			
 			trace(workaround);
-			
-			webkitControl.executeJavaScript(workaround);
+			//webkitControl.executeJavaScript(workaround);
+			event.script += workaround;
 		}
 		/*
 		END WORKAROUND
