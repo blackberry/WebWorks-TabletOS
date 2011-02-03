@@ -28,11 +28,11 @@
 	
 	  function trapDeviceBatteryLevel()
 	  {
-			blackberry.app.event.deviceBatteryLevelChange(handleBackground);
+			blackberry.system.event.deviceBatteryLevelChange(handleBatteryLevel);
 	  }
 	
 	
-	  function handleBackground(level)
+	  function handleBatteryLevel(level)
 	  {         
 			alert("Battery Level"+level);
 	  }
