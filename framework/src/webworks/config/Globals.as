@@ -60,8 +60,8 @@ package webworks.config
 			"onLocalPageLoad"			: false, // Boolean
 			"onRemotePageLoad"			: false, // Boolean
 			"transitionType"			: 0, // Integer
-			"transitionDuration"		: 0, // Integer
-			"transitionDirection"		: 0, // Integer
+			"transitionDuration"		: 250, // Integer
+			"transitionDirection"		: 128, // Integer
 
 			"disableAllCache"			: false, // Boolean
 			"aggressiveCacheAge"		: 2592000, // Integer
