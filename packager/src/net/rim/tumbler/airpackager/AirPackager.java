@@ -379,6 +379,15 @@ public class AirPackager {
                     image.appendChild(d.createTextNode(iconPath));
                     icon.appendChild(image);                	
                 }                
+
+                if (e != null && !_bbwpProperties.getCopyright().isEmpty()) {
+                    NodeList nl = e.getElementsByTagName("publisher");
+                    if (nl.getLength() > 0 && nl.item(0) instanceof Element) {
+                        Element e2 = (Element)nl.item(0);
+                        e2.setTextContent(_bbwpProperties.getCopyright());
+                    }
+                }
+
                 TransformerFactory tf = TransformerFactory.newInstance();
                 Transformer t = tf.newTransformer();
                 DOMSource s = new DOMSource(d);
