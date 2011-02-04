@@ -28,7 +28,7 @@
 
   function trapForApplicationExit()
   {
-		blackberry.app.events.onBackground(handleBackground);
+		blackberry.app.event.onBackground(handleBackground);
   }
 
 
