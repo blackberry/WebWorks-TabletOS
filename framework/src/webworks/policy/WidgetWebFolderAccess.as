@@ -70,15 +70,9 @@ public class WidgetWebFolderAccess {
     // Retrieves the access element assigned to the folder path, if it exists
     // Folder path must not include the scheme or the host
     public function getWidgetAccess(folderPath : String) : Access {     
-       var pathOnly : String = folderPath;
        
-       // Remove filename from the path if it exists
-       if(folderPath.indexOf('.') != -1){
-            pathOnly = excludeFilenameFromPath(folderPath);
-       }
-       
-       var depth : int = determineDepth(pathOnly);
-       return getWidgetAccessRecursively(pathOnly, depth);
+       var depth : int = determineDepth(folderPath);
+       return getWidgetAccessRecursively(folderPath, depth);
     }
     
     private function getWidgetAccessRecursively(folderPath : String, pathLength : int) : Access{

@@ -53,83 +53,85 @@ package webworks.policy
 		}
 		
 		public function getElement(request:String, accessList:Array):Access {
-				var requestURI:URI  = new URI(request);//.trim());            
-				// require absolute URI's
-				if (requestURI.isAbsolute()) {
-					
-					// Initialize authority collection if it does not yet exist
-					initializeAuthCollection(accessList);
-					
-					// Special case: Check for local access 
-					if(isMatch(_localAccess, requestURI)){
-						return _localAccess;
-					}
-					else{               
-						
-						// Start with the full authority path and check if a WidgetAccess set exists for that path
-						// If it does not exist, remove the first section of the authority path and try again
-						var authString : String = getAuthorityFromString(request);
-						var schemeString : String = getSchemeFromString(request);                                
-						
-						// Check for an authority string that has an existing key
-						// Special case: Allow file protocol to proceed without an authority
-						authString = authorityCheck(schemeString, authString);
-						if (authString == "" && schemeString!="file"){
-							return null;
-						} 
-						
-						var folderAccess : WidgetWebFolderAccess;
-						var fetchedAccess : Access;
-						
-						// Retrieve WidgetAccess set for the specified authority
-						folderAccess = _authorityCollection[schemeString + "://" +authString];
-						
-						// Special case: no access element was found for a file protocol request.  
-						// This is added since file protocol was allowed through the above check
-						if(schemeString == "file" && folderAccess == null){
-							return null;
-						}
-						if (requestURI.path == "")
-							fetchedAccess = folderAccess.getWidgetAccess("/");
-						else
-							fetchedAccess = folderAccess.getWidgetAccess(requestURI.path);
-						
-						var failedToFindAccess : Boolean = false;
-						// Make sure we've got the right one
-						while(fetchedAccess == null || !isMatch(fetchedAccess, requestURI)){                        
-							
-							// There was an auth url that matched, but didnt match the folder structure
-							// Try the next level up                                                
-							authString = authString.substring(authString.indexOf('.') + 1);
-							
-							// Check for an authority string that has an existing key
-							authString = authorityCheck(schemeString, authString);
-							if (authString == ""){
-								failedToFindAccess = true;
-								break;
-							}
-							
-							// Retrieve WidgetAccess set for the specified authority                        
-							folderAccess = _authorityCollection[schemeString + "://" +authString];   
-							
-							// Special case: no access element was found for a file protocol request.  
-							// This is added since file protocol was allowed through the above check
-							if(schemeString == "file" && folderAccess == null){
-								return null;
-							}
-							
-							fetchedAccess = folderAccess.getWidgetAccess(requestURI.path);    
-							
-						}
-						if(!failedToFindAccess){
-							return fetchedAccess;   
-						}                 
-					} 
+			var requestURI:URI  = new URI(request);//.trim());            
+			// require absolute URI's
+			if (requestURI.isAbsolute()) {
+				
+				// Initialize authority collection if it does not yet exist
+				initializeAuthCollection(accessList);
+				
+				// Start with the full authority path and check if a WidgetAccess set exists for that path
+				// If it does not exist, remove the first section of the authority path and try again
+				var authString : String = getAuthorityFromString(request);
+				var schemeString : String = getSchemeFromString(request);                                
+				
+				// Check for an authority string that has an existing key
+				// Special case: Allow file, and local  protocol to proceed without an authority
+				authString = authorityCheck(schemeString, authString);
+				if (authString == "" && !( schemeString == "file" || schemeString == "local")){
+					return null;
+				} 
+				
+				var folderAccess : WidgetWebFolderAccess;
+				var fetchedAccess : Access;
+				
+				// Retrieve WidgetAccess set for the specified authority
+				folderAccess = _authorityCollection[schemeString + "://" +authString];
+				
+				// Special case: no access element was found for a file protocol request.  
+				// This is added since file protocol was allowed through the above check
+				if(schemeString == "file" && folderAccess == null){
+					return null;
 				}
-
+				
+				// If no access element is found with local URI, use local access for this request
+				if ( schemeString == "local" && folderAccess == null ) {
+					return _localAccess;
+				}
+				
+				if (requestURI.path == "")
+					fetchedAccess = folderAccess.getWidgetAccess("/");
+				else
+					fetchedAccess = folderAccess.getWidgetAccess(requestURI.path + parseNull(requestURI.query));
+				
+				var failedToFindAccess : Boolean = false;
+				// Make sure we've got the right one
+				while(fetchedAccess == null || !isMatch(fetchedAccess, requestURI)){                        
+					
+					// There was an auth url that matched, but didnt match the folder structure
+					// Try the next level up                                                
+					authString = authString.substring(authString.indexOf('.') + 1);
+					
+					// Check for an authority string that has an existing key
+					authString = authorityCheck(schemeString, authString);
+					if (authString == ""){
+						failedToFindAccess = true;
+						break;
+					}
+					
+					// Retrieve WidgetAccess set for the specified authority                        
+					folderAccess = _authorityCollection[schemeString + "://" +authString];   
+					
+					// Special case: no access element was found for a file protocol request.  
+					// This is added since file protocol was allowed through the above check
+					if( schemeString == "file" && folderAccess == null){
+						return null;
+					}
+					
+					fetchedAccess = folderAccess.getWidgetAccess( requestURI.path + parseNull( requestURI.query ) );
+					
+				}
+				if(!failedToFindAccess){
+					return fetchedAccess;   
+				}
+				else if ( isMatch(_localAccess, requestURI)) {
+					//if we cannot find a more specific access for this local URI, use local access
+					return _localAccess;
+				}
+			}
 			return null;
 		}
-		
+				
 		private function isMatch(access : Access, toMatchURI : URI) : Boolean {
 			// Look for local first
 			if ( access.isLocal() ) {
