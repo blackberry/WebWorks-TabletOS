@@ -62,6 +62,7 @@ package webworks.loadingScreen
 
         public function createEffect():void
         {
+			trace("create effect: " + type );
             if ( type == TransitionConstants.TRANSITION_ZOOMIN )
                 zoomIn();
             else if ( type == TransitionConstants.TRANSITION_ZOOMOUT )
@@ -79,8 +80,13 @@ package webworks.loadingScreen
             else if ( type == TransitionConstants.TRANSITION_SLIDEPUSH )
                 slidePush();
             else
-				zoomIn(); // If the type is TRANSITION_NONE, no tweener is needed
+				nonTransition();
         }
+		
+		private function nonTransition():void
+		{
+			loadingScreen.hideIfNecessary();
+		}
         
         private function zoomIn():void
         {
@@ -95,7 +101,10 @@ package webworks.loadingScreen
             Tweener.addTween(loadingScreen,{x:0, y:0, width:w, height:h, time:duration, delay:0, alpha:1, onComplete:loadingScreen.hideIfNecessary});
         }
         
-        private function zoomOut():void {}
+        private function zoomOut():void 
+		{
+			nonTransition();
+		}
 		
         private function wipeIn():void 
 		{
@@ -118,7 +127,10 @@ package webworks.loadingScreen
 			wipeEffect();
 		}
 		
-        private function slidePush():void{}
+        private function slidePush():void
+		{
+			nonTransition();
+		}
 		
 		private function wipeEffect():void {
 			var w:Number = 1024;

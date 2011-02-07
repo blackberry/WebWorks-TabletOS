@@ -189,6 +189,7 @@ package webworks.loadingScreen
 		}
 		
 		public function hideIfNecessary():void{
+			trace("hide necessary");
 			if (canMoveAhead) {
 				hide();
 			} else {
