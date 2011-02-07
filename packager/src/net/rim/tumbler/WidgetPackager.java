@@ -150,8 +150,16 @@ public class WidgetPackager {
             
                 // *** just for demo purposes, we HARD CODE THE SOURCE PATH ***
                 Logger.logMessage(LogType.INFO, "PROGRESS_PACKAGING");
-                new AirPackager(bbwpProperties, config).run();
-                Logger.logMessage(LogType.INFO, "PACKAGING_COMPLETE");
+                AirPackager packager = new AirPackager(bbwpProperties, config);
+                int ret = packager.run();
+                if (ret==0)
+                {
+                	Logger.logMessage(LogType.INFO, "PACKAGING_COMPLETE");
+                }
+                else
+                {
+                	System.exit(ret);
+                }
             }
 
             // generate ALX

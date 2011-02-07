@@ -69,7 +69,7 @@ public class AirPackager {
      * @param archiveName the name of the Widget archive.
      * @throws ValidationException 
      */
-    public void run() throws PackageException, ValidationException {
+    public int run() throws PackageException, ValidationException {
         try {
             String sourcePath = SessionManager.getInstance().getSourceFolder();
             String bindebugPath = sourcePath + File.separator + "bin-debug";
@@ -210,6 +210,7 @@ public class AirPackager {
                 System.out.write(stderr.getStderr());
                 System.out.write(stdout.getStdout());
                 System.out.flush();
+                return exitcode.getExitValue().intValue();
             }
         } catch (IOException ioe) {
         	ioe.printStackTrace();
@@ -217,6 +218,7 @@ public class AirPackager {
         } catch (InterruptedException ie) {
             throw new PackageException("EXCEPTION_AIRPACKAGER");        	
         }
+        return 0;
     }
 
     /**
