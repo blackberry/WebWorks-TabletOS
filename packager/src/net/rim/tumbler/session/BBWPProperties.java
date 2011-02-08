@@ -103,8 +103,12 @@ public class BBWPProperties {
         return _tabletSDK;
     }
     
-    public String getExtensionRepo() {
-    	return _extensionRepo;
+    public String getExtensionRepo(String base) {
+        File dir = new File(_extensionRepo);
+
+    	return dir.isAbsolute()
+            ? _extensionRepo
+            : (base + File.separator + _extensionRepo);
     }
     
     private void validate() throws Exception {

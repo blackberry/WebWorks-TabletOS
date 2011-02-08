@@ -334,7 +334,7 @@ public class WidgetPackager {
             ExtensionMap extensionMap = new ExtensionMap(
                 "AIR",
                 "default",
-                SessionManager.getInstance().getSessionHome() + File.separator + bbwpProperties.getExtensionRepo()); // location of the extension repository
+                bbwpProperties.getExtensionRepo(SessionManager.getInstance().getSessionHome())); // location of the extension repository
 
             //
             // Extract the set of feature IDs from the access table.
