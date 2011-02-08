@@ -62,13 +62,13 @@
          =================================================================== -->
 	<target name="buildFullInstaller">
 		<delete>
-			<fileset dir="." includes="blackberry_tablet_sdk_Build_Output/**/*"/>
+			<fileset dir="." includes="blackberry_webworks_sdk_Build_Output/**/*"/>
 		</delete>
 		
 		<!--  Create installer and move it to specified folder  -->
 		<IABuildInstallerTask
 			IAlocation="${IA.installation.dir}"
-			IAProjectFile="${installer.dir}/blackberry_tablet_sdk.iap_xml" >
+			IAProjectFile="${installer.dir}/blackberry_webworks_sdk.iap_xml" >
 		</IABuildInstallerTask>
 		<!--  
 		<move tofile="${param.dest.dir}/${param.installer.name}" flatten="true">
