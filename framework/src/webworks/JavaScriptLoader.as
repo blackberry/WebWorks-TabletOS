@@ -55,6 +55,7 @@ package webworks
 		public function registerJavaScript(url:String, e:WindowObjectClearedEvent):void
 		{
 			event = e;
+			event.script = "";
 			jsfiles = getCommonJSFiles();
 			//insert js needed for feautes specified by the access
 			var access:Access = ConfigData.getInstance().getAccessByUrl(url);			
