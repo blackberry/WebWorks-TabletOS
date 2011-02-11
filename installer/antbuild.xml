@@ -5,12 +5,14 @@
     <property name="IA.installation.dir" value="C:/Program Files/InstallAnywhere 2010 Enterprise"/> <!-- the default value -->
 	<property name="dist.installer.dir" value="dist-installer"/> <!-- the default value, should be set by caller -->
 	<property name="webworksZipPackage.path" value="WebWorksForPlaybook.zip"/> <!-- the default value, should be set by caller -->
-	
-	
+		
     <!-- Define installer information -->
     <property name="installer.dir" value="${basedir}"/>
     <property name="installer.data.dir" value="${installer.dir}/installerdata"/>
 	<property name="installer.data.bbwp.dir" value="${installer.data.dir}/bbwp"/>
+	<property name="installer.data.bbwp.airapptemplates.dir" value="${installer.data.bbwp.dir}/AirAppTemplates"/>
+	<property name="installer.data.bbwp.airapptemplates.src.dir" value="${installer.data.bbwp.airapptemplates.dir}/src"/>
+	<property name="jsapi.dir" value="${basedir}/../js_api"/>
 
 	<taskdef name="IABuildInstallerTask"
 		classname="com.zerog.ia.integration.ant.InstallAnywhereAntTask"
@@ -40,8 +42,21 @@
 
 		<unzip src="${webworksZipPackage.path}" dest="${installer.data.bbwp.dir}"/>
 
-		<mkdir dir="${installer.data.bbwp.dir}/device_templates"/>
-		<mkdir dir="${installer.data.bbwp.dir}/ext"/>
+		<echo>Copying JSON Libary source</echo>
+		<copy todir="${installer.data.bbwp.airapptemplates.src.dir}">
+			<fileset dir="${jsapi.dir}/Common_AS/JSONLibrary/src/" includes="json/**" />
+		</copy>
+
+		<echo>Copying shared JS source</echo>
+		<copy todir="${installer.data.bbwp.airapptemplates.src.dir}/js/sharedglobal" >
+			<fileset dir="${jsapi.dir}/globalJS" includes="*.*" />
+		</copy>
+
+		<echo>Copying API source</echo>
+		<copy todir="${installer.data.bbwp.dir}/ext" >
+			<fileset dir="${jsapi.dir}" includes="BlackBerry_*/**" excludes="**/.*"/>
+		</copy>
+
 	</target>
 
     
