@@ -28,6 +28,7 @@ xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assemb
             <outputDirectory>/bin</outputDirectory>            
         </fileSet>
 		
+		<!--
 		<fileSet>
             <directory>src</directory>
             <outputDirectory>device_templates</outputDirectory>
@@ -35,6 +36,7 @@ xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assemb
                 <exclude>**/*</exclude>
             </excludes>
         </fileSet>              
+		-->
     </fileSets>
 
     <files>
