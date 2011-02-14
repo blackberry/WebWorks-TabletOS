@@ -184,15 +184,29 @@ public class AirPackager {
             //
             // Target is bar-debug unless we are signing.
             //
-            String[] cmd = {
-                _airPackagerPath,
-                "-package",
-                "-target",
-                (SessionManager.getInstance().requireSigning() ? "bar" : "bar-debug"),
-                "-buildId",
-                buildId,
-                outputPath
-            };
+            String[] cmd;
+            if (SessionManager.getInstance().requireSigning()) {
+                cmd = new String[] {
+                    _airPackagerPath,
+                    "-package",
+                    "-target",
+                    "bar",
+                    "-buildId",
+                    buildId,
+                    outputPath
+                };
+            } else {
+                cmd = new String[] {
+                    _airPackagerPath,
+                    "-package",
+                    "-devMode",
+                    "-target",
+                    "bar-debug",
+                    "-buildId",
+                    buildId,
+                    outputPath
+                };
+            }
             int n = files.length;
             String[] join = new String[cmd.length + n];
             System.arraycopy(cmd, 0, join, 0, cmd.length);
