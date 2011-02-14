@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- This script was automatically generated using InstallAnywhere 2010 Enterprise, Build 3972
      STATUS: Fully Functional LICENSED Edition
-     DATE:   Thu Feb 03 09:44:42 EST 2011 -->
+     DATE:   Mon Feb 14 11:21:03 EST 2011 -->
 <InstallAnywhere_Deployment_Project increments="3165">
 	<!-- ** DO NOT EDIT ** Essential authorization and configuration data ** DO NOT EDIT ** -->
 	<essentialScriptInfo>
@@ -10,7 +10,7 @@
 		<scriptID>12,42,11,70,49,57,54,74,78,74,74,78,72,45,69,68,74,45,75,70,74,74,70,78,78,69,74,88</scriptID>
 		<buildID>3,13,71,87,105,110,100,111,119,115,32,88,80,44,32,53,46,49,44,32,120,56,54,59,32,74,97,118,97,32,49,46,54,46,48,95,49,53,44,32,83,117,110,32,77,105,99,114,111,115,121,115,116,101,109,115,32,73,110,99,46,44,32,104,116,116,112,58,47,47,106,97,118,97,46,115,117,110,46,99,111,109,47,59,32,101,110,44,32,85,110,107,110,111,119,110,59,32,67,112,49,50,53,50</buildID>
 		<!-- The authorizationID may change between project saves and builds.  This does not effect the integrity of the project, nor do changes in this value represent changes in the actual InstallAnywhere project. -->
-		<authorizationID>1,0,0,32,-29,-4,112,96,80,112,118,100,85,99,113,97,113,65,81,84,74,67,70,68,72,74,64,69,66,69,64,95,71,5,2,7,11,27,107,13,1,0,0</authorizationID>
+		<authorizationID>1,0,0,32,35,-4,-96,80,80,112,118,100,85,99,113,97,113,65,81,84,74,67,70,68,72,74,64,69,66,69,64,95,71,5,2,4,2,25,100,14,1,0,0</authorizationID>
 	</essentialScriptInfo>
 	<installationObjects uniqueObjects="129">
 		<object class="com.zerog.ia.installer.Installer" objectID="61c3cf33921d">
@@ -80,10 +80,10 @@
 				<string><![CDATA[The installer cannot run on your configuration. It will now quit.]]></string>
 			</property>
 			<property name="userSplashPath">
-				<string><![CDATA[com/zerog/ia/installer/images/]]></string>
+				<string><![CDATA[$IA_PROJECT_DIR$\]]></string>
 			</property>
 			<property name="userSplashName">
-				<string><![CDATA[Splash.png]]></string>
+				<string><![CDATA[installer-splash3.png]]></string>
 			</property>
 			<property name="splashScreenGUITitle">
 				<string><![CDATA[]]></string>
@@ -1701,7 +1701,7 @@ For information on configuration of the SDK please visit www.blackberry.com/deve
 					</method>
 					<method name="put">
 						<string><![CDATA[com.zerog.ia.project.save.last.date]]></string>
-						<string><![CDATA[February 3, 2011 9:44:42 AM EST]]></string>
+						<string><![CDATA[February 14, 2011 11:21:03 AM EST]]></string>
 					</method>
 					<method name="put">
 						<string><![CDATA[com.zerog.ia.build.options.optimization.platform.cdrom]]></string>
@@ -1765,10 +1765,10 @@ For information on configuration of the SDK please visit www.blackberry.com/deve
 						<boolean>true</boolean>
 					</property>
 					<property name="backgroundImagePath">
-						<string><![CDATA[com/zerog/ia/installer/images/]]></string>
+						<string><![CDATA[$IA_PROJECT_DIR$\]]></string>
 					</property>
 					<property name="backgroundImageName">
-						<string><![CDATA[background_default.png]]></string>
+						<string><![CDATA[installer-background3.png]]></string>
 					</property>
 					<property name="mirrorBidiImage">
 						<string><![CDATA[2]]></string>
