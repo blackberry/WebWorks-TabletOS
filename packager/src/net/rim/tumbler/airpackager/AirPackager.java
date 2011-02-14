@@ -181,9 +181,6 @@ public class AirPackager {
                 buildId = "0";
             }
 
-            //
-            // Target is bar-debug unless we are signing.
-            //
             String[] cmd;
             if (SessionManager.getInstance().requireSigning()) {
                 cmd = new String[] {
@@ -201,7 +198,7 @@ public class AirPackager {
                     "-package",
                     "-devMode",
                     "-target",
-                    "bar-debug",
+                    SessionManager.getInstance().debugModeInternal() ? "bar-debug" : "bar",
                     "-buildId",
                     buildId,
                     outputPath
