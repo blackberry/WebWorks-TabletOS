@@ -96,12 +96,12 @@
 		<!-- move installers to output folder -->
 		<move todir="${output.dir}/MacOSX" flatten="true">
 			<fileset dir="${installer.dir}">
-				<include name="*Build_Output/**/MacOSX/"/>
+				<include name="*Build_Output/**/MacOSX/**/*.zip"/>
 			</fileset>
 		</move>
 		<move todir="${output.dir}/Windows" flatten="true">
 			<fileset dir="${installer.dir}">
-				<include name="*Build_Output/**/Windows/"/>
+				<include name="*Build_Output/**/Windows/**/*.exe"/>
 			</fileset>
 		</move>
 	</target>
