@@ -14,6 +14,9 @@
 	<properties>
 		<webworksZipPackage.dir>${project.build.directory}/webworks</webworksZipPackage.dir>
 		<webworksZipPackage.filename>WebWorksForPlaybook.zip</webworksZipPackage.filename>
+
+		<tabletSDK.dir>${project.build.directory}/tabletsdk</tabletSDK.dir>
+		<tabletSDK.filename>blackberry-tablet-sdk.zip</tabletSDK.filename>
 	</properties>
 
     <build>
@@ -33,6 +36,7 @@
 					</goals>
 					<configuration>
 					  <artifactItems>
+						<!-- WebWorksForPlaybook.zip -->
 						<artifactItem>
 						  <groupId>net.rim.snarf</groupId>
 						  <artifactId>framework</artifactId>
@@ -42,6 +46,18 @@
 						  <outputDirectory>${webworksZipPackage.dir}</outputDirectory>
 						  <destFileName>${webworksZipPackage.filename}</destFileName>
 						</artifactItem>
+
+						<!-- blackberry-tablet-sdk.zip -->
+						<artifactItem>
+						  <groupId>net.rim.snarf</groupId>
+						  <artifactId>tablet-sdk</artifactId>
+						  <version>1.0.2</version>
+						  <type>zip</type>
+						  <overWrite>true</overWrite>
+						  <outputDirectory>${tabletSDK.dir}</outputDirectory>
+						  <destFileName>${tabletSDK.filename}</destFileName>
+						</artifactItem>
+
 					  </artifactItems>
 					  <!-- other configurations here -->
 					</configuration>
@@ -63,6 +79,7 @@
 					<configuration>
 						<target>
 							<property name="webworksZipPackage.path" value="${webworksZipPackage.dir}/${webworksZipPackage.filename}"/>
+							<property name="tabletSDK.path" value="${tabletSDK.dir}/${tabletSDK.filename}"/>
 							<ant antfile="${basedir}/antbuild.xml"/>
 						</target>
 					</configuration>

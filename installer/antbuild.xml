@@ -5,6 +5,8 @@
     <property name="IA.installation.dir" value="C:/Program Files/InstallAnywhere 2010 Enterprise"/> <!-- the default value -->
 	<property name="dist.installer.dir" value="dist-installer"/> <!-- the default value, should be set by caller -->
 	<property name="webworksZipPackage.path" value="WebWorksForPlaybook.zip"/> <!-- the default value, should be set by caller -->
+	<property name="tabletSDK.path" value="tabletSDK.zip"/> <!-- the default value, should be set by caller -->
+	<property name="output.dir" value="${basedir}/release_x"/> <!-- the default value, can be set by caller -->
 		
     <!-- Define installer information -->
     <property name="installer.dir" value="${basedir}"/>
@@ -31,14 +33,19 @@
 		<!--<antcall target="echoProperties" />-->
     	<tstamp/>
 		
-		<delete dir="${installer.data.bbwp.dir}" quiet="true"/>
-    	<mkdir dir="${installer.data.bbwp.dir}"/>
+		<delete dir="${installer.data.dir}" quiet="true"/>
+    	<mkdir dir="${installer.data.dir}"/>
+
+		<delete dir="${output.dir}" quiet="true"/>
+    	<mkdir dir="${output.dir}"/>
 	</target>
 
 	
 	<target name="prepareDependencies">
 		<echo message="webworksZipPackage.path: ${webworksZipPackage.path}"/>
-		<echo message="webworksZipPackage.dir: ${webworksZipPackage.dir}"/>
+		<echo message="tabletSDK.path: ${tabletSDK.path}"/>
+
+		<unzip src="${tabletSDK.path}" dest="${installer.data.dir}"/>
 
 		<unzip src="${webworksZipPackage.path}" dest="${installer.data.bbwp.dir}"/>
 
@@ -85,14 +92,14 @@
 			IAlocation="${IA.installation.dir}"
 			IAProjectFile="${installer.dir}/blackberry_webworks_sdk.iap_xml" >
 		</IABuildInstallerTask>
-		<!--  
-		<move tofile="${param.dest.dir}/${param.installer.name}" flatten="true">
-	  		<fileset dir="${installer.builderScript.dir}">
-				<include name="**/VM/*.exe"/>
+		
+		<!-- move installers to output folder -->
+		<move todir="${output.dir}">
+			<fileset dir="${installer.dir}">
+				<include name="*Build_Output/**/MacOSX"/>
+				<include name="*Build_Output/**/Windows"/>
 			</fileset>
 		</move>
-		-->
-
 	</target>
 
 
