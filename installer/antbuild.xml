@@ -94,10 +94,14 @@
 		</IABuildInstallerTask>
 		
 		<!-- move installers to output folder -->
-		<move todir="${output.dir}">
+		<move todir="${output.dir}/MacOSX" flatten="true">
 			<fileset dir="${installer.dir}">
-				<include name="*Build_Output/**/MacOSX"/>
-				<include name="*Build_Output/**/Windows"/>
+				<include name="*Build_Output/**/MacOSX/"/>
+			</fileset>
+		</move>
+		<move todir="${output.dir}/Windows" flatten="true">
+			<fileset dir="${installer.dir}">
+				<include name="*Build_Output/**/Windows/"/>
 			</fileset>
 		</move>
 	</target>
