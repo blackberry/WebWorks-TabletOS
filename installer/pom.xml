@@ -51,7 +51,7 @@
 						<artifactItem>
 						  <groupId>net.rim.snarf</groupId>
 						  <artifactId>tablet-sdk</artifactId>
-						  <version>1.0.2</version>
+						  <version>1.0.1.5</version>
 						  <type>zip</type>
 						  <overWrite>true</overWrite>
 						  <outputDirectory>${tabletSDK.dir}</outputDirectory>
