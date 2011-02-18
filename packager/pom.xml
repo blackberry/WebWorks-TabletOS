@@ -11,6 +11,15 @@
   <packaging>jar</packaging>
 
   <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>findbugs-maven-plugin</artifactId>
+          <version>2.3.2-SNAPSHOT</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
 	<sourceDirectory>src</sourceDirectory>
 	<directory>target</directory><!-- the output folder -->
 	<!--  <finalName>${project.artifactId}-${project.version}</finalName>-->
@@ -55,5 +64,20 @@
     </resources>
 
   </build>
+  <reporting>
+    <plugins>
+        <plugin>
+             <groupId>org.codehaus.mojo</groupId>
+             <artifactId>findbugs-maven-plugin</artifactId>
+             <version>2.3.2-SNAPSHOT</version>
+            <configuration>                
+                <threshold>Normal</threshold>
+                <xmlOutput>true</xmlOutput>
+                <findbugsXmlOutput>true</findbugsXmlOutput>                  
+                <findbugsXmlWithMessages>true</findbugsXmlWithMessages>
+            </configuration>
+        </plugin>
+    </plugins>
+  </reporting>
 
 </project>
