@@ -173,9 +173,6 @@ package webworks.webkit
 			event.preventDefault();
 			javascriptLoader.registerJavaScript(webView.location, event);
 			trace("window object cleared event");
-			//event.script = "function hello(){alert('hello world');}";
-			// this line is not needed if QNX fixes the problem
-			webView.executeJavaScript(event.script);
 		}
 	}
 }
