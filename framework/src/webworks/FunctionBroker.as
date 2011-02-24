@@ -130,7 +130,7 @@ package webworks
 			}
 		}
 		
-		public static function statusToText(status:int):String
+		public static function statusCodeToString(status:int):String
 		{
 			switch (status)
 			{
