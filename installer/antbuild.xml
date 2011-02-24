@@ -1,8 +1,7 @@
 <?xml version="1.0"?>
 
 <project name="BlackBerry WebWorks Installer" basedir="." default="dist-full">
-
-    <property name="IA.installation.dir" value="C:/Program Files/InstallAnywhere 2010 Enterprise"/> <!-- the default value -->
+    
 	<property name="dist.installer.dir" value="dist-installer"/> <!-- the default value, should be set by caller -->
 	<property name="webworksZipPackage.path" value="WebWorksForPlaybook.zip"/> <!-- the default value, should be set by caller -->
 	<property name="tabletSDK.path" value="tabletSDK.zip"/> <!-- the default value, should be set by caller -->
@@ -15,11 +14,7 @@
 	<property name="installer.data.bbwp.airapptemplates.dir" value="${installer.data.bbwp.dir}/AirAppTemplates"/>
 	<property name="installer.data.bbwp.airapptemplates.src.dir" value="${installer.data.bbwp.airapptemplates.dir}/src"/>
 	<property name="jsapi.dir" value="${basedir}/../js_api"/>
-
-	<taskdef name="IABuildInstallerTask"
-		classname="com.zerog.ia.integration.ant.InstallAnywhereAntTask"
-		classpath="${IA.installation.dir}/resource/build/iaant.jar"/>
-
+	
     <!-- End of defining installer information -->
     
     <!-- ###################################################################
@@ -86,7 +81,13 @@
 		<delete>
 			<fileset dir="." includes="blackberry_webworks_sdk_Build_Output/**/*"/>
 		</delete>
-		
+        <property environment="env"/>
+        <property name="IA.installation.dir" value="${env.IA_DIR}"/>
+        
+        <taskdef name="IABuildInstallerTask"
+                 classname="com.zerog.ia.integration.ant.InstallAnywhereAntTask"
+                 classpath="${IA.installation.dir}/resource/build/iaant.jar"/>		
+        
 		<!--  Create installer and move it to specified folder  -->
 		<IABuildInstallerTask
 			IAlocation="${IA.installation.dir}"
