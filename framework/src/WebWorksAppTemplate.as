@@ -153,15 +153,15 @@ package
 
 			var byteData:ByteArray = new ByteArray();;
 			
-			if (responseObject != null || responseStatus != FunctionBroker.HTTPStatus_200_Okay) {
-				responseText = FunctionBroker.statusToText(responseStatus);
+			if (responseObject == null || responseStatus != FunctionBroker.HTTPStatus_200_Okay) {
+				responseText = FunctionBroker.statusCodeToString(responseStatus);
 			} else {
 				responseText = responseObject.toString();
 			}
 			
 			byteData.writeUTFBytes(responseText);
 			
-			webWindow.qnxWebView.notifyResourceOpened(sid, responseStatus, FunctionBroker.statusToText(responseStatus));
+			webWindow.qnxWebView.notifyResourceOpened(sid, responseStatus, FunctionBroker.statusCodeToString(responseStatus));
 			webWindow.qnxWebView.notifyResourceHeaderReceived(sid, "Content-Type", "text/plain");
 			webWindow.qnxWebView.notifyResourceHeaderReceived(sid, "Content-Length", byteData.length.toString());
 			webWindow.qnxWebView.notifyResourceDataReceived(sid, byteData);
