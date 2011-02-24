@@ -51,9 +51,9 @@ import net.rim.tumbler.xml.XMLParser;
 public class WidgetPackager {
     
     
-    public static final String[] STANDARD_OUTPUTS = new String[] { ".cod",
+    private static final String[] STANDARD_OUTPUTS = new String[] { ".cod",
             ".alx", ".cso", ".csl" };
-    public static final String[] OTA_OUTPUTS = new String[] { ".cod", ".jad" };
+    private static final String[] OTA_OUTPUTS = new String[] { ".cod", ".jad" };
 
     // TODO: retrieve from logger
     public static final String BLACKBERRY_WIDGET_PORTAL_URL = "http://www.blackberry.com/developers/widget/";
@@ -184,7 +184,7 @@ public class WidgetPackager {
             // copy output files
             if (!SessionManager.getInstance().isPlayBook()) {
                 Logger.logMessage(LogType.INFO, "PROGRESS_GEN_OUTPUT");
-                fileManager.copyOutputsFromSource();
+                fileManager.copyOutputsFromSource(STANDARD_OUTPUTS, OTA_OUTPUTS);
             }
 
             // clean source (if necessary)
