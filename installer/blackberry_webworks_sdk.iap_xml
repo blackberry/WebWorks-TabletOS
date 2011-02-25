@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- This script was automatically generated using InstallAnywhere 2010 Standard, Build 3972
-     STATUS: Fully-Functional UNLICENSED Trial Edition
-     DATE:   Thu Feb 24 13:18:53 EST 2011 -->
-<InstallAnywhere_Deployment_Project increments="2565">
+<!-- This script was automatically generated using InstallAnywhere 2010 Enterprise, Build 3972
+     STATUS: Fully Functional LICENSED Edition
+     DATE:   Mon Feb 14 11:21:03 EST 2011 -->
+<InstallAnywhere_Deployment_Project increments="3165">
 	<!-- ** DO NOT EDIT ** Essential authorization and configuration data ** DO NOT EDIT ** -->
 	<essentialScriptInfo>
 		<versionID major="11" minor="5" revision="0"/>
-		<editionID>49,49,46,53,32,83,116,97,110,100,97,114,100,32,66,117,105,108,100,32,51,57,55,50</editionID>
-		<scriptID>12,42,11,85,78,76,73,67,69,78,83,69,68</scriptID>
+		<editionID>49,49,46,53,32,69,110,116,101,114,112,114,105,115,101,32,66,117,105,108,100,32,51,57,55,50</editionID>
+		<scriptID>12,42,11,70,49,57,54,74,78,74,74,78,72,45,69,68,74,45,75,70,74,74,70,78,78,69,74,88</scriptID>
 		<buildID>3,13,71,87,105,110,100,111,119,115,32,88,80,44,32,53,46,49,44,32,120,56,54,59,32,74,97,118,97,32,49,46,54,46,48,95,49,53,44,32,83,117,110,32,77,105,99,114,111,115,121,115,116,101,109,115,32,73,110,99,46,44,32,104,116,116,112,58,47,47,106,97,118,97,46,115,117,110,46,99,111,109,47,59,32,101,110,44,32,85,110,107,110,111,119,110,59,32,67,112,49,50,53,50</buildID>
 		<!-- The authorizationID may change between project saves and builds.  This does not effect the integrity of the project, nor do changes in this value represent changes in the actual InstallAnywhere project. -->
-		<authorizationID>1,0,0,32,83,-23,16,0,64,99,70,101,125,121,100,96,105,48,48,49,56,52,67,98,113,112,124,44,81,100,99,62,57,15,14,15,13,21,120,14,1,0,0</authorizationID>
+		<authorizationID>1,0,0,32,35,-4,-96,80,80,112,118,100,85,99,113,97,113,65,81,84,74,67,70,68,72,74,64,69,66,69,64,95,71,5,2,4,2,25,100,14,1,0,0</authorizationID>
 	</essentialScriptInfo>
-	<installationObjects uniqueObjects="109">
+	<installationObjects uniqueObjects="129">
 		<object class="com.zerog.ia.installer.Installer" objectID="61c3cf33921d">
 			<property name="belongsToUninstallPhase">
 				<boolean>false</boolean>
@@ -49,7 +49,7 @@
 								<boolean>false</boolean>
 							</property>
 							<property name="sourcePath">
-								<string><![CDATA[C:\hudsonworkspace\jobs\Snarf\workspace\installer\installerdata\bbwp\bin\]]></string>
+								<string><![CDATA[$IA_PROJECT_DIR$\installerdata\bbwp\bin\]]></string>
 							</property>
 							<property name="shouldUninstall">
 								<boolean>true</boolean>
@@ -80,7 +80,7 @@
 				<string><![CDATA[The installer cannot run on your configuration. It will now quit.]]></string>
 			</property>
 			<property name="userSplashPath">
-				<string><![CDATA[C:\hudsonworkspace\jobs\Snarf\workspace\installer\]]></string>
+				<string><![CDATA[$IA_PROJECT_DIR$\]]></string>
 			</property>
 			<property name="userSplashName">
 				<string><![CDATA[installer-splash3.png]]></string>
@@ -269,6 +269,123 @@ You may cancel this installation at any time by clicking the 'Cancel' button.]]>
 						</object>
 					</method>
 					<method name="addElement">
+						<object class="com.zerog.ia.installer.actions.RegistryFindAction" objectID="76351712ab68">
+							<property name="belongsToUninstallPhase">
+								<boolean>false</boolean>
+							</property>
+							<property name="rollbackEnabledCancel">
+								<boolean>true</boolean>
+							</property>
+							<property name="rollbackEnabledError">
+								<boolean>true</boolean>
+							</property>
+							<property name="componentUUID">
+								<string><![CDATA[7a20a9ae-1eff-11b2-ae4a-c3295e7963ea]]></string>
+							</property>
+							<property name="highestVersionOnly">
+								<boolean>false</boolean>
+							</property>
+							<property name="compareMode">
+								<int>1</int>
+							</property>
+							<property name="version">
+								<string><![CDATA[]]></string>
+							</property>
+							<property name="compareVersion">
+								<boolean>false</boolean>
+							</property>
+							<property name="searchLocationOnly">
+								<boolean>false</boolean>
+							</property>
+							<property name="countVariable">
+								<string><![CDATA[$REG_COMPONENT_COUNT$]]></string>
+							</property>
+							<property name="versionsVariable">
+								<string><![CDATA[$REG_COMPONENT_VERSIONS$]]></string>
+							</property>
+							<property name="locationsVariable">
+								<string><![CDATA[$REG_COMPONENT_LOCATIONS$]]></string>
+							</property>
+							<property name="comment">
+								<string><![CDATA[Find prev version]]></string>
+							</property>
+						</object>
+					</method>
+					<method name="addElement">
+						<object class="com.zerog.ia.installer.actions.ShowDialogAction" objectID="765ff50f84d8">
+							<property name="belongsToUninstallPhase">
+								<boolean>false</boolean>
+							</property>
+							<property name="rollbackEnabledCancel">
+								<boolean>true</boolean>
+							</property>
+							<property name="rollbackEnabledError">
+								<boolean>true</boolean>
+							</property>
+							<property name="title">
+								<string><![CDATA[Previous Installation Found]]></string>
+							</property>
+							<property name="label">
+								<string><![CDATA[Previous Installation Found]]></string>
+							</property>
+							<property name="narrative">
+								<string><![CDATA[Please uninstall previous versions and then click Retry to try again.
+
+To cancel the installation and exit, click Cancel.
+To ignore the warning and proceed anyways, click Ignore.]]></string>
+							</property>
+							<property name="dismissalAction">
+								<int>0</int>
+							</property>
+							<property name="cancelDismissalAction">
+								<int>1</int>
+							</property>
+							<property name="detailsDismissalAction">
+								<int>2</int>
+							</property>
+							<property name="buttonLabel">
+								<string><![CDATA[Retry]]></string>
+							</property>
+							<property name="cancelButtonLabel">
+								<string><![CDATA[Ignore]]></string>
+							</property>
+							<property name="detailsButtonLabel">
+								<string><![CDATA[Cancel]]></string>
+							</property>
+							<property name="variableName">
+								<string><![CDATA[$CHOSEN_DIALOG_BUTTON$]]></string>
+							</property>
+							<property name="buttonCombination">
+								<int>3</int>
+							</property>
+							<property name="alertLevel">
+								<int>0</int>
+							</property>
+							<rules logicalOperation="AND">
+								<object class="com.zerog.ia.installer.rules.CompareVariableNumerically" objectID="7660c45684e7">
+									<property name="belongsToUninstallPhase">
+										<boolean>false</boolean>
+									</property>
+									<property name="rollbackEnabledCancel">
+										<boolean>true</boolean>
+									</property>
+									<property name="rollbackEnabledError">
+										<boolean>true</boolean>
+									</property>
+									<property name="operation">
+										<string><![CDATA[not equal to]]></string>
+									</property>
+									<property name="operandOne">
+										<string><![CDATA[$REG_COMPONENT_COUNT$]]></string>
+									</property>
+									<property name="operandTwo">
+										<string><![CDATA[0]]></string>
+									</property>
+								</object>
+							</rules>
+						</object>
+					</method>
+					<method name="addElement">
 						<object class="com.zerog.ia.installer.actions.LicenseAgrAction" objectID="1128675ebeba">
 							<property name="belongsToUninstallPhase">
 								<boolean>false</boolean>
@@ -295,7 +412,7 @@ You may cancel this installation at any time by clicking the 'Cancel' button.]]>
 								<string><![CDATA[Installation and Use of $PRODUCT_NAME$ Requires Acceptance of the Following License Agreement:]]></string>
 							</property>
 							<property name="resourcePath">
-								<string><![CDATA[C:\hudsonworkspace\jobs\Snarf\workspace\installer\installerdata\bbwp\]]></string>
+								<string><![CDATA[$IA_PROJECT_DIR$\installerdata\bbwp\]]></string>
 							</property>
 							<property name="resourceName">
 								<string><![CDATA[SDK_license_English.txt]]></string>
@@ -361,6 +478,63 @@ You may cancel this installation at any time by clicking the 'Cancel' button.]]>
 							</property>
 							<property name="help">
 								<object class="com.zerog.ia.installer.util.Help" objectID="777ac9afbb17">
+									<property name="showHelp">
+										<boolean>false</boolean>
+									</property>
+								</object>
+							</property>
+						</object>
+					</method>
+					<method name="addElement">
+						<object class="com.zerog.ia.installer.actions.ChooseFolder" objectID="5397fa30ac30">
+							<property name="belongsToUninstallPhase">
+								<boolean>false</boolean>
+							</property>
+							<property name="rollbackEnabledCancel">
+								<boolean>true</boolean>
+							</property>
+							<property name="rollbackEnabledError">
+								<boolean>true</boolean>
+							</property>
+							<property name="imageOption">
+								<int>1</int>
+							</property>
+							<property name="stepTitle">
+								<string><![CDATA[Choose Adobe® AIR® SDK Install Folder]]></string>
+							</property>
+							<property name="prompt">
+								<string><![CDATA[Please Choose a &Folder:]]></string>
+							</property>
+							<property name="selection">
+								<string><![CDATA[$AIRSDK_FOLDER$]]></string>
+							</property>
+							<property name="defaultFile">
+								<string><![CDATA[]]></string>
+							</property>
+							<property name="magicFolderId">
+								<int>994</int>
+							</property>
+							<property name="additionalText">
+								<string><![CDATA[ Please select the folder of the existing Adobe® AIR® SDK 2.5 installation. You can download the latest Adobe® AIR® SDK 2.5 from http://www.adobe.com/go/getairsdk.
+]]></string>
+							</property>
+							<property name="parentFolder">
+								<string><![CDATA[$PATH_OF_SELECTED_FILE$]]></string>
+							</property>
+							<property name="canManuallyEnterPath">
+								<boolean>true</boolean>
+							</property>
+							<property name="checkPermissions">
+								<boolean>false</boolean>
+							</property>
+							<property name="labelOption">
+								<int>2</int>
+							</property>
+							<property name="labelIndex">
+								<int>3</int>
+							</property>
+							<property name="help">
+								<object class="com.zerog.ia.installer.util.Help" objectID="5397fa31ac30">
 									<property name="showHelp">
 										<boolean>false</boolean>
 									</property>
@@ -557,6 +731,118 @@ You may cancel this installation at any time by clicking the 'Cancel' button.]]>
 						</object>
 					</method>
 					<method name="addElement">
+						<object class="com.zerog.ia.installer.actions.ShowDialogAction" objectID="7131175a9f97">
+							<property name="belongsToUninstallPhase">
+								<boolean>false</boolean>
+							</property>
+							<property name="rollbackEnabledCancel">
+								<boolean>true</boolean>
+							</property>
+							<property name="rollbackEnabledError">
+								<boolean>true</boolean>
+							</property>
+							<property name="title">
+								<string><![CDATA[ERROR]]></string>
+							</property>
+							<property name="label">
+								<string><![CDATA[Incorrect SDK Detected]]></string>
+							</property>
+							<property name="narrative">
+								<string><![CDATA[Incorrect AIR® SDK selected. Please browse to http://www.adobe.com/go/getairsdk to get the Adobe® AIR® SDK 2.5.]]></string>
+							</property>
+							<property name="dismissalAction">
+								<int>0</int>
+							</property>
+							<property name="cancelDismissalAction">
+								<int>1</int>
+							</property>
+							<property name="detailsDismissalAction">
+								<int>1</int>
+							</property>
+							<property name="buttonLabel">
+								<string><![CDATA[OK]]></string>
+							</property>
+							<property name="cancelButtonLabel">
+								<string><![CDATA[Cancel]]></string>
+							</property>
+							<property name="detailsButtonLabel">
+								<string><![CDATA[Details...]]></string>
+							</property>
+							<property name="variableName">
+								<string><![CDATA[$CHOSEN_DIALOG_BUTTON$]]></string>
+							</property>
+							<property name="buttonCombination">
+								<int>0</int>
+							</property>
+							<property name="alertLevel">
+								<int>1</int>
+							</property>
+							<rules logicalOperation="OR">
+								<object class="com.zerog.ia.installer.rules.CompareVariable" objectID="048a1c1fa71d">
+									<property name="belongsToUninstallPhase">
+										<boolean>false</boolean>
+									</property>
+									<property name="rollbackEnabledCancel">
+										<boolean>true</boolean>
+									</property>
+									<property name="rollbackEnabledError">
+										<boolean>true</boolean>
+									</property>
+									<property name="operation">
+										<string><![CDATA[does not contain]]></string>
+									</property>
+									<property name="operandOne">
+										<string><![CDATA[$EXECUTE_STDOUT$]]></string>
+									</property>
+									<property name="operandTwo">
+										<string><![CDATA[Adobe AIR 2.5]]></string>
+									</property>
+								</object>
+								<object class="com.zerog.ia.installer.rules.FileFolderPathChk" objectID="089860a8ad38">
+									<property name="belongsToUninstallPhase">
+										<boolean>false</boolean>
+									</property>
+									<property name="rollbackEnabledCancel">
+										<boolean>true</boolean>
+									</property>
+									<property name="rollbackEnabledError">
+										<boolean>true</boolean>
+									</property>
+									<property name="path">
+										<string><![CDATA[$AIRSDK_FOLDER$/lib/adt.jar]]></string>
+									</property>
+									<property name="checkIsFileFolder">
+										<boolean>true</boolean>
+									</property>
+									<property name="isFile">
+										<boolean>true</boolean>
+									</property>
+									<property name="checkExists">
+										<boolean>true</boolean>
+									</property>
+									<property name="exists">
+										<boolean>false</boolean>
+									</property>
+									<property name="checkReadWrite">
+										<boolean>false</boolean>
+									</property>
+									<property name="isReadable">
+										<boolean>true</boolean>
+									</property>
+									<property name="isWriteable">
+										<boolean>true</boolean>
+									</property>
+									<property name="checksInUseNotNotInUse">
+										<boolean>false</boolean>
+									</property>
+									<property name="checkInUse">
+										<boolean>false</boolean>
+									</property>
+								</object>
+							</rules>
+						</object>
+					</method>
+					<method name="addElement">
 						<object class="com.zerog.ia.installer.actions.InstallSummary" objectID="61c3cf629231">
 							<property name="belongsToUninstallPhase">
 								<boolean>false</boolean>
@@ -622,6 +908,139 @@ You may cancel this installation at any time by clicking the 'Cancel' button.]]>
 			</property>
 			<property name="postInstallActions">
 				<object class="java.util.Vector">
+					<method name="addElement">
+						<object class="com.zerog.ia.installer.actions.PlugInAction" objectID="53ae06dbab91">
+							<property name="belongsToUninstallPhase">
+								<boolean>false</boolean>
+							</property>
+							<property name="rollbackEnabledCancel">
+								<boolean>true</boolean>
+							</property>
+							<property name="rollbackEnabledError">
+								<boolean>true</boolean>
+							</property>
+							<property name="showPleaseWaitPanel">
+								<boolean>true</boolean>
+							</property>
+							<property name="showIndeterminateDialog">
+								<boolean>true</boolean>
+							</property>
+							<property name="dialogLabel">
+								<string><![CDATA[Configuring $PRODUCT_NAME$...]]></string>
+							</property>
+							<property name="clientClassFullName">
+								<string><![CDATA[com.zerog.ia.customcode.util.fileutils.CopyDirectory]]></string>
+							</property>
+							<property name="resourcePath">
+								<string><![CDATA[$IA_HOME$\plugins]]></string>
+							</property>
+							<property name="resourceName">
+								<string><![CDATA[CopyDirectory.jar]]></string>
+							</property>
+							<property name="runsAfterFileDeletesNotBefore">
+								<boolean>false</boolean>
+							</property>
+							<property name="comment">
+								<string><![CDATA[]]></string>
+							</property>
+							<property name="descriptiveName">
+								<string><![CDATA[Copy Directory]]></string>
+							</property>
+							<property name="variables">
+								<object class="java.util.Vector">
+									<method name="addElement">
+										<object class="com.zerog.ia.installer.util.VariablePropertyDataNonBiDi" objectID="6c69b450ba88">
+											<property name="propertyValue">
+												<string><![CDATA[$AIRSDK_FOLDER$]]></string>
+											</property>
+											<property name="propertyName">
+												<string><![CDATA[CopyDirectory_Source]]></string>
+											</property>
+											<property name="bidiOption">
+												<int>0</int>
+											</property>
+										</object>
+									</method>
+									<method name="addElement">
+										<object class="com.zerog.ia.installer.util.VariablePropertyDataNonBiDi" objectID="09d179759154">
+											<property name="propertyValue">
+												<string><![CDATA[$USER_INSTALL_DIR$/bbwp/blackberry-tablet-sdk]]></string>
+											</property>
+											<property name="propertyName">
+												<string><![CDATA[CopyDirectory_Destination]]></string>
+											</property>
+											<property name="bidiOption">
+												<int>0</int>
+											</property>
+										</object>
+									</method>
+								</object>
+							</property>
+							<property name="sourceJarPath">
+								<string><![CDATA[/opt/InstallAnywhere/plugins/CopyDirectory.jar]]></string>
+							</property>
+							<property name="hasHelp">
+								<boolean>false</boolean>
+							</property>
+							<property name="hasSpecialImage">
+								<boolean>false</boolean>
+							</property>
+							<rules logicalOperation="AND">
+								<object class="com.zerog.ia.installer.rules.PlatformChk" objectID="724d31f78194">
+									<property name="belongsToUninstallPhase">
+										<boolean>false</boolean>
+									</property>
+									<property name="rollbackEnabledCancel">
+										<boolean>true</boolean>
+									</property>
+									<property name="rollbackEnabledError">
+										<boolean>true</boolean>
+									</property>
+									<property name="installOnPlatformList">
+										<object class="java.util.Vector">
+											<method name="addElement">
+												<string><![CDATA[^Windows.*]]></string>
+											</method>
+											<method name="addElement">
+												<string><![CDATA[Mac OS X]]></string>
+											</method>
+										</object>
+									</property>
+									<property name="doNotInstallOnPlatformList">
+										<object class="java.util.Vector">
+											<method name="addElement">
+												<string><![CDATA[Solaris]]></string>
+											</method>
+											<method name="addElement">
+												<string><![CDATA[SunOS]]></string>
+											</method>
+											<method name="addElement">
+												<string><![CDATA[HP-UX]]></string>
+											</method>
+											<method name="addElement">
+												<string><![CDATA[Linux]]></string>
+											</method>
+											<method name="addElement">
+												<string><![CDATA[AIX]]></string>
+											</method>
+											<method name="addElement">
+												<string><![CDATA[FreeBSD]]></string>
+											</method>
+											<method name="addElement">
+												<string><![CDATA[NetWare]]></string>
+											</method>
+											<method name="addElement">
+												<string><![CDATA[OS/400]]></string>
+											</method>
+											<method name="addElement">
+												<string><![CDATA[Unlisted Platforms]]></string>
+											</method>
+										</object>
+									</property>
+								</object>
+							</rules>
+						</object>
+					</method>
 					<method name="addElement">
 						<object class="com.zerog.ia.installer.actions.ExecuteScript" objectID="72567bf98ce1">
 							<property name="belongsToUninstallPhase">
@@ -885,6 +1304,68 @@ For information on configuration of the SDK please visit www.blackberry.com/deve
 									</property>
 									<property name="operation">
 										<string><![CDATA[does not equal]]></string>
+									</property>
+									<property name="operandOne">
+										<string><![CDATA[$INSTALL_SUCCESS$]]></string>
+									</property>
+									<property name="operandTwo">
+										<string><![CDATA[SUCCESS]]></string>
+									</property>
+								</object>
+							</rules>
+						</object>
+					</method>
+					<method name="addElement">
+						<object class="com.zerog.ia.installer.actions.GetUserInput" objectID="725abe588f00">
+							<property name="belongsToUninstallPhase">
+								<boolean>false</boolean>
+							</property>
+							<property name="rollbackEnabledCancel">
+								<boolean>true</boolean>
+							</property>
+							<property name="rollbackEnabledError">
+								<boolean>true</boolean>
+							</property>
+							<property name="imageOption">
+								<int>1</int>
+							</property>
+							<property name="title">
+								<string><![CDATA[Install Complete]]></string>
+							</property>
+							<property name="prompt">
+								<string><![CDATA[Congratulations! $PRODUCT_NAME$ has been successfully installed to:
+ $USER_INSTALL_DIR$
+]]></string>
+							</property>
+							<property name="guiGroups">
+								<object class="java.util.Vector"/>
+							</property>
+							<property name="labelOption">
+								<int>2</int>
+							</property>
+							<property name="labelIndex">
+								<int>6</int>
+							</property>
+							<property name="help">
+								<object class="com.zerog.ia.installer.util.Help" objectID="662b98d59381">
+									<property name="showHelp">
+										<boolean>false</boolean>
+									</property>
+								</object>
+							</property>
+							<rules logicalOperation="AND">
+								<object class="com.zerog.ia.installer.rules.CompareVariable" objectID="725abe598f00">
+									<property name="belongsToUninstallPhase">
+										<boolean>false</boolean>
+									</property>
+									<property name="rollbackEnabledCancel">
+										<boolean>true</boolean>
+									</property>
+									<property name="rollbackEnabledError">
+										<boolean>true</boolean>
+									</property>
+									<property name="operation">
+										<string><![CDATA[equals]]></string>
 									</property>
 									<property name="operandOne">
 										<string><![CDATA[$INSTALL_SUCCESS$]]></string>
@@ -1220,7 +1701,7 @@ For information on configuration of the SDK please visit www.blackberry.com/deve
 					</method>
 					<method name="put">
 						<string><![CDATA[com.zerog.ia.project.save.last.date]]></string>
-						<string><![CDATA[February 24, 2011 1:18:53 PM EST]]></string>
+						<string><![CDATA[February 14, 2011 11:21:03 AM EST]]></string>
 					</method>
 					<method name="put">
 						<string><![CDATA[com.zerog.ia.build.options.optimization.platform.cdrom]]></string>
@@ -1284,7 +1765,7 @@ For information on configuration of the SDK please visit www.blackberry.com/deve
 						<boolean>true</boolean>
 					</property>
 					<property name="backgroundImagePath">
-						<string><![CDATA[C:\hudsonworkspace\jobs\Snarf\workspace\installer\]]></string>
+						<string><![CDATA[$IA_PROJECT_DIR$\]]></string>
 					</property>
 					<property name="backgroundImageName">
 						<string><![CDATA[installer-background3.png]]></string>
@@ -2133,7 +2614,7 @@ Thank you for choosing $PRODUCT_NAME$!]]></string>
 												<boolean>false</boolean>
 											</property>
 											<property name="sourcePath">
-												<string><![CDATA[C:\hudsonworkspace\jobs\Snarf\workspace\installer\installerdata\blackberry-tablet-sdk-0.9.0\]]></string>
+												<string><![CDATA[$IA_PROJECT_DIR$\installerdata\blackberry-tablet-sdk-0.9.0\]]></string>
 											</property>
 											<property name="shouldUninstall">
 												<boolean>true</boolean>
@@ -2243,6 +2724,50 @@ Thank you for choosing $PRODUCT_NAME$!]]></string>
 										<boolean>true</boolean>
 									</property>
 									<installChildren>
+										<object class="com.zerog.ia.installer.actions.DeleteFolderAction" objectID="9adce67d85bf">
+											<property name="belongsToUninstallPhase">
+												<boolean>false</boolean>
+											</property>
+											<property name="rollbackEnabledCancel">
+												<boolean>true</boolean>
+											</property>
+											<property name="rollbackEnabledError">
+												<boolean>true</boolean>
+											</property>
+											<property name="useInstalledFile">
+												<boolean>false</boolean>
+											</property>
+											<property name="existingFilePath">
+												<string><![CDATA[$USER_INSTALL_DIR$/bbwp/blackberry-tablet-sdk-0.9.0]]></string>
+											</property>
+											<property name="destination">
+												<string><![CDATA[$USER_INSTALL_DIR$$/$]]></string>
+											</property>
+											<property name="uninstallFlag">
+												<boolean>true</boolean>
+											</property>
+											<property name="rollbackEnabledCancel">
+												<boolean>true</boolean>
+											</property>
+											<property name="rollbackEnabledError">
+												<boolean>true</boolean>
+											</property>
+											<property name="folderOptions">
+												<int>90</int>
+											</property>
+											<property name="renames">
+												<boolean>false</boolean>
+											</property>
+											<property name="overrideUnixPermissions">
+												<boolean>false</boolean>
+											</property>
+											<property name="unixPermissions">
+												<string><![CDATA[777]]></string>
+											</property>
+											<property name="targetCheckKind">
+												<int>0</int>
+											</property>
+										</object>
 										<object refID="d11e456b9344"/>
 										<object refID="d11e4d4b9349"/>
 										<object refID="d11e5402934e"/>
@@ -2266,7 +2791,7 @@ Thank you for choosing $PRODUCT_NAME$!]]></string>
 												<boolean>false</boolean>
 											</property>
 											<property name="sourcePath">
-												<string><![CDATA[C:\hudsonworkspace\jobs\Snarf\workspace\installer\installerdata\bbwp\]]></string>
+												<string><![CDATA[$IA_PROJECT_DIR$\installerdata\bbwp\]]></string>
 											</property>
 											<property name="shouldUninstall">
 												<boolean>true</boolean>
@@ -2305,7 +2830,7 @@ Thank you for choosing $PRODUCT_NAME$!]]></string>
 												<boolean>false</boolean>
 											</property>
 											<property name="sourcePath">
-												<string><![CDATA[C:\hudsonworkspace\jobs\Snarf\workspace\installer\installerdata\bbwp\bin\]]></string>
+												<string><![CDATA[$IA_PROJECT_DIR$\installerdata\bbwp\bin\]]></string>
 											</property>
 											<property name="shouldUninstall">
 												<boolean>true</boolean>
@@ -2322,6 +2847,111 @@ Thank you for choosing $PRODUCT_NAME$!]]></string>
 											<property name="targetCheckKind">
 												<int>0</int>
 											</property>
+										</object>
+										<object class="com.zerog.ia.installer.actions.ASCIIFileManipulator" objectID="794bdf67bd63">
+											<property name="belongsToUninstallPhase">
+												<boolean>false</boolean>
+											</property>
+											<property name="rollbackEnabledCancel">
+												<boolean>true</boolean>
+											</property>
+											<property name="rollbackEnabledError">
+												<boolean>true</boolean>
+											</property>
+											<property name="additionalText">
+												<string><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<wcp>
+	<additional>-quiet</additional>
+	<java>$JAVA_HOME$</java>
+	<wcp_template>AirAppTemplates</wcp_template>
+	<air_template>AirAppTemplates</air_template>
+	<tablet_sdk>$USER_INSTALL_DIR$/bbwp/blackberry-tablet-sdk</tablet_sdk>
+	<extension_repository>ext</extension_repository>
+	<!-- <developer_cn_signature></developer_cn_signature> -->
+</wcp>
+<!--]]></string>
+											</property>
+											<property name="fileTargetType">
+												<int>0</int>
+											</property>
+											<property name="newFilePath">
+												<string><![CDATA[$USER_INSTALL_DIR$$/$bbwp$/$bin$/$]]></string>
+											</property>
+											<property name="targetAction">
+												<object refID="794abe67bd4f"/>
+											</property>
+											<property name="systemFilePath">
+												<string><![CDATA[]]></string>
+											</property>
+											<property name="lineEndingsType">
+												<int>3</int>
+											</property>
+											<property name="textOptionsType">
+												<int>1</int>
+											</property>
+											<property name="searchAndReplaceVector">
+												<object class="java.util.Vector"/>
+											</property>
+											<property name="substituteIAVariables">
+												<boolean>true</boolean>
+											</property>
+											<property name="backup">
+												<boolean>true</boolean>
+											</property>
+											<rules logicalOperation="AND">
+												<object class="com.zerog.ia.installer.rules.PlatformChk" objectID="8d400163bd63">
+													<property name="belongsToUninstallPhase">
+														<boolean>false</boolean>
+													</property>
+													<property name="rollbackEnabledCancel">
+														<boolean>true</boolean>
+													</property>
+													<property name="rollbackEnabledError">
+														<boolean>true</boolean>
+													</property>
+													<property name="installOnPlatformList">
+														<object class="java.util.Vector">
+															<method name="addElement">
+																<string><![CDATA[Mac OS X]]></string>
+															</method>
+														</object>
+													</property>
+													<property name="doNotInstallOnPlatformList">
+														<object class="java.util.Vector">
+															<method name="addElement">
+																<string><![CDATA[^Windows.*]]></string>
+															</method>
+															<method name="addElement">
+																<string><![CDATA[Solaris]]></string>
+															</method>
+															<method name="addElement">
+																<string><![CDATA[SunOS]]></string>
+															</method>
+															<method name="addElement">
+																<string><![CDATA[HP-UX]]></string>
+															</method>
+															<method name="addElement">
+																<string><![CDATA[Linux]]></string>
+															</method>
+															<method name="addElement">
+																<string><![CDATA[AIX]]></string>
+															</method>
+															<method name="addElement">
+																<string><![CDATA[FreeBSD]]></string>
+															</method>
+															<method name="addElement">
+																<string><![CDATA[NetWare]]></string>
+															</method>
+															<method name="addElement">
+																<string><![CDATA[OS/400]]></string>
+															</method>
+															<method name="addElement">
+																<string><![CDATA[Unlisted Platforms]]></string>
+															</method>
+														</object>
+													</property>
+												</object>
+											</rules>
 										</object>
 										<object class="com.zerog.ia.installer.actions.InstallFile" objectID="d0ccbcde9988">
 											<property name="belongsToUninstallPhase">
@@ -2343,7 +2973,7 @@ Thank you for choosing $PRODUCT_NAME$!]]></string>
 												<boolean>false</boolean>
 											</property>
 											<property name="sourcePath">
-												<string><![CDATA[C:\hudsonworkspace\jobs\Snarf\workspace\installer\installerdata\bbwp\]]></string>
+												<string><![CDATA[$IA_PROJECT_DIR$\installerdata\bbwp\]]></string>
 											</property>
 											<property name="shouldUninstall">
 												<boolean>true</boolean>
@@ -2381,7 +3011,7 @@ Thank you for choosing $PRODUCT_NAME$!]]></string>
 												<boolean>false</boolean>
 											</property>
 											<property name="sourcePath">
-												<string><![CDATA[C:\hudsonworkspace\jobs\Snarf\workspace\installer\installerdata\bbwp\]]></string>
+												<string><![CDATA[$IA_PROJECT_DIR$\installerdata\bbwp\]]></string>
 											</property>
 											<property name="shouldUninstall">
 												<boolean>true</boolean>
@@ -2398,6 +3028,111 @@ Thank you for choosing $PRODUCT_NAME$!]]></string>
 											<property name="targetCheckKind">
 												<int>0</int>
 											</property>
+										</object>
+										<object class="com.zerog.ia.installer.actions.ASCIIFileManipulator" objectID="fa02bdafa116">
+											<property name="belongsToUninstallPhase">
+												<boolean>false</boolean>
+											</property>
+											<property name="rollbackEnabledCancel">
+												<boolean>true</boolean>
+											</property>
+											<property name="rollbackEnabledError">
+												<boolean>true</boolean>
+											</property>
+											<property name="additionalText">
+												<string><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<wcp>
+	<additional>-quiet</additional>
+	<java>$USER_INSTALL_DIR$\jre</java>
+	<wcp_template>AirAppTemplates</wcp_template>
+	<air_template>AirAppTemplates</air_template>
+	<tablet_sdk>$USER_INSTALL_DIR$\bbwp\blackberry-tablet-sdk</tablet_sdk>
+	<extension_repository>ext</extension_repository>
+	<!-- <developer_cn_signature></developer_cn_signature> -->
+</wcp>
+<!--]]></string>
+											</property>
+											<property name="fileTargetType">
+												<int>0</int>
+											</property>
+											<property name="newFilePath">
+												<string><![CDATA[$USER_INSTALL_DIR$$/$bbwp$/$bin$/$]]></string>
+											</property>
+											<property name="targetAction">
+												<object refID="794abe67bd4f"/>
+											</property>
+											<property name="systemFilePath">
+												<string><![CDATA[]]></string>
+											</property>
+											<property name="lineEndingsType">
+												<int>3</int>
+											</property>
+											<property name="textOptionsType">
+												<int>1</int>
+											</property>
+											<property name="searchAndReplaceVector">
+												<object class="java.util.Vector"/>
+											</property>
+											<property name="substituteIAVariables">
+												<boolean>true</boolean>
+											</property>
+											<property name="backup">
+												<boolean>true</boolean>
+											</property>
+											<rules logicalOperation="AND">
+												<object class="com.zerog.ia.installer.rules.PlatformChk" objectID="fa02bdb0a116">
+													<property name="belongsToUninstallPhase">
+														<boolean>false</boolean>
+													</property>
+													<property name="rollbackEnabledCancel">
+														<boolean>true</boolean>
+													</property>
+													<property name="rollbackEnabledError">
+														<boolean>true</boolean>
+													</property>
+													<property name="installOnPlatformList">
+														<object class="java.util.Vector">
+															<method name="addElement">
+																<string><![CDATA[^Windows.*]]></string>
+															</method>
+														</object>
+													</property>
+													<property name="doNotInstallOnPlatformList">
+														<object class="java.util.Vector">
+															<method name="addElement">
+																<string><![CDATA[Mac OS X]]></string>
+															</method>
+															<method name="addElement">
+																<string><![CDATA[Solaris]]></string>
+															</method>
+															<method name="addElement">
+																<string><![CDATA[SunOS]]></string>
+															</method>
+															<method name="addElement">
+																<string><![CDATA[HP-UX]]></string>
+															</method>
+															<method name="addElement">
+																<string><![CDATA[Linux]]></string>
+															</method>
+															<method name="addElement">
+																<string><![CDATA[AIX]]></string>
+															</method>
+															<method name="addElement">
+																<string><![CDATA[FreeBSD]]></string>
+															</method>
+															<method name="addElement">
+																<string><![CDATA[NetWare]]></string>
+															</method>
+															<method name="addElement">
+																<string><![CDATA[OS/400]]></string>
+															</method>
+															<method name="addElement">
+																<string><![CDATA[Unlisted Platforms]]></string>
+															</method>
+														</object>
+													</property>
+												</object>
+											</rules>
 										</object>
 										<object class="com.zerog.ia.installer.actions.InstallFile" objectID="794abe78bd51">
 											<property name="belongsToUninstallPhase">
@@ -2419,7 +3154,7 @@ Thank you for choosing $PRODUCT_NAME$!]]></string>
 												<boolean>false</boolean>
 											</property>
 											<property name="sourcePath">
-												<string><![CDATA[C:\hudsonworkspace\jobs\Snarf\workspace\installer\installerdata\bbwp\bin\]]></string>
+												<string><![CDATA[$IA_PROJECT_DIR$\installerdata\bbwp\bin\]]></string>
 											</property>
 											<property name="shouldUninstall">
 												<boolean>true</boolean>
@@ -2466,7 +3201,7 @@ Thank you for choosing $PRODUCT_NAME$!]]></string>
 												<boolean>true</boolean>
 											</property>
 											<property name="sourcePath">
-												<string><![CDATA[C:\hudsonworkspace\jobs\Snarf\workspace\installer\installerdata\blackberry-tablet-sdk]]></string>
+												<string><![CDATA[$IA_PROJECT_DIR$\installerdata\blackberry-tablet-sdk]]></string>
 											</property>
 											<property name="shouldUninstall">
 												<boolean>true</boolean>
@@ -2535,7 +3270,7 @@ Thank you for choosing $PRODUCT_NAME$!]]></string>
 												<boolean>true</boolean>
 											</property>
 											<property name="sourcePath">
-												<string><![CDATA[C:\hudsonworkspace\jobs\Snarf\workspace\installer\installerdata\bbwp\AirAppTemplates]]></string>
+												<string><![CDATA[$IA_PROJECT_DIR$\installerdata\bbwp\AirAppTemplates]]></string>
 											</property>
 											<property name="shouldUninstall">
 												<boolean>true</boolean>
@@ -2604,7 +3339,7 @@ Thank you for choosing $PRODUCT_NAME$!]]></string>
 												<boolean>true</boolean>
 											</property>
 											<property name="sourcePath">
-												<string><![CDATA[C:\hudsonworkspace\jobs\Snarf\workspace\installer\installerdata\bbwp\ext]]></string>
+												<string><![CDATA[$IA_PROJECT_DIR$\installerdata\bbwp\ext]]></string>
 											</property>
 											<property name="shouldUninstall">
 												<boolean>true</boolean>
@@ -2644,6 +3379,47 @@ Thank you for choosing $PRODUCT_NAME$!]]></string>
 												<boolean>false</boolean>
 											</property>
 										</object>
+										<object class="com.zerog.ia.installer.actions.ASCIIFileManipulator" objectID="ff7ba5938b1d">
+											<property name="belongsToUninstallPhase">
+												<boolean>false</boolean>
+											</property>
+											<property name="rollbackEnabledCancel">
+												<boolean>true</boolean>
+											</property>
+											<property name="rollbackEnabledError">
+												<boolean>true</boolean>
+											</property>
+											<property name="additionalText">
+												<string><![CDATA[-->]]></string>
+											</property>
+											<property name="fileTargetType">
+												<int>0</int>
+											</property>
+											<property name="newFilePath">
+												<string><![CDATA[$USER_INSTALL_DIR$$/$bbwp$/$bin$/$]]></string>
+											</property>
+											<property name="targetAction">
+												<object refID="794abe67bd4f"/>
+											</property>
+											<property name="systemFilePath">
+												<string><![CDATA[]]></string>
+											</property>
+											<property name="lineEndingsType">
+												<int>3</int>
+											</property>
+											<property name="textOptionsType">
+												<int>0</int>
+											</property>
+											<property name="searchAndReplaceVector">
+												<object class="java.util.Vector"/>
+											</property>
+											<property name="substituteIAVariables">
+												<boolean>true</boolean>
+											</property>
+											<property name="backup">
+												<boolean>true</boolean>
+											</property>
+										</object>
 										<object class="com.zerog.ia.installer.actions.InstallDirectory" objectID="794abe68bd4d">
 											<property name="belongsToUninstallPhase">
 												<boolean>false</boolean>
@@ -2664,7 +3440,7 @@ Thank you for choosing $PRODUCT_NAME$!]]></string>
 												<boolean>false</boolean>
 											</property>
 											<property name="sourcePath">
-												<string><![CDATA[C:\hudsonworkspace\jobs\Snarf\workspace\installer\installerdata\bbwp\bin]]></string>
+												<string><![CDATA[$IA_PROJECT_DIR$\installerdata\bbwp\bin]]></string>
 											</property>
 											<property name="shouldUninstall">
 												<boolean>true</boolean>
@@ -2684,6 +3460,9 @@ Thank you for choosing $PRODUCT_NAME$!]]></string>
 											<visualChildren>
 												<object refID="794abe68bd4e"/>
 												<object refID="794abe67bd4f"/>
+												<object refID="794bdf67bd63"/>
+												<object refID="fa02bdafa116"/>
+												<object refID="ff7ba5938b1d"/>
 												<object refID="794abe78bd51"/>
 											</visualChildren>
 										</object>
@@ -2707,7 +3486,7 @@ Thank you for choosing $PRODUCT_NAME$!]]></string>
 												<boolean>false</boolean>
 											</property>
 											<property name="sourcePath">
-												<string><![CDATA[C:\hudsonworkspace\jobs\Snarf\workspace\installer\installerdata\bbwp]]></string>
+												<string><![CDATA[$IA_PROJECT_DIR$\installerdata\bbwp]]></string>
 											</property>
 											<property name="shouldUninstall">
 												<boolean>true</boolean>
@@ -3412,28 +4191,9 @@ and any path to a file to save to the file]]></string>
 								<string><![CDATA[775]]></string>
 							</property>
 							<visualChildren>
+								<object refID="9adce67d85bf"/>
 								<object refID="794abe09bd36"/>
 							</visualChildren>
-						</object>
-						<object class="com.zerog.ia.installer.GhostDirectory" objectID="6c663a74a2ec">
-							<property name="belongsToUninstallPhase">
-								<boolean>false</boolean>
-							</property>
-							<property name="rollbackEnabledCancel">
-								<boolean>true</boolean>
-							</property>
-							<property name="rollbackEnabledError">
-								<boolean>true</boolean>
-							</property>
-							<property name="destinationFolder">
-								<object refID="61c27aae9209"/>
-							</property>
-							<property name="overrideUnixPermissions">
-								<boolean>false</boolean>
-							</property>
-							<property name="unixPermissions">
-								<string><![CDATA[775]]></string>
-							</property>
 						</object>
 					</visualChildren>
 				</object>
