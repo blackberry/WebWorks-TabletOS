@@ -1,0 +1,29 @@
+<!--
+ - Copyright 2010 Research In Motion Limited.
+ -
+ - Licensed under the Apache License, Version 2.0 (the "License");
+ - you may not use this file except in compliance with the License.
+ - You may obtain a copy of the License at
+ -
+ -     http://www.apache.org/licenses/LICENSE-2.0
+ -
+ - Unless required by applicable law or agreed to in writing, software
+ - distributed under the License is distributed on an "AS IS" BASIS,
+ - WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ - See the License for the specific language governing permissions and
+ - limitations under the License.
+ -->
+<html>
+<body>
+This package contains reusable classes that help avoid potential deadlocks
+in the subprocesses returned from the <code>exec()</code> methods of class
+<code>Runtime</code>. The <code>exec()</code> methods in
+<code>java.lang.Runtime</code> return a <code>Process</code> object for
+managing the subprocess. As mentioned in the documentation for class
+<code>java.lang.Process</code>, failure to promptly read the output stream
+of the subprocess may cause the subprocess to block, and even deadlock.
+This package helps avoid such deadlocks by providing classes to promptly read
+the output stream of the subprocess. These classes use a separate thread in
+order to allow the calling thread to proceed without blocking.
+</body>
+</html>
