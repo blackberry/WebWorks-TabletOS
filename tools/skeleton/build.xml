@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+Name should have no spaces and be only alpha characters. 
+The project name will be used to generate your .zip archive and .bar file
+ -->
+<project name="AppName" default="install" basedir="./app"> 
+	<description>
+        Build file for a Blackberry Playbook App
+    </description>
+    
+	<!-- Definitely change these -->
+	<property name="password" value="" />
+	<property name="simIP"  value="" />
+	
+	<!-- You may need to set this -->
+	<property name="sdk.HOME" location="C:\Program Files (x86)\Research In Motion\BlackBerry WebWorks Packager for PlayBook" />
+	
+	<!-- Don't change these! -->
+	<property name="build.dir" location="${basedir}\build" />
+	<property name="bar.file" location="${build.dir}\${ant.project.name}.bar" />
+	<property name="sdk.JAVA_HOME" location="${sdk.HOME}\jre" />
+	<property name="bbwp.dir" location="${sdk.HOME}\bbwp"/>
+	<property name="sdkbin.dir" location="${bbwp.dir}\blackberry-tablet-sdk\bin"/>
+	<property name="bbwp" location="${bbwp.dir}\bbwp.exe" />
+	<property name="BarDeploy.dir" location="${bbwp.dir}\blackberry-tablet-sdk\lib" />
+	
+	<target name="init" depends="clean" description="Creates the build.dir folder for your archive and bar file" >
+		<mkdir dir="${build.dir}"/>
+	</target>
+	
+	<target name="zip" depends="init" description="Archive your files before building the bar" >
+		<zip destfile="${build.dir}/${ant.project.name}.zip"
+		basedir="${basedir}"
+		/>
+	</target>
+	
+	<target name="bar" depends="zip" description="create the bar file" >
+		<exec executable="${bbwp}">
+			<env key="JAVA_HOME" path="${sdk.JAVA_HOME}" />
+			<arg value="${build.dir}\${ant.project.name}.zip"/>
+			<arg line="/o ${build.dir}" />
+		</exec>
+	</target>
+	
+	<target name="install" depends="bar"  description="Deploy the the .bar file to your simulator. The old application is automatically uninstalled." >
+		<java jar="${BarDeploy.dir}/BarDeploy.jar"
+  		fork="true"
+  		maxmemory="512M"
+		>
+			<env key="JAVA_HOME" path="${sdk.JAVA_HOME}" />
+			<arg value="-installApp" />
+			<arg value="-password" />
+			<arg value="${password}" />
+			<arg value="-device" />
+			<arg value="${simIP}" />
+			<arg value="-package" />
+			<arg value="${bar.file}" />
+		</java>
+	</target>
+	
+	<target name="uninstall" description="Uninstall an application from the Simulator. " >
+		<java jar="${BarDeploy.dir}/BarDeploy.jar"
+  		fork="true"
+  		maxmemory="512M"
+		>
+			<env key="JAVA_HOME" path="${sdk.JAVA_HOME}" />
+			<arg value="-uninstallApp" />
+			<arg value="-password" />
+			<arg value="${password}" />
+			<arg value="-device" />
+			<arg value="${simIP}" />
+			<arg value="-package" />
+			<arg value="${bar.file}" />
+		</java>
+	</target>
+	
+	<target name="clean" description="clean up" >
+		<!-- Delete the ${build.dir} directory -->
+		<!-- This is performed before every install because you want a fresh archive -->
+		<delete dir="${build.dir}"/>
+	</target>
+</project>

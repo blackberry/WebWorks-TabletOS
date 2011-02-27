@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<widget xmlns:rim="http://www.blackberry.com/ns/widgets" version="1.7.0" rim:header="RIM-Widget:rim/widget" xmlns="http://www.w3.org/ns/widgets">
+  <name>App Name</name>
+  <description>Brief Description</description>
+  <author href="http://yourdomain.com" rim:copyright="2011" email="Your.email@domain.com">Your Name</author>
+  <license href="" />
+  <icon src="icon.png" rim:hover="false" />
+  <icon src="icon.png" rim:hover="true" />
+  <content src="index.html" />
+</widget>
