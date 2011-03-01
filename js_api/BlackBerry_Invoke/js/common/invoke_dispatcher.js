@@ -15,8 +15,8 @@
  */
 (function () {
 	
-	var MINI_BROKER_LOCATION = "blackberry/invoke";
-	var INVOKE_LOCATION = MINI_BROKER_LOCATION + "/invoke";
+	var INVOKE_API_URL = "blackberry/invoke";
+	var INVOKE_LOCATION = INVOKE_API_URL + "/invoke";
 	
 	var APP_TYPE = "appType";
 	
@@ -31,93 +31,76 @@
 	var APP_URL_UPDATE = "update://";
 
 	var APP_TYPE_ERROR = "appType not supported";
-	var APP_BROWSER_ERROR = "Protocol specified in the url is not supported."
+	var APP_BROWSER_ERROR = "Protocol specified in the url is not supported.";
 	
-	
-	if(!this.blackberry) {
-		return; //nothing to dispatch
+	function InvokeDispatcher() {
 	}
-
-	this.blackberry.invoke = {
-		//Override the delegates for each namespace method
-		dispatcher : {
 			
-			/*
-			 * Dispatch the properties
-			 */
-			 
-			"invoke" : function(appType, args) {
-				var uri = INVOKE_LOCATION;
-				var remote = new blackberry.transport.RemoteFunctionCall(uri);
+	InvokeDispatcher.prototype.invoke = function(appType, args) {
+		var uri = INVOKE_LOCATION;
+		var remote = new blackberry.transport.RemoteFunctionCall(uri);
+		
+		switch(appType) {
+			//Camera
+			case 4:
+				if(!args || args.view == 1)
+					remote.addParam(APP_TYPE, APP_URL_CAMERA_VIDEO);						
+				else
+					remote.addParam(APP_TYPE,APP_URL_CAMERA);
+				break;
 				
-				switch(appType){
+			//Maps
+			case 5:
+				remote.addParam(APP_TYPE,APP_URL_MAP);						
+				break;
 				
+			//Browser
+			case 11:	
+				
+				if(!args){
+					remote.addParam(APP_TYPE, APP_URL_BROWSER);
+				}						
+				else{
+					//Only http:// works to launch the browser
+					if(args.url.indexOf(APP_URL_BROWSER) != 0)
+						throw APP_BROWSER_ERROR;								
 					
-					//Camera
-					case 4:
-						
-						
-						
-						if(!args || args.view == 1)
-							remote.addParam(APP_TYPE, APP_URL_CAMERA_VIDEO);						
-						else
-							remote.addParam(APP_TYPE,APP_URL_CAMERA);
-						break;
-						
-					//Maps
-					case 5:
-						remote.addParam(APP_TYPE,APP_URL_MAP);						
-						break;
-						
-					//Browser
-					case 11:	
-						
-						if(!args){
-							remote.addParam(APP_TYPE, APP_URL_BROWSER);
-						}						
-						else{
-							//Only http:// works to launch the browser
-							if(args.url.indexOf(APP_URL_BROWSER) != 0)
-								throw APP_BROWSER_ERROR;								
-							
-							remote.addParam(APP_TYPE, args.url);							
-						}
-						
-						break;
-						
-					//Music
-					case 13:						
-						remote.addParam(APP_TYPE, APP_URL_MUSIC);
-						break;
-					
-					//Photos
-					case 14:
-						remote.addParam(APP_TYPE, APP_URL_PHOTOS);
-						break;
-					
-					//Videos
-					case 15:
-						remote.addParam(APP_TYPE, APP_URL_VIDEOS);
-						break;
-					
-					//AppWorld
-					case 16:
-						remote.addParam(APP_TYPE, APP_URL_APPWROLD);
-						break;
-					
-					//Update
-					case 17:
-						remote.addParam(APP_TYPE, APP_URL_UPDATE);
-						break;
-						
-					default:
-						throw APP_TYPE_ERROR;
+					remote.addParam(APP_TYPE, args.url);							
 				}
-				return remote.makeAsyncCall();
-			}			
+				
+				break;
+				
+			//Music
+			case 13:						
+				remote.addParam(APP_TYPE, APP_URL_MUSIC);
+				break;
 			
+			//Photos
+			case 14:
+				remote.addParam(APP_TYPE, APP_URL_PHOTOS);
+				break;
 			
+			//Videos
+			case 15:
+				remote.addParam(APP_TYPE, APP_URL_VIDEOS);
+				break;
 			
+			//AppWorld
+			case 16:
+				remote.addParam(APP_TYPE, APP_URL_APPWROLD);
+				break;
+			
+			//Update
+			case 17:
+				remote.addParam(APP_TYPE, APP_URL_UPDATE);
+				break;
+				
+			default:
+				throw APP_TYPE_ERROR;
 		}
-	};	
+		
+		return remote.makeAsyncCall();
+	}
+	
+	blackberry.Loader.javascriptLoaded("blackberry.invoke", InvokeDispatcher);
 })();

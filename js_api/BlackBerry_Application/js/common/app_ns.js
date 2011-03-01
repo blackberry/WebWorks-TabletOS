@@ -13,40 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function () {
-	//We will not attach ourselves if the blackberry namespace doesn't exist
-	if(!this.blackberry) {
-		return;
-	}
-	
-	var bb = this.blackberry;
-	var disp = this.blackberry.app.dispatcher;
-	var oldApp = this.blackberry.app;
-	
-	bb.app = {
+(function(){
+	function Application(disp) {
+
+		if(typeof disp == 'undefined') {
+			throw new Error('Dispatcher required for API initialization');
+		}
+		
+		this.constructor.prototype.exit = function() { return disp.exit(); };
 		
 		/*
-		 * This function will cause the application to exit.
-		 */
-		exit : disp.exit,
+		 * Getters for read-only properties
+		*/
 		
+		this.constructor.prototype.__defineGetter__("author", disp.author);
+		this.constructor.prototype.__defineGetter__("authorEmail", disp.authorEmail);
+		this.constructor.prototype.__defineGetter__("authorURL", disp.authorURL);
+		this.constructor.prototype.__defineGetter__("copyright", disp.copyright);
+		this.constructor.prototype.__defineGetter__("description", disp.description);
+		this.constructor.prototype.__defineGetter__("id", disp.id);
+		this.constructor.prototype.__defineGetter__("license", disp.license);
+		this.constructor.prototype.__defineGetter__("licenseURL", disp.licenseURL);
+		this.constructor.prototype.__defineGetter__("name", disp.name);
+		this.constructor.prototype.__defineGetter__("version", disp.version); 
 	};
-	
-	/*
-	 * Getters for read-only properties
-	 */
-	bb.app.__defineGetter__("author", disp.author);
-	bb.app.__defineGetter__("authorEmail", disp.authorEmail);
-	bb.app.__defineGetter__("authorURL", disp.authorURL);
-	bb.app.__defineGetter__("copyright", disp.copyright);
-	bb.app.__defineGetter__("description", disp.description);
-	bb.app.__defineGetter__("id", disp.id);
-	bb.app.__defineGetter__("license", disp.license);
-	bb.app.__defineGetter__("licenseURL", disp.licenseURL);
-	bb.app.__defineGetter__("name", disp.name);
-	bb.app.__defineGetter__("version", disp.version);
-	
-	if(oldApp) {
-		this.blackberry.app.event = oldApp.event;
-	}
-})();
+
+	blackberry.Loader.javascriptLoaded("blackberry.app", Application);
+}());

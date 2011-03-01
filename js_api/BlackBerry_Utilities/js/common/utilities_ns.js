@@ -14,42 +14,37 @@
  * limitations under the License.
  */
 (function () {
-	//We will not attach ourselves if the blackberry namespace doesn't exist
-	if(!this.blackberry) {
-		return;
+	
+	function Utils(disp) {
 	}
 	
-	var bb = this.blackberry;
-	
-	bb.utils = {
-		parseURL : function (theUrl) {
-			
-			/********START IDEA BORROWING*******/
-			// parseUri 1.2.2
-			// (c) Steven Levithan <stevenlevithan.com>
-			// MIT License
+	Utils.prototype.parseURL = function (theUrl) {
+		/********START IDEA BORROWING*******/
+		// parseUri 1.2.2
+		// (c) Steven Levithan <stevenlevithan.com>
+		// MIT License
 
-			function parseUri (str) {
-				var	o   = parseUri.options,
-					m   = o.parser[o.strictMode ? "strict" : "loose"].exec(str),
-					uri = {},
-					i   = 14;
+		function parseUri (str) {
+			var	o   = parseUri.options,
+				m   = o.parser[o.strictMode ? "strict" : "loose"].exec(str),
+				uri = {},
+				i   = 14;
 
-				while (i--) uri[o.key[i]] = m[i] || "";
+			while (i--) uri[o.key[i]] = m[i] || "";
 
-				uri[o.q.name] = {};
-				uri[o.q.arrayName] = new Array();
-				uri[o.key[12]].replace(o.q.parser, function ($0, $1, $2) {
-					if ($1) {
-						uri[o.q.name][$1] = $2;
-						uri[o.q.arrayName].push($2);
-					}
-				});
+			uri[o.q.name] = {};
+			uri[o.q.arrayName] = new Array();
+			uri[o.key[12]].replace(o.q.parser, function ($0, $1, $2) {
+				if ($1) {
+					uri[o.q.name][$1] = $2;
+					uri[o.q.arrayName].push($2);
+				}
+			});
 
-				return uri;
-			};
+			return uri;
+		};
 
-			parseUri.options = {
+		parseUri.options = {
 				strictMode: false,
 				key: ["source","protocol","authority","userInfo","user","password","host","port","relative","path","directory","file","query","anchor"],
 				q:   {
@@ -62,36 +57,38 @@
 					loose:  /^(?:(?![^:@]+:[^:@\/]*@)([^:\/?#.]+):)?(?:\/\/)?((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/
 				}
 			};
-			/********END IDEA BORROWING*******/
-			
-			parseUri.strictMode = "strict"; 
-			var uri = parseUri(theUrl);
-			var retVal = {
-				getURLParameter : function(key) {
-					return uri.queryKey[key];
-				},
-				
-				getURLParameterByIndex : function(index) {
-					return uri.queryArray[index];
-				}
-			};
-			if (uri["port"]=="")
-			{
-        if (uri["protocol"] == "http") {
-          uri["port"]="80";
-        }
-        if (uri["protocol"] == "https") {
-          uri["port"]="443";
-        }
-			}
-			retVal.__defineGetter__("host", function() { return uri["host"]; });
-			retVal.__defineGetter__("port", function() { return parseInt(uri["port"]); });
-			
-			return retVal;
-		},
+		/********END IDEA BORROWING*******/
 		
-		generateUniqueId : function() {
-			return Math.floor(Math.random() * Number.MAX_VALUE);
+		parseUri.strictMode = "strict"; 
+		var uri = parseUri(theUrl);
+		
+		//Add default values for the http/https port if they weren't specified in the URL. The above parser returns undefined. We need the values
+		//to be compatible with the BB version of API.
+		if (uri["port"]=="") {
+			if (uri["protocol"] == "http") uri["port"]="80";
+			
+			if (uri["protocol"] == "https") uri["port"]="443";
 		}
+		
+		var retVal = {
+			getURLParameter : function(key) {
+				return uri.queryKey[key];
+			},
+			
+			getURLParameterByIndex : function(index) {
+				return uri.queryArray[index];
+			}
+		};
+		
+		retVal.__defineGetter__("host", function() { return uri["host"]; });
+		retVal.__defineGetter__("port", function() { return parseInt(uri["port"]); });
+		
+		return retVal;
+	};
+	
+	Utils.prototype.generateUniqueId = function() {
+		return Math.floor(Math.random() * Number.MAX_VALUE);
 	}
-})();
+	
+	blackberry.Loader.loadApi("blackberry.utils", Utils);
+}());

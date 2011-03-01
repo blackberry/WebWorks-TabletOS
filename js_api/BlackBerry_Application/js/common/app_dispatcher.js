@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function () {
+(function() {
 	var APPLICATION_URL = "blackberry/app";
-	
+		
 	var APP_AUTHOR = "author";
 	var APP_AUTHOR_EMAIL = "authorEmail";
 	var APP_AUTHOR_URL = "authorURL";
@@ -28,67 +28,57 @@
 	var APP_VERSION = "version";
 	var APP_EXIT = "exit";
 	
-	if(!this.blackberry) {
-		return; //nothing to dispatch
-	}
-	
 	function makeAppCall(uri) {
 		var recall = new blackberry.transport.RemoteFunctionCall(APPLICATION_URL + "/" + uri);
 		return recall.makeSyncCall();
-	} 
-	
-	var oldApp = this.blackberry.app;
-	
-	this.blackberry.app = {
-		//Override the delegates for each namespace method
-		dispatcher : {	
-			
-			
-			/*
-			 * Dispatch the properties
-			 */
-			"author" : function() {
-				return makeAppCall(APP_AUTHOR);
-			},
-			"authorEmail" : function() {
-				return makeAppCall(APP_AUTHOR_EMAIL);
-			},
-			"authorURL" : function() {
-				return makeAppCall(APP_AUTHOR_URL);
-			},
-			"copyright" : function() {
-				return makeAppCall(APP_COPYRIGHT);
-			},
-			"description" : function() {
-				return makeAppCall(APP_DESCRIPTION);
-			},
-			"id" : function() {
-				return makeAppCall(APP_ID);
-			},
-			"license" : function() {
-				return makeAppCall(APP_LICENCE);
-			},
-			"licenseURL" : function() {
-				return makeAppCall(APP_LICENCE_URL);
-			},
-			"name" : function() {
-				return makeAppCall(APP_NAME);
-			},
-			"version" : function() {
-				return makeAppCall(APP_VERSION);
-			},
-			
-			/*
-			 * Dispatch the functions
-			 */
-			"exit" : function() {
-				return makeAppCall(APP_EXIT);
-			}
-		
-		}
-	};
-	
-	if(oldApp) {
-		this.blackberry.app.event = oldApp.event;
 	}
-})();
+		
+	function ApplicationDispatcher() { 
+	}
+		
+	ApplicationDispatcher.prototype.author = function() {
+		return makeAppCall(APP_AUTHOR);
+	}
+			
+	ApplicationDispatcher.prototype.authorEmail = function() {
+		return makeAppCall(APP_AUTHOR_EMAIL);
+	}
+	
+	ApplicationDispatcher.prototype.authorURL = function() {
+		return makeAppCall(APP_AUTHOR_URL);
+	}
+			
+	ApplicationDispatcher.prototype.copyright = function() {
+		return makeAppCall(APP_COPYRIGHT);
+	}
+			
+	ApplicationDispatcher.prototype.description = function() {
+		return makeAppCall(APP_DESCRIPTION);
+	}
+			
+	ApplicationDispatcher.prototype.id = function() {
+		return makeAppCall(APP_ID);
+	}
+	
+	ApplicationDispatcher.prototype.license = function() {
+		return makeAppCall(APP_LICENCE);
+	}
+	
+	ApplicationDispatcher.prototype.licenseURL = function() {
+		return makeAppCall(APP_LICENCE_URL);
+	}
+	
+	ApplicationDispatcher.prototype.name = function() {
+		return makeAppCall(APP_NAME);
+	}
+	
+	ApplicationDispatcher.prototype.version = function() {
+		return makeAppCall(APP_VERSION);
+	}
+			
+	ApplicationDispatcher.prototype.exit = function() {
+		return makeAppCall(APP_EXIT);
+	}
+
+	blackberry.Loader.javascriptLoaded("blackberry.app", ApplicationDispatcher);
+}());

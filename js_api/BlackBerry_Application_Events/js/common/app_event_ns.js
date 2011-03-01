@@ -14,31 +14,20 @@
  * limitations under the License.
  */
 (function () {
-	//We will not attach ourselves if the blackberry namespace doesn't exist
 	
-	if(!this.blackberry) {
-		return;
-	}
-	
-	var bb = this.blackberry;
-	
-	if(!this.blackberry.app) {
-		this.blackberry.app = {};
-	}
-	
-	var disp = this.blackberry.app.event.dispatcher;	
-	
-	this.blackberry.app.event = {
-		onBackground : disp.onBackground,
-		
-		onForeground : disp.onForeground,
-		
-		onSwipeDown : disp.onSwipeDown,
-		
-		onSwipeStart : disp.onSwipeStart,
-		
-		lockOrientation : disp.lockOrientation
-	};
-	
+	function ApplicationEvents(disp) {
 
+		this.constructor.prototype.lockOrientation = function() { return disp.lockOrientation(); };
+		
+		this.constructor.prototype.onBackground = function(onClickHandler) { return disp.onBackground(onClickHandler); };
+		
+		this.constructor.prototype.onForeground = function(onClickHandler) { return disp.onForeground(onClickHandler); };
+		
+		this.constructor.prototype.onSwipeDown = function(onClickHandler) { return disp.onSwipeDown(onClickHandler); };
+		
+		this.constructor.prototype.onSwipeStart = function(onClickHandler) { return disp.onSwipeStart(onClickHandler); };
+		
+	}
+	
+	blackberry.Loader.javascriptLoaded("blackberry.app.event", ApplicationEvents);
 })();
