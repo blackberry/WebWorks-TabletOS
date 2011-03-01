@@ -148,7 +148,14 @@ package webworks
 			// load the workaround js
 			loadWorkarounds();
 			
+			//Finally delete the loader from the blackberry namespace to avoid polluting
+			removeLoader();
+			
 			dispatchEvent(event);
+		}
+		
+		private function removeLoader():void {
+			webkitControl.executeJavaScript('delete blackberry.Loader');
 		}
 		
 		/*
