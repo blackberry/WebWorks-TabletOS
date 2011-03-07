@@ -15,37 +15,26 @@
 */
 
 (function () {
-	//We will not attach ourselves if the blackberry namespace doesn't exist
-
-	if(!this.blackberry) {
-		return;
-	}
 	
-	var bb = this.blackberry;
-	
-	if(!this.blackberry.ui) {
-		this.blackberry.ui = {};
-	}
-	
-	var disp = this.blackberry.ui.dialog.dispatcher;
-	
-	this.blackberry.ui.dialog = {
-		customAsk : disp.customAsk,
+	function Dialog(disp) {
+		this.constructor.prototype.customAsk = function(message, buttons, onClickHandler, settings) { return disp.customAsk(message, buttons, onClickHandler, settings); };
 		
-		standardAsk : disp.standardAsk
-	};
+		this.constructor.prototype.standardAsk = function(message, dialogType, onClickHandler, settings) { return disp.standardAsk(message, dialogType, onClickHandler, settings); };
+	}
 	
-	blackberry.ui.dialog.__defineGetter__("D_OK", function() { return 0; });
-	blackberry.ui.dialog.__defineGetter__("D_SAVE", function() { return 1; });
-	blackberry.ui.dialog.__defineGetter__("D_DELETE", function() { return 2; });
-	blackberry.ui.dialog.__defineGetter__("D_YES_NO", function() { return 3; });
-	blackberry.ui.dialog.__defineGetter__("D_OK_CANCEL", function() { return 4; });
-    blackberry.ui.dialog.__defineGetter__("BOTTOM", function() { return "bottomCenter"; });
-	blackberry.ui.dialog.__defineGetter__("CENTER", function() { return "middleCenter"; });
-	blackberry.ui.dialog.__defineGetter__("TOP", function() { return "topCenter"; });
-	blackberry.ui.dialog.__defineGetter__("SIZE_FULL", function() { return "full"; });
-	blackberry.ui.dialog.__defineGetter__("SIZE_LARGE", function() { return "large"; });
-	blackberry.ui.dialog.__defineGetter__("SIZE_MEDIUM", function() { return "medium"; });
-	blackberry.ui.dialog.__defineGetter__("SIZE_SMALL", function() { return "small"; });
-	blackberry.ui.dialog.__defineGetter__("SIZE_TALL", function() { return "tall"; });
+	Dialog.prototype.__defineGetter__("D_OK", function() { return 0; });
+	Dialog.prototype.__defineGetter__("D_SAVE", function() { return 1; });
+	Dialog.prototype.__defineGetter__("D_DELETE", function() { return 2; });
+	Dialog.prototype.__defineGetter__("D_YES_NO", function() { return 3; });
+	Dialog.prototype.__defineGetter__("D_OK_CANCEL", function() { return 4; });
+	Dialog.prototype.__defineGetter__("BOTTOM", function() { return "bottomCenter"; });
+	Dialog.prototype.__defineGetter__("CENTER", function() { return "middleCenter"; });
+	Dialog.prototype.__defineGetter__("TOP", function() { return "topCenter"; });
+	Dialog.prototype.__defineGetter__("SIZE_FULL", function() { return "full"; });
+	Dialog.prototype.__defineGetter__("SIZE_LARGE", function() { return "large"; });
+	Dialog.prototype.__defineGetter__("SIZE_MEDIUM", function() { return "medium"; });
+	Dialog.prototype.__defineGetter__("SIZE_SMALL", function() { return "small"; });
+	Dialog.prototype.__defineGetter__("SIZE_TALL", function() { return "tall"; });
+	
+	blackberry.Loader.javascriptLoaded("blackberry.ui.dialog", Dialog);
 })();

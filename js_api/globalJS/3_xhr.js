@@ -61,7 +61,8 @@
 			 * Public members
 			 */
 			this.addParam = function(name, value) {
-				params[name] = encodeURIComponent(value);
+				
+				params[name] = encodeURIComponent(JSON.stringify(value));
 			};
 			
 			this.makeSyncCall = function() {

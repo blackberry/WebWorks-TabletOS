@@ -29,5 +29,10 @@
 			<api>blackberry.utils</api>
 		</item>
 		
+		
+		<item topic="Payment"  safeName="Payment" >
+			<api>blackberry.payment</api>
+		</item>
+		
 	</section>
 </toc>

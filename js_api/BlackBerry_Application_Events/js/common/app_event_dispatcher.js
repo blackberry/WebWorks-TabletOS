@@ -14,56 +14,39 @@
  * limitations under the License.
  */
 (function () {
-	var MINI_BROKER_LOCATION = "blackberry/app/event";
-	
-	
-	if(!this.blackberry) {
-		return; //nothing to dispatch
-	}
-	
-	if(!this.blackberry.app) {
-		this.blackberry.app = {};
-	}
+	var APPLICATION_EVENTS_URL = "blackberry/app/event";
 	
 	function addEvent(eventType, onClickHandler) {
-		//alert(eventType);
-		
 		var onClickHandlerId = blackberry.events.registerEventHandler("onClick", onClickHandler);
 		
-		var request = new blackberry.transport.RemoteFunctionCall(MINI_BROKER_LOCATION + "/" + eventType);
+		var request = new blackberry.transport.RemoteFunctionCall(APPLICATION_EVENTS_URL + "/" + eventType);
 		request.addParam("onClick", onClickHandlerId);
 		request.makeAsyncCall(); //don't care about the return value
 	}
 	
+	function ApplicationEventsDispatcher() {
+	}
+		
+	ApplicationEventsDispatcher.prototype.onBackground = function(onClickHandler) {
+		addEvent("onBackground",onClickHandler);
+	};
+		
+	ApplicationEventsDispatcher.prototype.onForeground = function(onClickHandler) {
+		addEvent("onForeground",onClickHandler);
+	};
 	
-	this.blackberry.app.event = {
-		//Override the delegates for each namespace method
-			
-		dispatcher : {
-			"onBackground" : function(onClickHandler) {
-				addEvent("onBackground",onClickHandler);
-			},
-			
-			"onForeground" : function(onClickHandler) {
-				addEvent("onForeground",onClickHandler);
-			},
-			
-			"onSwipeDown" : function(onClickHandler) {
-				addEvent("onSwipeDown",onClickHandler);
-			},
-			
-			"onSwipeStart" : function(onClickHandler) {
-				alert("in swipeStart");
-				addEvent("onSwipeStart",onClickHandler);
-			},
-			
-			"lockOrientation" : function() {
-				alert("in lockOrientation");
-				var request = new blackberry.transport.RemoteFunctionCall(MINI_BROKER_LOCATION + "/" + "lockOrientation");
-				request.makeAsyncCall(); //don't care about the return value
-			}
-		}
-	};	
+	ApplicationEventsDispatcher.prototype.onSwipeDown = function(onClickHandler) {
+		addEvent("onSwipeDown",onClickHandler);
+	};
+		
+	ApplicationEventsDispatcher.prototype.onSwipeStart = function(onClickHandler) {
+		addEvent("onSwipeStart",onClickHandler);
+	};
+		
+	ApplicationEventsDispatcher.prototype.lockOrientation = function() {
+		var request = new blackberry.transport.RemoteFunctionCall(APPLICATION_EVENTS_URL + "/" + "lockOrientation");
+		request.makeAsyncCall(); //don't care about the return value
+	};
 	
-
+	blackberry.Loader.javascriptLoaded("blackberry.app.event", ApplicationEventsDispatcher);
 })();

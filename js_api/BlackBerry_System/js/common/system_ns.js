@@ -14,21 +14,8 @@
  * limitations under the License.
  */
 (function () {
-	//We will not attach ourselves if the blackberry namespace doesn't exist
-	if(!this.blackberry) {
-		return;
-	}
 	
-	var bb = this.blackberry;
-	var disp = this.blackberry.system.dispatcher;
-	
-	if(!this.blackberry.system) {
-		this.blackberry.system = {};
-	}
-	
-	var oldSystem = this.blackberry.system;
-	
-	this.blackberry.system = {
+	function System(disp) {
 		/*
 		 * The function will check the capability String passed through the capability argument. The possible capabilities are:
 		 * input.keyboard.issuretype 
@@ -49,40 +36,35 @@
 		 * @return {Boolean} Returns true if the capability is supported.
 		 */
 			
-		hasCapability : disp.hasCapability,
+		this.constructor.prototype.hasCapability = function(desiredCapability) { return disp.hasCapability(desiredCapability); }
 		
-		hasDataCoverage : disp.hasDataCoverage,
+		this.constructor.prototype.hasDataCoverage = function() { return disp.hasDataCoverage(); };
 		
-		hasPermission : disp.hasPermission,
+		this.constructor.prototype.hasPermission = function(desiredModule) { return disp.hasPermission(desiredModule); };
 		
-		isMassStorageActive : disp.isMassStorageActive,
+		this.constructor.prototype.isMassStorageActive = function() { return disp.isMassStorageActive(); };
+		
+		/*
+		 * Getters for public static properties
+		 */
+		this.constructor.prototype.__defineGetter__("model", function() { return disp.model; });
+		this.constructor.prototype.__defineGetter__("scriptApiVersion", function() { return disp.scriptApiVersion; });
+		this.constructor.prototype.__defineGetter__("softwareVersion", function() { return disp.softwareVersion; });
 		
 		//Temporary fix for sync function call - to be removed
-		dataCoverage : false,
+		this.dataCoverage = false;
 		
 		//Temporary fix for sync function call - to be removed
-		accessList : []
-		
+		this.accessList = [];
 	};
 	
-	if(oldSystem) {
-		this.blackberry.system.event = oldSystem.event;
-	}
-	
 	/*
-	 * Define constants that will be returned by the hasPermission() method. 
+	 * Define public static constants that will be returned by the hasPermission() method. 
 	 */
-	bb.system.__defineGetter__("ALLOW", function() { return 0; });
-	bb.system.__defineGetter__("DENY", function() { return 1; });
-	bb.system.__defineGetter__("PROMPT", function() { return 2; });
-	bb.system.__defineGetter__("NOT_SET", function() { return 3; });
+	System.prototype.__defineGetter__("ALLOW", function() { return 0; });
+	System.prototype.__defineGetter__("DENY", function() { return 1; });
+	System.prototype.__defineGetter__("PROMPT", function() { return 2; });
+	System.prototype.__defineGetter__("NOT_SET", function() { return 3; });
 	
-	/*
-	 * Getters for read-only properties
-	 */
-	bb.system.__defineGetter__("model", disp.model);
-	bb.system.__defineGetter__("scriptApiVersion", disp.scriptApiVersion);
-	bb.system.__defineGetter__("softwareVersion", disp.softwareVersion);
-	
-	
+	blackberry.Loader.javascriptLoaded("blackberry.system", System);
 })();

@@ -7,6 +7,7 @@
 		<libraryPath>/BlackBerry_System_Events</libraryPath>
 		<libraryPath>/BlackBerry_Ui</libraryPath>
 		<libraryPath>/BlackBerry_Utilities</libraryPath>
+		<libraryPath>/BlackBerry_Payment</libraryPath>
 	</libraries>
 	<settings>
 		<libraryName>library.xml</libraryName>
