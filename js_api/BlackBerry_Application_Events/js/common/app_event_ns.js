@@ -16,8 +16,6 @@
 (function () {
 	
 	function ApplicationEvents(disp) {
-
-		this.constructor.prototype.lockOrientation = function() { return disp.lockOrientation(); };
 		
 		this.constructor.prototype.onBackground = function(onClickHandler) { return disp.onBackground(onClickHandler); };
 		
