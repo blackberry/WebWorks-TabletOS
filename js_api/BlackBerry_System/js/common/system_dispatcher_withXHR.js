@@ -14,14 +14,10 @@
  * limitations under the License.
  */
 (function () {
-	var SYSTEM_URL = "blackberry/system";
-	
-	if(!this.blackberry) {
-		return; //nothing to dispatch
-	}
+	var SYSTEM_API_URL = "blackberry/system";
 	
 	function makeCall(toFunction, functionArgs) {
-		var request = new blackberry.transport.RemoteFunctionCall(SYSTEM_URL + "/" + toFunction);
+		var request = new blackberry.transport.RemoteFunctionCall(SYSTEM_API_URL + "/" + toFunction);
 		
 		if(functionArgs) {
 			for(var name in functionArgs) {
@@ -32,30 +28,28 @@
 		return request.makeSyncCall(); //don't care about the return value
 	}
 
-	this.blackberry.system = {
-		//Override the delegates for each namespace method
-		dispatcher : {
-			"model" : function() {
-				return makeCall("model");
-			},
-			"scriptApiVersion" : function() {
-				return makeCall("scriptApiVersion");
-			},
-			"softwareVersion" : function() {
-				return makeCall("softwareVersion"); 
-			},
-			"hasCapability" : function(desiredCapability) {
-				return makeCall("hasCapability", {capability : desiredCapability}); 
-			},
-			"hasDataCoverage" : function() {
-				return makeCall("hasDataCoverage");
-			},
-			"hasPermission" : function(desiredModule) {
-				return makeCall("hasPermission", {module : desiredModule}); 
-			},
-			"isMassStorageActive" : function() {
-				return makeCall("isMassStorageActive");
-			}
-		}
-	};	
+	function SystemDispatcher() {
+	};
+
+	SystemDispatcher.prototype.__defineGetter__("model", function() { makeCall("model"); });
+	SystemDispatcher.prototype.__defineGetter__("scriptApiVersion", function() { makeCall("scriptApiVersion"); });
+	SystemDispatcher.prototype.__defineGetter__("softwareVersion", function() { makeCall("softwareVersion"); });
+	
+	SystemDispatcher.prototype.hasCapability = function(desiredCapability) {
+		return makeCall("hasCapability", {capability : desiredCapability}); 
+	};
+	
+	SystemDispatcher.prototype.hasDataCoverage = function() {
+		return makeCall("hasDataCoverage");
+	};
+	
+	SystemDispatcher.prototype.hasPermission = function(desiredModule) {
+		return makeCall("hasPermission", {module : desiredModule}); 
+	};
+	
+	SystemDispatcher.prototype.isMassStorageActive = function() {
+		return makeCall("isMassStorageActive");
+	};
+	
+	blackberry.Loader.javascriptLoaded("blackberry.system", SystemDispatcher);
 })();

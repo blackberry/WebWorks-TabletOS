@@ -15,7 +15,7 @@
 */
 
 (function () {
-	var DIALOG_URL = "blackberry/ui/dialog";
+	var DIALOG_API_URL = "blackberry/ui/dialog";
 	
 	var ARGS_MESSAGE = "message";
 	var ARGS_BUTTONS = "buttons";
@@ -24,15 +24,6 @@
 	var ARGS_POSITION = "position";
 	
 	var ARGS_ON_CLICK_HANDLER_ID = "onClickHandlerId";
-	
-	
-	if(!this.blackberry) {
-		return; //nothing to dispatch
-	}
-	
-	if(!this.blackberry.ui) {
-		this.blackberry.ui = {};
-	}
 	
 	function getButtonsForDialogType(dialogType) {
 		switch(dialogType) {
@@ -72,7 +63,7 @@
 	}
 	
 	function generateRequest(message, buttonList, onClickHandlerId, settings) {
-		var remoteCall = new blackberry.transport.RemoteFunctionCall(DIALOG_URL + "/ask");
+		var remoteCall = new blackberry.transport.RemoteFunctionCall(DIALOG_API_URL + "/ask");
 		remoteCall.addParam(ARGS_MESSAGE, message); 
 		remoteCall.addParam(ARGS_BUTTONS, buttonList);
 		remoteCall.addParam(ARGS_ON_CLICK_HANDLER_ID, onClickHandlerId);
@@ -103,18 +94,17 @@
 		return generateRequest(message, buttonList, onClickId, settings);
 	}
 	
-	this.blackberry.ui.dialog = {
-		//Override the delegates for each namespace method
-		dispatcher : {
-		
-			"customAsk" : function(message, buttons, onClickHandler, settings) {
-				requestDialog(message, buttons, onClickHandler, settings).makeAsyncCall();
-			},
+	function DialogDispatcher() {
+	}
+	
+	DialogDispatcher.prototype.customAsk = function(message, buttons, onClickHandler, settings) {
+		requestDialog(message, buttons, onClickHandler, settings).makeAsyncCall();
+	};
 			
-			"standardAsk" : function(message, dialogType, onClickHandler, settings) {
-				var buttons = getButtonsForDialogType(dialogType);
-				requestDialog(message, buttons, onClickHandler, settings).makeAsyncCall();
-			}
-		}
-	};	
+	DialogDispatcher.prototype.standardAsk = function(message, dialogType, onClickHandler, settings) {
+		var buttons = getButtonsForDialogType(dialogType);
+		requestDialog(message, buttons, onClickHandler, settings).makeAsyncCall();
+	}
+
+	blackberry.Loader.javascriptLoaded("blackberry.ui.dialog", DialogDispatcher);	
 })();
