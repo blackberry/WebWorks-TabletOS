@@ -87,10 +87,6 @@ package blackberry.applicationEvents
 			QNXApplication.qnxApplication.addEventListener(QNXApplicationEvent.SWIPE_START,swipeStart);	
 		}
 		
-		public function lockOrientation():void{
-			//webView.stage.addEventListener(StageOrientationEvent.ORIENTATION_CHANGING, preventOrientationChanging );
-		}
-		
 		public function activate(event:Event):void{
 			this.evalJavaScriptEvent(javaScriptOnForeground,new Array());
 		}
@@ -105,10 +101,6 @@ package blackberry.applicationEvents
 		
 		public function swipeStart(event:QNXApplicationEvent):void{
 			this.evalJavaScriptEvent(javaScriptOnSwipeStart,new Array());	
-		}	
-		
-		public function preventOrientationChanging(event:StageOrientationEvent):void{
-			event.preventDefault();
 		}
 		
 	}

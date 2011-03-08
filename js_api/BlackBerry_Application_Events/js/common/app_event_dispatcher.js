@@ -42,11 +42,6 @@
 	ApplicationEventsDispatcher.prototype.onSwipeStart = function(onClickHandler) {
 		addEvent("onSwipeStart",onClickHandler);
 	};
-		
-	ApplicationEventsDispatcher.prototype.lockOrientation = function() {
-		var request = new blackberry.transport.RemoteFunctionCall(APPLICATION_EVENTS_URL + "/" + "lockOrientation");
-		request.makeAsyncCall(); //don't care about the return value
-	};
 	
 	blackberry.Loader.javascriptLoaded("blackberry.app.event", ApplicationEventsDispatcher);
 })();
