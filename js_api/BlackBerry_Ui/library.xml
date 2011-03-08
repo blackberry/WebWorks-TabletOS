@@ -68,7 +68,7 @@
 			<param name="message" type="String" comment="Message to be displayed in the dialog." />
 			<param name="type" type="Number" comment="Parameter that specifies the type of standard dialog. Constants starting with D_*." />
 			<param name="onOptionSelected" type="OnOptionSelectedCallback" comment="Optional callback function that will be invoked when the user makes a selection." />
-			<param name="settings" type="String" comment= "Optional Object literal that allows the user to manipulate the size, location and title of the dialog. It is not required to provide all parameters, and these do not have to be specified in any particular order."/>
+			<param name="settings" type="Object" comment= "Optional Object literal that allows the user to manipulate the size, location and title of the dialog. It is not required to provide all parameters, and these do not have to be specified in any particular order."/>
 		</func>
 		
 		<func name="customAsk" returns="void" static="true" comment="Creates a custom dialog to ask the user a question.">
@@ -77,7 +77,7 @@
 			<param name="message" type="String" comment="Message to be displayed in the dialog." />
 			<param name="buttons" type="String" array="true" comment="Array of string choices that will be presented to the user in the form of buttons." />
 			<param name="onOptionSelected" type="OnOptionSelectedCallback" comment="Optional callback function that will be invoked when the user makes a selection." />
-			<param name="settings" type="String" comment="Optional Object literal that allows the user to manipulate the size, location and title of the dialog. It is not required to provide all parameters, and these do not have to be specified in any particular order." />
+			<param name="settings" type="Object" comment="Optional Object literal that allows the user to manipulate the size, location and title of the dialog. It is not required to provide all parameters, and these do not have to be specified in any particular order." />
 		</func>
     </functions>
   
