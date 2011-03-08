@@ -20,6 +20,7 @@ package webworks.webkit
 	import flash.events.Event;
 	import flash.events.LocationChangeEvent;
 	import flash.geom.Rectangle;
+	import flash.net.URLRequestHeader;
 	import flash.utils.*;
 	
 	import qnx.display.IowWindow;
@@ -27,6 +28,7 @@ package webworks.webkit
 	import qnx.events.NetworkResourceRequestedEvent;
 	import qnx.events.UnknownProtocolEvent;
 	import qnx.events.WebViewEvent;
+	import qnx.events.WindowObjectClearedEvent;
 	import qnx.media.QNXStageWebView;
 	
 	import webworks.JavaScriptLoader;
@@ -62,14 +64,14 @@ package webworks.webkit
 			javascriptLoader = new JavaScriptLoader(this);
 			
 			// set custom headers
-			var customHeadersString:String = "";
-			var customHeaders:Object = ConfigData.getInstance().getProperty(ConfigConstants.CUSTOMHEADERS);
-			for (var customName:String in customHeaders) {
-				customHeadersString += customName + ":" + customHeaders[customName] + " ";
+			var customHeaders:Vector.<URLRequestHeader> = new Vector.<URLRequestHeader>();
+			var customHeadersConfig:Object = ConfigData.getInstance().getProperty(ConfigConstants.CUSTOMHEADERS);
+			for (var customName:String in customHeadersConfig) {
+				customHeaders.push(new URLRequestHeader(customName, customHeadersConfig[customName]));
 			}
 			
-			if(customHeadersString.length > 0) {
-				webView.customHTTPHeaders = customHeadersString;
+			if(customHeaders.length > 0) {
+				webView.customHTTPHeaders = customHeaders;
 			}
 			
 			webView.addEventListener(ErrorEvent.ERROR, loadError);
@@ -80,7 +82,7 @@ package webworks.webkit
             webView.addEventListener(WebViewEvent.CREATED, htmlEventBrowserCreated);
 			webView.addEventListener(NetworkResourceRequestedEvent.NETWORK_RESOURCE_REQUESTED, networkResourceRequested);
 			webView.addEventListener(UnknownProtocolEvent.UNKNOWN_PROTOCOL, handleUnknownProtocol);
-			webView.addEventListener(WebViewEvent.JAVA_SCRIPT_WINDOW_OBJECT_CLEARED, onJavaScriptWindowObjectCleared);	
+			webView.addEventListener(WindowObjectClearedEvent.WINDOW_OBJECT_CLEARED, onJavaScriptWindowObjectCleared);
 		}		
 		
 
@@ -88,14 +90,12 @@ package webworks.webkit
 		{
 			trace("networkResourceRequested: " + event.url);
 			dispatchEvent(new WebkitEvent(WebkitEvent.TAB_NETWORKRESOURCEREQUESTED, event.url));
-			//Utilities.alert("networkResourceRequested: " + event.url, webView);
 		}
 		
 		private function handleUnknownProtocol(event:UnknownProtocolEvent):void
 		{
 			trace("handleUnknownProtocol: " + event.url);
-			dispatchEvent(new WebkitEvent(WebkitEvent.TAB_UNKNOWNPROTOCOL, event.url));
-			//Utilities.alert("handleUnknownProtocol: " + event.url, webView);
+			dispatchEvent(new WebkitEvent(WebkitEvent.TAB_UNKNOWNPROTOCOL, event));
 		}		
 		
 		private function loadComplete(event:Event):void
@@ -166,9 +166,11 @@ package webworks.webkit
 			return webView;
 		}
 
-		private function onJavaScriptWindowObjectCleared(event:WebViewEvent):void{
+		private function onJavaScriptWindowObjectCleared(event:WindowObjectClearedEvent):void{
+			
 			event.preventDefault();
 			javascriptLoader.registerJavaScript(webView.location, event);
+			trace("window object cleared event");
 		}
 	}
 }

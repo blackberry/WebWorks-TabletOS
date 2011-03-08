@@ -51,9 +51,9 @@ import net.rim.tumbler.xml.XMLParser;
 public class WidgetPackager {
     
     
-    public static final String[] STANDARD_OUTPUTS = new String[] { ".cod",
+    private static final String[] STANDARD_OUTPUTS = new String[] { ".cod",
             ".alx", ".cso", ".csl" };
-    public static final String[] OTA_OUTPUTS = new String[] { ".cod", ".jad" };
+    private static final String[] OTA_OUTPUTS = new String[] { ".cod", ".jad" };
 
     // TODO: retrieve from logger
     public static final String BLACKBERRY_WIDGET_PORTAL_URL = "http://www.blackberry.com/developers/widget/";
@@ -150,8 +150,16 @@ public class WidgetPackager {
             
                 // *** just for demo purposes, we HARD CODE THE SOURCE PATH ***
                 Logger.logMessage(LogType.INFO, "PROGRESS_PACKAGING");
-                new AirPackager(bbwpProperties, config).run();
-                Logger.logMessage(LogType.INFO, "PACKAGING_COMPLETE");
+                AirPackager packager = new AirPackager(bbwpProperties, config);
+                int ret = packager.run();
+                if (ret==0)
+                {
+                	Logger.logMessage(LogType.INFO, "PACKAGING_COMPLETE");
+                }
+                else
+                {
+                	System.exit(ret);
+                }
             }
 
             // generate ALX
@@ -176,7 +184,7 @@ public class WidgetPackager {
             // copy output files
             if (!SessionManager.getInstance().isPlayBook()) {
                 Logger.logMessage(LogType.INFO, "PROGRESS_GEN_OUTPUT");
-                fileManager.copyOutputsFromSource();
+                fileManager.copyOutputsFromSource(STANDARD_OUTPUTS, OTA_OUTPUTS);
             }
 
             // clean source (if necessary)
@@ -326,7 +334,7 @@ public class WidgetPackager {
             ExtensionMap extensionMap = new ExtensionMap(
                 "AIR",
                 "default",
-                SessionManager.getInstance().getSessionHome() + File.separator + bbwpProperties.getExtensionRepo()); // location of the extension repository
+                bbwpProperties.getExtensionRepo(SessionManager.getInstance().getSessionHome())); // location of the extension repository
 
             //
             // Extract the set of feature IDs from the access table.

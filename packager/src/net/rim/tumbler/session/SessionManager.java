@@ -33,7 +33,7 @@ public class SessionManager {
     private static SessionManager   _instance = null;
     
     // environment properties
-    public static String    BBWP_JAR_PATH;
+    public static final String BBWP_JAR_PATH;
     
     private String          _bbwpJarFolder;
     private String          _sessionHome; 

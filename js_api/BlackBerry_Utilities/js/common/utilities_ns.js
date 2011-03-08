@@ -75,7 +75,15 @@
 					return uri.queryArray[index];
 				}
 			};
-			
+			if (uri["port"]=="")
+			{
+        if (uri["protocol"] == "http") {
+          uri["port"]="80";
+        }
+        if (uri["protocol"] == "https") {
+          uri["port"]="443";
+        }
+			}
 			retVal.__defineGetter__("host", function() { return uri["host"]; });
 			retVal.__defineGetter__("port", function() { return parseInt(uri["port"]); });
 			

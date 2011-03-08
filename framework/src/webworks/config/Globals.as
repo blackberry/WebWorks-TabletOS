@@ -16,6 +16,7 @@
 package webworks.config
 {
 	import flash.utils.Dictionary;
+	import webworks.config.TransitionConstants;
 
 	public class Globals
 	{
@@ -59,9 +60,9 @@ package webworks.config
 			"onFirstLaunch"				: false, // Boolean
 			"onLocalPageLoad"			: false, // Boolean
 			"onRemotePageLoad"			: false, // Boolean
-			"transitionType"			: 0, // Integer
+			"transitionType"			: TransitionConstants.TRANSITION_NONE, // Integer
 			"transitionDuration"		: 250, // Integer
-			"transitionDirection"		: 128, // Integer
+			"transitionDirection"		: TransitionConstants.DIRECTION_LEFT, // Integer
 
 			"disableAllCache"			: false, // Boolean
 			"aggressiveCacheAge"		: 2592000, // Integer

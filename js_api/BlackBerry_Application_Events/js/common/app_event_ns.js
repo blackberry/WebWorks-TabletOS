@@ -31,7 +31,13 @@
 	this.blackberry.app.event = {
 		onBackground : disp.onBackground,
 		
-		onForeground : disp.onForeground
+		onForeground : disp.onForeground,
+		
+		onSwipeDown : disp.onSwipeDown,
+		
+		onSwipeStart : disp.onSwipeStart,
+		
+		lockOrientation : disp.lockOrientation
 	};
 	
 

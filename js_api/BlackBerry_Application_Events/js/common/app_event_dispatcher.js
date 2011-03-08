@@ -26,6 +26,7 @@
 	}
 	
 	function addEvent(eventType, onClickHandler) {
+		//alert(eventType);
 		
 		var onClickHandlerId = blackberry.events.registerEventHandler("onClick", onClickHandler);
 		
@@ -45,6 +46,21 @@
 			
 			"onForeground" : function(onClickHandler) {
 				addEvent("onForeground",onClickHandler);
+			},
+			
+			"onSwipeDown" : function(onClickHandler) {
+				addEvent("onSwipeDown",onClickHandler);
+			},
+			
+			"onSwipeStart" : function(onClickHandler) {
+				alert("in swipeStart");
+				addEvent("onSwipeStart",onClickHandler);
+			},
+			
+			"lockOrientation" : function() {
+				alert("in lockOrientation");
+				var request = new blackberry.transport.RemoteFunctionCall(MINI_BROKER_LOCATION + "/" + "lockOrientation");
+				request.makeAsyncCall(); //don't care about the return value
 			}
 		}
 	};	

@@ -28,16 +28,17 @@ import net.rim.tumbler.session.SessionManager;
 
 public class CmdLineHandler {
     private static final String         FILE_SEP = System.getProperty("file.separator");
-    private static final String         OPTION_SOURCEDIR = "/s";
-    private static final String         OPTION_PASSWORD = "/g";
-    private static final String         OPTION_CSK_PASSWORD = "/gcsk";
-    private static final String         OPTION_P12_PASSWORD = "/gp12";
-    private static final String         OPTION_BUILD_ID = "/buildId";
-    private static final String         OPTION_OUTPUTDIR = "/o";
-    private static final String         OPTION_VERBOSE = "/v";
-    private static final String         OPTION_HELP = "/h";
-    private static final String         OPTION_DEBUG = "/d";
-    private static final String         OPTION_DEBUG_INTERNAL = "/dinternal";
+    private static final char           SWITCH_CHAR = '-';
+    private static final String         OPTION_SOURCEDIR = "-s";
+    private static final String         OPTION_PASSWORD = "-g";
+    private static final String         OPTION_CSK_PASSWORD = "-gcsk";
+    private static final String         OPTION_P12_PASSWORD = "-gp12";
+    private static final String         OPTION_BUILD_ID = "-buildId";
+    private static final String         OPTION_OUTPUTDIR = "-o";
+    private static final String         OPTION_VERBOSE = "-v";
+    private static final String         OPTION_HELP = "-h";
+    private static final String         OPTION_DEBUG = "-d";
+    private static final String         OPTION_DEBUG_INTERNAL = "-dinternal";
     
     private boolean         _requireSigned;
     private String          _password;
@@ -181,7 +182,7 @@ public class CmdLineHandler {
                 _requireSigned = true;
                 if (params.length > index + 1) {
                     String followingParameter = params[index + 1];
-                    if (followingParameter.charAt(0) != '/') {
+                    if (followingParameter.charAt(0) != SWITCH_CHAR) {
                         _password = followingParameter;
                         index++;
                     }
@@ -192,7 +193,7 @@ public class CmdLineHandler {
                 nPasswords++;
                 if (params.length > index + 1) {
                     String followingParameter = params[index + 1];
-                    if (followingParameter.charAt(0) != '/') {
+                    if (followingParameter.charAt(0) != SWITCH_CHAR) {
                         _cskPassword = followingParameter;
                         index++;
                     }
@@ -203,7 +204,7 @@ public class CmdLineHandler {
                 nPasswords++;
                 if (params.length > index + 1) {
                     String followingParameter = params[index + 1];
-                    if (followingParameter.charAt(0) != '/') {
+                    if (followingParameter.charAt(0) != SWITCH_CHAR) {
                         _p12Password = followingParameter;
                         index++;
                     }
@@ -212,7 +213,7 @@ public class CmdLineHandler {
             } else if (isPlayBook() && param.equals(OPTION_BUILD_ID)) {
                 if (params.length > index + 1) {
                     String followingParameter = params[index + 1];
-                    if (followingParameter.charAt(0) != '/') {
+                    if (followingParameter.charAt(0) != SWITCH_CHAR) {
                         _buildId = followingParameter;
                         index++;
                     }
@@ -230,7 +231,7 @@ public class CmdLineHandler {
                 _requireSource = true;
                 if (params.length > index + 1) {
                     String followingParameter = params[index + 1];
-                    if (followingParameter.charAt(0) != '/') {
+                    if (followingParameter.charAt(0) != SWITCH_CHAR) {
                         _sourceDir = followingParameter;
                         _sourceDir = getAbsolutePath(_sourceDir);
                         index++;

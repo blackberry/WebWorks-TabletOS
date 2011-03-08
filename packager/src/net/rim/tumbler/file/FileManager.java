@@ -39,7 +39,6 @@ import java.util.zip.ZipInputStream;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import net.rim.tumbler.WidgetPackager;
 import net.rim.tumbler.exception.PackageException;
 import net.rim.tumbler.session.BBWPProperties;
 import net.rim.tumbler.session.SessionManager;
@@ -380,7 +379,15 @@ public class FileManager {
         }
     }
 
-    public void copyOutputsFromSource() throws Exception {
+    /**
+     * Copies output files from source for the specified file extensions.
+     *
+     * @param standardOutputs file extensions for standard outputs.
+     * @param otaOutputs file extensions for OTA outputs.
+     */
+    public void copyOutputsFromSource(String[] standardOutputs, String[] otaOutputs)
+        throws Exception
+    {
         // TODO: verify for missing files
         String sourceFolder = SessionManager.getInstance().getSourceFolder();
         String outputFolder = SessionManager.getInstance().getOutputFolder();
@@ -389,14 +396,14 @@ public class FileManager {
         
         // Standard output
         File from, to;
-        for (String ext : WidgetPackager.STANDARD_OUTPUTS) {
+        for (String ext : standardOutputs) {
             from = new File(sourceFolder + FILE_SEP + archiveName + ext);
             to = new File(outputFolder + FILE_SEP + FileManager.STANDARD_OUTPUT + FILE_SEP + archiveName + ext);
             copyFile(from, to);
         }
         
         // OTA output
-        for (String ext : WidgetPackager.OTA_OUTPUTS) {
+        for (String ext : otaOutputs) {
             from = new File(sourceFolder + FILE_SEP + archiveName + ext);
             to = new File(outputFolder + FILE_SEP + FileManager.OTA_OUTPUT + FILE_SEP + archiveName + ext);
             copyFile(from, to); 

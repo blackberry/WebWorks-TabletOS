@@ -189,11 +189,12 @@ package webworks.loadingScreen
 		}
 		
 		public function hideIfNecessary():void{
+			trace("hide necessary");
 			if (canMoveAhead) {
 				hide();
 			} else {
 				canMoveAhead = true;
-			}			
+			}
 		}
 
 		public function get showOnFirstLaunch():Boolean

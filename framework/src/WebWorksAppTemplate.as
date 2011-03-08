@@ -25,6 +25,7 @@ package
 	import flash.events.IOErrorEvent;
 	import flash.events.LocationChangeEvent;
 	import flash.filesystem.File;
+	import flash.utils.ByteArray;
 	import flash.utils.Dictionary;
 	
 	import qnx.dialog.AlertDialog;
@@ -32,6 +33,7 @@ package
 	import qnx.display.IowWindow;
 	import qnx.events.ExtendedLocationChangeEvent;
 	import qnx.events.JavaScriptCallbackEvent;
+	import qnx.events.UnknownProtocolEvent;
 	import qnx.events.WebViewEvent;
 	
 	import webworks.FunctionBroker;
@@ -132,13 +134,39 @@ package
             webWindow.addEventListener(WebkitEvent.WEBVIEW_CREATED, webkitWindowReady);
  			webWindow.addEventListener(WebkitEvent.TAB_LOCATION_CHANGING, webkitLocationChanging);
 			webWindow.addEventListener(WebkitEvent.TAB_LOCATION_CHANGED, webkitLocationChanged);
-			webWindow.addEventListener(WebkitEvent.TAB_UNKNOWNPROTOCOL, handleUnkownProtocol)
+			webWindow.addEventListener(WebkitEvent.TAB_UNKNOWNPROTOCOL, handleUnknownProtocol)
  			addChild(webWindow);
 		}
 		
-		private function handleUnkownProtocol(event:WebkitEvent):void
+		private function handleUnknownProtocol(event:WebkitEvent):void			
 		{
-			broker.handleXHRRequest(event.data);
+			var upe:UnknownProtocolEvent = event.data as UnknownProtocolEvent;
+			var requestUrl:String = upe.url;
+			var sid:int = upe.streamId;
+			
+			// hold the unknown protocol event
+			upe.preventDefault();
+			
+			var responseStatus:int = broker.valid(requestUrl);
+			var responseObject:Object= broker.handleXHRRequest(requestUrl);
+			var responseText:String;
+
+			var byteData:ByteArray = new ByteArray();;
+			
+			if (responseObject == null || responseStatus != FunctionBroker.HTTPStatus_200_Okay) {
+				responseText = FunctionBroker.statusCodeToString(responseStatus);
+			} else {
+				responseText = responseObject.toString();
+			}
+			
+			byteData.writeUTFBytes(responseText);
+			
+			webWindow.qnxWebView.notifyResourceOpened(sid, responseStatus, FunctionBroker.statusCodeToString(responseStatus));
+			webWindow.qnxWebView.notifyResourceHeaderReceived(sid, "Content-Type", "text/plain");
+			webWindow.qnxWebView.notifyResourceHeaderReceived(sid, "Content-Length", byteData.length.toString());
+			webWindow.qnxWebView.notifyResourceDataReceived(sid, byteData);
+			
+			webWindow.qnxWebView.notifyResourceDone(sid);
 		}
 			
 		private function tabLoadComplete(event:WebkitEvent):void 

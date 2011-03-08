@@ -16,7 +16,11 @@
 package blackberry.applicationEvents
 {
 	import flash.events.Event;
+	import flash.events.StageOrientationEvent;
 	import flash.utils.*;
+	
+	import qnx.events.QNXApplicationEvent;
+	import qnx.system.QNXApplication;
 	
 	import webworks.extension.DefaultExtension;
 	
@@ -36,6 +40,8 @@ package blackberry.applicationEvents
 	{	
 		private var javaScriptOnForeground:String = "";
 		private var javaScriptOnBackground:String = "";
+		private var javaScriptOnSwipeDown:String = "";
+		private var javaScriptOnSwipeStart:String = "";
 		
 		
 		public function ApplicationEvent(){
@@ -50,6 +56,9 @@ package blackberry.applicationEvents
 			
 			webView.removeEventListener(Event.ACTIVATE,activate);
 			webView.removeEventListener(Event.DEACTIVATE,deactivate);
+			QNXApplication.qnxApplication.removeEventListener(QNXApplicationEvent.SWIPE_DOWN,swipeDown);
+			QNXApplication.qnxApplication.removeEventListener(QNXApplicationEvent.SWIPE_START, swipeStart);
+			webView.stage.removeEventListener(StageOrientationEvent.ORIENTATION_CHANGING, preventOrientationChanging );
 		}
 		
 		public override function getFeatureList():Array{
@@ -66,7 +75,20 @@ package blackberry.applicationEvents
 		public function onBackground(param:String):void{
 			javaScriptOnBackground = param;			
 			webView.addEventListener(Event.DEACTIVATE,deactivate);
-			
+		}
+		
+		public function onSwipeDown(param:String):void{
+			javaScriptOnSwipeDown = param;
+			QNXApplication.qnxApplication.addEventListener(QNXApplicationEvent.SWIPE_DOWN, swipeDown);
+		}
+		
+		public function onSwipeStart(param:String):void{
+			javaScriptOnSwipeStart = param;			
+			QNXApplication.qnxApplication.addEventListener(QNXApplicationEvent.SWIPE_START,swipeStart);	
+		}
+		
+		public function lockOrientation():void{
+			//webView.stage.addEventListener(StageOrientationEvent.ORIENTATION_CHANGING, preventOrientationChanging );
 		}
 		
 		public function activate(event:Event):void{
@@ -75,6 +97,18 @@ package blackberry.applicationEvents
 		
 		public function deactivate(event:Event):void{
 			this.evalJavaScriptEvent(javaScriptOnBackground,new Array());
+		}
+		
+		public function swipeDown(event:QNXApplicationEvent):void{
+			this.evalJavaScriptEvent(javaScriptOnSwipeDown,new Array());
+		}
+		
+		public function swipeStart(event:QNXApplicationEvent):void{
+			this.evalJavaScriptEvent(javaScriptOnSwipeStart,new Array());	
+		}	
+		
+		public function preventOrientationChanging(event:StageOrientationEvent):void{
+			event.preventDefault();
 		}
 		
 	}

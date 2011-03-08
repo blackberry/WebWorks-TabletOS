@@ -69,7 +69,7 @@ public class AirPackager {
      * @param archiveName the name of the Widget archive.
      * @throws ValidationException 
      */
-    public void run() throws PackageException, ValidationException {
+    public int run() throws PackageException, ValidationException {
         try {
             String sourcePath = SessionManager.getInstance().getSourceFolder();
             String bindebugPath = sourcePath + File.separator + "bin-debug";
@@ -107,7 +107,8 @@ public class AirPackager {
                 public boolean accept(File pathname) {
                     return !pathname.getName().endsWith(".as")
                         && !pathname.getName().endsWith(APP_XML_SUFFIX)
-                        && !pathname.getName().endsWith(SWF_FILE_EXTENSION);
+                        && !pathname.getName().endsWith(SWF_FILE_EXTENSION)
+                        && !pathname.getName().contains("__MACOSX");
                 }
             });
 
@@ -180,18 +181,29 @@ public class AirPackager {
                 buildId = "0";
             }
 
-            //
-            // Target is bar-debug unless we are signing.
-            //
-            String[] cmd = {
-                _airPackagerPath,
-                "-package",
-                "-target",
-                (SessionManager.getInstance().requireSigning() ? "bar" : "bar-debug"),
-                "-buildId",
-                buildId,
-                outputPath
-            };
+            String[] cmd;
+            if (SessionManager.getInstance().requireSigning()) {
+                cmd = new String[] {
+                    _airPackagerPath,
+                    "-package",
+                    "-target",
+                    "bar",
+                    "-buildId",
+                    buildId,
+                    outputPath
+                };
+            } else {
+                cmd = new String[] {
+                    _airPackagerPath,
+                    "-package",
+                    "-devMode",
+                    "-target",
+                    SessionManager.getInstance().debugModeInternal() ? "bar-debug" : "bar",
+                    "-buildId",
+                    buildId,
+                    outputPath
+                };
+            }
             int n = files.length;
             String[] join = new String[cmd.length + n];
             System.arraycopy(cmd, 0, join, 0, cmd.length);
@@ -210,6 +222,7 @@ public class AirPackager {
                 System.out.write(stderr.getStderr());
                 System.out.write(stdout.getStdout());
                 System.out.flush();
+                return exitcode.getExitValue().intValue();
             }
         } catch (IOException ioe) {
         	ioe.printStackTrace();
@@ -217,6 +230,7 @@ public class AirPackager {
         } catch (InterruptedException ie) {
             throw new PackageException("EXCEPTION_AIRPACKAGER");        	
         }
+        return 0;
     }
 
     /**
