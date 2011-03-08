@@ -69,7 +69,7 @@ package blackberry.system
 		* network.iden
 		*/
 		public function hasCapability(capability : String):Boolean {
-			var supportedCapabilities:Array = new Array("location.gps", "media.audio.capture","media.video.capture",
+			var supportedCapabilities:Array = new Array("input.touch", "location.gps", "media.audio.capture","media.video.capture",
 							"media.recording","network.bluetooth","network.wlan");
 			
 			return supportedCapabilities.indexOf(capability) != -1;

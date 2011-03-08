@@ -36,7 +36,7 @@
 	SystemDispatcher.prototype.__defineGetter__("softwareVersion", function() { return "QNX"; });
 	
 	SystemDispatcher.prototype.hasCapability = function(desiredCapability) {
-		var supportedCapabilities = ["location.gps","media.audio.capture","media.video.capture",
+		var supportedCapabilities = ["input.touch", "location.gps","media.audio.capture","media.video.capture",
 		"media.recording","network.bluetooth","network.wlan"];
 		for (i in supportedCapabilities) {
 			   if (supportedCapabilities[i] == desiredCapability) return true;
