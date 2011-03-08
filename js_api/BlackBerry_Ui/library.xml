@@ -77,11 +77,9 @@
 			<details>Uses the custom dialog. The function will not block execution and will return the 0-based index of the user's choice.</details>
 			
 			<param name="message" type="String" comment="Message to be displayed in the dialog." />
-
 			<param name="buttons" type="String" array="true" comment="Array of string choices that will be presented to the user in the form of buttons." />
 			<param name="onOptionSelected" type="Function" comment="Optional callback function that will be invoked when the user makes a selection. Expected signature: function onOptionSelected(selectedButtonIndex)." />
 			<param name="settings" type="Object" comment="Optional Object literal that allows the user to manipulate the size, location, title of the dialog, and whether this is a global dialog (your application cannot be minimized when a global dialog is active; by default when the 'global' flag is not passed, dialog will be modal only for your application). It is not required to provide all parameters, and these do not have to be specified in any particular order." />
-		</func>
     </functions>
   
     <constants comment="Dialog Constants">
