@@ -40,7 +40,6 @@
 			output += "<tr><td><b>Copyright</b></td><td>" + blackberry.app.copyright + "</td></tr>";
 			output += "<tr><td><b>Description</b></td><td>" + blackberry.app.description + "</td></tr>";
 			output += "<tr><td><b>ID</b></td><td>" + blackberry.app.id + "</td></tr>";
-			output += "<tr><td><b>ifForeground</b></td><td>" + blackberry.app.isForeground + "</td></tr>";
 			output += "<tr><td><b>License</b></td><td>" + blackberry.app.license + "</td></tr>";
 			output += "<tr><td><b>License URL</b></td><td>" + blackberry.app.licenseURL + "</td></tr>";
 			output += "<tr><td><b>Name</b></td><td>" + blackberry.app.name + "</td></tr>";

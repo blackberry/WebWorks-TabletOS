@@ -3,11 +3,11 @@
 		<libraryPath>/BlackBerry_Application</libraryPath>
 		<libraryPath>/BlackBerry_Application_Events</libraryPath>
 		<libraryPath>/BlackBerry_Invoke</libraryPath>
+		<!--libraryPath>/BlackBerry_Payment</libraryPath-->
 		<libraryPath>/BlackBerry_System</libraryPath>
 		<libraryPath>/BlackBerry_System_Events</libraryPath>
 		<libraryPath>/BlackBerry_Ui</libraryPath>
 		<libraryPath>/BlackBerry_Utilities</libraryPath>
-		<libraryPath>/BlackBerry_Payment</libraryPath>
 	</libraries>
 	<settings>
 		<libraryName>library.xml</libraryName>
