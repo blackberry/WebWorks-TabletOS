@@ -22,6 +22,7 @@
 	var ARGS_TITLE = "title";
 	var ARGS_SIZE = "size";
 	var ARGS_POSITION = "position";
+	var ARGS_GLOBAL = "global";
 	
 	var ARGS_ON_CLICK_HANDLER_ID = "onClickHandlerId";
 	
@@ -79,6 +80,10 @@
 			
 			if(settings[ARGS_POSITION]) {
 				remoteCall.addParam(ARGS_POSITION, settings[ARGS_POSITION]);
+			}
+			
+			if(settings[ARGS_GLOBAL]) {
+				remoteCall.addParam(ARGS_GLOBAL, settings[ARGS_GLOBAL]);
 			}
 		}
 				
