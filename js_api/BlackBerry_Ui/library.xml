@@ -52,6 +52,15 @@
 		}
 	}
 	
+	function globalDialog() {
+		try {
+			var ops = {title : "Global Save Dialog", global : true};
+			//Application cannot be sent to background when this dialog is active
+			blackberry.ui.dialog.standardAsk("Battery level is low. Do you want to save your work?", blackberry.ui.dialog.D_SAVE, dialogCallBack, ops);
+		} catch (e) {
+			alert(Exception in globalDialog: " + e);
+		}
+	}
 </script>]]></example>
 
     <functions>
@@ -61,16 +70,17 @@
 			<param name="message" type="String" comment="Message to be displayed in the dialog." />
 			<param name="type" type="Number" comment="Parameter that specifies the type of standard dialog. Constants starting with D_*." />
 			<param name="onOptionSelected" type="Function" comment="Optional callback function that will be invoked when the user makes a selection. Expected signature: function onOptionSelected(selectedButtonIndex)." />
-			<param name="settings" type="Object" comment= "Optional Object literal that allows the user to manipulate the size, location and title of the dialog. It is not required to provide all parameters, and these do not have to be specified in any particular order."/>
+			<param name="settings" type="Object" comment= "Optional Object literal that allows the user to manipulate the size, location, title of the dialog, and whether this is a global dialog (your application cannot be minimized when a global dialog is active; by default when the 'global' flag is not passed, dialog will be modal only for your application). It is not required to provide all parameters, and these do not have to be specified in any particular order."/>
 		</func>
 		
 		<func name="customAsk" returns="void" static="true" comment="Creates a custom dialog to ask the user a question.">
 			<details>Uses the custom dialog. The function will not block execution and will return the 0-based index of the user's choice.</details>
 			
 			<param name="message" type="String" comment="Message to be displayed in the dialog." />
+
 			<param name="buttons" type="String" array="true" comment="Array of string choices that will be presented to the user in the form of buttons." />
 			<param name="onOptionSelected" type="Function" comment="Optional callback function that will be invoked when the user makes a selection. Expected signature: function onOptionSelected(selectedButtonIndex)." />
-			<param name="settings" type="Object" comment="Optional Object literal that allows the user to manipulate the size, location and title of the dialog. It is not required to provide all parameters, and these do not have to be specified in any particular order." />
+			<param name="settings" type="Object" comment="Optional Object literal that allows the user to manipulate the size, location, title of the dialog, and whether this is a global dialog (your application cannot be minimized when a global dialog is active; by default when the 'global' flag is not passed, dialog will be modal only for your application). It is not required to provide all parameters, and these do not have to be specified in any particular order." />
 		</func>
     </functions>
   

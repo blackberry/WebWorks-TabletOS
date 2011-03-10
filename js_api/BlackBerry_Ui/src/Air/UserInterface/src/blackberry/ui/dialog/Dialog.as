@@ -20,6 +20,7 @@ package blackberry.ui.dialog
 	import flash.utils.*;
 	
 	import qnx.dialog.AlertDialog;
+	import qnx.display.IowWindow;
 	
 	import webworks.extension.DefaultExtension;
 
@@ -66,8 +67,21 @@ package blackberry.ui.dialog
 			var eNewSettings:Dictionary = dialogProperties();
 			var buttons : Array = eButtons.split(",");
 			var myDialog:AlertDialog = createDialog(eMessage, buttons, eNewSettings);
+			var groupId : String = getGroupIdForDialog();
 			
-			myDialog.show();
+			myDialog.show(groupId);
+		}
+		
+		private function getGroupIdForDialog():String {
+			var global : String = super.getParameterByName("global") as String;
+			
+			// groupId should not be null unless for system-level dialog, which makes it impossible to
+			// minimize the application when the dialog is active 
+			if (global != null && global.toLowerCase() == "true") {
+				return null;
+			}
+			
+			return IowWindow.getAirWindow().group;
 		}
 		
 		private function createDialog(eMessage:String, eButtons:Array, eSettings:Dictionary = null):AlertDialog {
