@@ -50,7 +50,7 @@
 				
 
 			//Browser
-			case 11:	
+			case 10:	
 				
 				if(!args){
 					remote.addParam(APP_TYPE, APP_URL_BROWSER);
@@ -66,22 +66,22 @@
 				break;
 				
 			//Music
-			case 13:						
+			case 12:						
 				remote.addParam(APP_TYPE, APP_URL_MUSIC);
 				break;
 			
 			//Photos
-			case 14:
+			case 13:
 				remote.addParam(APP_TYPE, APP_URL_PHOTOS);
 				break;
 			
 			//Videos
-			case 15:
+			case 14:
 				remote.addParam(APP_TYPE, APP_URL_VIDEOS);
 				break;
 			
 			//AppWorld
-			case 16:
+			case 15:
 				remote.addParam(APP_TYPE, APP_URL_APPWROLD);
 				break;
 			

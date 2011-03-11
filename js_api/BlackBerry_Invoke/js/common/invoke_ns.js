@@ -51,16 +51,17 @@
 	Invoke.prototype.__defineGetter__("APP_CALCULATOR", function() { return 2; });
 	Invoke.prototype.__defineGetter__("APP_CALENDAR", function() { return 3; });
 	Invoke.prototype.__defineGetter__("APP_CAMERA", function() { return 4; });
-	Invoke.prototype.__defineGetter__("APP_MEMOPAD", function() { return 6; });
-	Invoke.prototype.__defineGetter__("APP_MESSAGES", function() { return 7; });
-	Invoke.prototype.__defineGetter__("APP_PHONE", function() { return 8; });
-	Invoke.prototype.__defineGetter__("APP_SEARCH", function() { return 9; });
-	Invoke.prototype.__defineGetter__("APP_TASKS", function() { return 10; });
-	Invoke.prototype.__defineGetter__("APP_BROWSER", function() { return 11; });
-	Invoke.prototype.__defineGetter__("APP_MUSIC", function() { return 13; });
-	Invoke.prototype.__defineGetter__("APP_PHOTOS", function() { return 14; });
-	Invoke.prototype.__defineGetter__("APP_VIDEOS", function() { return 15; });
-	Invoke.prototype.__defineGetter__("APP_APPWORLD", function() { return 16; });	
+	Invoke.prototype.__defineGetter__("APP_MEMOPAD", function() { return 5; });
+	Invoke.prototype.__defineGetter__("APP_MESSAGES", function() { return 6; });
+	Invoke.prototype.__defineGetter__("APP_PHONE", function() { return 7; });
+	Invoke.prototype.__defineGetter__("APP_SEARCH", function() { return 8; });
+	Invoke.prototype.__defineGetter__("APP_TASKS", function() { return 9; });
+	Invoke.prototype.__defineGetter__("APP_BROWSER", function() { return 10; });
+	Invoke.prototype.__defineGetter__("APP_JAVA", function() { return 11; });
+	Invoke.prototype.__defineGetter__("APP_MUSIC", function() { return 12; });
+	Invoke.prototype.__defineGetter__("APP_PHOTOS", function() { return 13; });
+	Invoke.prototype.__defineGetter__("APP_VIDEOS", function() { return 14; });
+	Invoke.prototype.__defineGetter__("APP_APPWORLD", function() { return 15; });	
 	
 	blackberry.Loader.javascriptLoaded("blackberry.invoke", Invoke);
 })();
