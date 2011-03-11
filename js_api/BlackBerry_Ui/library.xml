@@ -29,36 +29,29 @@
     
     <example><![CDATA[<script type="text/javascript">
 	
-		function dialogCallBack(index)
-		{
-			alert("The index of the pushed button is " + index);
-		}  
-			
-		function standardDialog()
-		{
-			try 
-			{
-				blackberry.ui.dialog.standardAsk("Save?", blackberry.ui.dialog.D_SAVE, dialogCallBack, {title : "Save Dialog", size: blackberry.ui.dialog.SIZE_MEDIUM, position : blackberry.ui.dialog.LOC_BOTTOM});
-			}
-			catch (e) {
-				alert("Exception in standardDialog: " + e);
-			}
-		}
+	function dialogCallBack(index) {
+		alert("The index of the pushed button is " + index);
+	}  
 		
-		function customDialog() 
-		{
-			try 
-			{
-				var buttons = new Array("Yes", "No", "Sometimes", "NA");
-				var ops = {title : "Choose the answer that describes you best", size : blackberry.ui.dialog.SIZE_TALL, position : blackberry.ui.dialog.LOC_CENTER};
-				blackberry.ui.dialog.customAsk("Do you routinely work out?", buttons, dialogCallBack, ops);
-			}
-			catch (e) {
-				alert("Exception in customDialog: " + e);
-			}
+	function standardDialog() {
+		try {
+			blackberry.ui.dialog.standardAsk("Save?", blackberry.ui.dialog.D_SAVE, dialogCallBack, {title : "Save Dialog", size: blackberry.ui.dialog.SIZE_MEDIUM, position : blackberry.ui.dialog.LOC_BOTTOM});
 		}
+		catch (e) {
+			alert("Exception in standardDialog: " + e);
+		}
+	}
 	
-		
+	function customDialog() {
+		try {
+			var buttons = new Array("Yes", "No", "Sometimes", "NA");
+			var ops = {title : "Choose the answer that describes you best", size : blackberry.ui.dialog.SIZE_TALL, position : blackberry.ui.dialog.LOC_CENTER};
+			blackberry.ui.dialog.customAsk("Do you routinely work out?", buttons, dialogCallBack, ops);
+		} catch (e) {
+			alert("Exception in customDialog: " + e);
+		}
+	}
+	
 </script>]]></example>
 
     <functions>

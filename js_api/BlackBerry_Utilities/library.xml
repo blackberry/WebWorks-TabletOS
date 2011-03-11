@@ -23,16 +23,15 @@
 	
 	<object name="blackberry.utils" shortName="Utils" introduced="1.0.0" comment="The Utils object provides useful utility functions and properties.">
 	
-	<example><![CDATA[
-<script type="text/javascript">
+	<example><![CDATA[<script type="text/javascript">
 
-  var url = blackberry.utils.parseURL("http://www.bla.com:8080/index.html?COUNTER=3&FOO=BAR");
+	var url = blackberry.utils.parseURL("http://www.bla.com:8080/index.html?COUNTER=3&FOO=BAR");
 
-  alert("port:"+url.port);
-  alert("host:"+url.host);
+	alert("port:"+url.port);
+	alert("host:"+url.host);
 
-  alert("parameter:"+url.getURLParameterByIndex(0));
-  alert("parameter:"+url.getURLParameter("FOO"));
+	alert("parameter:"+url.getURLParameterByIndex(0));
+	alert("parameter:"+url.getURLParameter("FOO"));
 
 </script>]]></example>
     

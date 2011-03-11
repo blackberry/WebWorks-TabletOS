@@ -23,7 +23,7 @@
 	</features>
 		
 	<object name="blackberry.system" shortName="System" introduced="1.0.0"
-		comment="The System object allows you to get access to system level functions and attributes of the Playbook device.">
+		comment="The System object allows you to get access to system level functions and attributes of the BlackBerry PlayBook device.">
 		<details>The System object is static; all of its functions and
 			properties are used directly from the object.</details>
 
@@ -85,15 +85,15 @@
 			<func name="hasDataCoverage" returns="Boolean" static="true"
 				comment="Returns true if the device is in coverage, otherwise returns false. This can be used in conjunction with the blackberry.network property to find out what kind of coverage it is in.">
 				<details>
-					Returns true if the PlayBook has any network interface active. On a simulator it will always return false.
+					Returns true if the BlackBerry PlayBook has any network interface active. On a simulator it will always return false.
                 </details>
 			</func>
 
 			<func name="isMassStorageActive" returns="Boolean" static="true"
 				comment="Returns true if USB mass storage mode is active.">
 				<details>
-					Always returns false on the PlayBook since Mass Storage Mode is not
-					supported. All PlayBook memory is presented as a network share when
+					Always returns false on the BlackBerry PlayBook since Mass Storage Mode is not
+					supported. All memory is presented as a network share when
 					connected by USB and is not blocked.
                 </details>
 			</func>
@@ -103,12 +103,12 @@
 		<properties>
 			<property name="scriptApiVersion" type="String" readonly="true"
 				static="true"
-				comment="Returns the current version of the BlackBerry Widget Toolkit library being used." />
+				comment="Returns the current version of the WebWorks library being used." />
 			<property name="softwareVersion" type="String" readonly="true"
 				static="true"
 				comment="Returns the current version of the operating system, for example, 1.0.0.0." />
 			<property name="model" type="String" readonly="true" static="true"
-				comment="Returns the model number of the Playbook." />
+				comment="Returns the model number of the BlackBerry PlayBook." />
 		</properties>
 		
 	</object>
