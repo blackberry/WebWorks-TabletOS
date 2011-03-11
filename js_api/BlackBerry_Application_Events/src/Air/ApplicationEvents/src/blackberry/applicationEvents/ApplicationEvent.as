@@ -58,7 +58,6 @@ package blackberry.applicationEvents
 			webView.removeEventListener(Event.DEACTIVATE,deactivate);
 			QNXApplication.qnxApplication.removeEventListener(QNXApplicationEvent.SWIPE_DOWN,swipeDown);
 			QNXApplication.qnxApplication.removeEventListener(QNXApplicationEvent.SWIPE_START, swipeStart);
-			webView.stage.removeEventListener(StageOrientationEvent.ORIENTATION_CHANGING, preventOrientationChanging );
 		}
 		
 		public override function getFeatureList():Array{

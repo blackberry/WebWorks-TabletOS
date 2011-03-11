@@ -62,7 +62,7 @@
 			 */
 			this.addParam = function(name, value) {
 				
-				params[name] = encodeURIComponent(JSON.stringify(value));
+				params[name] = encodeURIComponent(value);
 			};
 			
 			this.makeSyncCall = function() {
