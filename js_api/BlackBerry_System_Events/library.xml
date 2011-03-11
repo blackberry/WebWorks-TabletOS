@@ -23,8 +23,7 @@
 	</features>
 		
 	<object name="blackberry.system.event" shortName="SystemEvent" introduced="1.0.0" comment="The System Event object allows you to access events triggered by the system.">
-			<example><![CDATA[
-	<script type="text/javascript">
+			<example><![CDATA[<script type="text/javascript">
 	
 	function onBatteryLevelChange(level) {         
 		alert("Battery Level: " + level);
@@ -36,7 +35,7 @@
 	
 	notifyOnBatteryLevelChange(onBatteryLevelChange);
 	
-	</script>]]></example>		
+</script>]]></example>		
 	
 		    <functions>
 				<func name="deviceBatteryLevelChange" static="true" returns="void" comment="Assigns a listener for when the battery level changes.">

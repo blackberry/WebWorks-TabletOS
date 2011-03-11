@@ -25,22 +25,22 @@
 	<object name="blackberry.invoke" shortName="Invoke" introduced="1.0.0" comment="The Invoke object contains methods that interact with other applications on a BlackBerry PlayBook.">
 		<example><![CDATA[<script type="text/javascript">  
 
-		function startCameraApp() {
-			var args = new blackberry.invoke.CameraArguments();
-			args.view = blackberry.invoke.CameraArguments.VIEW_RECORDER;
-      
-      
-			blackberry.invoke.invoke(blackberry.invoke.APP_CAMERA, args);
-		}
-		
-		startCameraApp();
+	function startCameraApp() {
+		var args = new blackberry.invoke.CameraArguments();
+		args.view = blackberry.invoke.CameraArguments.VIEW_RECORDER;
+  
+  
+		blackberry.invoke.invoke(blackberry.invoke.APP_CAMERA, args);
+	}
+	
+	startCameraApp();
       
 </script>]]></example>
 
 		<constants comment="Application Type">
 		  		  
 		  <const name="APP_CAMERA" type="Number" value="4" readonly="true" static="true" comment="Camera" />
-		  <const name="APP_MAPS" type="Number" value="5" readonly="true" static="true" comment="BlackBerry Maps" />
+		  <const name="APP_MAPS" type="Number" value="5" readonly="true" static="true" comment="Maps" />
 		  <const name="APP_BROWSER" type="Number" value="11" readonly="true" static="true" comment="Browser" />		  
 		  <const name="APP_MUSIC" type="Number" value="13" readonly="true" static="true" comment="Music" />
 		  <const name="APP_PHOTOS" type="Number" value="14" readonly="true" static="true" comment="Photos" />
@@ -51,7 +51,7 @@
 		
 		<functions>
 			
-			<func name="invoke" returns="void" static="true" comment="Invokes another application on the BlackBerry Playbook." >
+			<func name="invoke" returns="void" static="true" comment="Invokes another application on the BlackBerry PlayBook." >
 				<param name="appType" type="Number" comment="An integer value representing the type of application to launch. Must be one of the 'APP_*' constants."/>
 				<param name="args" type="Object" optional="true" comment="An arguments object specifying information for the application being invoked."/>
 				<details>
@@ -64,8 +64,6 @@
 		<subclasses>
 			<object name="blackberry.invoke.CameraArguments" shortName="CameraArguments" interface="false" comment="The CameraArguments object is an instance object, and is used as a parameter to the invoke() method when invoking the Camera application or Recorder application.">				
 				<details>
-					The CameraArguments object is an instance object, and is used as a parameter to the invoke() method when invoking the Camera application or Recorder application.
-					  
 					The CameraArguments object must be created as an instance using the new keyword.
 				</details>
 				
@@ -84,11 +82,9 @@
 					</ctor>
 				</constructors>			
 				
-		      </object>
-		</subclasses>		
+		    </object>
 		
-		<subclasses>
-			<object name="blackberry.invoke.BrowserArguments" shortName="BrowserArguments" introduced="1.0.0" comment="The BrowserArguments object is an instance object, and is used as a parameter to the invoke() method when invoking the BlackBerry Browser application.">
+			<object name="blackberry.invoke.BrowserArguments" shortName="BrowserArguments" interface="false" comment="The BrowserArguments object is an instance object, and is used as a parameter to the invoke() method when invoking the BlackBerry Browser application.">
 				<details>
 					The BrowserArguments object must be created as an instance using the new keyword.
 				</details>
@@ -99,7 +95,7 @@
 				</properties>	
 				
 				<constructors>
-				  <ctor comment="Open Browser application on the BlackBerry smartphone.">
+				  <ctor comment="Open Browser application on the BlackBerry PlayBook.">
 					<param name="url" type="String" comment="The desired url to load in the browser."/>					
 					<details>
 						Throws an Exception if values supplied are not correct.
