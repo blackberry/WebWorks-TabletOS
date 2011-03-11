@@ -37,7 +37,7 @@
       
 </script>]]></example>
 
-		<constants comment="Application Type">
+		<constants comment="Application Type">  
 			<const name="APP_CAMERA" type="Number" value="4" readonly="true" static="true" comment="Camera" />
 			<const name="APP_BROWSER" type="Number" value="11" readonly="true" static="true" comment="Browser" />		  
 			<const name="APP_MUSIC" type="Number" value="13" readonly="true" static="true" comment="Music" />
