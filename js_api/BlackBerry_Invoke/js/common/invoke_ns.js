@@ -46,16 +46,7 @@
 	/*
 	 * Define constants for appType
 	 */
-	Invoke.prototype.__defineGetter__("APP_ADDRESSBOOK", function() { return 0; });
-	Invoke.prototype.__defineGetter__("APP_BLUETOOTH_CONFIG", function() { return 1; });
-	Invoke.prototype.__defineGetter__("APP_CALCULATOR", function() { return 2; });
-	Invoke.prototype.__defineGetter__("APP_CALENDAR", function() { return 3; });
 	Invoke.prototype.__defineGetter__("APP_CAMERA", function() { return 4; });
-	Invoke.prototype.__defineGetter__("APP_MEMOPAD", function() { return 6; });
-	Invoke.prototype.__defineGetter__("APP_MESSAGES", function() { return 7; });
-	Invoke.prototype.__defineGetter__("APP_PHONE", function() { return 8; });
-	Invoke.prototype.__defineGetter__("APP_SEARCH", function() { return 9; });
-	Invoke.prototype.__defineGetter__("APP_TASKS", function() { return 10; });
 	Invoke.prototype.__defineGetter__("APP_BROWSER", function() { return 11; });
 	Invoke.prototype.__defineGetter__("APP_MUSIC", function() { return 13; });
 	Invoke.prototype.__defineGetter__("APP_PHOTOS", function() { return 14; });
