@@ -47,11 +47,12 @@
 	 * Define constants for appType
 	 */
 	Invoke.prototype.__defineGetter__("APP_CAMERA", function() { return 4; });
+	Invoke.prototype.__defineGetter__("APP_MAPS", function() { return 5; });
 	Invoke.prototype.__defineGetter__("APP_BROWSER", function() { return 11; });
 	Invoke.prototype.__defineGetter__("APP_MUSIC", function() { return 13; });
 	Invoke.prototype.__defineGetter__("APP_PHOTOS", function() { return 14; });
 	Invoke.prototype.__defineGetter__("APP_VIDEOS", function() { return 15; });
-	Invoke.prototype.__defineGetter__("APP_APPWORLD", function() { return 16; });	
+	Invoke.prototype.__defineGetter__("APP_APPWORLD", function() { return 16; });
 	
 	blackberry.Loader.javascriptLoaded("blackberry.invoke", Invoke);
 })();

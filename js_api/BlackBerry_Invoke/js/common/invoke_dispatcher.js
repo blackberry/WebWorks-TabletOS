@@ -23,11 +23,11 @@
 	var APP_URL_CAMERA = "camera://";
 	var APP_URL_CAMERA_VIDEO = "camera://video";
 	var APP_URL_BROWSER = "http://";
+	var APP_URL_MAPS = "maps://";
 	var APP_URL_MUSIC = "music://";
 	var APP_URL_PHOTOS = "photos://";
 	var APP_URL_VIDEOS = "videos://";
-	var APP_URL_APPWROLD = "appworld://"
-
+	var APP_URL_APPWORLD = "appworld://";
 
 	var APP_TYPE_ERROR = "appType not supported";
 	var APP_BROWSER_ERROR = "Protocol specified in the url is not supported.";
@@ -47,8 +47,12 @@
 				else
 					remote.addParam(APP_TYPE,APP_URL_CAMERA);
 				break;
-				
-
+			
+			//Music
+			case 5:						
+				remote.addParam(APP_TYPE, APP_URL_MAPS);
+				break;
+			
 			//Browser
 			case 11:	
 				
@@ -82,7 +86,7 @@
 			
 			//AppWorld
 			case 16:
-				remote.addParam(APP_TYPE, APP_URL_APPWROLD);
+				remote.addParam(APP_TYPE, APP_URL_APPWORLD);
 				break;
 			
 			default:
