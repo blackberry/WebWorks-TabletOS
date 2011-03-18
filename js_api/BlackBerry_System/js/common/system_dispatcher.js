@@ -30,41 +30,25 @@
 
 	function SystemDispatcher() {
 	};
-	
-	SystemDispatcher.prototype.__defineGetter__("model", function() { return "0"; });
-	SystemDispatcher.prototype.__defineGetter__("scriptApiVersion", function() { return "1.0.0.0"; });
-	SystemDispatcher.prototype.__defineGetter__("softwareVersion", function() { return "QNX"; });
+
+	SystemDispatcher.prototype.__defineGetter__("model", function() { return makeCall("model"); });	
+	SystemDispatcher.prototype.__defineGetter__("scriptApiVersion", function() { return makeCall("scriptApiVersion"); });
+	SystemDispatcher.prototype.__defineGetter__("softwareVersion", function() { return makeCall("softwareVersion"); });
 	
 	SystemDispatcher.prototype.hasCapability = function(desiredCapability) {
-		var supportedCapabilities = ["input.touch", "location.gps","media.audio.capture","media.video.capture",
-		"media.recording","network.bluetooth","network.wlan"];
-		for (i in supportedCapabilities) {
-			   if (supportedCapabilities[i] == desiredCapability) return true;
-		   }
-		return false;
-		
+		return makeCall("hasCapability", {capability : desiredCapability}); 
 	};
 	
 	SystemDispatcher.prototype.hasDataCoverage = function() {
-		return blackberry.system.dataCoverage;
+		return makeCall("hasDataCoverage");
 	};
 	
 	SystemDispatcher.prototype.hasPermission = function(desiredModule) {
-		var al = blackberry.system.accessList;				
-		var permission = 1; // if blackberry.denied, set to 1			
-						
-		for (var i in al){
-			permission = (al[i] == desiredModule) ? 0 : 1;		
-			if(!permission)
-				break;
-		}
-		
-		return permission;			
-	
+		return makeCall("hasPermission", {module : desiredModule}); 
 	};
 	
 	SystemDispatcher.prototype.isMassStorageActive = function() {
-		return false;
+		return makeCall("isMassStorageActive");
 	};
 	
 	blackberry.Loader.javascriptLoaded("blackberry.system", SystemDispatcher);

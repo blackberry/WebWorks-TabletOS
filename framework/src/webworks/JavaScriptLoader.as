@@ -15,22 +15,16 @@
  */
 package webworks
 {
-	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.filesystem.*;
-	import flash.net.NetworkInfo;
-	import flash.net.NetworkInterface;
 	
-	import qnx.events.WebViewEvent;
 	import qnx.events.WindowObjectClearedEvent;
 	
 	import webworks.access.Access;
 	import webworks.access.Feature;
 	import webworks.config.ConfigConstants;
 	import webworks.config.ConfigData;
-	import webworks.extension.AppNameSpaceGenerator;
 	import webworks.extension.IApiExtension;
-	import webworks.extension.SystemNameSpaceGenerator;
 	import webworks.webkit.WebkitControl;
 
 	public class JavaScriptLoader extends  EventDispatcher
@@ -45,10 +39,7 @@ package webworks
 		
 		public function JavaScriptLoader(webkitcontrol:WebkitControl)
 		{
-			webkitControl = webkitcontrol;			
-			//Temp workaround code
-			webkitControl.addEventListener(Event.NETWORK_CHANGE, onNetworkChange);
-
+			webkitControl = webkitcontrol;
 		}
 				
 		//register javascript file for features required by the url
@@ -144,10 +135,6 @@ package webworks
 				index++;
 			}
 			
-			//Now that all of the original js has been loaded,
-			// load the workaround js
-			loadWorkarounds();
-			
 			//Finally delete the loader from the blackberry namespace to avoid polluting
 			removeLoader();
 			
@@ -156,74 +143,6 @@ package webworks
 		
 		private function removeLoader():void {
 			webkitControl.executeJavaScript('delete blackberry.Loader');
-		}
-		
-		/*
-		###### Temporary workaround code for blackberry.app and blackberry.system namespaces ######
-		
-		BEGIN WORKAROUND
-		*/
-		private function loadWorkarounds():void
-		{
-			if (ConfigData.getInstance().isFeatureAllowed("blackberry.app", webkitControl.qnxWebView.location)) {				
-				attachAppJsWorkaround();
-			}
-			
-			if (ConfigData.getInstance().isFeatureAllowed("blackberry.system", webkitControl.qnxWebView.location)) {
-				attachSystemJsWorkaround();
-			}
-			
-			trace(event.toString());			
-		}
-		
-		private function onNetworkChange(event:Event):void {
-			saveDataConnectionStateJs(areNetworkInterfacesActive());
-		}
-		
-		
-		private function areNetworkInterfacesActive():Boolean{
-			var areActive : Boolean = false;
-			
-			NetworkInfo.networkInfo.findInterfaces().every(
-				function callback(item:NetworkInterface, index:int, vector:Vector.<NetworkInterface>):Boolean {
-					areActive = item.active || areActive;
-					
-					return !areActive;
-				}, this);
-			
-			return areActive;
-		}
-		
-		private function saveDataConnectionStateJs(haveConnection : Boolean):void {
-			var haveCoverageJs : String = "blackberry.system.dataCoverage = " + haveConnection + ";";
-			trace(haveCoverageJs);
-			event.script += haveCoverageJs;
-			//webkitControl.executeJavaScript(haveCoverageJs);
-		}
-		
-		private function saveAccessListJs():void {
-			var sysNSGen:SystemNameSpaceGenerator = new SystemNameSpaceGenerator(webkitControl.qnxWebView.location);
-			var accessListInitJs : String = "blackberry.system.accessList = " + sysNSGen.accessListJson + ";";
-			trace(accessListInitJs);
-			event.script += accessListInitJs;
-			//webkitControl.executeJavaScript(accessListInitJs);
-		}
-		
-		private function attachSystemJsWorkaround():void{
-			saveAccessListJs();
-			saveDataConnectionStateJs(areNetworkInterfacesActive());
-		}
-		
-		private function attachAppJsWorkaround():void{
-			var appNSGen:AppNameSpaceGenerator = new AppNameSpaceGenerator(ConfigData.getInstance().properties);
-			var workaround:String = appNSGen.appNamespaceWorkaround;	
-			
-			trace(workaround);
-			//webkitControl.executeJavaScript(workaround);
-			event.script += workaround;
-		}
-		/*
-		END WORKAROUND
-		*/
+		}		
 	}
 }

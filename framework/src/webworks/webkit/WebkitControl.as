@@ -96,7 +96,7 @@ package webworks.webkit
 		{
 			trace("handleUnknownProtocol: " + event.url);
 			dispatchEvent(new WebkitEvent(WebkitEvent.TAB_UNKNOWNPROTOCOL, event));
-		}		
+		}
 		
 		private function loadComplete(event:Event):void
 		{

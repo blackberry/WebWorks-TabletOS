@@ -34,10 +34,12 @@ package webworks.util
 	public class DeviceURL
 	{
 		private var _uri:URI;
+		private var originalUrl:String;
 		
 		public function DeviceURL(url:String)
 		{
 			_uri = new URI(url);
+			originalUrl = url;
 		}
 		
 		public function isDeviceProtocol():Boolean
@@ -51,6 +53,15 @@ package webworks.util
 		public function get query():String
 		{
 			return _uri.query;
+		}
+		
+		
+		public function get unescapedQuery():String
+		{
+			if (originalUrl.indexOf("?") >= 0)
+				return originalUrl.split("?")[1];
+			else
+				return "";
 		}
 		
 		/**

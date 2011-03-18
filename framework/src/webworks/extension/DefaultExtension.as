@@ -44,21 +44,18 @@ package webworks.extension
 			throw new IllegalOperationError("No features defined. Method must be overriden in implementing extension.");
 		}
 		
-		public function invokeFunction(method:String, parameters:String = ""):Object {
+		public function invokeFunction(method:String, parameters:String = ""):String {
 			var myReturn:Object = "";
 			_query = parameters;
 			
 			var keyValuePairs : Array = getParameterArrayFromQuery(parameters);
 			_paramKeys = getParamKVArray(keyValuePairs)[0];
-			_paramValues = getParamKVArray(keyValuePairs)[1];
+			_paramValues = getParamKVArray(keyValuePairs)[1];			
 			
-			try{	
-				myReturn = this[method].apply(this, _paramValues);				
-			}
-			catch(e:ReferenceError) {
-				trace(e);			
-			}
-			
+			//If a "method" that does not exist is called a reference error will be thrown,  
+			// we will catch this in the WebWorksAppTemplate
+			myReturn = this[method].apply(this, _paramValues);		
+		
 			return JSON.encode(myReturn);
 		}
 		
@@ -116,7 +113,7 @@ package webworks.extension
 			
 				var decompParam : Array = keyValuePairs[i].split("=");
 				keys.push(decompParam[0]);
-				values.push(decompParam[1]);				
+				values.push(unescape(decompParam[1]));				
 			}
 			
 			return [keys, values];

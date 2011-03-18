@@ -16,38 +16,26 @@
 package
 {
 	import flash.desktop.NativeApplication;
-	import flash.display.Bitmap;
-	import flash.display.Shape;
 	import flash.display.Sprite;
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
 	import flash.events.Event;
-	import flash.events.IOErrorEvent;
-	import flash.events.LocationChangeEvent;
-	import flash.filesystem.File;
-	import flash.utils.ByteArray;
-	import flash.utils.Dictionary;
+	import flash.utils.*;
 	
 	import qnx.dialog.AlertDialog;
-	import qnx.dialog.DialogSize;
-	import qnx.display.IowWindow;
 	import qnx.events.ExtendedLocationChangeEvent;
-	import qnx.events.JavaScriptCallbackEvent;
 	import qnx.events.UnknownProtocolEvent;
-	import qnx.events.WebViewEvent;
 	
 	import webworks.FunctionBroker;
-	import webworks.JavaScriptLoader;
-	import webworks.access.Access;
 	import webworks.config.ConfigConstants;
 	import webworks.config.ConfigData;
+	import webworks.errors.HTTPErrorMapping;
 	import webworks.extension.IApiExtension;
 	import webworks.loadingScreen.LoadingScreen;
 	import webworks.loadingScreen.Transitions;
-	import webworks.policy.WidgetPolicy;
-	import webworks.uri.URI;
 	import webworks.webkit.WebkitControl;
 	import webworks.webkit.WebkitEvent;
+	
 
 	[SWF(width="1024", height="600", frameRate="30", backgroundColor="#000000")]
 	public class WebWorksAppTemplate extends Sprite
@@ -153,21 +141,23 @@ package
 			// hold the unknown protocol event
 			upe.preventDefault();
 			
-			var responseStatus:int = broker.valid(requestUrl);
-			var responseObject:Object= broker.handleXHRRequest(requestUrl);
-			var responseText:String;
 
-			var byteData:ByteArray = new ByteArray();;
+			var returnedBody:String = "";
 			
-			if (responseObject == null || responseStatus != FunctionBroker.HTTPStatus_200_Okay) {
-				responseText = FunctionBroker.statusCodeToString(responseStatus);
-			} else {
-				responseText = responseObject.toString();
+			try {
+				returnedBody = broker.handleXHRRequest(upe.url).toString();
+				webWindow.qnxWebView.notifyResourceOpened(sid, HTTPErrorMapping.getSuccessCode(), HTTPErrorMapping.getSuccessMessage());
 			}
 			
-			byteData.writeUTFBytes(responseText);
+			catch (e:Error) {
+				var httpError:HTTPErrorMapping = new HTTPErrorMapping(e);
+				webWindow.qnxWebView.notifyResourceOpened(sid,httpError.code, httpError.message);
+			}
 			
-			webWindow.qnxWebView.notifyResourceOpened(sid, responseStatus, FunctionBroker.statusCodeToString(responseStatus));
+			var byteData:ByteArray;
+			byteData = new ByteArray();
+			byteData.writeUTFBytes(returnedBody);
+
 			webWindow.qnxWebView.notifyResourceHeaderReceived(sid, "Content-Type", "text/plain");
 			webWindow.qnxWebView.notifyResourceHeaderReceived(sid, "Content-Length", byteData.length.toString());
 			webWindow.qnxWebView.notifyResourceDataReceived(sid, byteData);
