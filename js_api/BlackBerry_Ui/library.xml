@@ -35,7 +35,7 @@
 		
 	function standardDialog() {
 		try {
-			blackberry.ui.dialog.standardAsk("Save?", blackberry.ui.dialog.D_SAVE, dialogCallBack, {title : "Save Dialog", size: blackberry.ui.dialog.SIZE_MEDIUM, position : blackberry.ui.dialog.LOC_BOTTOM});
+			blackberry.ui.dialog.standardAskAsync("Save?", blackberry.ui.dialog.D_SAVE, dialogCallBack, {title : "Save Dialog", size: blackberry.ui.dialog.SIZE_MEDIUM, position : blackberry.ui.dialog.LOC_BOTTOM});
 		}
 		catch (e) {
 			alert("Exception in standardDialog: " + e);
@@ -46,7 +46,7 @@
 		try {
 			var buttons = new Array("Yes", "No", "Sometimes", "NA");
 			var ops = {title : "Choose the answer that describes you best", size : blackberry.ui.dialog.SIZE_TALL, position : blackberry.ui.dialog.LOC_CENTER};
-			blackberry.ui.dialog.customAsk("Do you routinely work out?", buttons, dialogCallBack, ops);
+			blackberry.ui.dialog.customAskAsync("Do you routinely work out?", buttons, dialogCallBack, ops);
 		} catch (e) {
 			alert("Exception in customDialog: " + e);
 		}
@@ -56,26 +56,17 @@
 		try {
 			var ops = {title : "Global Save Dialog", global : true};
 			//Application cannot be sent to background when this dialog is active
-			blackberry.ui.dialog.standardAsk("Battery level is low. Do you want to save your work?", blackberry.ui.dialog.D_SAVE, dialogCallBack, ops);
+			blackberry.ui.dialog.standardAskAsync("Battery level is low. Do you want to save your work?", blackberry.ui.dialog.D_SAVE, dialogCallBack, ops);
 		} catch (e) {
 			alert(Exception in globalDialog: " + e);
 		}
 	}
 
-	function globalDialog() {
-		try {
-			var ops = {title : "Global Save Dialog", global : true};
-			//Application cannot be sent to background when this dialog is active
-			blackberry.ui.dialog.standardAsk("Battery level is low. Do you want to save your work?", blackberry.ui.dialog.D_SAVE, dialogCallBack, ops);
-		} catch (e) {
-			alert(Exception in globalDialog: " + e);
-		}
-	}
 </script>]]></example>
 
     <functions>
-		<func name="standardAsk" returns="void" static="true" comment="Creates a standard dialog to ask the user a question.">
-			<details>Uses the standard dialog. The function will not block execution and will return the 0-based index of the user's choice.</details>
+		<func name="standardAskAsync" returns="void" static="true" comment="Creates an asynchronous standard dialog to ask the user a question.">
+			<details>Uses the standard dialog. The function is an asynchronous call amd will not block execution. It will return the 0-based index of the user's choice.</details>
 			
 			<param name="message" type="String" comment="Message to be displayed in the dialog." />
 			<param name="type" type="Number" comment="Parameter that specifies the type of standard dialog. Constants starting with D_*." />
@@ -83,8 +74,8 @@
 			<param name="settings" type="Object" comment= "Optional Object literal that allows the user to manipulate the size, location, title of the dialog, and whether this is a global dialog (your application cannot be minimized when a global dialog is active; by default when the 'global' flag is not passed, dialog will be modal only for your application). It is not required to provide all parameters, and these do not have to be specified in any particular order."/>			
 		</func>
 		
-		<func name="customAsk" returns="void" static="true" comment="Creates a custom dialog to ask the user a question.">
-			<details>Uses the custom dialog. The function will not block execution and will return the 0-based index of the user's choice.</details>
+		<func name="customAskAsync" returns="void" static="true" comment="Creates an asynchronous custom dialog to ask the user a question.">
+			<details>Uses the custom dialog. The function is an asynchronous call amd will not block execution. It will return the 0-based index of the user's choice.</details>
 			
 			<param name="message" type="String" comment="Message to be displayed in the dialog." />
 			<param name="buttons" type="String" array="true" comment="Array of string choices that will be presented to the user in the form of buttons." />

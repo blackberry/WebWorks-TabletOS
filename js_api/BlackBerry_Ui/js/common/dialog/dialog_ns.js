@@ -17,9 +17,9 @@
 (function () {
 	
 	function Dialog(disp) {
-		this.constructor.prototype.customAsk = function(message, buttons, onClickHandler, settings) { return disp.customAsk(message, buttons, onClickHandler, settings); };
+		this.constructor.prototype.customAskAsync = function(message, buttons, onClickHandler, settings) { return disp.customAskAsync(message, buttons, onClickHandler, settings); };
 		
-		this.constructor.prototype.standardAsk = function(message, dialogType, onClickHandler, settings) { return disp.standardAsk(message, dialogType, onClickHandler, settings); };
+		this.constructor.prototype.standardAskAsync = function(message, dialogType, onClickHandler, settings) { return disp.standardAskAsync(message, dialogType, onClickHandler, settings); };
 	}
 	
 	Dialog.prototype.__defineGetter__("D_OK", function() { return 0; });

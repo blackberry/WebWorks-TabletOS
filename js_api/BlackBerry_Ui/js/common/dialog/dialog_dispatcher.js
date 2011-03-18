@@ -102,11 +102,11 @@
 	function DialogDispatcher() {
 	}
 	
-	DialogDispatcher.prototype.customAsk = function(message, buttons, onClickHandler, settings) {
+	DialogDispatcher.prototype.customAskAsync = function(message, buttons, onClickHandler, settings) {
 		requestDialog(message, buttons, onClickHandler, settings).makeAsyncCall();
 	};
 			
-	DialogDispatcher.prototype.standardAsk = function(message, dialogType, onClickHandler, settings) {
+	DialogDispatcher.prototype.standardAskAsync = function(message, dialogType, onClickHandler, settings) {
 		var buttons = getButtonsForDialogType(dialogType);
 		requestDialog(message, buttons, onClickHandler, settings).makeAsyncCall();
 	}
