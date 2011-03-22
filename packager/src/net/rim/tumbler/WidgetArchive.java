@@ -91,7 +91,7 @@ public class WidgetArchive {
                         }
                     }
                     // Validate the resource name
-                    Pattern patternEntryName = Pattern.compile("[a-zA-Z0-9][a-zA-Z_0-9\\-\\.]*");;
+                    Pattern patternEntryName = Pattern.compile("[a-zA-Z_0-9\\-\\.][a-zA-Z_0-9\\-\\.]*");;
                     String entity;
                     String fullEntryName = entryName;
                     boolean noMoreEntity = false;
