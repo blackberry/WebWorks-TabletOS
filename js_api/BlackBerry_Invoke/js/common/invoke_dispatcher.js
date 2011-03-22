@@ -29,8 +29,8 @@
 	var APP_URL_VIDEOS = "videos://";
 	var APP_URL_APPWORLD = "appworld://";
 
-	var APP_TYPE_ERROR = "appType not supported";
-	var APP_BROWSER_ERROR = "Protocol specified in the url is not supported.";
+	var APP_TYPE_ERROR = "The application specified to invoke is not supported.";
+	var APP_BROWSER_ERROR = "Please specify a fully qualified URL that starts with either the 'http://' or 'https://' protocol.";
 	
 	function InvokeDispatcher() {
 	}
@@ -48,7 +48,7 @@
 					remote.addParam(APP_TYPE,APP_URL_CAMERA);
 				break;
 			
-			//Music
+			//MAPS
 			case 5:						
 				remote.addParam(APP_TYPE, APP_URL_MAPS);
 				break;
@@ -60,11 +60,23 @@
 					remote.addParam(APP_TYPE, APP_URL_BROWSER);
 				}						
 				else{
-					//Only http:// works to launch the browser
-					if(args.url.indexOf(APP_URL_BROWSER) != 0)
-						throw APP_BROWSER_ERROR;								
+					var url = args.url.split("://");
 					
-					remote.addParam(APP_TYPE, args.url);							
+					//No protocol given, append http protocol
+					if(url.length == 1){
+						url = APP_URL_BROWSER + url[0];
+					}
+					else if(url.length == 2){
+						
+						//Check if protocol is supported: http, https
+						if(url[0].indexOf("http") != 0)
+							throw APP_BROWSER_ERROR;								
+						
+						else
+							url = args.url;
+					}
+					
+					remote.addParam(APP_TYPE, url);							
 				}
 				
 				break;
