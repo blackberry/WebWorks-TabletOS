@@ -32,8 +32,8 @@
 		/*
 		 * Define constants for CameraArguments
 		 */
-		this.constructor.prototype.CameraArguments.prototype.__defineGetter__("VIEW_CAMERA", function() { return 0; });	
-		this.constructor.prototype.CameraArguments.prototype.__defineGetter__("VIEW_RECORDER", function() { return 1; });
+		this.constructor.prototype.CameraArguments.__defineGetter__("VIEW_CAMERA", function() { return 0; });	
+		this.constructor.prototype.CameraArguments.__defineGetter__("VIEW_RECORDER", function() { return 1; });
 		
 		/* Open Browser application on the BlackBerry PlayBook.
 		 * @param url The desired url to bring up in the browser.
