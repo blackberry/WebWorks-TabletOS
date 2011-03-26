@@ -132,7 +132,6 @@ package
 			var requestUrl:String = upe.url;
 			var sid:int = upe.streamId;
 			
-			// workaround for MKS 1161926: PB- WebWorks Whitelist permissions not working for HTML5 Canvas cross origin 
 			// bypass "data:" protocol, somehow it fires the UnknownProtocolEvent for "data:" protocol
 			if (requestUrl.indexOf("data:") == 0) {
 				return;
