@@ -59,6 +59,8 @@ public class WidgetConfig {
     private String _transitionType;
     private int _transitionDuration;
     private String _transitionDirection;
+    private String _autoOrientation;
+    private String _orientation;
     
     private String _copyright;
     private String _description;
@@ -246,6 +248,14 @@ public class WidgetConfig {
         return _iconSrc;
     }
     
+    public String getAutoOrientation() {
+        return _autoOrientation;
+    }
+
+    public String getOrientation() {
+        return _orientation;
+    }
+
     public void setContent(String content) {
         _content = content;
     }
@@ -387,6 +397,14 @@ public class WidgetConfig {
 
     public void setDescription(String description) {
         _description = description;
+    }
+    
+    public void setAutoOrientation(String autoOrientation) {
+    	_autoOrientation = autoOrientation;
+    }
+    
+    public void setOrientation(String orientation) {
+    	_orientation = orientation;
     }
 
     public void addHoverIcon(String icon) {

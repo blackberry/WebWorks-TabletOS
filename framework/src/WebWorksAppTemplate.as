@@ -20,6 +20,7 @@ package
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
 	import flash.events.Event;
+	import flash.events.StageOrientationEvent;
 	import flash.utils.*;
 	
 	import qnx.dialog.AlertDialog;
@@ -61,6 +62,7 @@ package
 		private function init(e:Event = null):void 
         {
 			removeEventListener(Event.ADDED_TO_STAGE, init);
+			stage.addEventListener(StageOrientationEvent.ORIENTATION_CHANGE, onOrientationChange); 
 			entryURL = ConfigData.getInstance().getProperty(ConfigConstants.CONTENT);
 			NativeApplication.nativeApplication.addEventListener(Event.ACTIVATE, appActive);
 			NativeApplication.nativeApplication.addEventListener(Event.DEACTIVATE, appBackground);
@@ -208,7 +210,15 @@ package
 			trace("webkitLocationChanged event");
 			loadingScreen.hideIfNecessary();
 		}
-			
+
+		private function onOrientationChange(event:StageOrientationEvent):void
+		{
+			if (webWindow != null)
+			{
+				webWindow.setViewPort(0, 0, stage.stageWidth, stage.stageHeight);
+			}
+		}
+		
 		public function loadURL(url:String):void 
         {
 			if (url.indexOf(":") < 0) {

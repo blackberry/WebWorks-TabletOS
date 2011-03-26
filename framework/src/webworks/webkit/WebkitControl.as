@@ -55,11 +55,17 @@ package webworks.webkit
             creationID = _creationID;
 			_init();
 		}
+
+		public function setViewPort(_x:int, _y:int, _width:int, _height:int):void {
+			if (webView != null) {
+				webView.viewPort=new Rectangle(_x, _y, _width, _height);
+			}
+		}
 		
 		private function _init():void {
 			webView = new QNXStageWebView();
 			webView.stage = this.stage;
-			webView.viewPort = new Rectangle(defaults.x, defaults.y, defaults.width, defaults.height);
+			setViewPort(defaults.x, defaults.y, defaults.width, defaults.height);
 			webView.enableCrossSiteXHR = true;
 			javascriptLoader = new JavaScriptLoader(this);
 			

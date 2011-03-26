@@ -335,6 +335,21 @@ public class AirPackager {
                         Element e3 = (Element)nl2.item(0);
                         e3.setTextContent(replacementText);
                     }
+                    
+                    // Add AutoOrientation
+                    if (_widgetConfig.getAutoOrientation() != null && _widgetConfig.getAutoOrientation().length() > 0) {
+                    	Element autoOrientation = d.createElement("autoOrients");
+                    	autoOrientation.setTextContent(_widgetConfig.getAutoOrientation());
+                        e2.appendChild(autoOrientation);
+                    }                         
+
+                    // Add Orientation
+                    if (_widgetConfig.getOrientation() != null && _widgetConfig.getOrientation().length() > 0) {
+                    	Element orientation = d.createElement("aspectRatio");
+                    	orientation.setTextContent(_widgetConfig.getOrientation());
+                        e2.appendChild(orientation);
+                    }                         
+
                 }
                 
                 // Replace id

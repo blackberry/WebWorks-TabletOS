@@ -109,6 +109,8 @@ public class ConfigXMLParser implements XMLParser {
                     _widgetConfig.setName(getTextValue(node));
                 } else if (node.getNodeName().equals("description")) {
                     _widgetConfig.setDescription(getTextValue(node));
+                } else if (node.getNodeName().equals("rim:orientation")) {
+                    processOrientation(node);
                 }
             }
         }
@@ -147,6 +149,11 @@ public class ConfigXMLParser implements XMLParser {
         // no icon files found, how about in zip?
         if (_widgetConfig.getIconSrc().size() == 0 && archive.getIconFile() != null) {
             _widgetConfig.addIcon(archive.getIconFile());
+        }
+        
+        // validate that an autoOrientation was specified
+        if (_widgetConfig.getAutoOrientation() == null) {
+        	processOrientation(null);
         }
         
         //Invalid Configurations.      
@@ -669,6 +676,28 @@ public class ConfigXMLParser implements XMLParser {
         if (text == null) return null;        
         return text.replaceAll("\t", "").replaceAll("\n", "").trim();                    
         
+    }
+
+    // Processing device <orientation>.
+    private void processOrientation( Node orientationNode ) throws Exception {
+        final String ORIENTATION_LANDSCAPE = "landscape";
+        final String ORIENTATION_PORTRAIT = "portrait";
+
+        if( orientationNode != null ) {
+            NamedNodeMap attrs = orientationNode.getAttributes();
+            Node modeAttibute = attrs.getNamedItem( "mode" );
+
+            String orientationMode = getTextValue( modeAttibute ).trim();
+            if( orientationMode.equals( ORIENTATION_LANDSCAPE ) || orientationMode.equals( ORIENTATION_PORTRAIT ) ) {
+                _widgetConfig.setAutoOrientation( "false" );
+                _widgetConfig.setOrientation( orientationMode );
+            }
+
+            return;
+        }
+        
+        // Setting default values if specified wasn't valid
+        _widgetConfig.setAutoOrientation( "true" );
     }
 
     private String getTextValue(Node node) {
