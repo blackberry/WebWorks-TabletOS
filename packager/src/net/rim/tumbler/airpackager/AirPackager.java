@@ -133,9 +133,23 @@ public class AirPackager {
                 String relativePath = f.getAbsolutePath().substring(sourcePath.length() + 1);
                 desFile = new File(bindebugPath, relativePath);
                 FileManager.copyFile(f, desFile);
-                fileList.add(desFile);
             }
 
+            // Add the top level file/folder under bin-debug folder to the file list,
+            // so it will greatly shorten the length of final command line
+            File[] archiveFiles = new File(bindebugPath).listFiles(new FileFilter() {
+            	// APP_XML_SUFFIX and SWF_FILE_EXTENSION will be added afterwards
+                public boolean accept(File pathname) {
+                    return !pathname.getName().endsWith(APP_XML_SUFFIX)
+                        && !pathname.getName().endsWith(SWF_FILE_EXTENSION)
+                        && !pathname.getName().contains("__MACOSX");
+                }
+            });
+            
+            for (File f : archiveFiles) {
+            	fileList.add(f);
+            }
+            
             //
             // Copy the SWF
             //
@@ -485,7 +499,7 @@ public class AirPackager {
 
         return fileList;
     }
-
+    
     // delete a dir
     private boolean deleteDirectory(File dir) {
         // remove files first
