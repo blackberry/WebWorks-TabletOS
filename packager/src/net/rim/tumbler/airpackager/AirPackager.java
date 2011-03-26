@@ -124,7 +124,7 @@ public class AirPackager {
                 public boolean accept(File pathname) {
                     return !pathname.getName().endsWith(".as")
                         && !pathname.getName().endsWith(APP_XML_SUFFIX)
-                        && !pathname.getName().endsWith(SWF_FILE_EXTENSION)
+                        && !pathname.getName().equals(SessionManager.getInstance().getArchiveName() + SWF_FILE_EXTENSION)
                         && !pathname.getName().contains("__MACOSX");
                 }
             });
