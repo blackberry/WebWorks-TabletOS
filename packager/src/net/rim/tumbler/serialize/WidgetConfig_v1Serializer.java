@@ -50,6 +50,7 @@ public class WidgetConfig_v1Serializer implements WidgetConfigSerializer {
         
         // populate the basic members
         // MKS: special characters for Java source file: escape /, ", ' for Java source 
+        _memberMap.put("version",                  widgetConfig.getVersion());
         _memberMap.put("id",                       widgetConfig.getID());
         _memberMap.put("name",                     widgetConfig.getName());
         _memberMap.put("description",              widgetConfig.getDescription());
