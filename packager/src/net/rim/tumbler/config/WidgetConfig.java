@@ -33,7 +33,6 @@ public class WidgetConfig {
      * Pre-compiled Pattern for validating and parsing of the version string.
      * Valid version strings are:
      * <pre>
-     *     0-999.0-999
      *     0-999.0-999.0-999
      *     0-999.0-999.0-999.0-999
      * </pre>
@@ -41,7 +40,7 @@ public class WidgetConfig {
      * For example, capturing groups for a version string of <code>"4.0.1.96"</code>
      * are "4", "0", "1", and "96".
      */
-    private static final Pattern VERSION_PATTERN = Pattern.compile("(\\d{1,3})(?:\\.(\\d{1,3}))(?:\\.(\\d{1,3}))?(?:\\.(\\d{1,3}))?$");
+    private static final Pattern VERSION_PATTERN = Pattern.compile("(\\d{1,3})(?:\\.(\\d{1,3}))(?:\\.(\\d{1,3}))(?:\\.(\\d{1,3}))?$");
 
     private String _content;
     private String _author;
@@ -278,7 +277,6 @@ public class WidgetConfig {
                     "PROGRESS_VALIDATING_CONFIG_XML_WIDGET_VERSION");
         }
         // version variable should look like one of the options:
-        // version="a.b"
         // version="a.b.c"
         // version="a.b.c.d"
         Matcher matcher = VERSION_PATTERN.matcher(version);
