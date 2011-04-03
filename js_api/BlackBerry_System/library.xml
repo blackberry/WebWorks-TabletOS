@@ -85,7 +85,7 @@
 			<func name="hasDataCoverage" returns="Boolean" static="true"
 				comment="Returns true if the BlackBerry PlayBook is in coverage, otherwise returns false. This can be used in conjunction with the blackberry.network property to find out what kind of coverage it is in.">
 				<details>
-					Returns true if the BlackBerry PlayBook has any network interface active. On a simulator it will always return false.
+					Returns true if the BlackBerry PlayBook has any network interface active.
                 </details>
 			</func>
 
