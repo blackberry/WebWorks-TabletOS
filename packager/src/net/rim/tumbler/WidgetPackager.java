@@ -171,7 +171,14 @@ public class WidgetPackager {
             if (ENABLE_SIGNING && sessionManager.requireSigning()) {
                 Logger.logMessage(LogType.INFO, "PROGRESS_SIGNING");
                 if (SessionManager.getInstance().isPlayBook()) {
-                    SigningSupport.signBar(bbwpProperties);
+                    try {
+                        SigningSupport.signBar(bbwpProperties);
+                    } catch (Exception e) {
+                        File barFile = new File(sessionManager.getOutputFilepath());
+                        if (barFile.isFile()) {
+                            barFile.delete();
+                        }
+                    }
                 } else {
                     signCod(sessionManager);
                 }
