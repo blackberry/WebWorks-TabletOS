@@ -30,6 +30,7 @@
 	var APP_URL_APPWORLD = "appworld://";
 
 	var APP_TYPE_ERROR = "The application specified to invoke is not supported.";
+	var APP_CAMERA_ARGUMENTS_ERROR = "Please provide a valid value for CameraArguments.";
 	var APP_BROWSER_ERROR = "Please specify a fully qualified URL that starts with either the 'http://' or 'https://' protocol.";
 	
 	function InvokeDispatcher() {
@@ -42,10 +43,15 @@
 		switch(appType) {
 			//Camera
 			case 4:
-				if(!args || args.view == 1)
-					remote.addParam(APP_TYPE, APP_URL_CAMERA_VIDEO);						
-				else
-					remote.addParam(APP_TYPE,APP_URL_CAMERA);
+				if (!args || args.view == 0) {
+					remote.addParam(APP_TYPE, APP_URL_CAMERA);
+				}
+				else if (args.view == 1) {
+					remote.addParam(APP_TYPE, APP_URL_CAMERA_VIDEO);
+				}						
+				else { // view has wrong value
+					throw APP_CAMERA_ARGUMENTS_ERROR;
+				}
 				break;
 			
 			//MAPS
