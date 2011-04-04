@@ -17,6 +17,10 @@
 
 		<tabletSDK.dir>${project.build.directory}/tabletsdk</tabletSDK.dir>
 		<tabletSDK.filename>blackberry-tablet-sdk.zip</tabletSDK.filename>
+		<tabletSDK.branchNumber>1.0.1</tabletSDK.branchNumber>
+		<tabletSDK.buildID>201104031615</tabletSDK.buildID>
+		<tabletSDK.simFileName>BlackBerryPlayBookSimulator-${tabletSDK.branchNumber}.iso</tabletSDK.simFileName>
+		<tabletSDK.simBuildID>${tabletSDK.buildID}</tabletSDK.simBuildID>
 	</properties>
 
     <build>
@@ -51,11 +55,22 @@
 						<artifactItem>
 						  <groupId>net.rim.snarf</groupId>
 						  <artifactId>tablet-sdk</artifactId>
-						  <version>1.0.1.5</version>
+						  <version>${tabletSDK.branchNumber}.${tabletSDK.buildID}</version>
 						  <type>zip</type>
 						  <overWrite>true</overWrite>
 						  <outputDirectory>${tabletSDK.dir}</outputDirectory>
 						  <destFileName>${tabletSDK.filename}</destFileName>
+						</artifactItem>
+
+						<!-- playbook simulator iso file -->
+						<artifactItem>
+						  <groupId>net.rim.snarf</groupId>
+						  <artifactId>playbook-simulator-iso</artifactId>
+						  <version>${tabletSDK.branchNumber}.${tabletSDK.simBuildID}</version>
+						  <type>iso</type>
+						  <overWrite>true</overWrite>
+						  <outputDirectory>${tabletSDK.dir}</outputDirectory>
+						  <destFileName>${tabletSDK.simFileName}</destFileName>
 						</artifactItem>
 
 					  </artifactItems>
@@ -80,6 +95,7 @@
 						<target>
 							<property name="webworksZipPackage.path" value="${webworksZipPackage.dir}/${webworksZipPackage.filename}"/>
 							<property name="tabletSDK.path" value="${tabletSDK.dir}/${tabletSDK.filename}"/>
+							<property name="tabletSDK.simPath" value="${tabletSDK.dir}/${tabletSDK.simFileName}"/>
 							<ant antfile="${basedir}/antbuild.xml"/>
 						</target>
 					</configuration>

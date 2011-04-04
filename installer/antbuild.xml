@@ -5,6 +5,7 @@
 	<property name="dist.installer.dir" value="dist-installer"/> <!-- the default value, should be set by caller -->
 	<property name="webworksZipPackage.path" value="WebWorksForPlaybook.zip"/> <!-- the default value, should be set by caller -->
 	<property name="tabletSDK.path" value="tabletSDK.zip"/> <!-- the default value, should be set by caller -->
+	<property name="tabletSDK.simPath" value="BlackBerryPlayBookSimulator.iso"/> <!-- the default value, should be set by caller -->
 	<property name="output.dir" value="${basedir}/release_x"/> <!-- the default value, can be set by caller -->
 		
     <!-- Define installer information -->
@@ -58,6 +59,9 @@
 		<copy todir="${installer.data.bbwp.dir}/ext" >
 			<fileset dir="${jsapi.dir}" includes="BlackBerry_*/**" excludes="**/.*"/>
 		</copy>
+
+		<echo>Copying simulator iso file</echo>
+		<copy file="${tabletSDK.simPath}" todir="${installer.data.dir}/blackberry-tablet-sdk"/>
 
 	</target>
 
