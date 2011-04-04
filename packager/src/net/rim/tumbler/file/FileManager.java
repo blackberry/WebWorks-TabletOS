@@ -26,6 +26,7 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.channels.FileChannel;
 import java.util.Enumeration;
 import java.util.List;
@@ -112,11 +113,11 @@ public class FileManager {
             String fname = sourceFolder + FILE_SEP + zipEntryFile.getPath();
             
             // extract file
-            InputStream is = zip.getInputStream(ze);
+            InputStream is = new BufferedInputStream(zip.getInputStream(ze));
             File fi = new File(fname);
             if (!fi.getParentFile().isDirectory() || !fi.getParentFile().exists())
                 fi.getParentFile().mkdirs();
-            FileOutputStream fos = new FileOutputStream(fname);
+            OutputStream fos = new BufferedOutputStream(new FileOutputStream(fname));
             int bytesRead;
             while ((bytesRead = is.read()) != -1)
                 fos.write(bytesRead);
