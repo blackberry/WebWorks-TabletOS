@@ -169,8 +169,7 @@ public class CmdLineHandler {
             if (param.equals(OPTION_HELP)) {
                 throw new Exception();
             } else if (param.equals(OPTION_DEBUG)) {
-                // Ignore it for PlayBook
-                //_debugMode = true;
+                _debugMode = true;
                 index++;
             } else if (param.equals(OPTION_DEBUG_INTERNAL)) {
                 _debugModeInternal = true;

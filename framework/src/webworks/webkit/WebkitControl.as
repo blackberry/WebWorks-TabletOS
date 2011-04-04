@@ -60,6 +60,10 @@ package webworks.webkit
 			
 			//Create the webview with default settings
 			_webView = createWebview(defaultWebviewSettings);
+
+			// Enable/Disable WebInspector
+			var debugEnabledConfig:Boolean = ConfigData.getInstance().getProperty(ConfigConstants.DEBUGENABLED);
+			_webView.enableWebInspector = debugEnabledConfig;
 			
 			//Set custom headers
 			var customHeaders:Vector.<URLRequestHeader> = createCustomHeaderVector();
