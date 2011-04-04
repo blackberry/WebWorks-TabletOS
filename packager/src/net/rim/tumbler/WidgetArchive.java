@@ -91,7 +91,9 @@ public class WidgetArchive {
                         }
                     }
                     // Validate the resource name
-                    Pattern patternEntryName = Pattern.compile("[a-zA-Z_0-9\\-\\.][a-zA-Z_0-9\\-\\.]*");;
+                    // Allow "_" and "." anywhere in file name
+                    // Disallow "-" as leading character, but allow it in other positions 
+                    Pattern patternEntryName = Pattern.compile("[a-zA-Z_0-9\\.][a-zA-Z_0-9\\-\\.]*");
                     String entity;
                     String fullEntryName = entryName;
                     boolean noMoreEntity = false;
