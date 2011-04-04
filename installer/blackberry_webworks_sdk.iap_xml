@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- This script was automatically generated using InstallAnywhere 2010 Enterprise, Build 3972
      STATUS: Fully Functional LICENSED Edition
-     DATE:   Mon Apr 04 13:40:04 EDT 2011 -->
+     DATE:   Mon Apr 04 14:44:15 EDT 2011 -->
 <InstallAnywhere_Deployment_Project increments="3401">
 	<!-- ** DO NOT EDIT ** Essential authorization and configuration data ** DO NOT EDIT ** -->
 	<essentialScriptInfo>
@@ -10,7 +10,7 @@
 		<scriptID>12,42,11,70,49,57,54,74,78,74,74,78,72,45,69,68,74,45,75,70,74,74,70,78,78,69,74,88</scriptID>
 		<buildID>3,13,71,87,105,110,100,111,119,115,32,88,80,44,32,53,46,49,44,32,120,56,54,59,32,74,97,118,97,32,49,46,54,46,48,95,49,53,44,32,83,117,110,32,77,105,99,114,111,115,121,115,116,101,109,115,32,73,110,99,46,44,32,104,116,116,112,58,47,47,106,97,118,97,46,115,117,110,46,99,111,109,47,59,32,101,110,44,32,85,110,107,110,111,119,110,59,32,67,112,49,50,53,50</buildID>
 		<!-- The authorizationID may change between project saves and builds.  This does not effect the integrity of the project, nor do changes in this value represent changes in the actual InstallAnywhere project. -->
-		<authorizationID>1,0,0,32,35,-97,-112,-64,80,112,118,100,85,99,113,97,113,65,81,84,74,67,70,68,72,74,64,69,66,69,64,95,71,5,2,11,8,25,97,15,1,0,0</authorizationID>
+		<authorizationID>1,0,0,32,35,-33,80,48,80,112,118,100,85,99,113,97,113,65,81,84,74,67,70,68,72,74,64,69,66,69,64,95,71,5,2,7,11,20,97,15,1,0,0</authorizationID>
 	</essentialScriptInfo>
 	<installationObjects uniqueObjects="149">
 		<object class="com.zerog.ia.installer.Installer" objectID="61c3cf33921d">
@@ -2080,7 +2080,7 @@ For information on configuration of the SDK please visit www.blackberry.com/deve
 					</method>
 					<method name="put">
 						<string><![CDATA[com.zerog.ia.project.save.last.date]]></string>
-						<string><![CDATA[April 4, 2011 1:40:04 PM EDT]]></string>
+						<string><![CDATA[April 4, 2011 2:44:15 PM EDT]]></string>
 					</method>
 					<method name="put">
 						<string><![CDATA[com.zerog.ia.build.options.optimization.platform.cdrom]]></string>
@@ -2339,7 +2339,7 @@ For information on configuration of the SDK please visit www.blackberry.com/deve
 								<int>0</int>
 							</property>
 							<property name="subRevision">
-								<int>25</int>
+								<int>2</int>
 							</property>
 						</object>
 					</property>
