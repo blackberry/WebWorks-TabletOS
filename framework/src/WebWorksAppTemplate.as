@@ -21,6 +21,7 @@ package
 	import flash.display.StageScaleMode;
 	import flash.events.Event;
 	import flash.events.StageOrientationEvent;
+	import flash.geom.Rectangle;
 	import flash.utils.*;
 	
 	import qnx.dialog.AlertDialog;
@@ -117,7 +118,8 @@ package
 		private function setupWebkit():void 
         {
             var creationID:Number = int(Math.random() * 1000000) + new Date().time;
-            webWindow = new WebkitControl(creationID, 0, 0, stage.stageWidth,  stage.stageHeight);
+            webWindow = new WebkitControl(creationID);
+			webWindow.setViewPort(new Rectangle(0, 0, stage.stageWidth,  stage.stageHeight));
 
 			webWindow.addEventListener(WebkitEvent.TAB_LOAD_COMPLETE, tabLoadComplete);
 			webWindow.addEventListener(WebkitEvent.TAB_LOAD_ERROR, webkitLoadError);
@@ -215,7 +217,7 @@ package
 		{
 			if (webWindow != null)
 			{
-				webWindow.setViewPort(0, 0, stage.stageWidth, stage.stageHeight);
+				webWindow.setViewPort(new Rectangle(0, 0, stage.stageWidth, stage.stageHeight));
 			}
 		}
 		

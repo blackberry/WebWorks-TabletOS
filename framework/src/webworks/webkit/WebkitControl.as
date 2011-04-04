@@ -39,59 +39,78 @@ package webworks.webkit
 	
 	public class WebkitControl extends Sprite
 	{
-		private var webView:QNXStageWebView;
-		private var defaults:Object;
-        private var creationID:Number;
-        private var uniqueID:String;
-        private var windowObj:IowWindow;
-		private var javascriptLoader:JavaScriptLoader;
+		private var _webView:QNXStageWebView;
+        private var _creationID:Number;
+        private var _uniqueID:String;
+        private var _windowObj:IowWindow;
+		private var _javascriptLoader:JavaScriptLoader;
 		
-		public function WebkitControl(_creationID:Number,_x:int, _y:int, _width:int, _height:int) {
-			defaults = new Object();
-			defaults.x = _x;
-			defaults.y = _y;	
-			defaults.width = _width;
-			defaults.height = _height;
-            creationID = _creationID;
-			_init();
+		public function WebkitControl(creationID:Number) {
+			_creationID = creationID;
+			
+			init({ 
+				enableCrossSiteXHR : true,
+				visible : true
+			});
 		}
 
-		public function setViewPort(_x:int, _y:int, _width:int, _height:int):void {
-			if (webView != null) {
-				webView.viewPort=new Rectangle(_x, _y, _width, _height);
-			}
+		private function init(defaultWebviewSettings:Object):void {
+			//Initialize JS loader
+			_javascriptLoader = new JavaScriptLoader(this);
+			
+			//Create the webview with default settings
+			_webView = createWebview(defaultWebviewSettings);
+			
+			//Set custom headers
+			var customHeaders:Vector.<URLRequestHeader> = createCustomHeaderVector();
+			addWebviewCustomHeaders(customHeaders);
+			
+			//Add the event listeners
+			addWebviewEventListeners();
 		}
 		
-		private function _init():void {
-			webView = new QNXStageWebView();
-			webView.stage = this.stage;
-			setViewPort(defaults.x, defaults.y, defaults.width, defaults.height);
-			webView.enableCrossSiteXHR = true;
-			javascriptLoader = new JavaScriptLoader(this);
+		private function createWebview(defaultSettings : Object):QNXStageWebView
+		{
+			var wv:QNXStageWebView = new QNXStageWebView();
 			
-			// set custom headers
+			wv.stage = this.stage;
+			wv.enableCrossSiteXHR = defaultSettings["enableCrossSiteXHR"];
+			wv.visible = defaultSettings["visible"];
+			
+			return wv;
+		}
+		
+		private function createCustomHeaderVector():Vector.<URLRequestHeader>
+		{
 			var customHeaders:Vector.<URLRequestHeader> = new Vector.<URLRequestHeader>();
 			var customHeadersConfig:Object = ConfigData.getInstance().getProperty(ConfigConstants.CUSTOMHEADERS);
 			for (var customName:String in customHeadersConfig) {
 				customHeaders.push(new URLRequestHeader(customName, customHeadersConfig[customName]));
 			}
 			
-			if(customHeaders.length > 0) {
-				webView.customHTTPHeaders = customHeaders;
-			}
-			
-			webView.addEventListener(ErrorEvent.ERROR, loadError);
-			webView.addEventListener(Event.COMPLETE, loadComplete);
-
-			webView.addEventListener(LocationChangeEvent.LOCATION_CHANGING, locationChanging);
-			webView.addEventListener(LocationChangeEvent.LOCATION_CHANGE, locationChanged); 
-            webView.addEventListener(WebViewEvent.CREATED, htmlEventBrowserCreated);
-			webView.addEventListener(NetworkResourceRequestedEvent.NETWORK_RESOURCE_REQUESTED, networkResourceRequested);
-			webView.addEventListener(UnknownProtocolEvent.UNKNOWN_PROTOCOL, handleUnknownProtocol);
-			webView.addEventListener(WindowObjectClearedEvent.WINDOW_OBJECT_CLEARED, onJavaScriptWindowObjectCleared);
-		}		
+			return customHeaders;
+		}
 		
-
+		private function addWebviewCustomHeaders(customHeaders : Vector.<URLRequestHeader>):void 
+		{
+			if(customHeaders.length > 0) {
+				_webView.customHTTPHeaders = customHeaders;
+			}
+		}
+		
+		private function addWebviewEventListeners():void
+		{
+			_webView.addEventListener(ErrorEvent.ERROR, loadError);
+			_webView.addEventListener(Event.COMPLETE, loadComplete);
+			
+			_webView.addEventListener(LocationChangeEvent.LOCATION_CHANGING, locationChanging);
+			_webView.addEventListener(LocationChangeEvent.LOCATION_CHANGE, locationChanged); 
+			_webView.addEventListener(WebViewEvent.CREATED, htmlEventBrowserCreated);
+			_webView.addEventListener(NetworkResourceRequestedEvent.NETWORK_RESOURCE_REQUESTED, networkResourceRequested);
+			_webView.addEventListener(UnknownProtocolEvent.UNKNOWN_PROTOCOL, handleUnknownProtocol);
+			_webView.addEventListener(WindowObjectClearedEvent.WINDOW_OBJECT_CLEARED, onJavaScriptWindowObjectCleared);
+		}
+		
 		private function networkResourceRequested(event:NetworkResourceRequestedEvent):void
 		{
 			trace("networkResourceRequested: " + event.url);
@@ -131,7 +150,7 @@ package webworks.webkit
 			{
 				event.preventDefault();
 				trace(event.location + "not allowed");
-				Utilities.alert(event.location + " is not allowed", webView);
+				Utilities.alert(event.location + " is not allowed", _webView);
 			}
 			else
 				dispatchEvent(new WebkitEvent(WebkitEvent.TAB_LOCATION_CHANGING, event));		
@@ -139,10 +158,10 @@ package webworks.webkit
 		               
         private function htmlEventBrowserCreated(event:WebViewEvent):void
         {
-            trace("WEBKITCONTROL: " + event.type, webView.windowUniqueId);
-            uniqueID = webView.windowUniqueId;
-            windowObj = IowWindow.getExternalWindow(-1, uniqueID);
-            dispatchEvent(new WebkitEvent(event.type, { creationID:creationID }));
+            trace("WEBKITCONTROL: " + event.type, _webView.windowUniqueId);
+            _uniqueID = _webView.windowUniqueId;
+            _windowObj = IowWindow.getExternalWindow(-1, _uniqueID);
+            dispatchEvent(new WebkitEvent(event.type, { creationID:_creationID }));
         }
         
         private function htmlEventHandler( event:WebViewEvent ):void
@@ -154,27 +173,33 @@ package webworks.webkit
 		public function go(address:String):void
 		{
 			trace("Go function called: " + address);
-			webView.loadURL(address);
+			_webView.loadURL(address);
+		}
+		
+		public function setViewPort(newViewport:Rectangle):void {
+			if (_webView != null) {
+				_webView.viewPort=newViewport;
+			}
 		}
 		
 		public function executeJavaScript(js:String):void
 		{
-			webView.executeJavaScript(js);
+			_webView.executeJavaScript(js);
         }
 		
 		public function stop() : void 
 		{
-			webView.stop();
+			_webView.stop();
 		}
 		
 		public function get qnxWebView():QNXStageWebView
 		{
-			return webView;
+			return _webView;
 		}
 
 		private function onJavaScriptWindowObjectCleared(event:WindowObjectClearedEvent):void{
 			event.preventDefault();
-			javascriptLoader.registerJavaScript(webView.location, event);
+			_javascriptLoader.registerJavaScript(_webView.location, event);
 			trace("window object cleared event");
 		}
 	}
