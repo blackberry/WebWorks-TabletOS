@@ -141,7 +141,7 @@ public class AirPackager {
             	// APP_XML_SUFFIX and SWF_FILE_EXTENSION will be added afterwards
                 public boolean accept(File pathname) {
                     return !pathname.getName().endsWith(APP_XML_SUFFIX)
-                        && !pathname.getName().endsWith(SWF_FILE_EXTENSION)
+                        && !pathname.getName().endsWith(SessionManager.getInstance().getArchiveName() + SWF_FILE_EXTENSION)
                         && !pathname.getName().contains("__MACOSX");
                 }
             });
