@@ -60,8 +60,8 @@
 			<fileset dir="${jsapi.dir}" includes="BlackBerry_*/**" excludes="**/.*"/>
 		</copy>
 
-		<echo>Copying simulator iso file</echo>
-		<copy file="${tabletSDK.simPath}" todir="${installer.data.dir}/blackberry-tablet-sdk"/>
+		<echo>prepare simulator vm files</echo>
+		<unzip src="${tabletSDK.simPath}" dest="${installer.data.dir}/blackberry-tablet-sdk"/>
 
 	</target>
 

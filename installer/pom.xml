@@ -18,8 +18,8 @@
 		<tabletSDK.dir>${project.build.directory}/tabletsdk</tabletSDK.dir>
 		<tabletSDK.filename>blackberry-tablet-sdk.zip</tabletSDK.filename>
 		<tabletSDK.branchNumber>1.0.1</tabletSDK.branchNumber>
-		<tabletSDK.buildID>201104031615</tabletSDK.buildID>
-		<tabletSDK.simFileName>BlackBerryPlayBookSimulator-${tabletSDK.branchNumber}.iso</tabletSDK.simFileName>
+		<tabletSDK.buildID>201104041948</tabletSDK.buildID>
+		<tabletSDK.simFileName>playbook-simulator.zip</tabletSDK.simFileName>
 		<tabletSDK.simBuildID>${tabletSDK.buildID}</tabletSDK.simBuildID>
 	</properties>
 
@@ -62,12 +62,12 @@
 						  <destFileName>${tabletSDK.filename}</destFileName>
 						</artifactItem>
 
-						<!-- playbook simulator iso file -->
+						<!-- playbook simulator vm files -->
 						<artifactItem>
 						  <groupId>net.rim.snarf</groupId>
-						  <artifactId>playbook-simulator-iso</artifactId>
+						  <artifactId>playbook-simulator</artifactId>
 						  <version>${tabletSDK.branchNumber}.${tabletSDK.simBuildID}</version>
-						  <type>iso</type>
+						  <type>zip</type>
 						  <overWrite>true</overWrite>
 						  <outputDirectory>${tabletSDK.dir}</outputDirectory>
 						  <destFileName>${tabletSDK.simFileName}</destFileName>
