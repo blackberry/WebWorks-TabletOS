@@ -381,7 +381,7 @@ public class WidgetPackager {
             //
             // Fill-in the javascript entry-class table. This is used elsewhere.
             //
-            extensionMap.getCopiedFiles(".js", result, "js" + File.separator);
+            extensionMap.getCopiedFiles(".js", result, "WebWorksApplicationSharedJsRepository0" + File.separator);
         }
         return result;
     }

@@ -29,7 +29,8 @@ package webworks
 
 	public class JavaScriptLoader extends  EventDispatcher
 	{
-		private static var globalSharedJSFolder:String = "js/sharedglobal/";
+		private static var reservedJSFolder:String = "WebWorksApplicationSharedJsRepository0";
+		private static var globalSharedJSFolder:String = reservedJSFolder + "/sharedglobal/";
 		
 		private var webkitControl:WebkitControl;
 		private var jsfiles:Array;

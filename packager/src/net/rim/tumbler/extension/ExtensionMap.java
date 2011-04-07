@@ -209,7 +209,7 @@ public class ExtensionMap {
                     // The prefix for javascript files. This can be prepended
                     // as-is to the configured pathname.
                     //
-                    String javascriptPrefix = outputFolder + File.separator + "js" + File.separator
+                    String javascriptPrefix = outputFolder + File.separator + "WebWorksApplicationSharedJsRepository0" + File.separator
                         + getEscapedEntryClass(descriptor.getEntryClass()) + File.separator;
 
                     //

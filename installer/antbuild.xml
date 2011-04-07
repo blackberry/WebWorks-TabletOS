@@ -51,7 +51,7 @@
 		</copy>
 
 		<echo>Copying shared JS source</echo>
-		<copy todir="${installer.data.bbwp.airapptemplates.src.dir}/js/sharedglobal" >
+		<copy todir="${installer.data.bbwp.airapptemplates.src.dir}/WebWorksApplicationSharedJsRepository0/sharedglobal" >
 			<fileset dir="${jsapi.dir}/globalJS" includes="*.*" />
 		</copy>
 
