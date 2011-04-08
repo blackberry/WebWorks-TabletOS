@@ -6,4 +6,9 @@
 <publisher>Sample Inc.</publisher>
 <category>core.internet</category>
 
+<!-- These environment variables hide the browser context menu -->
+<env var="WEBKIT_TABS_SUPPORTED" value="false"/>
+<env var="WEBKIT_CONTEXT_MENU_SUPPORTED" value="false"/>
+<env var="WEBKIT_SELECTION_SUPPORTED" value="false"/>
+
 </qnx>
