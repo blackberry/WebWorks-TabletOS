@@ -16,6 +16,7 @@
 package webworks.webkit
 {
 	import flash.display.Sprite;
+	import flash.display.Stage;
 	import flash.events.ErrorEvent;
 	import flash.events.Event;
 	import flash.events.LocationChangeEvent;
@@ -45,12 +46,13 @@ package webworks.webkit
         private var _windowObj:IowWindow;
 		private var _javascriptLoader:JavaScriptLoader;
 		
-		public function WebkitControl(creationID:Number) {
+		public function WebkitControl(creationID:Number, appStage:Stage) {
 			_creationID = creationID;
 			
 			init({ 
 				enableCrossSiteXHR : true,
-				visible : true
+				stage : appStage,
+				viewPort : new Rectangle(50, 50, 400, 400)
 			});
 		}
 
@@ -77,9 +79,9 @@ package webworks.webkit
 		{
 			var wv:QNXStageWebView = new QNXStageWebView();
 			
-			wv.stage = this.stage;
 			wv.enableCrossSiteXHR = defaultSettings["enableCrossSiteXHR"];
-			wv.visible = defaultSettings["visible"];
+			wv.viewPort = defaultSettings["viewPort"];
+			wv.stage = defaultSettings["stage"];
 			
 			return wv;
 		}

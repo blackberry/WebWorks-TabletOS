@@ -118,7 +118,7 @@ package
 		private function setupWebkit():void 
         {
             var creationID:Number = int(Math.random() * 1000000) + new Date().time;
-            webWindow = new WebkitControl(creationID);
+            webWindow = new WebkitControl(creationID, stage);
 			webWindow.setViewPort(new Rectangle(0, 0, stage.stageWidth,  stage.stageHeight));
 
 			webWindow.addEventListener(WebkitEvent.TAB_LOAD_COMPLETE, tabLoadComplete);
