@@ -2339,7 +2339,7 @@ For information on configuration of the SDK please visit www.blackberry.com/deve
 								<int>0</int>
 							</property>
 							<property name="subRevision">
-								<int>2</int>
+								<int>3</int>
 							</property>
 						</object>
 					</property>
