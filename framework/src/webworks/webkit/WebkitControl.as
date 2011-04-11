@@ -51,8 +51,7 @@ package webworks.webkit
 			
 			init({ 
 				enableCrossSiteXHR : true,
-				stage : appStage,
-				viewPort : new Rectangle(50, 50, 400, 400)
+				stage : appStage
 			});
 		}
 
@@ -80,7 +79,6 @@ package webworks.webkit
 			var wv:QNXStageWebView = new QNXStageWebView();
 			
 			wv.enableCrossSiteXHR = defaultSettings["enableCrossSiteXHR"];
-			wv.viewPort = defaultSettings["viewPort"];
 			wv.stage = defaultSettings["stage"];
 			
 			return wv;
