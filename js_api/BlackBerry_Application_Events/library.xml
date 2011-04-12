@@ -41,13 +41,15 @@
 	    <functions>
 			<func name="onBackground" static="true" returns="void" comment="Assigns a listener that is called when the application goes to the background.">
 				<details>This event is dispatched whenever the application goes to the background, but has not ended.
-				Only one function can be assigned to this event. To unregister the callback, call the onBackground method and pass in null for the callback parameter. 						
+				Only one function can be assigned to this event. To unregister the callback, call the onBackground method and pass in null for the callback parameter.
+				Note: The BlackBerry PlayBook's "Application Behavior" setting has an impact on when onBackground gets dispatched. When "Application Behavior" is set to "Default", onBackground does not get dispatched until another application goes fullscreen.  When "Application Behavior" is set to "Showcase", onBackground does not get dispatched because all open applications stay active. When "Application Behavior" is set to "Paused", onBackground gets dispatched once the application is sent to the background.
 				</details>
 				<param name="onBackgroundCallback" type="Function" comment="Function to be called when the application goes to the background. Expected signature: function onBackgroundCallback()." />	
 			</func>
 			<func name="onForeground" static="true" returns="void" comment="Assigns a listener that is called when the application goes to the foreground.">
 				<details>This event is dispatched whenever the application comes to the foreground, for example, when the user re-opens the application from the application list.
-				Only one function can be assigned to this event. To unregister the callback call the onForeground method and pass in null for the callback parameter.		
+				Only one function can be assigned to this event. To unregister the callback call the onForeground method and pass in null for the callback parameter.
+				Note: The BlackBerry PlayBook's "Application Behavior" setting has an impact on when onForeground gets dispatched. Refer to onBackground documentation for details.
 				</details>
 				<param name="onForegroundCallback" type="Function" comment="Function to be called when the application goes to the foreground. Expected signature: function onForegroundCallback()." />
 			</func>
