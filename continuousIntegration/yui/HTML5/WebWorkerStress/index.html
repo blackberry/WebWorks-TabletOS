@@ -1,0 +1,88 @@
+<!DOCTYPE HTML>
+<html>
+ <head>
+  <title>HTML5 web worker stress test</title>
+ </head>
+ <style type="text/css">
+    .dynamicDiv {
+    width:100px;
+    height:20px;
+    border:solid 1px #c0c0c0;
+    background-color:#e1e1e1;
+    font-size:11px;
+    font-family:verdana;
+    color:#000;
+    padding:5px;
+    }
+ </style>
+ <script type="text/javascript">
+    var testRunning = false;
+    var workerTmpArray = new Array();
+	function createDiv(id)
+	{
+		var newDiv = document.createElement("div");
+		newDiv.id = "" + id;
+		newDiv.setAttribute("align","center");
+        newDiv.style.margin = "0px auto";
+        newDiv.className ="dynamicDiv";
+		document.body.appendChild(newDiv);
+	}
+	
+	function createWorker(n)
+	{
+		workerTmpArray[n] = new Worker('worker.js');
+		workerTmpArray[n].onmessage = function (event) {
+		 document.getElementById(n).textContent = event.data;
+		};
+	}
+	
+	function generateDivs(n)
+	{
+		for (var i = 0; i < n; i++)
+			createDiv(i);
+	}
+	
+	function generateWorkers(n)
+	{
+		for (var i = 0; i < n; i++)
+		{
+			createWorker(i);
+		}
+	}
+	
+	function getNumWorkers()
+	{
+		return document.getElementById('num').value;
+	}
+	
+	function cleanUp()
+	{
+	    if(testRunning)
+	    {
+	        for(i=0;i < workerTmpArray.length; i++ )
+	        {
+	        workerTmpArray[i].terminate();
+	        delete workerTmpArray[i];
+	        }
+	        testRunning = false;
+	        alert("Cleaning done");
+	    }	
+	}
+	function runTest()
+	{
+	    if(!testRunning)
+	    {
+	        generateDivs(getNumWorkers());
+	        generateWorkers(getNumWorkers());
+	        testRunning = true;
+	    }
+	}
+	
+ </script>
+ <body>
+	<input id="num" type="text" placeholder="Enter N workers" />
+	<input type="button" value="Start" onclick="runTest();" />
+	<input type="button" value="Stop" onclick="cleanUp();" />
+	
+ </body>
+</html>
