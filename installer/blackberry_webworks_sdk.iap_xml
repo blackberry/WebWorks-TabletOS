@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- This script was automatically generated using InstallAnywhere 2010 Enterprise, Build 3972
-     STATUS: Fully Functional LICENSED Edition
-     DATE:   Mon Apr 04 14:44:15 EDT 2011 -->
-<InstallAnywhere_Deployment_Project increments="3401">
+     STATUS: Fully-Functional UNLICENSED Trial Edition
+     DATE:   Tue Apr 12 11:04:23 EDT 2011 -->
+<InstallAnywhere_Deployment_Project increments="3437">
 	<!-- ** DO NOT EDIT ** Essential authorization and configuration data ** DO NOT EDIT ** -->
 	<essentialScriptInfo>
 		<versionID major="11" minor="5" revision="0"/>
 		<editionID>49,49,46,53,32,69,110,116,101,114,112,114,105,115,101,32,66,117,105,108,100,32,51,57,55,50</editionID>
-		<scriptID>12,42,11,70,49,57,54,74,78,74,74,78,72,45,69,68,74,45,75,70,74,74,70,78,78,69,74,88</scriptID>
+		<scriptID>12,42,11,85,78,76,73,67,69,78,83,69,68</scriptID>
 		<buildID>3,13,71,87,105,110,100,111,119,115,32,88,80,44,32,53,46,49,44,32,120,56,54,59,32,74,97,118,97,32,49,46,54,46,48,95,49,53,44,32,83,117,110,32,77,105,99,114,111,115,121,115,116,101,109,115,32,73,110,99,46,44,32,104,116,116,112,58,47,47,106,97,118,97,46,115,117,110,46,99,111,109,47,59,32,101,110,44,32,85,110,107,110,111,119,110,59,32,67,112,49,50,53,50</buildID>
 		<!-- The authorizationID may change between project saves and builds.  This does not effect the integrity of the project, nor do changes in this value represent changes in the actual InstallAnywhere project. -->
-		<authorizationID>1,0,0,32,35,-33,80,48,80,112,118,100,85,99,113,97,113,65,81,84,74,67,70,68,72,74,64,69,66,69,64,95,71,5,2,7,11,20,97,15,1,0,0</authorizationID>
+		<authorizationID>1,0,0,32,67,62,-32,16,64,99,70,101,125,121,100,96,105,48,48,49,56,52,67,98,113,112,124,44,81,100,99,62,57,15,14,10,14,29,106,15,1,0,0</authorizationID>
 	</essentialScriptInfo>
-	<installationObjects uniqueObjects="149">
+	<installationObjects uniqueObjects="150">
 		<object class="com.zerog.ia.installer.Installer" objectID="61c3cf33921d">
 			<property name="belongsToUninstallPhase">
 				<boolean>false</boolean>
@@ -770,14 +770,12 @@ You may cancel this installation at any time by clicking the 'Cancel' button.]]>
 								<string><![CDATA[Previous Installation Found]]></string>
 							</property>
 							<property name="label">
-								<string><![CDATA[Previous Installation Found]]></string>
+								<string><![CDATA[Previous Installation Found at $USER_INSTALL_DIR$]]></string>
 							</property>
 							<property name="narrative">
-								<string><![CDATA[A previous installation has been found in the chosen folder. The previous version must be uninstalled to proceed with installation to this folder. Please exit the installer and uninstall the previous version or select another destination folder.
+								<string><![CDATA[It must be uninstalled to proceed with installation to this folder. Please exit the installer and uninstall the previous version or select another destination folder. 
 
-Click Uninstall to uninstall the current version and proceed with installation to this folder.
-Click Choose Destination to choose another destination folder.
-Click Cancel to cancel the installation and exit.
+When uninstalling the previous version, please make sure to back up the developer certificate to a secure location.
 ]]></string>
 							</property>
 							<property name="dismissalAction">
@@ -2080,7 +2078,7 @@ For information on configuration of the SDK please visit www.blackberry.com/deve
 					</method>
 					<method name="put">
 						<string><![CDATA[com.zerog.ia.project.save.last.date]]></string>
-						<string><![CDATA[April 4, 2011 2:44:15 PM EDT]]></string>
+						<string><![CDATA[April 12, 2011 11:04:22 AM EDT]]></string>
 					</method>
 					<method name="put">
 						<string><![CDATA[com.zerog.ia.build.options.optimization.platform.cdrom]]></string>
@@ -2588,6 +2586,98 @@ $PRODUCT_NAME$
 							</property>
 						</object>
 					</method>
+					<method name="addElement">
+						<object class="com.zerog.ia.installer.actions.ShowDialogAction" objectID="59b35aa89887">
+							<property name="belongsToUninstallPhase">
+								<boolean>false</boolean>
+							</property>
+							<property name="rollbackEnabledCancel">
+								<boolean>true</boolean>
+							</property>
+							<property name="rollbackEnabledError">
+								<boolean>true</boolean>
+							</property>
+							<property name="title">
+								<string><![CDATA[Backup Developer Certificate]]></string>
+							</property>
+							<property name="label">
+								<string><![CDATA[A developer certificate was found at $USER_INSTALL_DIR$$/$bbwp$/$bin$/$sigtool.p12. ]]></string>
+							</property>
+							<property name="narrative">
+								<string><![CDATA[Please backup this file to a secure location before continuing as it will be deleted by the uninstall process.]]></string>
+							</property>
+							<property name="dismissalAction">
+								<int>1</int>
+							</property>
+							<property name="cancelDismissalAction">
+								<int>2</int>
+							</property>
+							<property name="detailsDismissalAction">
+								<int>1</int>
+							</property>
+							<property name="buttonLabel">
+								<string><![CDATA[Continue]]></string>
+							</property>
+							<property name="cancelButtonLabel">
+								<string><![CDATA[Exit]]></string>
+							</property>
+							<property name="detailsButtonLabel">
+								<string><![CDATA[Details...]]></string>
+							</property>
+							<property name="variableName">
+								<string><![CDATA[$CHOSEN_DIALOG_BUTTON$]]></string>
+							</property>
+							<property name="buttonCombination">
+								<int>1</int>
+							</property>
+							<property name="alertLevel">
+								<int>0</int>
+							</property>
+							<rules logicalOperation="AND">
+								<object class="com.zerog.ia.installer.rules.FileFolderPathChk" objectID="59b55be69896">
+									<property name="belongsToUninstallPhase">
+										<boolean>false</boolean>
+									</property>
+									<property name="rollbackEnabledCancel">
+										<boolean>true</boolean>
+									</property>
+									<property name="rollbackEnabledError">
+										<boolean>true</boolean>
+									</property>
+									<property name="path">
+										<string><![CDATA[$USER_INSTALL_DIR$$/$bbwp$/$bin$/$sigtool.p12]]></string>
+									</property>
+									<property name="checkIsFileFolder">
+										<boolean>true</boolean>
+									</property>
+									<property name="isFile">
+										<boolean>true</boolean>
+									</property>
+									<property name="checkExists">
+										<boolean>true</boolean>
+									</property>
+									<property name="exists">
+										<boolean>true</boolean>
+									</property>
+									<property name="checkReadWrite">
+										<boolean>false</boolean>
+									</property>
+									<property name="isReadable">
+										<boolean>true</boolean>
+									</property>
+									<property name="isWriteable">
+										<boolean>true</boolean>
+									</property>
+									<property name="checksInUseNotNotInUse">
+										<boolean>false</boolean>
+									</property>
+									<property name="checkInUse">
+										<boolean>false</boolean>
+									</property>
+								</object>
+							</rules>
+						</object>
+					</method>
 				</object>
 			</property>
 			<property name="postUninstallActions">
@@ -2686,7 +2776,7 @@ Thank you for choosing $PRODUCT_NAME$!]]></string>
 										<boolean>true</boolean>
 									</property>
 								</object>
-								<object class="com.zerog.ia.installer.actions.ExecuteUninstallCategoryFolders" objectID="d11e5402934e">
+								<object class="com.zerog.ia.installer.actions.ExecuteUninstallCategoryFolders" objectID="5932632795f3">
 									<property name="belongsToUninstallPhase">
 										<boolean>true</boolean>
 									</property>
@@ -3106,7 +3196,6 @@ Thank you for choosing $PRODUCT_NAME$!]]></string>
 										<object refID="794abe67bd4d"/>
 										<object refID="d11e456b9344"/>
 										<object refID="d11e4d4b9349"/>
-										<object refID="d11e5402934e"/>
 										<object refID="fbedcf038e12"/>
 										<object class="com.zerog.ia.installer.actions.CreateShortcut" objectID="fbedcf038e19">
 											<property name="belongsToUninstallPhase">
@@ -3795,41 +3884,7 @@ Thank you for choosing $PRODUCT_NAME$!]]></string>
 										<object refID="fa02bdafa116"/>
 										<object refID="ff7ba5938b1d"/>
 										<object refID="794abe78bd51"/>
-										<object class="com.zerog.ia.installer.actions.MakeRegEntry" objectID="20b1bee0ac2e">
-											<property name="belongsToUninstallPhase">
-												<boolean>false</boolean>
-											</property>
-											<property name="rollbackEnabledCancel">
-												<boolean>true</boolean>
-											</property>
-											<property name="rollbackEnabledError">
-												<boolean>true</boolean>
-											</property>
-											<property name="userLabel">
-												<string><![CDATA[Specifies the icon to be used in the Add/Remove Programs panel.]]></string>
-											</property>
-											<property name="valueName">
-												<string><![CDATA[DisplayIcon]]></string>
-											</property>
-											<property name="value">
-												<string><![CDATA[$USER_INSTALL_DIR$$/$bbwp$/$bbwp.exe]]></string>
-											</property>
-											<property name="key">
-												<string><![CDATA[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$PRODUCT_NAME$]]></string>
-											</property>
-											<property name="uninstallOptions">
-												<int>1</int>
-											</property>
-											<property name="dataType">
-												<int>0</int>
-											</property>
-											<property name="overrideInstallerRegView">
-												<boolean>false</boolean>
-											</property>
-											<property name="target64BitReg">
-												<boolean>false</boolean>
-											</property>
-										</object>
+										<object refID="5932632795f3"/>
 										<object class="com.zerog.ia.installer.actions.InstallDirectory" objectID="794abe09bd36">
 											<property name="belongsToUninstallPhase">
 												<boolean>false</boolean>
@@ -4092,7 +4147,6 @@ and any path to a file to save to the file]]></string>
 														<int>3</int>
 													</property>
 												</object>
-												<object refID="20b1bee0ac2e"/>
 											</visualChildren>
 										</object>
 									</installChildren>
