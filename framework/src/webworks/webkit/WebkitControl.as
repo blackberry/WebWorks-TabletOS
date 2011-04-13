@@ -22,6 +22,7 @@ package webworks.webkit
 	import flash.events.LocationChangeEvent;
 	import flash.geom.Rectangle;
 	import flash.net.URLRequestHeader;
+	import flash.sensors.Geolocation;
 	import flash.utils.*;
 	
 	import qnx.display.IowWindow;
@@ -48,38 +49,61 @@ package webworks.webkit
 		
 		public function WebkitControl(creationID:Number, appStage:Stage) {
 			_creationID = creationID;
-			
-			init({ 
-				enableCrossSiteXHR : true,
-				stage : appStage
-			});
-		}
-
-		private function init(defaultWebviewSettings:Object):void {
+		
 			//Initialize JS loader
 			_javascriptLoader = new JavaScriptLoader(this);
 			
-			//Create the webview with default settings
-			_webView = createWebview(defaultWebviewSettings);
+			//The object passed to createWebview will be iterated over and 
+			//the settings will be applied as-is to the WebView. Make sure their names
+			//match what the QNXStageWebView supports.
+			var defaultSettings:Object = {
+				
+				enableCrossSiteXHR : true,
+				
+				enableGeolocation : !(new Geolocation().muted),
+				
+				// Enable/Disable WebInspector
+				enableWebInspector : ConfigData.getInstance().getProperty(ConfigConstants.DEBUGENABLED),
+				
+				stage : appStage
+				
+			}
 
-			// Enable/Disable WebInspector
-			var debugEnabledConfig:Boolean = ConfigData.getInstance().getProperty(ConfigConstants.DEBUGENABLED);
-			_webView.enableWebInspector = debugEnabledConfig;
+			//Add all the events that we will register to the QNXStageWebView.
+			var events:Dictionary = new Dictionary();
+			events[ErrorEvent.ERROR] = loadError;
+			events[Event.COMPLETE] = loadComplete;
+			events[LocationChangeEvent.LOCATION_CHANGING] = locationChanging;
+			events[LocationChangeEvent.LOCATION_CHANGE] = locationChanged;
+			events[WebViewEvent.CREATED] = htmlEventBrowserCreated;
+			events[NetworkResourceRequestedEvent.NETWORK_RESOURCE_REQUESTED] = networkResourceRequested;
+			events[UnknownProtocolEvent.UNKNOWN_PROTOCOL] = handleUnknownProtocol;
+			events[WindowObjectClearedEvent.WINDOW_OBJECT_CLEARED] = onJavaScriptWindowObjectCleared;
 			
-			//Set custom headers
-			var customHeaders:Vector.<URLRequestHeader> = createCustomHeaderVector();
-			addWebviewCustomHeaders(customHeaders);
-			
-			//Add the event listeners
-			addWebviewEventListeners();
+			//Create the webview with our default settings and register the events we need
+			_webView = createWebview(defaultSettings, events);
 		}
 		
-		private function createWebview(defaultSettings : Object):QNXStageWebView
+		private function createWebview(defaultSettings:Object, events:Dictionary):QNXStageWebView
 		{
 			var wv:QNXStageWebView = new QNXStageWebView();
 			
-			wv.enableCrossSiteXHR = defaultSettings["enableCrossSiteXHR"];
-			wv.stage = defaultSettings["stage"];
+			//Apply default properties
+			for(var webViewProp:String in defaultSettings) {
+				trace("Applying QNXStageWebView property: " + webViewProp + " = " + defaultSettings[webViewProp]);
+				wv[webViewProp] = defaultSettings[webViewProp];
+			}
+			
+			//Set custom headers
+			var customHeaders:Vector.<URLRequestHeader> = createCustomHeaderVector();
+			if(customHeaders.length > 0) {
+				wv.customHTTPHeaders = customHeaders;
+			}
+			
+			//Add the event listeners
+			for(var event:String in events) {
+				wv.addEventListener(event, events[event]);
+			}
 			
 			return wv;
 		}
@@ -93,26 +117,6 @@ package webworks.webkit
 			}
 			
 			return customHeaders;
-		}
-		
-		private function addWebviewCustomHeaders(customHeaders : Vector.<URLRequestHeader>):void 
-		{
-			if(customHeaders.length > 0) {
-				_webView.customHTTPHeaders = customHeaders;
-			}
-		}
-		
-		private function addWebviewEventListeners():void
-		{
-			_webView.addEventListener(ErrorEvent.ERROR, loadError);
-			_webView.addEventListener(Event.COMPLETE, loadComplete);
-			
-			_webView.addEventListener(LocationChangeEvent.LOCATION_CHANGING, locationChanging);
-			_webView.addEventListener(LocationChangeEvent.LOCATION_CHANGE, locationChanged); 
-			_webView.addEventListener(WebViewEvent.CREATED, htmlEventBrowserCreated);
-			_webView.addEventListener(NetworkResourceRequestedEvent.NETWORK_RESOURCE_REQUESTED, networkResourceRequested);
-			_webView.addEventListener(UnknownProtocolEvent.UNKNOWN_PROTOCOL, handleUnknownProtocol);
-			_webView.addEventListener(WindowObjectClearedEvent.WINDOW_OBJECT_CLEARED, onJavaScriptWindowObjectCleared);
 		}
 		
 		private function networkResourceRequested(event:NetworkResourceRequestedEvent):void
