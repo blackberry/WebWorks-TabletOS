@@ -23,6 +23,16 @@
 		<tabletSDK.simBuildID>${tabletSDK.buildID}</tabletSDK.simBuildID>
 	</properties>
 
+	<dependencies>
+	    <dependency>
+			<groupId>net.rim.snarf</groupId>
+			<artifactId>framework</artifactId>
+			<version>${project.parent.version}-SNAPSHOT</version>
+			<type>zip</type>
+			<scope>runtime</scope>
+		</dependency>		
+	</dependencies>
+
     <build>
         <!--<sourceDirectory>src</sourceDirectory>-->
         <directory>target</directory>
