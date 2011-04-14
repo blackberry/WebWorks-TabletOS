@@ -12,7 +12,7 @@
 			//set to true when YUI is run via CI
 			isContinuousIntegrationRun: false,
 			//The location of test website
-			testDomain: "http://10.135.232.40:8080",
+			testDomain: "http://@pythonServerIP@:@pythonServerPort@",
 			//bundle version-
 			//IMPORTANT !!!! upon change please put your name date and time
 			bundle_version: "_bundle_version_1.0.0.0",

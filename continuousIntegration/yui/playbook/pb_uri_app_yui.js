@@ -130,7 +130,7 @@
 	//check licenseURL
 		    "URI based   licenseURL should exist" : function() {
 				Assert.isNotUndefined(result.licenseURL);
-			},
+			},/*
 	"Manual Test - should show all the application properties from uri based call": function() {
 				framework.test = this; //so pass() and fail() can access this test
 				framework.setInstructions("Shows all application properties<br />Pass this test if this is true.  Otherwise, fail.");
@@ -147,7 +147,7 @@
 				alert('name=' + result.name);
 				alert('version=' + result.version);
 				framework.test.wait(24*60*60*1000); //wait until user inputs the test result (via button click) *24hr wait since wait() has a bug*
-			}
+			}*/
 		
 		});
 		

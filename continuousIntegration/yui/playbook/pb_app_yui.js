@@ -141,6 +141,7 @@
 			
 			
 			//Show all Properties
+			/*
 			"MANUAL Test - should show all the application properties": function() {
 				framework.test = this; //so pass() and fail() can access this test
 				framework.setInstructions("Shows all application properties<br />Pass this test if this is true.  Otherwise, fail.");
@@ -157,7 +158,7 @@
 				alert('name=' + blackberry.app.name);
 				alert('version=' + blackberry.app.version);
 				framework.test.wait(24*60*60*1000); //wait until user inputs the test result (via button click) *24hr wait since wait() has a bug*
-			},
+			},*/
 		
 			//onBackground (set)
 			"MANUAL blackberry.app.event onBackground event should trigger when application is set to background": function() {

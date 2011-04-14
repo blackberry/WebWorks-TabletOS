@@ -3,8 +3,8 @@
 	try {
 	    //alert(blackberry.system.softwareVersion);
 		//if (blackberry.system.softwareVersion == "QNX"){
-		if ((blackberry.system.softwareVersion == "Blackberry Tablet OS")||(blackberry.system.softwareVersion == "QNX")){
-			//on playbook
+		if ((blackberry.system.softwareVersion == "BlackBerry Tablet OS")||(blackberry.system.softwareVersion == "QNX")){
+			//on playbook			
 			framework.device = "Playbook";
 			framework.yuiTestsToRunArray = [
 				YUI.framework.testDomain +"/yui/playbook/pb_app_yui.js",
