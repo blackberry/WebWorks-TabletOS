@@ -356,7 +356,7 @@ public class AirPackager {
                 NodeList nl2 = e.getElementsByTagName("id");
                 if (nl2.getLength() > 0 && nl2.item(0) instanceof Element) {
                     Element e3 = (Element)nl2.item(0);
-                    e3.setTextContent(SessionManager.getInstance().getArchiveName() + genPackageName(SessionManager.getInstance().getArchiveName()));
+                    e3.setTextContent(genPackageName(SessionManager.getInstance().getArchiveName()));
                 }
                 
                 // Replace name
@@ -474,8 +474,28 @@ public class AirPackager {
 
         }    
     
+    /**
+     * Returns a max 24-character id that starts with the first <code>N</code>
+     * characters of <code>widgetName</code> (where <code>N</code> is the lesser
+     * of <code>12</code> and the length of <code>widgetName</code>), followed
+     * by as many hex digits of a hash of <code>widgetName</code> that are needed
+     * to pad the result to a length of 24 characters.
+     * <p>
+     * In the event of an unexpected error in processing, the hash suffix may be
+     * omitted and the result may be shorter than 24 characters. Regardless the
+     * result shall not exceed 24 characters in length.
+     *
+     * @param widgetName the name of the archive.
+     *
+     * @return a max 24-character id that starts with the first <code>N</code>
+     * characters of <code>widgetName</code> (where <code>N</code> is the lesser
+     * of <code>12</code> and the length of <code>widgetName</code>), followed
+     * by as many hex digits of a hash of <code>widgetName</code> that are needed
+     * to pad the result to a length of 24 characters.
+     */
     private static String genPackageName(String widgetName) {
-        String packageHash;
+        // start with the archive name, truncated at 12 characters
+        String result = widgetName.substring(0, Math.min(12, widgetName.length()));
 
         try {
             MessageDigest md;
@@ -485,17 +505,19 @@ public class AirPackager {
             md.update(widgetName.getBytes());
             byte[] byteArray = md.digest();
 
-            StringBuffer hexString = new StringBuffer();
-            for (int i = 0; i < byteArray.length; i++) {
-                hexString.append(Integer.toHexString(0xFF & byteArray[i]));
+            StringBuilder hexString = new StringBuilder();
+            for (byte b : byteArray) {
+                hexString.append(String.format("%1$02x", (0xff & b)));
             }
 
-            packageHash = hexString.toString();
+            result += hexString.toString();
             
         } catch (Exception e) {
-            packageHash = widgetName;
+            // do nothing - result will have no hash appended
         }
-        return packageHash;
+
+        // truncated result at 24 characters
+        return result.substring(0, Math.min(24, result.length()));
     }
     
     private List<File> listFiles(String path, FileFilter fileFilter) {
