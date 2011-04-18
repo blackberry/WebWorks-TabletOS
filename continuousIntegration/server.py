@@ -30,6 +30,6 @@ def server_static(path):
 	return static_file(path, root='./')
 
 #bottle.debug(True)
-run(host='10.135.232.40', port=8080, reloader=True)
+run(host='@pythonServerIP@', port=@pythonServerPort@, reloader=True)
 
 
