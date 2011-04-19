@@ -1,20 +1,23 @@
 /*
- * Copyright 2010 Research In Motion Limited.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+* Copyright 2010-2011 Research In Motion Limited.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
 package net.rim.tumbler.airpackager;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.FileFilter;
@@ -24,6 +27,7 @@ import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import javax.imageio.ImageIO;
 import javax.xml.parsers.*;
 import javax.xml.transform.*;
 import javax.xml.transform.dom.*;
@@ -41,6 +45,11 @@ import org.xml.sax.SAXException;
 
 public class AirPackager {
     private static final String PATH = "Path";
+
+    // For splash screen image
+    private static final int SCREEN_WIDTH = 1024;
+    private static final int SCREEN_HEIGHT = 600;
+    private static final String SPLASHSCREEN_FORMAT = "png";
 
     // HARD-CODED VALUES FOR DEMO USE ONLY
     private String _tabletSdkPath;
@@ -100,6 +109,14 @@ public class AirPackager {
             		iconFile.renameTo(new File(sourcePath,iconPath));
             	}
             }                        
+
+            //
+            // Create a splash screen consistent with the loading screen.
+            // If the widget config doesn't specify loading screen data,
+            // splashscreenFilename will be null.
+            //
+            String splashscreenFilename = createSplashscreen(sourcePath);
+
             //
             // Copy src files to the bin-debug folder
             //            
@@ -107,7 +124,7 @@ public class AirPackager {
                 public boolean accept(File pathname) {
                     return !pathname.getName().endsWith(".as")
                         && !pathname.getName().endsWith(APP_XML_SUFFIX)
-                        && !pathname.getName().endsWith(SWF_FILE_EXTENSION)
+                        && !pathname.getName().equals(SessionManager.getInstance().getArchiveName() + SWF_FILE_EXTENSION)
                         && !pathname.getName().contains("__MACOSX");
                 }
             });
@@ -116,9 +133,23 @@ public class AirPackager {
                 String relativePath = f.getAbsolutePath().substring(sourcePath.length() + 1);
                 desFile = new File(bindebugPath, relativePath);
                 FileManager.copyFile(f, desFile);
-                fileList.add(desFile);
             }
 
+            // Add the top level file/folder under bin-debug folder to the file list,
+            // so it will greatly shorten the length of final command line
+            File[] archiveFiles = new File(bindebugPath).listFiles(new FileFilter() {
+            	// APP_XML_SUFFIX and SWF_FILE_EXTENSION will be added afterwards
+                public boolean accept(File pathname) {
+                    return !pathname.getName().endsWith(APP_XML_SUFFIX)
+                        && !pathname.getName().endsWith(SessionManager.getInstance().getArchiveName() + SWF_FILE_EXTENSION)
+                        && !pathname.getName().contains("__MACOSX");
+                }
+            });
+            
+            for (File f : archiveFiles) {
+            	fileList.add(f);
+            }
+            
             //
             // Copy the SWF
             //
@@ -141,7 +172,7 @@ public class AirPackager {
             
             File bbt = new File(sourcePath, "Blackberry-Tablet.xml");
             File bbtDes = new File(bindebugPath, "Blackberry-Tablet.xml");
-            prepareBBTXML(bbt, bbtDes,iconPath);
+            prepareBBTXML(bbt, bbtDes, iconPath, splashscreenFilename);
             
             int size = fileList.size();
             String[] files = new String[size];
@@ -304,6 +335,21 @@ public class AirPackager {
                         Element e3 = (Element)nl2.item(0);
                         e3.setTextContent(replacementText);
                     }
+                    
+                    // Add AutoOrientation
+                    if (_widgetConfig.getAutoOrientation() != null && _widgetConfig.getAutoOrientation().length() > 0) {
+                    	Element autoOrientation = d.createElement("autoOrients");
+                    	autoOrientation.setTextContent(_widgetConfig.getAutoOrientation());
+                        e2.appendChild(autoOrientation);
+                    }                         
+
+                    // Add Orientation
+                    if (_widgetConfig.getOrientation() != null && _widgetConfig.getOrientation().length() > 0) {
+                    	Element orientation = d.createElement("aspectRatio");
+                    	orientation.setTextContent(_widgetConfig.getOrientation());
+                        e2.appendChild(orientation);
+                    }                         
+
                 }
                 
                 // Replace id
@@ -370,7 +416,8 @@ public class AirPackager {
     private void prepareBBTXML(
             File infile,
             File destFile,
-            String iconPath)
+            String iconPath,
+            String splashscreenFilename) // may be null
             throws IOException
         {
             Writer w = null;
@@ -393,6 +440,13 @@ public class AirPackager {
                     image.appendChild(d.createTextNode(iconPath));
                     icon.appendChild(image);                	
                 }                
+
+                // Splash screen
+                if (splashscreenFilename != null) {
+                    Element splashscreen = d.createElement("splashscreen");
+                    splashscreen.appendChild(d.createTextNode(splashscreenFilename));
+                    d.getFirstChild().appendChild(splashscreen);
+                }
 
                 if (e != null && !_bbwpProperties.getCopyright().isEmpty()) {
                     NodeList nl = e.getElementsByTagName("publisher");
@@ -460,7 +514,7 @@ public class AirPackager {
 
         return fileList;
     }
-
+    
     // delete a dir
     private boolean deleteDirectory(File dir) {
         // remove files first
@@ -477,4 +531,61 @@ public class AirPackager {
         }
         return false;
     }    
+
+    /**
+     * Create a splash screen image on disk and return its name, or null
+     * if no splash screen is created. A splash screen is not created if
+     * the widget config specifies no loading screen data.
+     *
+     * @param directory the destination folder for the image file, if one
+     *        is created. Also used to locate the foreground and background
+     *        images.
+     *
+     * @return the name of the splash screen image file on disk, or null
+     * if none created.
+     */
+    private String createSplashscreen(String directory)
+        throws IOException
+    {
+        // Get string args from widget config. They may be null.
+        String arg0 = _widgetConfig.getLoadingScreenColour();
+        String arg1 = _widgetConfig.getBackgroundImage();
+        String arg2 = _widgetConfig.getForegroundImage();
+
+        //
+        // If the widget config doesn't specify loading screen data,
+        // do not create a splash screen.
+        //
+        if (arg0 == null && arg1 == null && arg2 == null) {
+            return null;
+        }
+
+        Color bgcolor = arg0 == null
+            ? Color.WHITE
+            : Color.decode(arg0);
+        BufferedImage bgImage = arg1 == null
+            ? null
+            : ImageIO.read(new File(directory, arg1));
+        BufferedImage fgImage = arg2 == null
+            ? null
+            : ImageIO.read(new File(directory, arg2));
+        BufferedImage composition = new BufferedImage(SCREEN_WIDTH, SCREEN_HEIGHT, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g = composition.createGraphics();
+
+        g.setBackground(bgcolor);
+        g.clearRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+
+        if (bgImage != null) {
+            g.drawImage(bgImage, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, null);
+        }
+
+        if (fgImage != null) {
+            g.drawImage(fgImage, (SCREEN_WIDTH - fgImage.getWidth())/2, (SCREEN_HEIGHT - fgImage.getHeight())/2, null);
+        }
+
+        File out = File.createTempFile("spsh", "."+SPLASHSCREEN_FORMAT, new File(directory));
+        ImageIO.write(composition, SPLASHSCREEN_FORMAT, out);
+
+        return out.getName();
+    }
 }

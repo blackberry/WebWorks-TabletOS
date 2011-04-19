@@ -1,26 +1,18 @@
 /*
- * Copyright 2010 Research In Motion Limited.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-////////////////////////////////////////////////////////////////////////////////
-//
-//  RIM
-//  Copyright 2010 RIM
-//  All Rights Reserved.
-//
-////////////////////////////////////////////////////////////////////////////////
-
+* Copyright 2010-2011 Research In Motion Limited.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
 package webworks.util
 {
 	import mx.utils.URLUtil;
@@ -34,10 +26,12 @@ package webworks.util
 	public class DeviceURL
 	{
 		private var _uri:URI;
+		private var originalUrl:String;
 		
 		public function DeviceURL(url:String)
 		{
 			_uri = new URI(url);
+			originalUrl = url;
 		}
 		
 		public function isDeviceProtocol():Boolean
@@ -51,6 +45,15 @@ package webworks.util
 		public function get query():String
 		{
 			return _uri.query;
+		}
+		
+		
+		public function get unescapedQuery():String
+		{
+			if (originalUrl.indexOf("?") >= 0)
+				return originalUrl.split("?")[1];
+			else
+				return "";
 		}
 		
 		/**

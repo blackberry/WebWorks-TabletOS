@@ -24,21 +24,14 @@
 	<object name="blackberry.utils" shortName="Utils" introduced="1.0.0" comment="The Utils object provides useful utility functions and properties.">
 	
 	<example><![CDATA[<script type="text/javascript">
-	
-	var url = blackberry.utils.parseURL("http://www.foo.com:8080/index.html?COUNTER=3&FOO=BAR");
-	
-</script>]]></example>
-	
-	<example><![CDATA[
-<script type="text/javascript">
 
-  var url = blackberry.utils.parseURL("http://www.bla.com:8080/index.html?COUNTER=3&FOO=BAR");
+	var url = blackberry.utils.parseURL("http://www.bla.com:8080/index.html?COUNTER=3&FOO=BAR");
 
-  alert("port:"+url.port);
-  alert("host:"+url.host);
+	alert("port:"+url.port);
+	alert("host:"+url.host);
 
-  alert("parameter:"+url.getURLParameterByIndex(0));
-  alert("parameter:"+url.getURLParameter("FOO"));
+	alert("parameter:"+url.getURLParameterByIndex(0));
+	alert("parameter:"+url.getURLParameter("FOO"));
 
 </script>]]></example>
     
@@ -67,7 +60,7 @@
 				</properties>
 				<functions>
 					<func name="getURLParameterByIndex" returns="String" comment="Obtain the value of a parameter by index. The values are stored in the order they appear in the URL string.">
-						<param name="index" type="Number" comment="index of the parameter to be retrieved."/>	
+						<param name="index" type="Number" comment="Index of the parameter to be retrieved."/>	
 					</func>
 					<func name="getURLParameter"  returns="String" comment="Obtain the value of a parameter by key."> 			
 						<param name="key" type="String" comment="The key of the parameter to be retrieved."/>			

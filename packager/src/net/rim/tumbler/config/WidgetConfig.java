@@ -1,18 +1,18 @@
 /*
- * Copyright 2010 Research In Motion Limited.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+* Copyright 2010-2011 Research In Motion Limited.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
 package net.rim.tumbler.config;
 
 import java.util.HashMap;
@@ -33,7 +33,6 @@ public class WidgetConfig {
      * Pre-compiled Pattern for validating and parsing of the version string.
      * Valid version strings are:
      * <pre>
-     *     0-999.0-999
      *     0-999.0-999.0-999
      *     0-999.0-999.0-999.0-999
      * </pre>
@@ -41,7 +40,7 @@ public class WidgetConfig {
      * For example, capturing groups for a version string of <code>"4.0.1.96"</code>
      * are "4", "0", "1", and "96".
      */
-    private static final Pattern VERSION_PATTERN = Pattern.compile("(\\d{1,3})(?:\\.(\\d{1,3}))(?:\\.(\\d{1,3}))?(?:\\.(\\d{1,3}))?$");
+    private static final Pattern VERSION_PATTERN = Pattern.compile("(\\d{1,3})(?:\\.(\\d{1,3}))(?:\\.(\\d{1,3}))(?:\\.(\\d{1,3}))?$");
 
     private String _content;
     private String _author;
@@ -59,6 +58,8 @@ public class WidgetConfig {
     private String _transitionType;
     private int _transitionDuration;
     private String _transitionDirection;
+    private String _autoOrientation;
+    private String _orientation;
     
     private String _copyright;
     private String _description;
@@ -246,6 +247,14 @@ public class WidgetConfig {
         return _iconSrc;
     }
     
+    public String getAutoOrientation() {
+        return _autoOrientation;
+    }
+
+    public String getOrientation() {
+        return _orientation;
+    }
+
     public void setContent(String content) {
         _content = content;
     }
@@ -268,7 +277,6 @@ public class WidgetConfig {
                     "PROGRESS_VALIDATING_CONFIG_XML_WIDGET_VERSION");
         }
         // version variable should look like one of the options:
-        // version="a.b"
         // version="a.b.c"
         // version="a.b.c.d"
         Matcher matcher = VERSION_PATTERN.matcher(version);
@@ -387,6 +395,14 @@ public class WidgetConfig {
 
     public void setDescription(String description) {
         _description = description;
+    }
+    
+    public void setAutoOrientation(String autoOrientation) {
+    	_autoOrientation = autoOrientation;
+    }
+    
+    public void setOrientation(String orientation) {
+    	_orientation = orientation;
     }
 
     public void addHoverIcon(String icon) {

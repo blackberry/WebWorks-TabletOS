@@ -1,11 +1,11 @@
 /*
-* Copyright 2010 Research In Motion Limited.
+* Copyright 2010-2011 Research In Motion Limited.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
 * You may obtain a copy of the License at
 *
-*     http://www.apache.org/licenses/LICENSE-2.0
+* http://www.apache.org/licenses/LICENSE-2.0
 *
 * Unless required by applicable law or agreed to in writing, software
 * distributed under the License is distributed on an "AS IS" BASIS,
@@ -58,7 +58,6 @@ package blackberry.applicationEvents
 			webView.removeEventListener(Event.DEACTIVATE,deactivate);
 			QNXApplication.qnxApplication.removeEventListener(QNXApplicationEvent.SWIPE_DOWN,swipeDown);
 			QNXApplication.qnxApplication.removeEventListener(QNXApplicationEvent.SWIPE_START, swipeStart);
-			webView.stage.removeEventListener(StageOrientationEvent.ORIENTATION_CHANGING, preventOrientationChanging );
 		}
 		
 		public override function getFeatureList():Array{
@@ -87,10 +86,6 @@ package blackberry.applicationEvents
 			QNXApplication.qnxApplication.addEventListener(QNXApplicationEvent.SWIPE_START,swipeStart);	
 		}
 		
-		public function lockOrientation():void{
-			//webView.stage.addEventListener(StageOrientationEvent.ORIENTATION_CHANGING, preventOrientationChanging );
-		}
-		
 		public function activate(event:Event):void{
 			this.evalJavaScriptEvent(javaScriptOnForeground,new Array());
 		}
@@ -105,10 +100,6 @@ package blackberry.applicationEvents
 		
 		public function swipeStart(event:QNXApplicationEvent):void{
 			this.evalJavaScriptEvent(javaScriptOnSwipeStart,new Array());	
-		}	
-		
-		public function preventOrientationChanging(event:StageOrientationEvent):void{
-			event.preventDefault();
 		}
 		
 	}

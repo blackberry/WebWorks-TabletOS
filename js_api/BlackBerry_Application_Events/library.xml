@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<library isWhitelist="true">
+<library>
 	<extension>
 		<entryClass>blackberry.applicationEvents.ApplicationEvent</entryClass>
 	</extension>
@@ -26,49 +26,44 @@
 		<example><![CDATA[
 <script type="text/javascript">
 
-  function trapForApplicationExit()
-  {
-		blackberry.app.event.onBackground(handleBackground);
-  }
-
-
-  function handleBackground()
-  {         
-		blackberry.app.exit();
-  }
-
+	function onBackgroundCallback() {         
+		alert("Going to the background!");
+	}
+	
+	function notifyMeWhenMinimized() {
+		blackberry.app.event.onBackground(onBackgroundCallback);
+	}
+	
+	notifyMeWhenMinimized();
 
 </script>]]></example>		
 
 	    <functions>
-			<func name="onBackground" static="true" returns="void" comment="Assigns a listener for when the application goes to the background.">
-				<details>Only one function can be assigned to this event. To unregister the callback, simply call the onBackground method and pass in null for the callback parameter. 
-						This event is fired whenever the application goes to the background, but has not ended. 						
+			<func name="onBackground" static="true" returns="void" comment="Assigns a listener that is called when the application goes to the background.">
+				<details>This event is dispatched whenever the application goes to the background, but has not ended.
+				Only one function can be assigned to this event. To unregister the callback, call the onBackground method and pass in null for the callback parameter.
+				Note: The BlackBerry PlayBook's "Application Behavior" setting has an impact on when onBackground gets dispatched. When "Application Behavior" is set to "Default", onBackground does not get dispatched until another application goes fullscreen.  When "Application Behavior" is set to "Showcase", onBackground does not get dispatched because all open applications stay active. When "Application Behavior" is set to "Paused", onBackground gets dispatched once the application is sent to the background.
 				</details>
-				<param name="callBack" type="String"
-					comment="Function to be called when the application goes to the background." />
-					
+				<param name="onBackgroundCallback" type="Function" comment="Function to be called when the application goes to the background. Expected signature: function onBackgroundCallback()." />	
 			</func>
-			<func name="onForeground" static="true" returns="void" comment="Assigns a listener for when the application goes to the foreground.">
-				<details>Only one function can be assigned to this event. To unregister the callback simply call the onForeground method and pass in null for the callback parameter. 
-						This event is fired whenever the application comes to the foreground, for example, when the user re-opens the application from the application list.
+			<func name="onForeground" static="true" returns="void" comment="Assigns a listener that is called when the application goes to the foreground.">
+				<details>This event is dispatched whenever the application comes to the foreground, for example, when the user re-opens the application from the application list.
+				Only one function can be assigned to this event. To unregister the callback call the onForeground method and pass in null for the callback parameter.
+				Note: The BlackBerry PlayBook's "Application Behavior" setting has an impact on when onForeground gets dispatched. Refer to onBackground documentation for details.
 				</details>
-				<param name="callBack" type="String"
-					comment="Function to be called when the application goes to the foreground." />
+				<param name="onForegroundCallback" type="Function" comment="Function to be called when the application goes to the foreground. Expected signature: function onForegroundCallback()." />
 			</func>
-			<func name="onSwipeDown" static="true" returns="void" comment="Assigns a listener for when the application goes to the foreground.">
-				<details>Only one function can be assigned to this event. To unregister the callback simply call the onSwipeDown method and pass in null for the callback parameter. 
-						This event is dispatched when a user swipes down from the top bezel of the device onto the screen.
+			<func name="onSwipeDown" static="true" returns="void" comment="Assigns a listener that is called when a user swipes down from the top bezel of the device onto the screen.">
+				<details>This event is dispatched when a user swipes down from the top bezel of the BlackBerry PlayBook onto the screen.
+				Only one function can be assigned to this event. To unregister the callback call the onSwipeDown method and pass in null for the callback parameter. 		
 				</details>
-				<param name="callBack" type="String"
-					comment="Function to be called when the swipe down action occurs." />
+				<param name="onSwipeDownCallback" type="Function" comment="Function to be called when the swipe down action occurs. Expected signature: function onSwipeDownCallback()." />
 			</func>
-			<func name="onSwipeStart" static="true" returns="void" comment="Assigns a listener for when the application goes to the foreground.">
-				<details>Only one function can be assigned to this event. To unregister the callback simply call the onSwipeDown method and pass in null for the callback parameter. 
-						This event is dispatched when the user starts a swipe from the top bezel of the device.
+			<func name="onSwipeStart" static="true" returns="void" comment="Assigns a listener for when when a user begins to swipe from the top bezel of the device into the screen.">
+				<details> This event is dispatched when the user starts a swipe from the top bezel of the BlackBerry PlayBook.
+				Only one function can be assigned to this event. To unregister the callback call the onSwipeStart method and pass in null for the callback parameter. 
 				</details>
-				<param name="callBack" type="String"
-					comment="Function to be called when the user starts a swipe from the top bezel of the device" />
+				<param name="onSwipeStartCallback" type="Function" comment="Function to be called when the user starts a swipe from the top bezel of the device. Expected signature: function onSwipeStartCallback()." />
 			</func>
 			
 	    </functions>
