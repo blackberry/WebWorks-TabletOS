@@ -9,7 +9,7 @@ Pre-required
 To Run Tests 
 1/ Changed the ip and host @pythonServerIP@:@pythonServerPort@ for
   - server.py 
-  - yui/YUITestsToRun.js 
+  - yui/YUIHarness.js 
 
 2/ Build you App or use the YUITest
   - change the @pythonServerIP@:@pythonServerPort in config.xml

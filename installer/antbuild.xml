@@ -73,8 +73,11 @@
 		
 		<antcall target="prepareDependencies"/>
 
-		<!-- build Spider full installer -->
+		<!--- build Spider full installer -->
 		<antcall target="buildFullInstaller" />
+		
+		<antcall target="run-yui-test"/>
+		
 	</target>
 	
 
@@ -111,7 +114,9 @@
 		</move>
 	</target>
 
-
+	<target name="run-yui-test" if="run.yui.test">
+		<ant dir="../continuousIntegration" antfile="../continuousIntegration/build.xml"/>
+	</target>
 
     <!-- ===================================================================
           Echo properties
