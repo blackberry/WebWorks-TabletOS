@@ -1,53 +1,43 @@
 /*
- * Copyright 2010 Research In Motion Limited.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+* Copyright 2010-2011 Research In Motion Limited.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
 package
 {
 	import flash.desktop.NativeApplication;
-	import flash.display.Bitmap;
-	import flash.display.Shape;
 	import flash.display.Sprite;
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
 	import flash.events.Event;
-	import flash.events.IOErrorEvent;
-	import flash.events.LocationChangeEvent;
-	import flash.filesystem.File;
-	import flash.utils.ByteArray;
-	import flash.utils.Dictionary;
+	import flash.events.StageOrientationEvent;
+	import flash.geom.Rectangle;
+	import flash.utils.*;
 	
 	import qnx.dialog.AlertDialog;
-	import qnx.dialog.DialogSize;
-	import qnx.display.IowWindow;
 	import qnx.events.ExtendedLocationChangeEvent;
-	import qnx.events.JavaScriptCallbackEvent;
 	import qnx.events.UnknownProtocolEvent;
-	import qnx.events.WebViewEvent;
 	
 	import webworks.FunctionBroker;
-	import webworks.JavaScriptLoader;
-	import webworks.access.Access;
 	import webworks.config.ConfigConstants;
 	import webworks.config.ConfigData;
+	import webworks.errors.HTTPErrorMapping;
 	import webworks.extension.IApiExtension;
 	import webworks.loadingScreen.LoadingScreen;
 	import webworks.loadingScreen.Transitions;
-	import webworks.policy.WidgetPolicy;
-	import webworks.uri.URI;
 	import webworks.webkit.WebkitControl;
 	import webworks.webkit.WebkitEvent;
+	
 
 	[SWF(width="1024", height="600", frameRate="30", backgroundColor="#000000")]
 	public class WebWorksAppTemplate extends Sprite
@@ -73,6 +63,7 @@ package
 		private function init(e:Event = null):void 
         {
 			removeEventListener(Event.ADDED_TO_STAGE, init);
+			stage.addEventListener(StageOrientationEvent.ORIENTATION_CHANGE, onOrientationChange); 
 			entryURL = ConfigData.getInstance().getProperty(ConfigConstants.CONTENT);
 			NativeApplication.nativeApplication.addEventListener(Event.ACTIVATE, appActive);
 			NativeApplication.nativeApplication.addEventListener(Event.DEACTIVATE, appBackground);
@@ -127,7 +118,8 @@ package
 		private function setupWebkit():void 
         {
             var creationID:Number = int(Math.random() * 1000000) + new Date().time;
-            webWindow = new WebkitControl(creationID, 0, 0, stage.stageWidth,  stage.stageHeight);
+            webWindow = new WebkitControl(creationID, stage);
+			webWindow.setViewPort(new Rectangle(0, 0, stage.stageWidth,  stage.stageHeight));
 
 			webWindow.addEventListener(WebkitEvent.TAB_LOAD_COMPLETE, tabLoadComplete);
 			webWindow.addEventListener(WebkitEvent.TAB_LOAD_ERROR, webkitLoadError);
@@ -144,24 +136,31 @@ package
 			var requestUrl:String = upe.url;
 			var sid:int = upe.streamId;
 			
+			// bypass "data:" protocol, somehow it fires the UnknownProtocolEvent for "data:" protocol
+			if (requestUrl.indexOf("data:") == 0) {
+				return;
+			}			
+			
 			// hold the unknown protocol event
 			upe.preventDefault();
 			
-			var responseStatus:int = broker.valid(requestUrl);
-			var responseObject:Object= broker.handleXHRRequest(requestUrl);
-			var responseText:String;
 
-			var byteData:ByteArray = new ByteArray();;
+			var returnedBody:String = "";
 			
-			if (responseObject == null || responseStatus != FunctionBroker.HTTPStatus_200_Okay) {
-				responseText = FunctionBroker.statusCodeToString(responseStatus);
-			} else {
-				responseText = responseObject.toString();
+			try {
+				returnedBody = broker.handleXHRRequest(upe.url).toString();
+				webWindow.qnxWebView.notifyResourceOpened(sid, HTTPErrorMapping.getSuccessCode(), HTTPErrorMapping.getSuccessMessage());
 			}
 			
-			byteData.writeUTFBytes(responseText);
+			catch (e:Error) {
+				var httpError:HTTPErrorMapping = new HTTPErrorMapping(e);
+				webWindow.qnxWebView.notifyResourceOpened(sid,httpError.code, httpError.message);
+			}
 			
-			webWindow.qnxWebView.notifyResourceOpened(sid, responseStatus, FunctionBroker.statusCodeToString(responseStatus));
+			var byteData:ByteArray;
+			byteData = new ByteArray();
+			byteData.writeUTFBytes(returnedBody);
+
 			webWindow.qnxWebView.notifyResourceHeaderReceived(sid, "Content-Type", "text/plain");
 			webWindow.qnxWebView.notifyResourceHeaderReceived(sid, "Content-Length", byteData.length.toString());
 			webWindow.qnxWebView.notifyResourceDataReceived(sid, byteData);
@@ -213,7 +212,15 @@ package
 			trace("webkitLocationChanged event");
 			loadingScreen.hideIfNecessary();
 		}
-			
+
+		private function onOrientationChange(event:StageOrientationEvent):void
+		{
+			if (webWindow != null)
+			{
+				webWindow.setViewPort(new Rectangle(0, 0, stage.stageWidth, stage.stageHeight));
+			}
+		}
+		
 		public function loadURL(url:String):void 
         {
 			if (url.indexOf(":") < 0) {

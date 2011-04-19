@@ -1,11 +1,11 @@
 /*
-* Copyright 2010 Research In Motion Limited.
+* Copyright 2010-2011 Research In Motion Limited.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
 * You may obtain a copy of the License at
 *
-*     http://www.apache.org/licenses/LICENSE-2.0
+* http://www.apache.org/licenses/LICENSE-2.0
 *
 * Unless required by applicable law or agreed to in writing, software
 * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,26 +13,17 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-
 (function () {
-	var DIALOG_URL = "blackberry/ui/dialog";
+	var DIALOG_API_URL = "blackberry/ui/dialog";
 	
 	var ARGS_MESSAGE = "message";
 	var ARGS_BUTTONS = "buttons";
 	var ARGS_TITLE = "title";
 	var ARGS_SIZE = "size";
 	var ARGS_POSITION = "position";
+	var ARGS_GLOBAL = "global";
 	
 	var ARGS_ON_CLICK_HANDLER_ID = "onClickHandlerId";
-	
-	
-	if(!this.blackberry) {
-		return; //nothing to dispatch
-	}
-	
-	if(!this.blackberry.ui) {
-		this.blackberry.ui = {};
-	}
 	
 	function getButtonsForDialogType(dialogType) {
 		switch(dialogType) {
@@ -72,7 +63,7 @@
 	}
 	
 	function generateRequest(message, buttonList, onClickHandlerId, settings) {
-		var remoteCall = new blackberry.transport.RemoteFunctionCall(DIALOG_URL + "/ask");
+		var remoteCall = new blackberry.transport.RemoteFunctionCall(DIALOG_API_URL + "/ask");
 		remoteCall.addParam(ARGS_MESSAGE, message); 
 		remoteCall.addParam(ARGS_BUTTONS, buttonList);
 		remoteCall.addParam(ARGS_ON_CLICK_HANDLER_ID, onClickHandlerId);
@@ -89,6 +80,10 @@
 			if(settings[ARGS_POSITION]) {
 				remoteCall.addParam(ARGS_POSITION, settings[ARGS_POSITION]);
 			}
+			
+			if(settings[ARGS_GLOBAL]) {
+				remoteCall.addParam(ARGS_GLOBAL, settings[ARGS_GLOBAL]);
+			}
 		}
 				
 	    return remoteCall;
@@ -103,18 +98,17 @@
 		return generateRequest(message, buttonList, onClickId, settings);
 	}
 	
-	this.blackberry.ui.dialog = {
-		//Override the delegates for each namespace method
-		dispatcher : {
-		
-			"customAsk" : function(message, buttons, onClickHandler, settings) {
-				requestDialog(message, buttons, onClickHandler, settings).makeAsyncCall();
-			},
+	function DialogDispatcher() {
+	}
+	
+	DialogDispatcher.prototype.customAskAsync = function(message, buttons, onClickHandler, settings) {
+		requestDialog(message, buttons, onClickHandler, settings).makeAsyncCall();
+	};
 			
-			"standardAsk" : function(message, dialogType, onClickHandler, settings) {
-				var buttons = getButtonsForDialogType(dialogType);
-				requestDialog(message, buttons, onClickHandler, settings).makeAsyncCall();
-			}
-		}
-	};	
+	DialogDispatcher.prototype.standardAskAsync = function(message, dialogType, onClickHandler, settings) {
+		var buttons = getButtonsForDialogType(dialogType);
+		requestDialog(message, buttons, onClickHandler, settings).makeAsyncCall();
+	}
+
+	blackberry.Loader.javascriptLoaded("blackberry.ui.dialog", DialogDispatcher);	
 })();
