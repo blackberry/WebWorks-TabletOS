@@ -2,7 +2,7 @@
 	
 	<property file="test.properties"/>
 	<property name="testDir" value="${basedir}/test"/>
-	<property name="resultFile" value="${basedir}/${BUILDVER}.xml"/>
+	<property name="resultFile" value="${basedir}/${product.version}.xml"/>
 	<property name="InstallerData.dir" value="${basedir}/../installer/installerdata"/>
 	<property name="bbwp.dir" value="${InstallerData.dir}/bbwp"/>
 	<property name="blackberry.tablet.sdk.dir" value="${InstallerData.dir}/blackberry-tablet-sdk"/>
@@ -66,14 +66,14 @@
 		</copy>
 	</target>
 	<target name="configProperties">				
-		<echo message="content url: http://${PythonServerIP}:${PythonServerPort}/yui/index.htm?hudson=true&amp;buildId=${BUILDVER}"/>
+		<echo message="content url: http://${PythonServerIP}:${PythonServerPort}/yui/index.htm?hudson=true&amp;buildId=${product.version}"/>
 		<xmltask source="${testDir}/bin/bbwp.properties" dest="${testDir}/bin/bbwp.properties.new">
 			<replace path="/wcp/tablet_sdk/text()" withText="${testDir}/blackberry-tablet-sdk"/>
 		</xmltask>
 		<copy file="${testDir}/bin/bbwp.properties.new" tofile="${testDir}/bin/bbwp.properties"/>
 		<xmltask source="${basedir}/YUITest/config.xml" dest="${basedir}/YUITest/config.xml.new">
 			<replace path="/:widget/:access/@uri" withText="http://${PythonServerIP}:${PythonServerPort}/yui"/>
-			<replace path="/:widget/:content/@src" withText="http://${PythonServerIP}:${PythonServerPort}/yui/index.htm?hudson=true&amp;buildId=${BUILDVER}"/>
+			<replace path="/:widget/:content/@src" withText="http://${PythonServerIP}:${PythonServerPort}/yui/index.htm?hudson=true&amp;buildId=${product.version}"/>
 		</xmltask>
 		<copy file="${basedir}/YUITest/config.xml.new" tofile="${basedir}/YUITest/config.xml"/>
 		<echo message="@pythonServerIP@ ${PythonServerIP}"/>			
