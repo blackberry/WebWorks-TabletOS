@@ -58,7 +58,7 @@ package webworks
 				var paths:Array;
 				
 				//sort features in white list in ascending order
-				//when APIs get loaded in JavaScript, we must load parent namespace because child namespace
+				//when APIs get loaded in JavaScript, we must load parent namespace before child namespace
 				//e.g. a.b must be loaded before a.b.c, otherwise a.b.c gets overwritten by a.b
 				features.sortOn("id");
 				
