@@ -1,5 +1,11 @@
 # About BlackBerry&reg; WebWorks for Tablet OS
-The BlackBerry WebWorks&reg; for Tablet OS Platform is the next evolution of our BlackBerry&reg; Widget technology that we have contributed to the Open Source community under the Apache 2.0 license [http://github.com/blackberry](http://github.com/blackberry). It is a unique platform in the mobile market and is designed as an alternative platform for web developers wanting the opportunity to create full featured and deeply integrated applications on the Tablet OS. BlackBerry WebWorks is built on three main strategic principles:
+
+The BlackBerry&reg; WebWorks&trade; for Tablet OS Platform allows web and mobile web developers to use the SDK in combination with their development 
+tooling of choice to develop, test and package up their web applications as BlackBerry WebWorks applications for tablets. 
+BlackBerry WebWorks applications are distributed through the BlackBerry App World&trade; storefront and run on the BlackBerry&reg; PlayBook&trade; 
+tablet with access to the hardware.
+
+The project is Open Sourced under the Apache 2.0 license [http://github.com/blackberry](http://github.com/blackberry).
 
 * Advanced Standards
 * Powerful Integration
