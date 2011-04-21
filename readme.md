@@ -12,12 +12,7 @@ The project is Open Sourced under the Apache 2.0 license [http://github.com/blac
 * Open
 
 ## Downloads
-Below you will find the downloads and install files for the BlackBerry WebWorks project.  
-
-Operating System | Release | File | File Format | File size 
-:------------|:------------:|:------------:|:------------|:------------|:------------:|
-Windows&reg; XP (32-bit), Windows 7 (32-bit or 64-bit) | 1.0.0 | [BlackBerryWebWorksSDK.exe](https://www.blackberry.com/Downloads/contactFormPreload.do?code=DC727151E5D55DDE1E950767CF861CA5&dl=F446750E29EA9598216CC0FB0DEB83E2) | InstallAnywhere&reg; Installer | 102.6 MB
-MacIntosh&reg; 32-bit | 1.0.0 | [BlackBerryWebWorksSDK.zip](https://www.blackberry.com/Downloads/contactFormPreload.do?code=DC727151E5D55DDE1E950767CF861CA5&dl=FA78BAEA36C23307F0D8F59F1A9913AF) | InstallAnywhere&reg; Installer | 70.7 MB
+Full installers for Mac and Windows can be found on the [product download page](http://us.blackberry.com/developers/tablet/webworks.jsp)
 
 ## Installation Guides 
 You can also find the installation guides for both Mac and Windows.  These are simple step by step guides to ensure that your development environment is setup correctly without complication. 
