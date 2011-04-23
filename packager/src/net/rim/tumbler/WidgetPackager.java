@@ -19,11 +19,9 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.LinkedHashMap;
 import java.util.HashSet;
 import java.util.Hashtable;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
@@ -318,7 +316,7 @@ public class WidgetPackager {
     private static Map<String, Vector<String>> copyExtensions(
         BBWPProperties bbwpProperties,
         WidgetConfig config)
-        throws IOException
+        throws IOException, PackagerException
     {
         Map<String, Vector<String>> result = new LinkedHashMap<String, Vector<String>>();
 

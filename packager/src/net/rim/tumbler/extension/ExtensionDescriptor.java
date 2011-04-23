@@ -15,17 +15,21 @@
 */
 package net.rim.tumbler.extension;
 
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
 class ExtensionDescriptor {
 
     private boolean _isCopied;
+    private String _id;
     private String _entryClass; // for example, "blackberry.pim.PIMExtension"
+    private HashSet<String> _dependencies;
     private String _rootFolder; // for example, "C:\\Program Files\\Research In Motion\\BlackBerry Widget Packager\\ExtRepo\\BlackBerry_PIM_Ext"
     private Set<ConfiguredPathname> _configuredPathnames;
 
-    public ExtensionDescriptor(String entryClass, String rootFolder) {
+    public ExtensionDescriptor(String id, String entryClass, String rootFolder) {
+    	_id = id;
         _entryClass = entryClass;
         _rootFolder = rootFolder;
         _configuredPathnames = new LinkedHashSet<ConfiguredPathname>();
@@ -38,9 +42,25 @@ class ExtensionDescriptor {
     public void markCopied() {
         _isCopied = true;
     }
+    
+    public String getId() {
+    	return _id;
+    }
 
     public String getEntryClass() {
         return _entryClass;
+    }
+    
+    public void addDependency(String extensionId) {
+    	if (_dependencies == null) {
+    		_dependencies = new HashSet<String>();
+    	}
+    	
+    	_dependencies.add(extensionId);
+    }
+    
+    public HashSet<String> getDependencies() {
+    	return _dependencies;
     }
 
     public String getRootFolder() {

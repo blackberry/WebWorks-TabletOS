@@ -67,7 +67,7 @@
 		<!--Copy the API source -->
 		<echo>Copying API source to ${installer.ext.dir}...</echo>
 		<copy todir="${installer.ext.dir}" >
-			<fileset dir="${jsapi.dir}" includes="BlackBerry_*/**" excludes="**/.*"/>
+			<fileset dir="${jsapi.dir}" includes="blackberry.*/**" excludes="**/.*"/>
 		</copy>
 		
 		<!--

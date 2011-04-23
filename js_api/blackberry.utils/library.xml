@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <library>
-	<extension>
+	<extension id="blackberry.utils">
 		<entryClass>blackberry.utils.Utilities</entryClass>
 	</extension>
 	
