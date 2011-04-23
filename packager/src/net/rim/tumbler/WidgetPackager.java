@@ -316,7 +316,7 @@ public class WidgetPackager {
     private static Map<String, Vector<String>> copyExtensions(
         BBWPProperties bbwpProperties,
         WidgetConfig config)
-        throws IOException, PackagerException
+        throws IOException, PackageException
     {
         Map<String, Vector<String>> result = new LinkedHashMap<String, Vector<String>>();
 
