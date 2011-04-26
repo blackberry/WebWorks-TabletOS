@@ -391,6 +391,36 @@
 				framework.test.wait(24*60*60*1000); //wait until user inputs the test result (via button click) *24hr wait since wait() has a bug*
 			},
 			
+
+			"MANUAL blackberry.ui.dialog.standardAskAsync system should not exit" : function() {
+				framework.test = this; //so pass() and fail() can access this test
+				framework.setInstructions("Exit application without closing the dialog, if Exit applies then fail this test");
+				var settings = {global:true};
+				//blackberry.ui.dialog.standardAskAsync("Large_Bottom?", blackberry.ui.dialog.D_OK, 0, settings);
+				blackberry.ui.dialog.standardAskAsync("Press the OK button if application couldn't exit, otherwise press cancel",blackberry.ui.dialog.D_OK_CANCEL, function(result){
+					framework.test.resume(function (){
+						Assert.areEqual(result, 0); //asserting button pressed as per instructions above
+					});
+				},
+				settings);
+				framework.test.wait(24*60*60*1000); //wait until user inputs the test result (via button click) *24hr wait since wait() has a bug*
+			},
+			
+
+			"MANUAL blackberry.ui.dialog.customAskAsync system should not exit" : function() {
+				framework.test = this; //so pass() and fail() can access this test
+				framework.setInstructions("Exit application without closing the dialog, if Exit applies then fail this test");
+				var settings = {global:true};
+				var choices = new Array("Pass", "Fail");
+				blackberry.ui.dialog.customAskAsync("Press the Pass button if application couldn't exit, otherwise press Fail", choices, function(result){
+					framework.test.resume(function (){
+						Assert.areEqual(result, 0); //asserting button pressed as per instructions above
+					});
+				},
+				settings);
+				framework.test.wait(24*60*60*1000); //wait until user inputs the test result (via button click) *24hr wait since wait() has a bug*
+			},
+			
 		});
 		return testCases;
 	}

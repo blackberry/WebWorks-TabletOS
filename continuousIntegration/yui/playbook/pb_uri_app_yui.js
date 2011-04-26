@@ -127,11 +127,64 @@
 				Assert.isNotUndefined(result.copyright);
 			},
 	
-	//check licenseURL
+		//check licenseURL
 		    "URI based   licenseURL should exist" : function() {
 				Assert.isNotUndefined(result.licenseURL);
-			},/*
-	"Manual Test - should show all the application properties from uri based call": function() {
+			},
+		//////////////////////////check URI API against JS API	
+		//check author
+		    "URI based  author and blackberry.app.author  should be Equal" : function() {
+			//alert(result.author);
+				Assert.areEqual(result.author, blackberry.app.author);
+			
+			},
+			
+		//check name
+		    "URI based  name  and blackberry.app.name should be Equal" : function() {
+				Assert.areEqual(result.name,blackberry.app.name);
+			
+			},
+			
+		//check authorEmail
+		    "URI based  authorEmail  and blackberry.app.authorEmail should be Equal" : function() {
+				Assert.areEqual(result.authorEmail,blackberry.app.authorEmail);
+			},
+			
+		//check authorURL
+		    "URI based  authorURL and blackberry.app.authorURL should be Equal" : function() {
+				Assert.areEqual(result.authorURL,blackberry.app.authorURL);
+			},
+			
+		//check description
+		    "URI based  description and blackberry.app.description  should be Equal" : function() {
+				Assert.areEqual(result.description,blackberry.app.description);
+			},
+			
+		//check license
+		    "URI based   license and blackberry.app.license should be Equal" : function() {
+				Assert.areEqual(result.license,blackberry.app.license);
+			},
+		
+		//check id
+		    "URI based   id and blackberry.app.id should be Equal" : function() {
+				Assert.areEqual(result.id,blackberry.app.id);
+			},
+		//check version
+		    "URI based   version and blackberry.app.version should be Equal" : function() {
+				Assert.areEqual(result.version,blackberry.app.version);
+			},
+		
+		//check copyright
+		    "URI based   copyright and blackberry.app.copyright should be Equal" : function() {
+				Assert.areEqual(result.copyright,blackberry.app.copyright);
+			},
+	
+		//check licenseURL
+		    "URI based   licenseURL and blackberry.app.licenseURL should be Equal" : function() {
+				Assert.areEqual(result.licenseURL,blackberry.app.licenseURL);
+			},
+					
+	"MANUAL Test - should show all the application properties from uri based call": function() {
 				framework.test = this; //so pass() and fail() can access this test
 				framework.setInstructions("Shows all application properties<br />Pass this test if this is true.  Otherwise, fail.");
 				alert("Will attempt to show all blackberry.app properties");
@@ -147,7 +200,7 @@
 				alert('name=' + result.name);
 				alert('version=' + result.version);
 				framework.test.wait(24*60*60*1000); //wait until user inputs the test result (via button click) *24hr wait since wait() has a bug*
-			}*/
+			}
 		
 		});
 		

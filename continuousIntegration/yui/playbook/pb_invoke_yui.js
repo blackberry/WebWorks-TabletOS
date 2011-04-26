@@ -92,9 +92,8 @@
 				Assert.areSame(blackberry.invoke.APP_APPWORLD, 16);
 			},
 		
-			"blackberry.invoke.APP_UPDATE should exist" : function() {
-				Assert.isNotUndefined(blackberry.invoke.APP_UPDATE);
-				Assert.areSame(blackberry.invoke.APP_UPDATE, 17);
+			"blackberry.invoke.APP_UPDATE should NOT exist" : function() {
+				Assert.isUndefined(blackberry.invoke.APP_UPDATE);
 			},
 
 			/* END PLAYBOOK SPECIFIC TESTS */
@@ -203,11 +202,9 @@
 			},
 			
 			//Invoke Basic Update
-			"MANUAL Test8 - should invoke Update": function() {
+			"MANUAL Test8 - should NOT invoke Update": function() {
 				framework.test = this; //so pass() and fail() can access this test
-				framework.setInstructions("The Update application should be invoked.<br />Pass this test if this is true.  Otherwise, fail.");
-				//alert("Will attempt to invoke the Update application");
-				
+				framework.setInstructions("The Update application should NOT be invoked.<br />Pass this test if this is true.  Otherwise, fail.");
 				try{
 					blackberry.invoke.invoke(blackberry.invoke.APP_UPDATE);
 				}catch(e){
@@ -273,10 +270,14 @@
 			},
 			
 			//Open up the application UPDATE when passing a null
-			"MANUAL Test15 - should invoke UPDATE when parameter is a null": function() {
+			"MANUAL Test15 - should NOT invoke UPDATE when parameter is a null": function() {
 				framework.test = this; //so pass() and fail() can access this test
-				framework.setInstructions("Result should be UPDATE opening up");
-				blackberry.invoke.invoke(blackberry.invoke.APP_UPDATE, null);
+				framework.setInstructions("Result should be UPDATE NOT opening up");
+				try{
+					blackberry.invoke.invoke(blackberry.invoke.APP_UPDATE, null);
+				}catch(e){
+					alert(e);
+				}
 				framework.test.wait(24*60*60*1000); //wait until user inputs the test result (via button click) *24hr wait since wait() has a bug*
 			},
 			

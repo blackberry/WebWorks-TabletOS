@@ -177,6 +177,7 @@
 								framework.test.resume(function (){
 									Assert.isNotUndefined(JSON.parse(msg).data.hasDataCoverage);
 									Assert.areSame(JSON.parse(msg).data.hasDataCoverage,true);
+									Assert.areSame(JSON.parse(msg).data.hasDataCoverage,blackberry.system.hasDataCoverage());
 								});               
 						}
                 });					
@@ -319,6 +320,7 @@
 								framework.test.resume(function (){
 									Assert.isNotUndefined(JSON.parse(msg).data.isMassStorageActive);
 									Assert.areSame(JSON.parse(msg).data.isMassStorageActive,false);
+									Assert.areSame(JSON.parse(msg).data.isMassStorageActive,blackberry.system.isMassStorageActive());
 								});               
 						}
                 });		
@@ -356,6 +358,7 @@
 								framework.test.resume(function (){
 									Assert.isNotUndefined(JSON.parse(msg).data.scriptApiVersion);
 									Assert.areSame(JSON.parse(msg).data.scriptApiVersion,"1.0.0.0");
+									Assert.areSame(JSON.parse(msg).data.scriptApiVersion,blackberry.system.scriptApiVersion);
 								});               
 						}
                 });

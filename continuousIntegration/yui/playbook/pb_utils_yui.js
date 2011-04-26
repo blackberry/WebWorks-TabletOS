@@ -69,15 +69,19 @@
 				Assert.areSame(url.port, port);
 			},
 			
-			//stringToBlob
+			//stringToBlob comment it for now
+			/*
 			"blackberry.utils.stringToBlob should exist and is a function" : function() {
 				Assert.isTypeOf('function', blackberry.utils.stringToBlob ); 
 			},
+			*/
 			
-			//blobToString
+			//blobToString comment it for now
+			/*
 			"blackberry.utils.blobToString should exist and is a function" : function() {
 				Assert.isTypeOf('function', blackberry.utils.blobToString);
 			},
+			*/
 			
 		
 //blackberry.utils Functional test
@@ -131,28 +135,17 @@
 			},	 
 			
 			
-		//14
+		//14 comment it for now
+			/*
 			"blackberry.utils.stringToBlob and BlobToString should work" : function() {
 				var globalBlob;
                 var globalString = "Hello Playbook";
                 globalBlob = blackberry.utils.stringToBlob(globalString, "UTF-8");
                 Assert.areSame( blackberry.utils.blobToString(globalBlob), globalString );
                 
-			},		
-			
-	    /*	
-		    "blackberry.utils.parseURL - local implicitly define port should work" : function() {
-				var url = blackberry.utils.parseURL("file:///SDCard/pic1.jpg");
-				Assert.isNumber( url.port );
-                Assert.isSame( url.port, 0);
-                Assert.isSame( url.host, "SDCard");
-			},	
-		*/	//will add more tests here if needed
-
-      
-	
-//blackberry.utils Negative test
-     
+			},
+            */			
+        //blackberry.utils Negative test
 		/*	
 			"blackberry.utils.parseURL - abc:// implicitly define port should work" : function() {
 				var url = blackberry.utils.parseURL("abc://www.guoguo.com/index.html?COUNTER=3&FOO=BAR");

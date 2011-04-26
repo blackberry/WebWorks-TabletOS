@@ -141,8 +141,7 @@
 			
 			
 			//Show all Properties
-			/*
-			"MANUAL Test - should show all the application properties": function() {
+			"MANUAL should show all the application properties": function() {
 				framework.test = this; //so pass() and fail() can access this test
 				framework.setInstructions("Shows all application properties<br />Pass this test if this is true.  Otherwise, fail.");
 				alert("Will attempt to show all blackberry.app properties");
@@ -158,7 +157,7 @@
 				alert('name=' + blackberry.app.name);
 				alert('version=' + blackberry.app.version);
 				framework.test.wait(24*60*60*1000); //wait until user inputs the test result (via button click) *24hr wait since wait() has a bug*
-			},*/
+			},
 		
 			//onBackground (set)
 			"MANUAL blackberry.app.event onBackground event should trigger when application is set to background": function() {
@@ -168,10 +167,13 @@
 				var eventFlag = false;
 				//Sets onBackground event to function that sets a flag to be true
 				//Then puts application into the background
+			
 				blackberry.app.event.onBackground(function() { 
+												 alert('onBackground works!');	
 				                                 eventFlag = true; 
 												 framework.test.resume(function (){ Assert.areEqual(eventFlag, true); blackberry.app.event.onBackground(null);});
-                                                 });												 
+                                                 });	
+				
 				framework.test.wait(function(){
 					Assert.fail(" blackberry.app.event onBackground event failed");
 				}, 5*60*1000);								
@@ -187,7 +189,8 @@
 				//Sets onForeground event to function that sets a flag to be true
 				//Then puts application into the background
 				blackberry.app.event.onForeground(function() { 
-				                                 eventFlag1 = true; 
+				                                 alert('onForeground works!');
+												 eventFlag1 = true; 
 												 framework.test.resume(function (){ Assert.areEqual(eventFlag1, true); blackberry.app.event.onForeground(null);});
                                                  });												 
 				framework.test.wait(function(){

@@ -25,7 +25,7 @@
 			
 			_should: {
                 error: {
-                    "blackberry.invoke.CameraArguments should return error if invoked with bad integer value" : "Invalid view for CameraArgumentsObject.",
+                    "MANUAL blackberry.invoke.CameraArguments should return error if invoked with bad integer value" : "Please provide a valid value for CameraArguments.",
                 }                
             },
 			
@@ -43,13 +43,14 @@
 				Assert.areSame(blackberry.invoke.CameraArguments.VIEW_RECORDER, 1);
 			},						
         
-			"blackberry.invoke.CameraArguments should return error if invoked with bad integer value" : function() {
+			"MANUAL blackberry.invoke.CameraArguments should return error if invoked with bad integer value" : function() {
 				try {
 					var args = new blackberry.invoke.CameraArguments();
 					args.view = 2; //Bad value
 					blackberry.invoke.invoke(blackberry.invoke.APP_CAMERA,args);
 				} catch (err) {
-					throw new Error(err);
+					//alert(err.toString());
+					throw new TypeError(err);
 				}
 			},
 		

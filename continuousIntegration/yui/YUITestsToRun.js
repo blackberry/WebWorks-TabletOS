@@ -8,24 +8,24 @@
 			framework.device = "Playbook";
 			framework.yuiTestsToRunArray = [
 				YUI.framework.testDomain +"/yui/playbook/pb_app_yui.js",
-				YUI.framework.testDomain +"/yui/playbook/pb_app_yui_bindings.js",
+				//YUI.framework.testDomain +"/yui/playbook/pb_app_yui_bindings.js",
 				YUI.framework.testDomain +"/yui/playbook/pb_uri_app_yui.js",
-				YUI.framework.testDomain +"/yui/playbook/pb_uri_app_yui_bindings.js",		
+				//YUI.framework.testDomain +"/yui/playbook/pb_uri_app_yui_bindings.js",		
 				YUI.framework.testDomain +"/yui/playbook/pb_dialog_yui.js",
-				YUI.framework.testDomain +"/yui/playbook/pb_dialog_yui_bindings.js",
-			    YUI.framework.testDomain +"/yui/playbook/pb_invoke_yui.js",
-				YUI.framework.testDomain +"/yui/playbook/pb_invoke_yui_bindings.js",
+				//YUI.framework.testDomain +"/yui/playbook/pb_dialog_yui_bindings.js",
+				YUI.framework.testDomain +"/yui/playbook/pb_invoke_yui.js",
+				//YUI.framework.testDomain +"/yui/playbook/pb_invoke_yui_bindings.js",
 				YUI.framework.testDomain +"/yui/playbook/pb_invoke_browserarguments_yui.js",
-				YUI.framework.testDomain +"/yui/playbook/pb_invoke_browserarguments_yui_bindings.js",
+				//YUI.framework.testDomain +"/yui/playbook/pb_invoke_browserarguments_yui_bindings.js",
 				YUI.framework.testDomain +"/yui/playbook/pb_invoke_cameraarguments_yui.js",
-				YUI.framework.testDomain +"/yui/playbook/pb_invoke_cameraarguments_yui_bindings.js",
+				//YUI.framework.testDomain +"/yui/playbook/pb_invoke_cameraarguments_yui_bindings.js",
 				YUI.framework.testDomain +"/yui/playbook/pb_system_yui.js",
-				YUI.framework.testDomain +"/yui/playbook/pb_system_yui_bindings.js",
+				//YUI.framework.testDomain +"/yui/playbook/pb_system_yui_bindings.js",
 				YUI.framework.testDomain +"/yui/playbook/pb_system_uri_yui.js",
-				YUI.framework.testDomain +"/yui/playbook/pb_system_uri_yui_bindings.js",
-				YUI.framework.testDomain +"/yui/playbook/pb_utils_yui.js",
-				YUI.framework.testDomain +"/yui/playbook/pb_utils_yui_bindings.js",
-				//"playbook/pb_deviceorientation_yui.js",
+				//YUI.framework.testDomain +"/yui/playbook/pb_system_uri_yui_bindings.js",
+				YUI.framework.testDomain +"/yui/playbook/pb_utils_yui.js"
+				//YUI.framework.testDomain +"/yui/playbook/pb_utils_yui_bindings.js"
+				//"playbook/pb_deviceorientation_yui.js"
 				
 			];
 		}
@@ -48,7 +48,7 @@
 			YUI.framework.testDomain +"/yui/blackberry/bb_io_yui.js",
 			YUI.framework.testDomain +"/yui/blackberry/bb_io_yui_bindings.js",
 			YUI.framework.testDomain +"/yui/blackberry/bb_system_yui.js",
-			YUI.framework.testDomain +"/yui/blackberry/bb_system_yui_bindings.js",	
+			YUI.framework.testDomain +"/yui/blackberry/bb_system_yui_bindings.js"	
 /*
 			YUI.framework.testDomain +"/yui/blackberry/bb_invoke_yui.js", 
 			YUI.framework.testDomain +"/yui/html5/html5_webstorage_yui.js",
@@ -153,24 +153,23 @@
 	catch (e) {
 		//on desktop
 		framework.device = "Playbook"; //bug in blackberry.system loading, remove later and change to "Desktop"
-        framework.yuiTestsToRunArray = [
-				YUI.framework.testDomain +"/yui/playbook/pb_app_yui.js",
-				YUI.framework.testDomain +"/yui/playbook/pb_app_yui_bindings.js",
-				YUI.framework.testDomain +"/yui/playbook/pb_dialog_yui.js",
-				YUI.framework.testDomain +"/yui/playbook/pb_dialog_yui_bindings.js",
-			    YUI.framework.testDomain +"/yui/playbook/pb_invoke_yui.js",
-				YUI.framework.testDomain +"/yui/playbook/pb_invoke_yui_bindings.js",
-				YUI.framework.testDomain +"/yui/playbook/pb_invoke_browserarguments_yui.js",
-				YUI.framework.testDomain +"/yui/playbook/pb_invoke_browserarguments_yui_bindings.js",
-				YUI.framework.testDomain +"/yui/playbook/pb_invoke_cameraarguments_yui.js",
-				YUI.framework.testDomain +"/yui/playbook/pb_invoke_cameraarguments_yui_bindings.js",
-				YUI.framework.testDomain +"/yui/playbook/pb_system_yui.js",
-				YUI.framework.testDomain +"/yui/playbook/pb_system_yui_bindings.js",
-				YUI.framework.testDomain +"/yui/playbook/pb_utils_yui.js",
-				YUI.framework.testDomain +"/yui/playbook/pb_utils_yui_bindings.js",
-				//"playbook/pb_deviceorientation_yui.js",
-				
-			];
+		framework.yuiTestsToRunArray = [
+						YUI.framework.testDomain +"/yui/playbook/pb_app_yui.js",
+						YUI.framework.testDomain +"/yui/playbook/pb_app_yui_bindings.js",
+						YUI.framework.testDomain +"/yui/playbook/pb_dialog_yui.js",
+						YUI.framework.testDomain +"/yui/playbook/pb_dialog_yui_bindings.js",
+						YUI.framework.testDomain +"/yui/playbook/pb_invoke_yui.js",
+						YUI.framework.testDomain +"/yui/playbook/pb_invoke_yui_bindings.js",
+						YUI.framework.testDomain +"/yui/playbook/pb_invoke_browserarguments_yui.js",
+						YUI.framework.testDomain +"/yui/playbook/pb_invoke_browserarguments_yui_bindings.js",
+						YUI.framework.testDomain +"/yui/playbook/pb_invoke_cameraarguments_yui.js",
+						YUI.framework.testDomain +"/yui/playbook/pb_invoke_cameraarguments_yui_bindings.js",
+						YUI.framework.testDomain +"/yui/playbook/pb_system_yui.js",
+						YUI.framework.testDomain +"/yui/playbook/pb_system_yui_bindings.js",
+						YUI.framework.testDomain +"/yui/playbook/pb_utils_yui.js",
+						YUI.framework.testDomain +"/yui/playbook/pb_utils_yui_bindings.js"
+						//"playbook/pb_deviceorientation_yui.js"
+						];
 	}
 
 })();
