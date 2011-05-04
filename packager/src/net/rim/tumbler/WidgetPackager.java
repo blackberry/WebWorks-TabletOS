@@ -176,6 +176,7 @@ public class WidgetPackager {
                         if (barFile.isFile()) {
                             barFile.delete();
                         }
+                        throw e;
                     }
                 } else {
                     signCod(sessionManager);
