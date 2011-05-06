@@ -105,6 +105,18 @@ package webworks.extension
 			this.webView.executeJavaScript(javaScript);			 
 		} 
 		
+		protected function encodeEventParams(params:Array):Array
+		{
+			var jsonParams:Array = [];
+			
+			for each (var p:Object in params)
+			{
+				jsonParams.push(JSON.encode(p));
+			}
+			
+			return jsonParams;
+		}
+		
 		private function getParamKVArray(keyValuePairs : Array) : Array {
 			var keys : Array = new Array();
 			var values : Array = new Array();
