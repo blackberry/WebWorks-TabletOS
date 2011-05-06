@@ -38,7 +38,6 @@ package blackberry.system
 		private const DENY_STRING:String = "DENY";
 		private const DENY_VALUE:int = 1;
 		
-		private const JSON_DATA_STRING:String 				= "data";
 		private const SOFTWARE_VERSION_STRING:String 		= "softwareVersion";
 		private const SCRIPT_API_VERSION_STRING:String 		= "scriptApiVersion";
 		private const MODEL_STRING:String 					= "model";
@@ -142,9 +141,11 @@ package blackberry.system
 			dataObject[HAS_CAPABILITY_STRING] = SUPPORTED_CAPABILITIES;
 			dataObject[HAS_PERMISSION_STRING] = getHasPermission();
 			
-			var returnObject:Object = new Object();
-			returnObject[JSON_DATA_STRING] = dataObject;
-			
+			var returnObject:Object = {
+				"code" : 0,
+				"msg" : null,
+				"data" : dataObject
+			};
 			
 			return returnObject;
 		}

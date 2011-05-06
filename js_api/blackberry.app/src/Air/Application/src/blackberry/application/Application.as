@@ -26,8 +26,6 @@ package blackberry.application
 	{
 		private const FEATUREID:Array = new Array ("blackberry.app");
 		
-		private const JSON_DATA_STRING:String = "data";
-		
 		
 		public function Application()
 		{	
@@ -96,7 +94,6 @@ package blackberry.application
 		
 		public function get():Object
 		{
-			var returnObject:Object = new Object();
 			var dataObject:Object = new Object();
 			var description:XML = describeType(this);
 			
@@ -108,7 +105,11 @@ package blackberry.application
 				dataObject[methods[i].@name] = this[methods[i].@name]();
 			}
 			
-			returnObject[JSON_DATA_STRING] = dataObject;
+			var returnObject:Object = {
+				"code" : 0,
+				"msg" : null,
+				"data" : dataObject
+			};
 			
 			return returnObject;
 		}
