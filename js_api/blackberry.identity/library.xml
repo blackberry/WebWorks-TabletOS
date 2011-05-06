@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<library>
+	<extension id="blackberry.identity">
+		<entryClass>blackberry.identity.Identity</entryClass>
+	</extension>
+
+	<platforms>
+		<platform value="AIR">
+			<target version="default" config="AIR_XHR" />
+		</platform>
+	</platforms>
+
+	<configurations>
+		<configuration name="AIR_XHR" version="1.0" comment="For XHR architecture for Java implementation">			
+			<src type="text/javascript" path="js/common/identity_dispatcher.js" comment="Identity JS XHR dispatcher" />
+			<src type="text/javascript" path="js/common/identity_ns.js" comment="Identity JS interface" />			
+			<src type="text/actionscript" path="src/Air/Identity/src" comment="ActionScript implementation" />
+		</configuration>
+	</configurations>
+	
+	<features>
+		<feature id="blackberry.identity" version="1.0.0" />
+	</features>
+</library>
