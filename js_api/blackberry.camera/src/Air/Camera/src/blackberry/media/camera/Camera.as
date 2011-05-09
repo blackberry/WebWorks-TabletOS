@@ -81,9 +81,8 @@ package blackberry.media.camera
         private function onImageCaptured(event:MediaEvent):void
         {
             var mediaPromise:MediaPromise = event.data;
-            var params:Array = encodeEventParams([mediaPromise.relativePath]);
 
-            this.evalJavaScriptEvent(_jsOnCompleteId, params);
+            this.evalJavaScriptEvent(_jsOnCompleteId, [mediaPromise.relativePath]);
         }
 
         private function onCaptureCanceled(event:Event):void

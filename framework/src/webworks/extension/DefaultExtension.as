@@ -92,6 +92,8 @@ package webworks.extension
 		protected function evalJavaScriptEvent(id:String,params:Array) : void {
 			var javaScript:String = "blackberry.events.getEventHandler("+id+")(";
 			
+			params = encodeEventParams(params);
+			
 			for (var i:Number=0; i<params.length;i++){
 				if(i== 0){
 					javaScript += params[i];
@@ -105,7 +107,7 @@ package webworks.extension
 			this.webView.executeJavaScript(javaScript);			 
 		} 
 		
-		protected function encodeEventParams(params:Array):Array
+		private function encodeEventParams(params:Array):Array
 		{
 			var jsonParams:Array = [];
 			
