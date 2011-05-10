@@ -38,6 +38,8 @@ package blackberry.identity
 			};
 			
 			var returnObject:Object = {
+				"code" : 0,
+				"msg" : null,
 				"data" : dataObject
 			};
 			
