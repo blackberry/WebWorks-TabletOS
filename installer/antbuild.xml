@@ -57,7 +57,7 @@
 
 		<echo>Copying API source</echo>
 		<copy todir="${installer.data.bbwp.dir}/ext" >
-			<fileset dir="${jsapi.dir}" includes="BlackBerry_*/**" excludes="**/.*"/>
+			<fileset dir="${jsapi.dir}" includes="blackberry.*/**" excludes="**/.*"/>
 		</copy>
 
 		<echo>prepare simulator vm files</echo>

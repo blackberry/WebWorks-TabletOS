@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<library>
+	<extension id="blackberry.ui.dialog">
+		<entryClass>blackberry.ui.dialog.Dialog</entryClass>
+	</extension>
+  
+	<platforms>
+		<platform value="AIR">
+			<target version="default" config="AIR_XHR" />
+		</platform>
+	</platforms>
+
+	<configurations>
+		<configuration name="AIR_XHR" version="1.0" comment="XHR architecture/Air implementation">			
+			<src type="text/javascript" path="js/common/dialog/dialog_dispatcher.js" comment="Dialog JS XHR dispatcher" />
+			<src type="text/javascript" path="js/common/dialog/dialog_ns.js" comment="Dialog JS interface" />			
+			<src type="text/actionscript" path="src/Air/UserInterface/src" comment="ActionScript implementation" />
+		</configuration>
+	</configurations>
+  
+	<features>
+		<feature id="blackberry.ui.dialog" version="1.0.0" />
+	</features>
+</library>
