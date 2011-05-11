@@ -106,7 +106,7 @@ package blackberry.system
 			if(permissionsAtLocation != null) {
 				var features:Array = permissionsAtLocation.getFeatures();
 				for(var i:int = 0; i< features.length; i++) {
-					returnPermissions.push(features[i].getID());
+					returnPermissions.push(features[i].id);
 				}
 			}
 			
