@@ -69,7 +69,8 @@
     <!-- ===================================================================
           dist-full target for scm build
          =================================================================== -->
-	<target name="dist-full" depends="init" >
+	<!--<target name="dist-full" depends="init" >-->
+	<target name="dist-full" >
 		
 		<antcall target="prepareDependencies"/>
 
@@ -82,9 +83,9 @@
 	
 
 	<!-- ===================================================================
-          create Spider-Full installer
+          create Full installer 
          =================================================================== -->
-	<target name="buildFullInstaller">
+	<target name="buildFullInstaller" unless="no.IA">
 		<delete>
 			<fileset dir="." includes="blackberry_webworks_sdk_Build_Output/**/*"/>
 		</delete>
