@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+	<classpathentry kind="lib" path="lib/ant-antlr.jar"/>
+	<classpathentry kind="lib" path="lib/ant-apache-bcel.jar"/>
+	<classpathentry kind="lib" path="lib/ant-apache-bsf.jar"/>
+	<classpathentry kind="lib" path="lib/ant-apache-log4j.jar"/>
+	<classpathentry kind="lib" path="lib/ant-apache-oro.jar"/>
+	<classpathentry kind="lib" path="lib/ant-apache-regexp.jar"/>
+	<classpathentry kind="lib" path="lib/ant-apache-resolver.jar"/>
+	<classpathentry kind="lib" path="lib/ant-commons-logging.jar"/>
+	<classpathentry kind="lib" path="lib/ant-commons-net.jar"/>
+	<classpathentry kind="lib" path="lib/ant-icontract.jar"/>
+	<classpathentry kind="lib" path="lib/ant-jai.jar"/>
+	<classpathentry kind="lib" path="lib/ant-jdepend.jar"/>
+	<classpathentry kind="lib" path="lib/ant-jmf.jar"/>
+	<classpathentry kind="lib" path="lib/ant-jsch.jar"/>
+	<classpathentry kind="lib" path="lib/ant-junit.jar"/>
+	<classpathentry kind="lib" path="lib/ant-launcher.jar"/>
+	<classpathentry kind="lib" path="lib/ant-netrexx.jar"/>
+	<classpathentry kind="lib" path="lib/ant-nodeps.jar"/>
+	<classpathentry kind="lib" path="lib/ant-starteam.jar"/>
+	<classpathentry kind="lib" path="lib/ant-stylebook.jar"/>
+	<classpathentry kind="lib" path="lib/ant-trax.jar"/>
+	<classpathentry kind="lib" path="lib/ant-vaj.jar"/>
+	<classpathentry kind="lib" path="lib/ant-xalan1.jar"/>
+	<classpathentry kind="lib" path="lib/ant-xslp.jar"/>
+	<classpathentry kind="lib" path="lib/ant.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
