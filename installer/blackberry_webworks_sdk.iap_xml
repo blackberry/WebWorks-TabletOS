@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- This script was automatically generated using InstallAnywhere 2010 Enterprise, Build 3972
      STATUS: Fully Functional LICENSED Edition
-     DATE:   Thu Apr 14 15:51:34 EDT 2011 -->
-<InstallAnywhere_Deployment_Project increments="3437">
+     DATE:   Fri May 13 15:47:43 EDT 2011 -->
+<InstallAnywhere_Deployment_Project increments="3483">
 	<!-- ** DO NOT EDIT ** Essential authorization and configuration data ** DO NOT EDIT ** -->
 	<essentialScriptInfo>
 		<versionID major="11" minor="5" revision="0"/>
@@ -10,9 +10,9 @@
 		<scriptID>12,42,11,70,49,57,54,74,78,74,74,78,72,45,69,68,74,45,75,70,74,74,70,78,78,69,74,88</scriptID>
 		<buildID>3,13,71,87,105,110,100,111,119,115,32,88,80,44,32,53,46,49,44,32,120,56,54,59,32,74,97,118,97,32,49,46,54,46,48,95,49,53,44,32,83,117,110,32,77,105,99,114,111,115,121,115,116,101,109,115,32,73,110,99,46,44,32,104,116,116,112,58,47,47,106,97,118,97,46,115,117,110,46,99,111,109,47,59,32,101,110,44,32,85,110,107,110,111,119,110,59,32,67,112,49,50,53,50</buildID>
 		<!-- The authorizationID may change between project saves and builds.  This does not effect the integrity of the project, nor do changes in this value represent changes in the actual InstallAnywhere project. -->
-		<authorizationID>1,0,0,32,83,-98,-112,0,80,112,118,100,85,99,113,97,113,65,81,84,74,67,70,68,72,74,64,69,66,69,64,95,71,5,2,2,4,17,101,15,1,0,0</authorizationID>
+		<authorizationID>1,0,0,32,-29,-17,112,-96,80,112,118,100,85,99,113,97,113,65,81,84,74,67,70,68,72,74,64,69,66,69,64,95,71,5,2,3,9,22,106,15,1,0,0</authorizationID>
 	</essentialScriptInfo>
-	<installationObjects uniqueObjects="150">
+	<installationObjects uniqueObjects="152">
 		<object class="com.zerog.ia.installer.Installer" objectID="61c3cf33921d">
 			<property name="belongsToUninstallPhase">
 				<boolean>false</boolean>
@@ -2078,7 +2078,7 @@ For information on configuration of the SDK please visit www.blackberry.com/deve
 					</method>
 					<method name="put">
 						<string><![CDATA[com.zerog.ia.project.save.last.date]]></string>
-						<string><![CDATA[April 14, 2011 3:51:34 PM EDT]]></string>
+						<string><![CDATA[May 13, 2011 3:47:43 PM EDT]]></string>
 					</method>
 					<method name="put">
 						<string><![CDATA[com.zerog.ia.build.options.optimization.platform.cdrom]]></string>
@@ -3885,6 +3885,75 @@ Thank you for choosing $PRODUCT_NAME$!]]></string>
 										<object refID="ff7ba5938b1d"/>
 										<object refID="794abe78bd51"/>
 										<object refID="5932632795f3"/>
+										<object class="com.zerog.ia.installer.actions.InstallDirCont" objectID="fe64d98e8fb7">
+											<property name="belongsToUninstallPhase">
+												<boolean>false</boolean>
+											</property>
+											<property name="rollbackEnabledCancel">
+												<boolean>true</boolean>
+											</property>
+											<property name="rollbackEnabledError">
+												<boolean>true</boolean>
+											</property>
+											<property name="useFilterExtensions">
+												<boolean>false</boolean>
+											</property>
+											<property name="totalSize">
+												<long>0</long>
+											</property>
+											<property name="unixPermissions">
+												<string><![CDATA[775]]></string>
+											</property>
+											<property name="sourceName">
+												<string><![CDATA[]]></string>
+											</property>
+											<property name="overrideUnixPermissions">
+												<boolean>false</boolean>
+											</property>
+											<property name="directoryChosen">
+												<boolean>true</boolean>
+											</property>
+											<property name="sourcePath">
+												<string><![CDATA[$IA_PROJECT_DIR$\installerdata\bbwp\third_party]]></string>
+											</property>
+											<property name="shouldUninstall">
+												<boolean>true</boolean>
+											</property>
+											<property name="rollbackEnabledCancel">
+												<boolean>true</boolean>
+											</property>
+											<property name="rollbackEnabledError">
+												<boolean>true</boolean>
+											</property>
+											<property name="destinationName">
+												<string><![CDATA[third_party\]]></string>
+											</property>
+											<property name="createDirectory">
+												<boolean>true</boolean>
+											</property>
+											<property name="directoryName">
+												<string><![CDATA[third_party]]></string>
+											</property>
+											<property name="patternMatcher">
+												<object class="com.zerog.ia.installer.SimplePatternMatcher" objectID="fe64d98f8fb7">
+													<property name="includePatterns">
+														<object class="java.util.Vector"/>
+													</property>
+													<property name="excludePatterns">
+														<object class="java.util.Vector"/>
+													</property>
+												</object>
+											</property>
+											<property name="macBinary">
+												<boolean>false</boolean>
+											</property>
+											<property name="targetCheckKind">
+												<int>0</int>
+											</property>
+											<property name="recursivelyUninstall">
+												<boolean>false</boolean>
+											</property>
+										</object>
 										<object class="com.zerog.ia.installer.actions.InstallDirectory" objectID="794abe09bd36">
 											<property name="belongsToUninstallPhase">
 												<boolean>false</boolean>
@@ -3927,6 +3996,7 @@ Thank you for choosing $PRODUCT_NAME$!]]></string>
 												<object refID="8e5fc4cc9506"/>
 												<object refID="8e6c57869623"/>
 												<object refID="8e6ce01f966a"/>
+												<object refID="fe64d98e8fb7"/>
 												<object refID="794abe67bd4d"/>
 												<object refID="894183afbc06"/>
 												<object refID="d0ccbcde9988"/>
