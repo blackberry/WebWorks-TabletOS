@@ -79,7 +79,8 @@
         </copy>
     </target>
     <target name="configProperties">
-        <echo message="content url: http://${PythonServerIP}:${PythonServerPort}/yui/index.htm?hudson=true&amp;buildId=${product.version}"/>
+        <property name="url" value="http://${PythonServerIP}:${PythonServerPort}/yui/index.htm?hudson=true&amp;buildId=${product.version}"/>
+        <echo message="content url: ${url}"/>
         <xmltask source="${testDir}/bin/bbwp.properties" dest="${testDir}/bin/bbwp.properties.new">
             <replace path="/wcp/tablet_sdk/text()" withText="${testDir}/blackberry-tablet-sdk"/>
         </xmltask>
@@ -89,6 +90,12 @@
             <replace path="/:widget/:content/@src" withText="http://${PythonServerIP}:${PythonServerPort}/yui/index.htm?hudson=true&amp;buildId=${product.version}"/>
         </xmltask>
         <copy file="${basedir}/YUITest/config.xml.new" tofile="${basedir}/YUITest/config.xml"/>
+        <copy file="${basedir}/YUITest/index.html_temp" tofile="${basedir}/YUITest/index.html" overwrite="true">
+            <filterset begintoken="@" endtoken="@">
+                <filter token="REFRESH_URL" value="${url}"/>
+            </filterset>
+        </copy>
+                
         <echo message="@pythonServerIP@ ${PythonServerIP}"/>
         <echo message="@pythonServerPort ${PythonServerPort}"/>
 
@@ -97,5 +104,5 @@
 
         <replace file="${basedir}/server.py" token="@pythonServerIP@" value="${PythonServerIP}"/>
         <replace file="${basedir}/server.py" token="@pythonServerPort@" value="${PythonServerPort}"/>
-    </target>
+    </target>    
 </project>
