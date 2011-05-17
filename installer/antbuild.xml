@@ -117,7 +117,7 @@
 
 	<target name="run-yui-test" if="run.yui.test">
 		<ant dir="../continuousIntegration" antfile="../continuousIntegration/build.xml"/>
-        <move todir="${output.dir}">
+        <move todir="${output.dir}" failonerror="false">
 			<fileset dir="${installer.dir}/target/site"/>				
 		</move>
 	</target>
