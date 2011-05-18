@@ -100,6 +100,7 @@ public class WidgetConfig {
     private String _licenseURL;
     private int _transportTimeout;
     private String[] _transportOrder;
+    private String[] _permissions;
     private boolean _multiAccess;
     private String _configXML;
     private Hashtable<WidgetAccess, Vector<WidgetFeature>> _accessTable;
@@ -148,7 +149,7 @@ public class WidgetConfig {
         _allowInvokeParams=false;
         _backgroundSource=null;
         _foregroundSource=null;
-        
+        _permissions=null;
         _debugEnabled = SessionManager.getInstance().debugMode();
     }
 
@@ -673,4 +674,12 @@ public class WidgetConfig {
         return _debugEnabled;
     }
 
+    public void setPermissions(String[] permissions) {
+        _permissions = permissions;
+    }
+
+    public String[] getPermissions() {
+        return _permissions;
+    }    
+    
 }

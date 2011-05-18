@@ -40,9 +40,6 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
-import java.io.InputStreamReader;
-import java.io.InputStream;
-import org.xml.sax.InputSource;
 
 public class ConfigXMLParser implements XMLParser {
 
@@ -111,9 +108,12 @@ public class ConfigXMLParser implements XMLParser {
                     _widgetConfig.setDescription(getTextValue(node));
                 } else if (node.getNodeName().equals("rim:orientation")) {
                     processOrientation(node);
+                } else if (node.getNodeName().equals("rim:permissions")) {
+                    processPermissions(node);
                 } else if (node.getNodeName().equals("rim:category")) {
                     processCategory(node);
                 }
+                
             }
         }
         
@@ -707,6 +707,28 @@ public class ConfigXMLParser implements XMLParser {
         _widgetConfig.setAutoOrientation( "true" );
     }
 
+    private void processPermissions( Node permissionNode ) throws Exception {
+    	Element permissionElement = (Element) permissionNode;
+        if( permissionElement != null ) {
+        	NodeList nodeList = permissionElement.getElementsByTagName("rim:permit");
+        	if (nodeList != null)
+        	{
+        		int nodeListSize = nodeList.getLength();
+        		String[] permissionStrings = new String[nodeListSize];
+        		for (int i = 0; i < nodeListSize; i++)
+        		{
+        			Node idNode = nodeList.item(i);
+        			if (idNode != null && idNode.getFirstChild() != null)
+        			{
+        				permissionStrings[i] =  idNode.getFirstChild().getNodeValue(); 
+        			}
+        		}
+        		_widgetConfig.setPermissions(permissionStrings);
+        	}
+            return;
+        }
+    }
+    
     private void processCategory( Node categoryNode ) throws Exception {
         final String CATEGORY_ALL = "all";
         final String CATEGORY_GAMES = "games";

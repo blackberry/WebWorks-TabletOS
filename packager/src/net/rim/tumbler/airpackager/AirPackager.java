@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.io.Writer;
 import java.security.MessageDigest;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
@@ -57,6 +58,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+
 
 public class AirPackager {
     private static final String PATH = "Path";
@@ -94,8 +96,6 @@ public class AirPackager {
     private static final String SWF_FILE_EXTENSION = ".swf";
 
     private static final String PATH_BIN_DEBUG = "bin-debug";
-    private static final String FILE_BLACKBERRY_AIRPACKAGER_BAT = "blackberry-airpackager.bat";
-    private static final String FILE_BLACKBERRY_AIRPACKAGER = "blackberry-airpackager";
     private static final String PATH_ICON_APPICON_PNG = "appicon.png";
     protected static final String FILE_EXT_AS = ".as";
     protected static final CharSequence PATH_MACOSX = "__MACOSX";
@@ -117,14 +117,21 @@ public class AirPackager {
 
     private BBWPProperties _bbwpProperties;
     private WidgetConfig _widgetConfig;    
-
+    private Hashtable<String,String> _permissionMappings;
     public AirPackager(BBWPProperties bbwpProperties, WidgetConfig widgetConfig) {
         _bbwpProperties = bbwpProperties;
         _widgetConfig = widgetConfig;
 
         _tabletSdkPath = _bbwpProperties.getTabletSDK();
-        _airPackagerPath = _tabletSdkPath + File.separator + PATH_BIN + File.separator
-            + FileManager.selectOnPlatform(FILE_BLACKBERRY_AIRPACKAGER_BAT, FILE_BLACKBERRY_AIRPACKAGER);
+        _airPackagerPath = _tabletSdkPath + File.separator + "bin" + File.separator
+            + FileManager.selectOnPlatform("blackberry-airpackager.bat", "blackberry-airpackager");
+        _permissionMappings = new Hashtable<String,String>();
+        // 1 to 1 mapping for now.
+        _permissionMappings.put("access_shared", "access_shared");
+        _permissionMappings.put("read_geolocation", "read_geolocation");
+        _permissionMappings.put("access_internet", "access_internet");
+        _permissionMappings.put("read_device_identifying_information", "read_device_identifying_information");
+        _permissionMappings.put("use_camera", "use_camera");
     }
 
     /**
@@ -444,7 +451,8 @@ public class AirPackager {
                 	copyright.setTextContent(_bbwpProperties.getCopyright());
                 	Node root = d.getFirstChild();
                 	root.appendChild(copyright);
-                }                         
+                }
+            
             }
 
             TransformerFactory tf = TransformerFactory.newInstance();
@@ -513,6 +521,33 @@ public class AirPackager {
                     }
                 }
 
+                String[] permissions = _widgetConfig.getPermissions();
+                Boolean has_access_internet = false;
+                if (permissions.length > 0) {
+                	for (int i = 0; i<permissions.length; i++)
+                	{
+	                	Element curPer = d.createElement("action");
+	                	String permissionString = (_permissionMappings.get(permissions[i]));
+	                	if (permissionString!=null && !permissionString.isEmpty())
+	                	{
+	                		curPer.setTextContent(permissionString);
+	                		Node root = d.getFirstChild();
+	                		root.appendChild(curPer);
+	                	}
+	                	if (permissions[i] == "access_internet")
+	                	{
+	                		has_access_internet=true;
+	                	}
+                	}
+                }                       
+                if (!has_access_internet)  // hardcoded access_internet to ensure user has internet (whitelist takes care of security)
+                {
+                	Element curPer = d.createElement("action");
+                	String permissionString = "access_internet";
+                	curPer.setTextContent(permissionString);
+                	Node root = d.getFirstChild();
+                	root.appendChild(curPer);                	
+                }
 
             XPath xpathCategory = XPathFactory.newInstance().newXPath();
             NodeList categoryNL = (NodeList) xpathCategory.evaluate( DOC_ELM_CATEGORY_XPATH, d, XPathConstants.NODESET );
