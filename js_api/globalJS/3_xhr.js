@@ -65,7 +65,7 @@
 				params[name] = encodeURIComponent(value);
 			};
 			
-			this.makeSyncCall = function() {
+			this.makeSyncCall = function(jsonReviver) {
 				var requestUri = composeUri();
 				var request = createXhrRequest(requestUri, false);
 				
@@ -73,10 +73,10 @@
 					request.send();
 				} catch(e) {}
 		
-				return JSON.parse(request.responseText); //retrieve result encoded as JSON
+				return JSON.parse(request.responseText, jsonReviver); //retrieve result encoded as JSON
 			};
 			
-			this.makeAsyncCall = function(responseCallback) {
+			this.makeAsyncCall = function(responseCallback, jsonReviver) {
 				var requestUri = composeUri();
 				var request = createXhrRequest(requestUri, true);
 				
@@ -84,7 +84,7 @@
 					// continue if the process is completed
 					if (request.readyState == 4 && request.status == 200) {
 				         // retrieve the response
-				         var response = JSON.parse(request.responseText);
+				         var response = JSON.parse(request.responseText, jsonReviver);
 				         responseCallback(response.Response); //call the client code with the parsed response
 					}
 				};				

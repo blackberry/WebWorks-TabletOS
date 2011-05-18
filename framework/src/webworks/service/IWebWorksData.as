@@ -13,14 +13,12 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package webworks.extension {
-	import flash.utils.Dictionary;
 
-	public interface IApiExtension {
-		function register(environmentVarialbes:Dictionary):void;
-		function loadFeature(feature:String, version:String):void;
-		function unloadFeature():void;
-		function getFeatureList():Array;
-		function invokeFunction(method:String, parameters:String = ""):String;
+package webworks.service
+{
+	public interface IWebWorksData
+	{
+		function get actionScriptObject():*;
+		function get jsObject():Object;
 	}
 }

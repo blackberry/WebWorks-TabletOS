@@ -54,9 +54,13 @@ package webworks.extension
 			
 			//If a "method" that does not exist is called a reference error will be thrown,  
 			// we will catch this in the WebWorksAppTemplate
-			myReturn = this[method].apply(this, _paramValues);		
-		
+			myReturn = resolveMethod(method).apply(this, _paramValues);		
+			
 			return JSON.encode(myReturn);
+		}
+		
+		protected function resolveMethod(method:String):Function {
+			return this[method];
 		}
 		
 		protected function get query() : String {
@@ -95,6 +99,8 @@ package webworks.extension
 			params = encodeEventParams(params);
 			
 			for (var i:Number=0; i<params.length;i++){
+				if(params[i] is Object) params[i] = JSON.encode(params[i]);
+					
 				if(i== 0){
 					javaScript += params[i];
 				}else{
@@ -124,7 +130,7 @@ package webworks.extension
 			var values : Array = new Array();
 			
 			for (var i : int = 0; i < keyValuePairs.length; i++) {
-			
+				
 				var decompParam : Array = keyValuePairs[i].split("=");
 				keys.push(decompParam[0]);
 				values.push(unescape(decompParam[1]));				
