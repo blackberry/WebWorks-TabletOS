@@ -57,8 +57,8 @@
                 </waitfor>
                 <copy file="${resultFile}" todir="${basedir}/report/"/>
                 <YUIConverterAntTask testReportPath="${basedir}/report/${product.version}.xml"/>
-                <mkdir dir="${basedir}/../target/surefire-reports"/>
-                <copy todir="${basedir}/../target/surefire-reports">
+                <mkdir dir="${basedir}/../installer/target/surefire-reports"/>
+                <copy todir="${basedir}/../installer/target/surefire-reports">
                     <fileset dir="report">
                         <exclude name="${product.version}.xml"/>
                     </fileset>
