@@ -24,7 +24,7 @@ package webworks.webkit
 	import flash.net.URLRequestHeader;
 	import flash.sensors.Geolocation;
 	import flash.utils.*;
-	
+	import flash.filesystem.*;
 	import qnx.display.IowWindow;
 	import qnx.events.ExtendedLocationChangeEvent;
 	import qnx.events.NetworkResourceRequestedEvent;
@@ -37,6 +37,7 @@ package webworks.webkit
 	import webworks.access.Access;
 	import webworks.config.ConfigConstants;
 	import webworks.config.ConfigData;
+	import webworks.uri.URI;
 	import webworks.util.Utilities;
 	
 	public class WebkitControl extends Sprite
@@ -161,7 +162,32 @@ package webworks.webkit
 				Utilities.alert(event.location + " is not allowed", _webView);
 			}
 			else
-				dispatchEvent(new WebkitEvent(WebkitEvent.TAB_LOCATION_CHANGING, event));		
+			{
+				var requestURI:URI  = new URI(event.location);
+				var geolocation:Geolocation = new Geolocation();
+				var file:File = File.applicationDirectory;
+				trace(file.toString());
+				if (!geolocation.muted)
+				{
+					var baseUrl:String;
+					if (requestURI.scheme == "http")
+					{
+						baseUrl = requestURI.scheme + "://" + requestURI.authority;
+					}
+					else
+						if (requestURI.scheme == "local")
+						{
+							baseUrl = requestURI.scheme + "://";
+						}
+					else
+						if (requestURI.scheme == "file")
+						{
+							baseUrl = requestURI.scheme + "://";
+						}					
+					_webView.updateGeolocationFilter(baseUrl,true);
+				}
+				dispatchEvent(new WebkitEvent(WebkitEvent.TAB_LOCATION_CHANGING, event));
+			}
 		}
 		               
         private function htmlEventBrowserCreated(event:WebViewEvent):void
