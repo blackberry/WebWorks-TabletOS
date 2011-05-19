@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+
+<project name="YUI test report converter Ant Tasks" basedir="." default="dist">
+
+    <property name="targetJarName" value="YUIConverter.jar"/>
+    <property name="version" value="1.0"/>
+    
+    <property name="debug" value="false" />
+    <property name="deprecation" value="false" />
+    <property name="optimize" value="false" />
+	
+    <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+          Properties related to the directory tree and 
+          temporary directories used for the build
+
+		  Parent Ant process may set "lib.eclipse.dir" property when invoking this build file
+         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+    <property name="src.dir" value="src"/>
+    <property name="lib.dir" value="lib"/>
+    <property name="build.dir" value="build"/>
+    <property name="dist.dir" value="dist"/>
+
+    <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+          Define source code paths. New modules must be declared here
+         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+    <path id="sourceCode.path">
+    	<pathelement location="${src.dir}"/>
+    </path>
+    
+    <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+          Define classpaths for building
+         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+    <path id="compile.classpath">
+        <fileset dir="${lib.dir}">
+            <include name="**/*.jar"/>
+        </fileset>
+    </path>
+
+
+    <!-- ###################################################################
+          Main Targets
+         ################################################################### -->
+
+    <!-- ===================================================================
+          init target to creat required directories 
+         =================================================================== -->
+	<target name="init" depends="clean">
+    	<tstamp/>
+	    <mkdir dir="${build.dir}"/>
+    	<mkdir dir="${dist.dir}"/>
+	</target>
+
+
+    <!-- ===================================================================
+          clean target
+         =================================================================== -->
+	<target name="clean">
+    	<delete dir="${build.dir}" quiet="true"/>
+    	<delete dir="${dist.dir}" quiet="true"/>
+	</target>
+
+
+    <!-- ===================================================================
+          Compile source codes 
+         =================================================================== -->
+	<target name="compile" depends="init">
+    	<javac 	destdir="${build.dir}" 
+    			debug="${debug}"
+    			deprecation="${deprecation}" 
+	    		optimize="${optimize}" >
+	    	<src refid="sourceCode.path" />
+    		<classpath refid="compile.classpath" />
+    	</javac>
+	</target>
+
+    <!-- ===================================================================
+          dist target
+         =================================================================== -->
+	<target name="dist" depends="compile">
+    	<jar jarfile="${dist.dir}/${targetJarName}" basedir="${build.dir}" /> 
+	</target>
+</project>

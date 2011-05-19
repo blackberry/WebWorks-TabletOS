@@ -1,0 +1,21 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<html>
+	<head>
+	    <meta name="viewport" id="viewport" content="initial-scale=1.0,user-scalable=yes" />
+		<title>Test text attribute change</title>
+		<script>
+			window.addEventListener("deviceorientation", function(event) {          
+			  document.getElementById('outputA').innerHTML = event.alpha;
+			  document.getElementById('outputB').innerHTML = event.beta;
+			  document.getElementById('outputC').innerHTML = event.gamma;
+			}, true);
+		</script>
+	</head>
+	<body>
+		Current Orientation: <br/><br/>
+		<b>alpha: <label id="outputA" >If you can see this,</div></b><br/>
+		<b>beta: <label id="outputB" >this function</div></b><br/>
+		<b>gamma: <label id="outputC" >is not supported</div></b><br/>
+        <p>Gives you the current device orientation. VALUES - Alpha: 0-360, Beta: 0-180, Gamma: 0-90</p>
+	</body>
+</html>

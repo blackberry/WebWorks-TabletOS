@@ -1,0 +1,58 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Shared workers1</title>
+
+    <style type="text/css">
+        .style1
+        {
+            color: #FF0000;
+        }
+        iframe
+        {
+        visibility:hidden;
+        }
+    </style>
+
+
+
+<script>
+function doWork()
+{
+  var worker = new SharedWorker('worker.js');
+  try{
+	var worker1 = new SharedWorker('../WebWorkerAsync/sharedworker.js');
+  }catch (err) {
+	alert(err);
+  }
+
+  var log = document.getElementById('log');
+  worker.port.addEventListener('message', function(e) {
+    log.textContent += '\n' + e.data;
+  }, false);
+  worker.port.start();
+  worker.port.postMessage('ping');
+  }
+  
+</script>
+
+
+
+
+
+</head>
+
+<body>
+  
+<iframe src="bot.htm" width="30%" height="5">
+  <p>Your browser does not support iframes.</p>
+</iframe><br/>
+<input type="button" value ="Click to Test" onclick="doWork();"/>
+<pre id="log">Log:</pre>
+
+
+</body>
+
+</html>
+
+
