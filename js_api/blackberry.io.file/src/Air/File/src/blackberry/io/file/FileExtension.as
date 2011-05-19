@@ -249,7 +249,7 @@ package blackberry.io.file
 				var fileBlob:IWebWorksData = blobService.execute("getBlob", { id : blobId }).data;
 				
                 //Write the file
-				writeFileBytes(file, fileBlob.actionScriptObject.bytes);
+                writeFileBytes(file, fileBlob.actionScriptObject.bytes);
 				
 				result = new WebWorksReturnValue(returnData);
 			} catch (e:Error) {
