@@ -127,7 +127,6 @@ package blackberry.io.dir
 					return result;
 				}								
 				
-				var recBool:Boolean = recursive.toLowerCase() == Boolean(true).toString();				
 				file.deleteDirectory(recBool);
 			} catch (e:Error) {
 				result.code = 1;

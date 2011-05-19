@@ -139,7 +139,7 @@ package blackberry.io.file
 				exists = false;
 			}
 			
-			return result;
+            return result.jsObject;
 		}
 		
 		public function get(path:String):Object {
@@ -238,18 +238,17 @@ package blackberry.io.file
 			
 			try
 			{
+                var file:File = new File(path);
+				
 				//Throw exception if file exists already
-				if(exists(path)) throw new Error("File exists at: " + path + ". Please save to a new file.");
+				if(file.exists && !file.isDirectory) throw new Error("File exists at: " + path + ". Please save to a new file.");
 				
 				//Retrieve blob with given ID
 				var serviceManager:ServiceManager = environment["serviceManager"];
 				var blobService:IWebWorksService = serviceManager.getEndPointForMethod("webworks://services/blob/getBlob");
 				var fileBlob:IWebWorksData = blobService.execute("getBlob", { id : blobId }).data;
 				
-				//Resolve the given path relative to the shared folder
-				var file:File = new File(path);
-				
-				//Write the file
+                //Write the file
 				writeFileBytes(file, fileBlob.actionScriptObject.bytes);
 				
 				result = new WebWorksReturnValue(returnData);
