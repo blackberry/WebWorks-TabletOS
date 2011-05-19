@@ -2331,13 +2331,13 @@ For information on configuration of the SDK please visit www.blackberry.com/deve
 								<int>2</int>
 							</property>
 							<property name="minor">
-								<int>0</int>
+								<int>1</int>
 							</property>
 							<property name="revision">
 								<int>0</int>
 							</property>
 							<property name="subRevision">
-								<int>5</int>
+								<int>1</int>
 							</property>
 						</object>
 					</property>
