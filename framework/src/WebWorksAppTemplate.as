@@ -92,9 +92,9 @@ package
 			
 			ConfigData.getInstance().setProperty(ConfigConstants.ENV_WEBVIEW, _webWindow.qnxWebView);
 			ConfigData.getInstance().setProperty(ConfigConstants.ENV_APPLICATION, this);
-			
-			_loadingScreen = new LoadingScreen(0,0, stage.stageWidth,stage.stageHeight);
-			_transitions = new Transitions(_loadingScreen);
+               
+            _loadingScreen = new LoadingScreen(0,0, stage.stageWidth,stage.stageHeight);
+			_transitions = new Transitions(_loadingScreen, _webWindow.viewPort);
 			_serviceManager = new ServiceManager(_webWindow);
 			_broker = new FunctionBroker(_webWindow.qnxWebView, _serviceManager);
 			
@@ -226,7 +226,9 @@ package
 		{
 			if (_webWindow != null)
 			{
-				_webWindow.setViewPort(new Rectangle(0, 0, stage.stageWidth, stage.stageHeight));
+                _webWindow.setViewPort(new Rectangle(0, 0, stage.stageWidth, stage.stageHeight));
+				_transitions.setViewPort(new Rectangle(0, 0, stage.stageWidth, stage.stageHeight));
+				_loadingScreen.setLoadingScreenArea(new Rectangle(0, 0, stage.stageWidth, stage.stageHeight));
 			}
 		}
 		

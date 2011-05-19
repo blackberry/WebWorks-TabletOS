@@ -18,6 +18,7 @@ package webworks.loadingScreen
     import caurina.transitions.Tweener;
     
     import flash.display.DisplayObject;
+	import flash.geom.Rectangle;
     
     import webworks.config.ConfigConstants;
     import webworks.config.ConfigData;
@@ -32,10 +33,13 @@ package webworks.loadingScreen
         private var type:int = TransitionConstants.TRANSITION_NONE;
         private var duration:Number = 0.25; //seconds
         private var direction:int = TransitionConstants.DIRECTION_LEFT;
+		
+		private var viewPort:Rectangle;
         
-        public function Transitions(target:LoadingScreen)
+        public function Transitions(target:LoadingScreen, viewP:Rectangle)
         {
             this.loadingScreen = target;
+			this.viewPort = viewP;
             setProperties();
         }
     
@@ -68,10 +72,7 @@ package webworks.loadingScreen
         public function resetEffect():void
         {
             Tweener.removeTweens(loadingScreen);
-            loadingScreen.x = 0;
-            loadingScreen.y = 0;
-			loadingScreen.width = 1024;
-			loadingScreen.height = 600;
+			loadingScreen.setLoadingScreenArea(viewPort);
             loadingScreen.alpha = 1;
         }
 
@@ -98,6 +99,11 @@ package webworks.loadingScreen
 				nonTransition();
         }
 		
+		public function setViewPort(viewP:Rectangle):void
+		{
+			this.viewPort = viewP;
+		}
+		
 		private function nonTransition():void
 		{
 			loadingScreen.hideIfNecessary();
@@ -105,13 +111,10 @@ package webworks.loadingScreen
         
         private function zoomIn():void
         {
-            var w:Number = 1024;
-            var h:Number = 600;
+			var w:Number = viewPort.width;
+			var h:Number = viewPort.height;
 
-			loadingScreen.x = w/2;
-            loadingScreen.y = h/2;
-            loadingScreen.width = 0;
-            loadingScreen.height = 0;
+			loadingScreen.setLoadingScreenArea(new Rectangle(w/2, h/2, 0,0));
 
             Tweener.addTween(loadingScreen,{x:0, y:0, width:w, height:h, time:duration, delay:0, alpha:1, onComplete:loadingScreen.hideIfNecessary});
         }
@@ -148,36 +151,24 @@ package webworks.loadingScreen
 		}
 		
 		private function wipeEffect():void {
-			var w:Number = 1024;
-			var h:Number = 600;
+			var w:Number = viewPort.width;
+			var h:Number = viewPort.height;
 			
 			if(direction == TransitionConstants.DIRECTION_LEFT) {
-				loadingScreen.x = 0;
-				loadingScreen.y = 0;
-				loadingScreen.width = 0;
-				loadingScreen.height = h;
+				loadingScreen.setLoadingScreenArea(new Rectangle(0,0,0,h));
 			} else if (direction == TransitionConstants.DIRECTION_RIGHT) {
-				loadingScreen.x = w;
-				loadingScreen.y = 0;
-				loadingScreen.width = 0;
-				loadingScreen.height = h;				
+				loadingScreen.setLoadingScreenArea(new Rectangle(w,0,0,h));
 			} else if (direction == TransitionConstants.DIRECTION_UP) {
-				loadingScreen.x = 0;
-				loadingScreen.y = h;
-				loadingScreen.width = w;
-				loadingScreen.height = 0;								
+				loadingScreen.setLoadingScreenArea(new Rectangle(0,h,w,0));				
 			} else { // TransitionConstants.DIRECTION_DOWN
-				loadingScreen.x = 0;
-				loadingScreen.y = 0;
-				loadingScreen.width = w;
-				loadingScreen.height = 0;								
+				loadingScreen.setLoadingScreenArea(new Rectangle(0,0,w,0));				
 			}		 	
 			Tweener.addTween(loadingScreen,{x:0, y:0, width:w, height:h, time:duration, delay:0, alpha:1, onComplete:loadingScreen.hideIfNecessary});
 		}
 		private function fadeEffect():void {
 			loadingScreen.alpha = 0;
-			var w:Number = 1024;
-			var h:Number = 600;
+			var w:Number = viewPort.width;
+			var h:Number = viewPort.height;
 			Tweener.addTween(loadingScreen, {alpha:1, time:duration, onComplete:loadingScreen.hideIfNecessary});
 		}
     }

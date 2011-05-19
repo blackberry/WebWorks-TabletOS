@@ -230,6 +230,11 @@ package webworks.webkit
 		{
 			return _webView;
 		}
+		
+		public function get viewPort():Rectangle
+		{
+			return _webView.viewPort;
+		}
 
 		private function onJavaScriptWindowObjectCleared(event:WindowObjectClearedEvent):void{
 			event.preventDefault();

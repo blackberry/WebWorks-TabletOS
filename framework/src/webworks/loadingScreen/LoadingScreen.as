@@ -226,5 +226,13 @@ package webworks.loadingScreen
 		{
 			isFirstLaunch = false;
 		}		
+		
+		public function setLoadingScreenArea(rrect:Rectangle):void
+		{
+			this.x = rrect.x;
+			this.y = rrect.y;
+			this.width = rrect.width;
+			this.height = rrect.height;
+		}
 	}
 }
