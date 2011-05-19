@@ -19,29 +19,46 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.FileFilter;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.security.MessageDigest;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
+
 import javax.imageio.ImageIO;
-import javax.xml.parsers.*;
-import javax.xml.transform.*;
-import javax.xml.transform.dom.*;
-import javax.xml.transform.stream.*;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathFactory;
+
 import net.rim.tumbler.config.WidgetConfig;
+import net.rim.tumbler.exception.PackageException;
 import net.rim.tumbler.exception.ValidationException;
 import net.rim.tumbler.file.FileManager;
-import net.rim.tumbler.processbuffer.*;
+import net.rim.tumbler.processbuffer.ErrorBuffer;
+import net.rim.tumbler.processbuffer.ExitBuffer;
+import net.rim.tumbler.processbuffer.OutputBuffer;
 import net.rim.tumbler.session.BBWPProperties;
 import net.rim.tumbler.session.SessionManager;
-import net.rim.tumbler.exception.PackageException;
 
-import org.w3c.dom.*;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+
 
 public class AirPackager {
     private static final String PATH = "Path";
@@ -50,6 +67,26 @@ public class AirPackager {
     private static final int SCREEN_WIDTH = 1024;
     private static final int SCREEN_HEIGHT = 600;
     private static final String SPLASHSCREEN_FORMAT = "png";
+    
+    private static final String DOC_ELM_SPLASHSCREEN = "splashscreen";
+    private static final String DOC_ELM_IMAGE = "image";
+    private static final String DOC_ELM_ICON = "icon";
+    private static final String DOC_ELM_COPYRIGHT = "copyright";
+    private static final String DOC_ELM_DESCRIPTION = "description";
+    private static final String DOC_ELM_VERSIONNUMBER = "versionNumber";
+    private static final String DOC_ELM_NAME = "name";
+    private static final String DOC_ELM_ID = "id";
+    private static final String DOC_ELM_ASPECTRATIO = "aspectRatio";
+    private static final String DOC_ELM_AUTOORIENTS = "autoOrients";
+    private static final String DOC_ELM_CONTENT = "content";
+    private static final String DOC_ELM_INITIALWINDOW = "initialWindow";
+    private static final String DOC_ELM_PUBLISHER = "publisher";
+    private static final String DOC_ELM_CATEGORY = "category";
+    private static final String DOM_ELM_ROOT_XPATH = "//qnx"; 
+    private static final String DOC_ELM_CATEGORY_XPATH = DOM_ELM_ROOT_XPATH + "/" + DOC_ELM_CATEGORY;
+    
+    private static final String PATH_BIN = "bin";
+    private static final String PATH_JAVA_HOME = "java.home";
 
     // HARD-CODED VALUES FOR DEMO USE ONLY
     private String _tabletSdkPath;
@@ -58,9 +95,29 @@ public class AirPackager {
     private static final String APP_XML_SUFFIX = "-app.xml";
     private static final String SWF_FILE_EXTENSION = ".swf";
 
+    private static final String PATH_BIN_DEBUG = "bin-debug";
+    private static final String PATH_ICON_APPICON_PNG = "appicon.png";
+    protected static final String FILE_EXT_AS = ".as";
+    protected static final CharSequence PATH_MACOSX = "__MACOSX";
+    private static final String FILE_BLACKBERRY_TABLET_XML = "Blackberry-Tablet.xml";
+    private static final String NUM_0 = "0";
+    private static final String FLAG_PACKAGE = "-package";
+    private static final String FLAG_TARGET = "-target";
+    private static final String FLAG_DEV_MODE = "-devMode";
+    private static final String FILE_EXT_BAR = "bar";
+    private static final String PATH_BAR_DEBUG = "bar-debug";
+    private static final String EXCEPTION_AIRPACKAGER = "EXCEPTION_AIRPACKAGER";
+    private static final String MD5 = "MD5";
+    private static final String FILE_SPSH = "spsh";
+    private static final String DELIMITER_DOT = ".";
+    private static final String FILE_WEBWORKSAPPTEMPLATE_APP_XML = "WebWorksAppTemplate-app.xml";
+    private static final String FLAG_BUILDID = "-buildId";
+    private static final String EMPTY_STRING = "";
+
+
     private BBWPProperties _bbwpProperties;
     private WidgetConfig _widgetConfig;    
-
+    private Hashtable<String,String> _permissionMappings;
     public AirPackager(BBWPProperties bbwpProperties, WidgetConfig widgetConfig) {
         _bbwpProperties = bbwpProperties;
         _widgetConfig = widgetConfig;
@@ -68,6 +125,13 @@ public class AirPackager {
         _tabletSdkPath = _bbwpProperties.getTabletSDK();
         _airPackagerPath = _tabletSdkPath + File.separator + "bin" + File.separator
             + FileManager.selectOnPlatform("blackberry-airpackager.bat", "blackberry-airpackager");
+        _permissionMappings = new Hashtable<String,String>();
+        // 1 to 1 mapping for now.
+        _permissionMappings.put("access_shared", "access_shared");
+        _permissionMappings.put("read_geolocation", "read_geolocation");
+        _permissionMappings.put("access_internet", "access_internet");
+        _permissionMappings.put("read_device_identifying_information", "read_device_identifying_information");
+        _permissionMappings.put("use_camera", "use_camera");
     }
 
     /**
@@ -81,7 +145,7 @@ public class AirPackager {
     public int run() throws PackageException, ValidationException {
         try {
             String sourcePath = SessionManager.getInstance().getSourceFolder();
-            String bindebugPath = sourcePath + File.separator + "bin-debug";
+            String bindebugPath = sourcePath + File.separator + PATH_BIN_DEBUG;
             String archiveName = SessionManager.getInstance().getArchiveName();
 
             //
@@ -96,16 +160,16 @@ public class AirPackager {
             
             // Check if the icon file actually exists
             // Needs to be done first in order to avoid putting the icon.png filename into the fileList
-            String iconPath = "";
+            String iconPath = EMPTY_STRING;
             if (_widgetConfig.getIconSrc().size() > 0) {
             	iconPath = _widgetConfig.getIconSrc().firstElement().toString();
             	File iconFile = new File(sourcePath, iconPath);
             	if (!iconFile.isFile()) {
-            		iconPath = "";
+            		iconPath = EMPTY_STRING;
             	}
             	else
             	{
-            		iconPath = "appicon.png";
+            		iconPath = PATH_ICON_APPICON_PNG;
             		iconFile.renameTo(new File(sourcePath,iconPath));
             	}
             }                        
@@ -122,10 +186,10 @@ public class AirPackager {
             //            
             List<File> srcFiles = listFiles(sourcePath, new FileFilter() {
                 public boolean accept(File pathname) {
-                    return !pathname.getName().endsWith(".as")
+                    return !pathname.getName().endsWith(FILE_EXT_AS)
                         && !pathname.getName().endsWith(APP_XML_SUFFIX)
                         && !pathname.getName().equals(SessionManager.getInstance().getArchiveName() + SWF_FILE_EXTENSION)
-                        && !pathname.getName().contains("__MACOSX");
+                        && !pathname.getName().contains(PATH_MACOSX);
                 }
             });
 
@@ -142,7 +206,7 @@ public class AirPackager {
                 public boolean accept(File pathname) {
                     return !pathname.getName().endsWith(APP_XML_SUFFIX)
                         && !pathname.getName().endsWith(SessionManager.getInstance().getArchiveName() + SWF_FILE_EXTENSION)
-                        && !pathname.getName().contains("__MACOSX");
+                        && !pathname.getName().contains(PATH_MACOSX);
                 }
             });
             
@@ -167,11 +231,11 @@ public class AirPackager {
           
             String appXmlName = archiveName + APP_XML_SUFFIX;
             desFile = new File(bindebugPath, appXmlName);
-            prepareAppXML(new File(sourcePath, "WebWorksAppTemplate-app.xml"), desFile, swfName);
+            prepareAppXML(new File(sourcePath, FILE_WEBWORKSAPPTEMPLATE_APP_XML), desFile, swfName);
             fileList.add(desFile);
             
-            File bbt = new File(sourcePath, "Blackberry-Tablet.xml");
-            File bbtDes = new File(bindebugPath, "Blackberry-Tablet.xml");
+            File bbt = new File(sourcePath, FILE_BLACKBERRY_TABLET_XML);
+            File bbtDes = new File(bindebugPath, FILE_BLACKBERRY_TABLET_XML);
             prepareBBTXML(bbt, bbtDes, iconPath, splashscreenFilename);
             
             int size = fileList.size();
@@ -209,28 +273,28 @@ public class AirPackager {
             } else if (_widgetConfig.getNumVersionParts() > 3) {
                 buildId = _widgetConfig.getVersionParts(3);
             } else {
-                buildId = "0";
+                buildId = NUM_0;
             }
 
             String[] cmd;
             if (SessionManager.getInstance().requireSigning()) {
                 cmd = new String[] {
                     _airPackagerPath,
-                    "-package",
-                    "-target",
-                    "bar",
-                    "-buildId",
+                    FLAG_PACKAGE,
+                    FLAG_TARGET,
+                    FILE_EXT_BAR,
+                    FLAG_BUILDID,
                     buildId,
                     outputPath
                 };
             } else {
                 cmd = new String[] {
                     _airPackagerPath,
-                    "-package",
-                    "-devMode",
-                    "-target",
-                    SessionManager.getInstance().debugModeInternal() ? "bar-debug" : "bar",
-                    "-buildId",
+                    FLAG_PACKAGE,
+                    FLAG_DEV_MODE,
+                    FLAG_TARGET,
+                    SessionManager.getInstance().debugModeInternal() ? PATH_BAR_DEBUG : FILE_EXT_BAR,
+                    FLAG_BUILDID,
                     buildId,
                     outputPath
                 };
@@ -257,9 +321,9 @@ public class AirPackager {
             }
         } catch (IOException ioe) {
         	ioe.printStackTrace();
-            throw new PackageException("EXCEPTION_AIRPACKAGER");
+            throw new PackageException(EXCEPTION_AIRPACKAGER);
         } catch (InterruptedException ie) {
-            throw new PackageException("EXCEPTION_AIRPACKAGER");        	
+            throw new PackageException(EXCEPTION_AIRPACKAGER);        	
         }
         return 0;
     }
@@ -282,10 +346,10 @@ public class AirPackager {
         ProcessBuilder builder = new ProcessBuilder(cmd);
 
         String javaBin = FileManager.selectOnPlatform(
-            System.getProperty("java.home"),
+            System.getProperty(PATH_JAVA_HOME),
             null);
         if (javaBin != null && !javaBin.isEmpty()) {
-            javaBin += File.separator + "bin";
+            javaBin += File.separator + PATH_BIN;
             Map<String,String> env = builder.environment();
             if (env.containsKey(PATH)) {
                 env.put(PATH, env.get(PATH) + File.pathSeparator + javaBin);
@@ -326,11 +390,11 @@ public class AirPackager {
 
             if (e != null) {
                 // Replace initialWindow/content
-                NodeList nl = e.getElementsByTagName("initialWindow");
+                NodeList nl = e.getElementsByTagName(DOC_ELM_INITIALWINDOW);
                 if (nl.getLength() > 0 && nl.item(0) instanceof Element) {
                     Element e2 = (Element)nl.item(0);
                     
-                    NodeList nl2 = e2.getElementsByTagName("content");
+                    NodeList nl2 = e2.getElementsByTagName(DOC_ELM_CONTENT);
                     if (nl2.getLength() > 0 && nl2.item(0) instanceof Element) {
                         Element e3 = (Element)nl2.item(0);
                         e3.setTextContent(replacementText);
@@ -338,14 +402,14 @@ public class AirPackager {
                     
                     // Add AutoOrientation
                     if (_widgetConfig.getAutoOrientation() != null && _widgetConfig.getAutoOrientation().length() > 0) {
-                    	Element autoOrientation = d.createElement("autoOrients");
+                    	Element autoOrientation = d.createElement(DOC_ELM_AUTOORIENTS);
                     	autoOrientation.setTextContent(_widgetConfig.getAutoOrientation());
                         e2.appendChild(autoOrientation);
                     }                         
 
                     // Add Orientation
                     if (_widgetConfig.getOrientation() != null && _widgetConfig.getOrientation().length() > 0) {
-                    	Element orientation = d.createElement("aspectRatio");
+                    	Element orientation = d.createElement(DOC_ELM_ASPECTRATIO);
                     	orientation.setTextContent(_widgetConfig.getOrientation());
                         e2.appendChild(orientation);
                     }                         
@@ -353,21 +417,21 @@ public class AirPackager {
                 }
                 
                 // Replace id
-                NodeList nl2 = e.getElementsByTagName("id");
+                NodeList nl2 = e.getElementsByTagName(DOC_ELM_ID);
                 if (nl2.getLength() > 0 && nl2.item(0) instanceof Element) {
                     Element e3 = (Element)nl2.item(0);
                     e3.setTextContent(SessionManager.getInstance().getArchiveName() + genPackageName(SessionManager.getInstance().getArchiveName()));
                 }
                 
                 // Replace name
-                nl2 = e.getElementsByTagName("name");
+                nl2 = e.getElementsByTagName(DOC_ELM_NAME);
                 if (nl2.getLength() > 0 && nl2.item(0) instanceof Element) {
                     Element e3 = (Element)nl2.item(0);
                     e3.setTextContent(_widgetConfig.getName());
                 }
                 
                 // Replace version
-                nl2 = e.getElementsByTagName("versionNumber");
+                nl2 = e.getElementsByTagName(DOC_ELM_VERSIONNUMBER);
                 if (nl2.getLength() > 0 && nl2.item(0) instanceof Element) {
                     Element e3 = (Element)nl2.item(0);
                     e3.setTextContent(_widgetConfig.getVersionParts(0, 3)); // AIR supports only 3-part version strings
@@ -375,7 +439,7 @@ public class AirPackager {
                 
                 // Add description
                 if (_widgetConfig.getDescription() != null && _widgetConfig.getDescription().length() > 0) {
-                	Element description = d.createElement("description");
+                	Element description = d.createElement(DOC_ELM_DESCRIPTION);
                 	description.setTextContent(_widgetConfig.getDescription());
                     Node root = d.getFirstChild();
                     root.appendChild(description);
@@ -383,11 +447,12 @@ public class AirPackager {
                 
                 // Add copyright
                 if (_bbwpProperties.getCopyright().length() > 0) {
-                	Element copyright = d.createElement("copyright");
+                	Element copyright = d.createElement(DOC_ELM_COPYRIGHT);
                 	copyright.setTextContent(_bbwpProperties.getCopyright());
                 	Node root = d.getFirstChild();
                 	root.appendChild(copyright);
-                }                         
+                }
+            
             }
 
             TransformerFactory tf = TransformerFactory.newInstance();
@@ -431,30 +496,73 @@ public class AirPackager {
                 if (iconPath.length() > 0) {
                 	
                     // add icon node
-                    Element icon = d.createElement("icon");
+                    Element icon = d.createElement(DOC_ELM_ICON);
                     Node root = d.getFirstChild();
                     root.appendChild(icon);
                  
                     // add image72x72 node
-                    Element image = d.createElement("image");
+                    Element image = d.createElement(DOC_ELM_IMAGE);
                     image.appendChild(d.createTextNode(iconPath));
                     icon.appendChild(image);                	
                 }                
 
                 // Splash screen
                 if (splashscreenFilename != null) {
-                    Element splashscreen = d.createElement("splashscreen");
+                    Element splashscreen = d.createElement(DOC_ELM_SPLASHSCREEN);
                     splashscreen.appendChild(d.createTextNode(splashscreenFilename));
                     d.getFirstChild().appendChild(splashscreen);
                 }
 
                 if (e != null && !_bbwpProperties.getCopyright().isEmpty()) {
-                    NodeList nl = e.getElementsByTagName("publisher");
+                    NodeList nl = e.getElementsByTagName(DOC_ELM_PUBLISHER);
                     if (nl.getLength() > 0 && nl.item(0) instanceof Element) {
                         Element e2 = (Element)nl.item(0);
                         e2.setTextContent(_bbwpProperties.getCopyright());
                     }
                 }
+
+                String[] permissions = _widgetConfig.getPermissions();
+                Boolean has_access_internet = false;
+                if (permissions.length > 0) {
+                	for (int i = 0; i<permissions.length; i++)
+                	{
+	                	Element curPer = d.createElement("action");
+	                	String permissionString = (_permissionMappings.get(permissions[i]));
+	                	if (permissionString!=null && !permissionString.isEmpty())
+	                	{
+	                		curPer.setTextContent(permissionString);
+	                		Node root = d.getFirstChild();
+	                		root.appendChild(curPer);
+	                	}
+	                	if (permissions[i] == "access_internet")
+	                	{
+	                		has_access_internet=true;
+	                	}
+                	}
+                }                       
+                if (!has_access_internet)  // hardcoded access_internet to ensure user has internet (whitelist takes care of security)
+                {
+                	Element curPer = d.createElement("action");
+                	String permissionString = "access_internet";
+                	curPer.setTextContent(permissionString);
+                	Node root = d.getFirstChild();
+                	root.appendChild(curPer);                	
+                }
+
+            XPath xpathCategory = XPathFactory.newInstance().newXPath();
+            NodeList categoryNL = (NodeList) xpathCategory.evaluate( DOC_ELM_CATEGORY_XPATH, d, XPathConstants.NODESET );
+
+            if( categoryNL == null || categoryNL.getLength() == 0 ) {
+                Element categoryE = d.createElement( DOC_ELM_CATEGORY );
+                categoryE.setTextContent( _widgetConfig.getAppHomeScreenCategory() );
+                Node rootN = (Node) xpathCategory.evaluate( DOM_ELM_ROOT_XPATH, d, XPathConstants.NODE );
+                rootN.appendChild( categoryE );
+            } else {
+
+                for( int i = 0; i < categoryNL.getLength(); i++ ) {
+                    categoryNL.item( i ).setTextContent( _widgetConfig.getAppHomeScreenCategory() );
+                }
+            }                
 
                 TransformerFactory tf = TransformerFactory.newInstance();
                 Transformer t = tf.newTransformer();
@@ -480,7 +588,7 @@ public class AirPackager {
         try {
             MessageDigest md;
 
-            md = MessageDigest.getInstance("MD5");
+            md = MessageDigest.getInstance(MD5);
             md.reset();
             md.update(widgetName.getBytes());
             byte[] byteArray = md.digest();
@@ -583,7 +691,7 @@ public class AirPackager {
             g.drawImage(fgImage, (SCREEN_WIDTH - fgImage.getWidth())/2, (SCREEN_HEIGHT - fgImage.getHeight())/2, null);
         }
 
-        File out = File.createTempFile("spsh", "."+SPLASHSCREEN_FORMAT, new File(directory));
+        File out = File.createTempFile(FILE_SPSH, DELIMITER_DOT + SPLASHSCREEN_FORMAT, new File(directory));
         ImageIO.write(composition, SPLASHSCREEN_FORMAT, out);
 
         return out.getName();

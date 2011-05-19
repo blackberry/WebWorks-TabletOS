@@ -45,6 +45,11 @@
 
 		<unzip src="${webworksZipPackage.path}" dest="${installer.data.bbwp.dir}"/>
 
+		<echo>Copying thirdparty license</echo>
+		<copy todir="${installer.data.bbwp.dir}/third_party">
+			<fileset dir="${installer.dir}/third_party" includes="*.txt" />
+		</copy>
+
 		<echo>Copying JSON Libary source</echo>
 		<copy todir="${installer.data.bbwp.airapptemplates.src.dir}">
 			<fileset dir="${jsapi.dir}/Common_AS/JSONLibrary/src/" includes="json/**" />
@@ -57,7 +62,7 @@
 
 		<echo>Copying API source</echo>
 		<copy todir="${installer.data.bbwp.dir}/ext" >
-			<fileset dir="${jsapi.dir}" includes="BlackBerry_*/**" excludes="**/.*"/>
+			<fileset dir="${jsapi.dir}" includes="blackberry.*/**" excludes="**/.*"/>
 		</copy>
 
 		<echo>prepare simulator vm files</echo>

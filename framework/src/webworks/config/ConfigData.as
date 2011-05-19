@@ -98,8 +98,8 @@ package webworks.config
 							var features:Array = extension.getFeatureList();
 							for(var index:String in features)
 							{
-								if ( feature.getID() == features[index] )
- 								    featureList[feature.getID()] = widgetExtensions[key];
+								if ( feature.id == features[index] )
+ 								    featureList[feature.id] = widgetExtensions[key];
 							}
 						}
 					}
@@ -192,7 +192,7 @@ package webworks.config
 				for(var index:String in features)
 				{
 					var feature:Feature = features[index];
-					if ( feature != null && feature.getID() == featureId )
+					if ( feature != null && feature.id == featureId )
 						return true;
 				}
 			}

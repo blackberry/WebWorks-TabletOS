@@ -11,4 +11,7 @@
 <env var="WEBKIT_CONTEXT_MENU_SUPPORTED" value="false"/>
 <env var="WEBKIT_SELECTION_SUPPORTED" value="false"/>
 
+<!-- Explicitly set the Webkit graphics buffer to reduce memory usage. Will be reduced post-rtm to 3 or 0. -->
+<env var="WEBKIT_NUMBER_OF_BACKINGSTORE_TILES" value="6"/>
+
 </qnx>

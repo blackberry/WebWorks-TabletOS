@@ -40,25 +40,25 @@ package webworks.access {
 		//
 		//-----------------------------------------------------------------------------
 
-		public function getID():String {
+		public function get id():String {
 			return _id;
 		}
 		
-		public function isRequired():Boolean {
+		public function get isRequired():Boolean {
 			return _isRequired;
 		}
 
-		public function getVersion():String {
+		public function get version():String {
 			return _version;
 		}
 
-		public function getDependentFeatures():Array {
+		public function get dependentFeatures():Array {
 			return _dependentFeatures;
 		}
 		
 		public function isEqual(feature:Feature):Boolean
 		{
-			return _id == feature.getID();
+			return _id == feature.id;
 		}
 	}
 }
