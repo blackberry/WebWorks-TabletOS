@@ -93,17 +93,20 @@ package webworks.extension
 			return (index < 0) ? null : _paramValues[index];
 		}
 		
-		protected function evalJavaScriptEvent(id:String,params:Array) : void {
+		protected function evalJavaScriptEvent(id:String,params:Array) : void 
+		{
 			var javaScript:String = "blackberry.events.getEventHandler("+id+")(";
 			
 			params = encodeEventParams(params);
 			
-			for (var i:Number=0; i<params.length;i++){
-				if(params[i] is Object) params[i] = JSON.encode(params[i]);
-					
-				if(i== 0){
+			for (var i:Number=0; i<params.length;i++)
+			{
+				if(i== 0)
+				{
 					javaScript += params[i];
-				}else{
+				} 
+				else
+				{
 					javaScript += ","+ params[i];					
 				}				
 			}
