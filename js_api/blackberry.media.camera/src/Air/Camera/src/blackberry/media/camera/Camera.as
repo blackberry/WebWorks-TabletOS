@@ -18,14 +18,15 @@ package blackberry.media.camera
     import flash.events.ErrorEvent;
     import flash.events.Event;
     import flash.events.MediaEvent;
+    import flash.filesystem.File;
     import flash.media.CameraUI;
     import flash.media.MediaPromise;
     import flash.media.MediaType;
     import flash.net.URLRequest;
     import flash.net.navigateToURL;
-
+    
     import json.JSON;
-
+    
     import webworks.extension.DefaultExtension;
 
     public class Camera extends DefaultExtension
@@ -81,9 +82,29 @@ package blackberry.media.camera
         private function onCaptured(event:MediaEvent):void
         {
             var mediaPromise:MediaPromise = event.data;
+            var path:String = mediaPromise.relativePath;
 
-            this.evalJavaScriptEvent(_jsOnCapturedId, [mediaPromise.relativePath]);
+            var shared:File = File.userDirectory.resolvePath("shared");
+            var fileList:Array = shared.getDirectoryListing();
+			var filePath:String = mediaPromise.relativePath;
 			
+            for (var i:uint = 0; i < fileList.length; i++)
+            {
+                var file:File = fileList[i] as File;
+
+                if (file.isDirectory)
+                {
+                    if (file.name == "camera")
+                    {
+						filePath = file.url + "/" + mediaPromise.relativePath;
+                    }
+                }
+            }
+
+
+
+            this.evalJavaScriptEvent(_jsOnCapturedId, [filePath]);
+
             // After saving the file, camera doens't fire closed camera event, this is why it called manually. 
             onCameraClosed(null);
         }
