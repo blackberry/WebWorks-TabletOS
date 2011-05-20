@@ -33,8 +33,8 @@ package blackberry.media.camera
         private var PHOTO:String = "photo";
         private var VIDEO:String = "video"
 
-        private var _jsOnCompleteId:String = "";
-        private var _jsOnCancelId:String = "";
+        private var _jsOnCapturedId:String = "";
+        private var _jsOnCameraClosedId:String = "";
         private var _jsOnErrorId:String = "";
 
 
@@ -47,16 +47,16 @@ package blackberry.media.camera
             return new Array("blackberry.media.camera");
         }
 
-        public function invokeCamera(cameraMode:String, onCompleteId:String, onCancelId:String, onErrorId:String):void
+        public function invokeCamera(cameraMode:String, onCapturedId:String, onCameraClosedId:String, onErrorId:String):void
         {
-            _jsOnCompleteId = onCompleteId;
-            _jsOnCancelId = onCancelId;
+            _jsOnCapturedId = onCapturedId;
+            _jsOnCameraClosedId = onCameraClosedId;
             _jsOnErrorId = onErrorId;
 
             var defaultDeviceCamera:CameraUI = new CameraUI();
-            defaultDeviceCamera.addEventListener(MediaEvent.COMPLETE, onImageCaptured);
-            defaultDeviceCamera.addEventListener(Event.CANCEL, onCaptureCanceled);
-            defaultDeviceCamera.addEventListener(ErrorEvent.ERROR, onCameraError);
+            defaultDeviceCamera.addEventListener(MediaEvent.COMPLETE, onCaptured);
+            defaultDeviceCamera.addEventListener(Event.CANCEL, onCameraClosed);
+            defaultDeviceCamera.addEventListener(ErrorEvent.ERROR, onError);
 
             if (cameraMode == PHOTO)
             {
@@ -68,29 +68,32 @@ package blackberry.media.camera
             }
         }
 
-        public function takePicture(onCompleteId:String, onCancelId:String, onErrorId:String):void
+        public function takePicture(onCapturedId:String, onCameraClosedId:String, onErrorId:String):void
         {
-            invokeCamera(PHOTO, onCompleteId, onCancelId, onErrorId);
+            invokeCamera(PHOTO, onCapturedId, onCameraClosedId, onErrorId);
         }
 
-        public function takeVideo(onCompleteId:String, onCancelId:String, onErrorId:String):void
+        public function takeVideo(onCapturedId:String, onCameraClosedId:String, onErrorId:String):void
         {
-            invokeCamera(VIDEO, onCompleteId, onCancelId, onErrorId);
+            invokeCamera(VIDEO, onCapturedId, onCameraClosedId, onErrorId);
         }
 
-        private function onImageCaptured(event:MediaEvent):void
+        private function onCaptured(event:MediaEvent):void
         {
             var mediaPromise:MediaPromise = event.data;
 
-            this.evalJavaScriptEvent(_jsOnCompleteId, [mediaPromise.relativePath]);
+            this.evalJavaScriptEvent(_jsOnCapturedId, [mediaPromise.relativePath]);
+			
+            // After saving the file, camera doens't fire closed camera event, this is why it called manually. 
+            onCameraClosed(null);
         }
 
-        private function onCaptureCanceled(event:Event):void
+        private function onCameraClosed(event:Event):void
         {
-            this.evalJavaScriptEvent(_jsOnCancelId, []);
+            this.evalJavaScriptEvent(_jsOnCameraClosedId, []);
         }
 
-        private function onCameraError(error:ErrorEvent):void
+        private function onError(error:ErrorEvent):void
         {
             this.evalJavaScriptEvent(_jsOnErrorId, []);
         }

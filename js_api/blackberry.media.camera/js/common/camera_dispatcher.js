@@ -21,25 +21,25 @@
     function CameraDispatcher() {
     }
 
-    function invokeCamera(cameraMode, onCompleteId, onCancelId, onErrorId) {
-        var ARGS_ON_COMPLETE = "onComplete";
-        var ARGS_ON_CANCEL = "onCancel";
+    function invokeCamera(cameraMode, onCapturedId, onCameraClosedId, onErrorId) {
+        var ARGS_ON_CAPTURED = "onCaptured";
+        var ARGS_ON_CAMERA_CLOSED = "onCameraClosed";
         var ARGS_ON_ERROR = "onError";
 
         var request = new blackberry.transport.RemoteFunctionCall(CAMERA_URL + cameraMode);
 
-        request.addParam(ARGS_ON_COMPLETE, onCompleteId);
-        request.addParam(ARGS_ON_CANCEL, onCancelId);
+        request.addParam(ARGS_ON_CAPTURED, onCapturedId);
+        request.addParam(ARGS_ON_CAMERA_CLOSED, onCameraClosedId);
         request.addParam(ARGS_ON_ERROR, onErrorId);
 
         request.makeAsyncCall();
     }
 
-    CameraDispatcher.prototype.takePicture = function(onCompleteId, onCancelId, onErrorId) {
-        invokeCamera(PHOTO, onCompleteId, onCancelId, onErrorId);
+    CameraDispatcher.prototype.takePicture = function(onCapturedId, onCameraClosedId, onErrorId) {
+        invokeCamera(PHOTO, onCapturedId, onCameraClosedId, onErrorId);
     };
-    CameraDispatcher.prototype.takeVideo = function(onCompleteId, onCancelId, onErrorId) {
-        invokeCamera(VIDEO, onCompleteId, onCancelId, onErrorId);
+    CameraDispatcher.prototype.takeVideo = function(onCapturedId, onCameraClosedId, onErrorId) {
+        invokeCamera(VIDEO, onCapturedId, onCameraClosedId, onErrorId);
     };
     blackberry.Loader.javascriptLoaded("blackberry.media.camera", CameraDispatcher);
 })();
