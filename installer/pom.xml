@@ -17,9 +17,10 @@
 
 		<tabletSDK.dir>${project.build.directory}/tabletsdk</tabletSDK.dir>
 		<tabletSDK.filename>blackberry-tablet-sdk.zip</tabletSDK.filename>
-		<tabletSDK.branchNumber>1.0.1</tabletSDK.branchNumber>
-		<tabletSDK.buildID>201104141812</tabletSDK.buildID>
+		<tabletSDK.branchNumber>1.0.2</tabletSDK.branchNumber>
+		<tabletSDK.buildID>201105191426</tabletSDK.buildID>
 		<tabletSDK.simFileName>playbook-simulator.zip</tabletSDK.simFileName>
+		<tabletSDK.simBranchNumber>1.0.1</tabletSDK.simBranchNumber>
 		<tabletSDK.simBuildID>${tabletSDK.buildID}</tabletSDK.simBuildID>
 	</properties>
 
@@ -75,7 +76,7 @@
 						<artifactItem>
 						  <groupId>net.rim.snarf</groupId>
 						  <artifactId>playbook-simulator</artifactId>
-						  <version>${tabletSDK.branchNumber}.${tabletSDK.simBuildID}</version>
+						  <version>${tabletSDK.simBranchNumber}.${tabletSDK.simBuildID}</version>
 						  <type>zip</type>
 						  <overWrite>true</overWrite>
 						  <outputDirectory>${tabletSDK.dir}</outputDirectory>
