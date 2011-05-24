@@ -14,11 +14,8 @@
 * limitations under the License.
 */
 package blackberry.media.microphone
-{	
-	import com.adobe.audio.format.WAVWriter;
-	
-	import flash.events.SampleDataEvent;
-	import flash.events.TimerEvent;
+{		
+	import flash.events.Event;
 	import flash.filesystem.File;
 	import flash.filesystem.FileMode;
 	import flash.filesystem.FileStream;
@@ -27,22 +24,15 @@ package blackberry.media.microphone
 	
 	import json.JSON;
 	
+	import org.bytearray.micrecorder.MicRecorder;
+	import org.bytearray.micrecorder.encoder.WaveEncoder;
+	import org.bytearray.micrecorder.events.RecordingEvent;
+	
 	import webworks.extension.DefaultExtension;
+	import webworks.extension.WebWorksReturnValue;
 	
 	public class MicrophoneExtension extends DefaultExtension
 	{	
-		private const NUM_MILLISEC_PER_SEC:Number = 1000;
-		private const MIC_DEFAULTS:Object = {
-			loopBack : false,
-			useEchoSuppression : false,
-			rate : 44
-		};
-		private const WAV_DEFAULTS:Object = {
-			numOfChannels : 2,
-			sampleBitRate : 16,
-			samplingRate : 44100			
-		};
-		
 		private const ERROR_CODE:Number = 1;
 		
 		private var _filePath:String = null;
@@ -52,9 +42,11 @@ package blackberry.media.microphone
 		private var _soundBytes:ByteArray = null;		
 		private var _timer:Timer = null;
 		
+		private var _recorder:MicRecorder = null;
+		
 		public function MicrophoneExtension() {
 			_mic = Microphone.getMicrophone();
-			_soundBytes = new ByteArray();
+			_recorder = new MicRecorder(new WaveEncoder());
 		}		
 		
 		public override function loadFeature(feature:String, version:String):void {
@@ -62,8 +54,7 @@ package blackberry.media.microphone
 		}
 		
 		public override function unloadFeature():void {
-			
-			
+						
 		}
 		
 		public override function getFeatureList():Array {			
@@ -71,95 +62,61 @@ package blackberry.media.microphone
 		}
 		
 		public function hasMicrophones():Object {
-			var result:Object = createResultObject({});			
+			var result:WebWorksReturnValue;
+			var returnData:Object = {};
 			
 			try {
 				if (Microphone.isSupported && _mic != null) {
-					result.data["hasMicrophones"] = true;				
+					returnData["hasMicrophones"] = true;				
+				} else {
+					returnData["hasMicrophones"] = false;
 				}
+				
+				result = new WebWorksReturnValue(returnData);
 			} catch (e:Error) {
-				result.code = 1;
-				result.msg = e.message;				
+				result = new WebWorksReturnValue(returnData, ERROR_CODE, e.message);				
 			}
 			
-			return result;
+			return result.jsObject;
 		}
 		
-		public function recordToFile(filePath:String, duration:Number, onSuccessId:String, onErrorId:String):void {			
+		public function record(filePath:String, onSuccessId:String, onErrorId:String):void {	
 			if (_mic != null) {
 				_filePath = filePath;
 				_onSuccessId = onSuccessId;
-				_onErrorId = onErrorId;				
+				_onErrorId = onErrorId;
 				
 				if (checkFilePath()) {
-					var durationMs:Number = duration * NUM_MILLISEC_PER_SEC;					
-					_timer = new Timer(durationMs);				
-					_timer.addEventListener(TimerEvent.TIMER, timerHandler); 
-					configMic(MIC_DEFAULTS, durationMs, micSampleDataHandler);					
-					_timer.start();
+					_recorder.addEventListener(RecordingEvent.RECORDING, onRecording);
+					_recorder.addEventListener(Event.COMPLETE, onRecordComplete);
+					_recorder.record();
 				}
 			} else {
 				this.evalJavaScriptEvent(_onErrorId, [ERROR_CODE, JSON.encode("no microphone available")]);
-			}
+			}			
 		}
 		
-		private function micSampleDataHandler(event:SampleDataEvent):void {
-			try {
-				while(event.data.bytesAvailable) { 
-					var sample:Number = event.data.readFloat(); 
-					_soundBytes.writeFloat(sample);					
-					
-					// Encoder requires 44.1kHz stereo, so duplicate mono-channel from mic to make 2 of
-					// the same channel, effectivily making it stereo data
-					_soundBytes.writeFloat(sample);
-				}
-			} catch (e:Error) {
-				stopCapture();
-				this.evalJavaScriptEvent(_onErrorId, [ERROR_CODE, JSON.encode(e.message)]);
-			}
+		public function pause():void {
+			_recorder.pause();
 		}
 		
-		private function timerHandler(event:TimerEvent):void {
+		public function stop():void {
+			_recorder.stop();
+		}
+		
+		private function onRecording(event:RecordingEvent):void {
+			// not used
+		}
+		
+		private function onRecordComplete(event:Event):void {
 			try {
-				stopCapture();
-				
-				var wavBytes:ByteArray = convertToWav();
-				
-				// write to file
-				var ostream:FileStream = new FileStream();
-				ostream.open(new File(_filePath), FileMode.WRITE);
-				ostream.writeBytes(wavBytes, 0, wavBytes.length);
-				ostream.close();
+				writeToFile(_recorder.output);				
 				
 				// invoke success callback function
 				this.evalJavaScriptEvent(_onSuccessId, [JSON.encode(_filePath)]);
 			} catch (e:Error) {
 				this.evalJavaScriptEvent(_onErrorId, [ERROR_CODE, JSON.encode(e.message)]);
 			}
-		}
-		
-		private function convertToWav():ByteArray {
-			var wavBytes:ByteArray = new ByteArray();
-			
-			// Setup up wav writer for flash sound -> wav conversion
-			var wavWriter:WAVWriter = new WAVWriter();
-			wavWriter.numOfChannels = WAV_DEFAULTS.numOfChannels;
-			wavWriter.sampleBitRate = WAV_DEFAULTS.sampleBitRate;
-			wavWriter.samplingRate = WAV_DEFAULTS.samplingRate;
-			
-			wavBytes.position = 0;
-			_soundBytes.position = 0;
-			wavWriter.processSamples(wavBytes, _soundBytes, WAV_DEFAULTS.samplingRate, WAV_DEFAULTS.numOfChannels);
-			
-			return wavBytes;
-		}
-		
-		private function configMic(config:Object, timeout:int, sampleDataHandler:Function):void {
-			_mic.setLoopBack(config.loopBack);
-			_mic.setUseEchoSuppression(config.useEchoSuppression);
-			_mic.rate = config.rate;				
-			_mic.setSilenceLevel(0, timeout);
-			_mic.addEventListener(SampleDataEvent.SAMPLE_DATA, sampleDataHandler);			
 		}
 		
 		private function checkFilePath():Boolean {
@@ -186,17 +143,11 @@ package blackberry.media.microphone
 			return true;
 		}
 		
-		private function stopCapture():void {
-			_mic.removeEventListener(SampleDataEvent.SAMPLE_DATA, micSampleDataHandler); 
-			_timer.stop();			
-		}
-		
-		private function createResultObject(data : Object) : Object {
-			return {
-				"code" : 0,
-				"msg" : null,
-				"data" : data
-			};	
+		private function writeToFile(bytes:ByteArray):void {
+			var ostream:FileStream = new FileStream();
+			ostream.open(new File(_filePath), FileMode.WRITE);
+			ostream.writeBytes(bytes, 0, bytes.length);
+			ostream.close();
 		}
 	}
 }
