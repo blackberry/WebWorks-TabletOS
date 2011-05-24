@@ -33,7 +33,7 @@ package blackberry.media.microphone
 	
 	public class MicrophoneExtension extends DefaultExtension
 	{	
-		private const ERROR_CODE:Number = 1;
+		private const ERROR_CODE:Number = -1;
 		
 		private var _filePath:String = null;
 		private var _onSuccessId:String = null;
