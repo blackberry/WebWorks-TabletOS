@@ -86,7 +86,7 @@ package blackberry.media.camera
 
             var shared:File = File.userDirectory.resolvePath("shared");
             var fileList:Array = shared.getDirectoryListing();
-			var filePath:String = mediaPromise.relativePath;
+            var filePath:String = mediaPromise.relativePath;
 			
             for (var i:uint = 0; i < fileList.length; i++)
             {
@@ -96,7 +96,7 @@ package blackberry.media.camera
                 {
                     if (file.name == "camera")
                     {
-						filePath = file.url + "/" + mediaPromise.relativePath;
+                        filePath = file.url + "/" + mediaPromise.relativePath;
                     }
                 }
             }
