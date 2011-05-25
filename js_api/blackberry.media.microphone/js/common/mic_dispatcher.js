@@ -57,7 +57,7 @@
 		var onRecordSuccessId = blackberry.events.registerEventHandler(EVENT_SUCCESS, onCaptured);
 		var onRecordErrorId = blackberry.events.registerEventHandler(EVENT_ERROR, onError);
 		
-		makeCall("record", {"filePath" : filePath, EVENT_SUCCESS : onRecordSuccessId, EVENT_ERROR : onRecordErrorId}, true);
+		makeCall("record", {"filePath" : filePath, "onSuccessId" : onRecordSuccessId, "onErrorId" : onRecordErrorId}, true);
 	};
 
 	MicrophoneDispatcher.prototype.pause = function() {
