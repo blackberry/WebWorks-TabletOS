@@ -32,11 +32,13 @@ package webworks.webkit
 	import qnx.events.WebViewEvent;
 	import qnx.events.WindowObjectClearedEvent;
 	import qnx.media.QNXStageWebView;
+	import qnx.fullscreen.FullscreenClient;
 	
 	import webworks.JavaScriptLoader;
 	import webworks.access.Access;
 	import webworks.config.ConfigConstants;
 	import webworks.config.ConfigData;
+	import webworks.fullScreenView.FullScreenView;
 	import webworks.uri.URI;
 	import webworks.util.Utilities;
 	
@@ -47,6 +49,7 @@ package webworks.webkit
         private var _uniqueID:String;
         private var _windowObj:IowWindow;
 		private var _javascriptLoader:JavaScriptLoader;
+		private var _fsView:FullScreenView;
 		
 		public function WebkitControl(creationID:Number, appStage:Stage) {
 			_creationID = creationID;
@@ -83,6 +86,10 @@ package webworks.webkit
 			
 			//Create the webview with our default settings and register the events we need
 			_webView = createWebview(defaultSettings, events);
+			
+			_fsView = new FullScreenView(fullscreenClientGet() );
+  			_fsView.addEventListener(WebkitEvent.FULL_SCREEN_ENTER, addFullScreenView);
+  			_fsView.addEventListener(WebkitEvent.FULL_SCREEN_EXIT, onExitFullScreenView);
 		}
 		
 		private function createWebview(defaultSettings:Object, events:Dictionary):QNXStageWebView
@@ -241,5 +248,21 @@ package webworks.webkit
 			_javascriptLoader.registerJavaScript(_webView.location, event);
 			trace("window object cleared event");
 		}
+		
+  		private function fullscreenClientGet():FullscreenClient
+  		{
+  			return _webView.fullscreenClientGet();
+  		}
+  	
+  		private function addFullScreenView(event:WebkitEvent):void
+  		{
+  			addChild(_fsView);
+  			_webView.zOrder = -1;
+  		}
+  		
+  		private function onExitFullScreenView(event:WebkitEvent): void
+  		{
+  			_webView.zOrder = 0;
+ 		}
 	}
 }

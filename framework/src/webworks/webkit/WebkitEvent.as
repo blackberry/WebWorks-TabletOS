@@ -37,6 +37,11 @@ package webworks.webkit
         public static const WEBVIEW_CREATED:String 			= WebViewEvent.CREATED;
         public static const WEBVIEW_DESTROYED:String 		= WebViewEvent.DESTROYED;
 		
+		public static const FULL_SCREEN_ENTER:String = "fullScreenEnter";
+		public static const FULL_SCREEN_ENTERING:String = "fullScreenEntering";
+		public static const FULL_SCREEN_EXIT:String = "fullScreenExit";
+		
+		
 		
 		public var data:Object;
 		
