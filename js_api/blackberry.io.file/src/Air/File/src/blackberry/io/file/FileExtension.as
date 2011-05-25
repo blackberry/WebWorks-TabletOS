@@ -32,7 +32,7 @@ package blackberry.io.file
 	{	
 		private var javascriptCallbackToRead:String = "";
 		
-		private const FILE_GENERAL_ERROR_CODE:Number = 1;
+		private const FILE_GENERAL_ERROR_CODE:Number = -1;
 		
 		
 		public function FileExtension(){
@@ -214,7 +214,7 @@ package blackberry.io.file
 				checkFile(file);
 				
 				if (newFileName.indexOf("/") != -1) {
-					throw new Error("newFileName must not contain slash", 1);
+					throw new Error("newFileName must not contain slash", FILE_GENERAL_ERROR_CODE);
 				}
 				
 				var dest:File = file.parent.resolvePath(newFileName);
@@ -223,7 +223,7 @@ package blackberry.io.file
 				//Return with just the data object.
 				result = new WebWorksReturnValue({"path" : path, "newFileName" : newFileName});
 			} catch (e:Error) {
-				//Return with error code 1.
+				//Return with error code -1.
 				result = new WebWorksReturnValue({"path" : path, "newFileName" : newFileName}, FILE_GENERAL_ERROR_CODE, e.message);
 			}
 			
