@@ -24,6 +24,7 @@ package blackberry.io.dir
 	
 	public class DirectoryExtension extends DefaultExtension
 	{	
+		private const ERROR_CODE:Number = -1;
 
 		public function DirectoryExtension(){
 		}
@@ -89,7 +90,7 @@ package blackberry.io.dir
 					}
 				}				
 			} catch (e:Error) {
-				result.code = 1;
+				result.code = ERROR_CODE;
 				result.msg = e.message;				
 			}
 						
@@ -105,7 +106,7 @@ package blackberry.io.dir
 				// if directory already exists, this function does nothing
 				file.createDirectory();
 			} catch (e:Error) {
-				result.code = 1;
+				result.code = ERROR_CODE;
 				result.msg = e.message;
 			}
 			
@@ -129,7 +130,7 @@ package blackberry.io.dir
 				
 				file.deleteDirectory(recBool);
 			} catch (e:Error) {
-				result.code = 1;
+				result.code = ERROR_CODE;
 				result.msg = e.message;
 			}
 			
@@ -149,7 +150,7 @@ package blackberry.io.dir
 					result.data["exists"] = false;
 				}
 			} catch (e:Error) {
-				result.code = 1;
+				result.code = ERROR_CODE;
 				result.msg = e.message;				
 			}						
 			
@@ -184,7 +185,7 @@ package blackberry.io.dir
 					}
 				}				
 			} catch (e:Error) {
-				result.code = 1;
+				result.code = ERROR_CODE;
 				result.msg = e.message;				
 			}
 			
@@ -204,7 +205,7 @@ package blackberry.io.dir
 				
 				result.data["directory"] = file.parent.url;				
 			} catch (e:Error) {
-				result.code = 1;
+				result.code = ERROR_CODE;
 				result.msg = e.message;
 			}
 			
@@ -223,7 +224,7 @@ package blackberry.io.dir
 				}
 				
 				if (newDirectoryName.indexOf("/") != -1) {
-					result.code = 1;
+					result.code = ERROR_CODE;
 					result.msg = "newDirectoryName must not contain slash";
 					return result;
 				}
@@ -231,7 +232,7 @@ package blackberry.io.dir
 				var dest:File = file.parent.resolvePath(newDirectoryName);
 				file.moveTo(dest);
 			} catch (e:Error) {
-				result.code = 1;
+				result.code = ERROR_CODE;
 				result.msg = e.message;
 			}
 			
@@ -253,7 +254,7 @@ package blackberry.io.dir
 				result.data["spaceAvailable"] = file.spaceAvailable;
 				result.data["isEmpty"] = file.getDirectoryListing().length == 0;
 			} catch (e:Error) {
-				result.code = 1;
+				result.code = ERROR_CODE;
 				result.msg = e.message;
 			}
 			
@@ -271,20 +272,20 @@ package blackberry.io.dir
 		private function checkDir(file : File, result : Object, skipCheckFile : Boolean = false):Object {			
 			try {
 				if (!file.exists) {
-					result.code = 1;
+					result.code = ERROR_CODE;
 					result.msg = "path points to non-existent file or directory";
 					return result;
 				}
 				
 				if (!skipCheckFile) {
 					if (!file.isDirectory) {
-						result.code = 1;
+						result.code = ERROR_CODE;
 						result.msg = "path points to a file";
 						return result;
 					}
 				}
 			} catch (e:Error) {
-				result.code = 1;
+				result.code = ERROR_CODE;
 				result.msg = e.message;
 			}
 			
