@@ -39,14 +39,12 @@ package blackberry.media.microphone
 		private var _onSuccessId:String = null;
 		private var _onErrorId:String = null;
 		private var _mic:Microphone = null;
-		private var _soundBytes:ByteArray = null;		
-		private var _timer:Timer = null;
 		
 		private var _recorder:MicRecorder = null;
 		
 		public function MicrophoneExtension() {
 			_mic = Microphone.getMicrophone();
-			_recorder = new MicRecorder(new WaveEncoder());
+			_recorder = new MicRecorder(new WaveEncoder(), onError);
 		}		
 		
 		public override function loadFeature(feature:String, version:String):void {
@@ -61,25 +59,6 @@ package blackberry.media.microphone
 			return new Array("blackberry.media.microphone");
 		}
 		
-		public function hasMicrophones():Object {
-			var result:WebWorksReturnValue;
-			var returnData:Object = {};
-			
-			try {
-				if (Microphone.isSupported && _mic != null) {
-					returnData["hasMicrophones"] = true;				
-				} else {
-					returnData["hasMicrophones"] = false;
-				}
-				
-				result = new WebWorksReturnValue(returnData);
-			} catch (e:Error) {
-				result = new WebWorksReturnValue(returnData, ERROR_CODE, e.message);				
-			}
-			
-			return result.jsObject;
-		}
-		
 		public function record(filePath:String, onSuccessId:String, onErrorId:String):void {	
 			if (_mic != null) {
 				_filePath = filePath;
@@ -92,7 +71,7 @@ package blackberry.media.microphone
 					_recorder.record();
 				}
 			} else {
-				this.evalJavaScriptEvent(_onErrorId, [ERROR_CODE, JSON.encode("no microphone available")]);
+				onError("no microphone available");
 			}			
 		}
 		
@@ -115,7 +94,7 @@ package blackberry.media.microphone
 				// invoke success callback function
 				this.evalJavaScriptEvent(_onSuccessId, [JSON.encode(_filePath)]);
 			} catch (e:Error) {
-				this.evalJavaScriptEvent(_onErrorId, [ERROR_CODE, JSON.encode(e.message)]);
+				onError(e.message);
 			}
 		}
 		
@@ -123,7 +102,7 @@ package blackberry.media.microphone
 			var file:File = new File(_filePath);
 			
 			if (file.exists) {
-				this.evalJavaScriptEvent(_onErrorId, [ERROR_CODE, JSON.encode("filePath points to an existing file")]);
+				onError("filePath points to an existing file");
 				return false;
 			} else {
 				var tempFile:File = File.createTempFile();				
@@ -134,7 +113,7 @@ package blackberry.media.microphone
 						tempFile.moveTo(file);
 						file.deleteFile();
 					} catch (e:Error) {
-						this.evalJavaScriptEvent(_onErrorId, [ERROR_CODE, JSON.encode(e.message)]);
+						onError(e.message);
 						return false;
 					}
 				}					
@@ -148,6 +127,10 @@ package blackberry.media.microphone
 			ostream.open(new File(_filePath), FileMode.WRITE);
 			ostream.writeBytes(bytes, 0, bytes.length);
 			ostream.close();
+		}
+		
+		private function onError(msg:String):void {
+			this.evalJavaScriptEvent(_onErrorId, [ERROR_CODE, JSON.encode(msg)]);
 		}
 	}
 }

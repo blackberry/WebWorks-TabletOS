@@ -1,11 +1,14 @@
 package org.bytearray.micrecorder
 {
+	import flash.events.ActivityEvent;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.events.SampleDataEvent;
 	import flash.events.StatusEvent;
+	import flash.events.TimerEvent;
 	import flash.media.Microphone;
 	import flash.utils.ByteArray;
+	import flash.utils.Timer;
 	import flash.utils.getTimer;
 	
 	import org.bytearray.micrecorder.encoder.WaveEncoder;
@@ -61,7 +64,12 @@ package org.bytearray.micrecorder
 		private var _buffer:ByteArray = new ByteArray();
 		private var _output:ByteArray;
 		private var _encoder:IEncoder;
-		private var _paused:Boolean;
+		private var _onError:Function;    // error callback
+		private var _paused:Boolean;      // flag to support pause/resume
+		private var _activity:Boolean;    // flag to detect if mic has activity before timeout
+		private var _activityTimer:Timer  // timer to detect if mic has activity before timeout
+		
+		private const ACTIVITY_TIMEOUT:Number = 500;
 		
 		private var _completeEvent:Event = new Event ( Event.COMPLETE );
 		private var _recordingEvent:RecordingEvent = new RecordingEvent( RecordingEvent.RECORDING, 0 );
@@ -76,7 +84,7 @@ package org.bytearray.micrecorder
 		 * @param timeOut The timeout
 		 * 
 		 */		
-		public function MicRecorder(encoder:IEncoder, microphone:Microphone=null, gain:uint=100, rate:uint=44, silenceLevel:uint=0, timeOut:uint=4000)
+		public function MicRecorder(encoder:IEncoder, onError:Function, microphone:Microphone=null, gain:uint=100, rate:uint=44, silenceLevel:uint=0, timeOut:uint=4000)
 		{
 			_encoder = encoder;
 			_microphone = microphone;
@@ -84,7 +92,9 @@ package org.bytearray.micrecorder
 			_rate = rate;
 			_silenceLevel = silenceLevel;
 			_timeOut = timeOut;
+			_onError = onError;
 			_paused = false;
+			_activity = false;
 		}
 		
 		/**
@@ -105,6 +115,30 @@ package org.bytearray.micrecorder
 			
 			_microphone.addEventListener(SampleDataEvent.SAMPLE_DATA, onSampleData);
 			_microphone.addEventListener(StatusEvent.STATUS, onStatus);
+			_microphone.addEventListener(ActivityEvent.ACTIVITY, onActivity);
+			
+			detectActivity();
+		}
+		
+		private function detectActivity():void
+		{
+			_activityTimer = new Timer(ACTIVITY_TIMEOUT);
+			_activityTimer.addEventListener(TimerEvent.TIMER, activityTimerHandler);
+			_activityTimer.start();
+		}
+		
+		private function activityTimerHandler(event:TimerEvent):void
+		{
+			if (!_activity) {				
+				_onError.apply(this, ["no activity - check if microphone already in use"]);
+			}
+			
+			_activityTimer.stop();
+		}
+		
+		private function onActivity(event:ActivityEvent):void
+		{
+			_activity = event.activating;	
 		}
 		
 		private function onStatus(event:StatusEvent):void
@@ -140,10 +174,12 @@ package org.bytearray.micrecorder
 		{
 			_microphone.removeEventListener(SampleDataEvent.SAMPLE_DATA, onSampleData);
 			
-			_buffer.position = 0;
-			_output = _encoder.encode(_buffer, 1);
-			
-			dispatchEvent( _completeEvent );
+			if (_activity) {
+				_buffer.position = 0;
+				_output = _encoder.encode(_buffer, 1);
+				
+				dispatchEvent( _completeEvent );
+			}
 		}
 		
 		/**

@@ -28,8 +28,6 @@
 								{ return disp.stop() };								
 	};
 	
-	Microphone.prototype.__defineGetter__("hasMicrophones", function() { return this._disp.hasMicrophones(); });
-	
 	blackberry.Loader.javascriptLoaded("blackberry.media.microphone", Microphone);
 })();
 

@@ -39,19 +39,7 @@
 	
 	function isDefined(o) {
 		return typeof(o) != "undefined";
-	}	
-	
-	MicrophoneDispatcher.prototype.hasMicrophones = function () {		
-		var result = makeCall("hasMicrophones", false);
-
-		if (isDefined(result.code)) {
-			if (result.code != 0) {
-				throw new Error(result.msg);
-			}
-		}
-		
-		return result.data.hasMicrophones;
-	};
+	}
 	
 	MicrophoneDispatcher.prototype.record = function(filePath, onCaptured, onError) {
 		var onRecordSuccessId = blackberry.events.registerEventHandler(EVENT_SUCCESS, onCaptured);
