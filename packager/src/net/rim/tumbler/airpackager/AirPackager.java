@@ -132,6 +132,7 @@ public class AirPackager {
         _permissionMappings.put("access_internet", "access_internet");
         _permissionMappings.put("read_device_identifying_information", "read_device_identifying_information");
         _permissionMappings.put("use_camera", "use_camera");
+        _permissionMappings.put("record_audio", "record_audio");
     }
 
     /**
