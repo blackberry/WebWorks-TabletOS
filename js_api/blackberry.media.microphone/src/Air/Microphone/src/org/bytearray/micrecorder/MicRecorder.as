@@ -145,15 +145,17 @@ package org.bytearray.micrecorder
 			_buffer.length = 0;
 			
 			_paused = false;
-			_activity = false;
+			_activity = false;			
 			
+			_microphone.addEventListener(ActivityEvent.ACTIVITY, onActivity);
 			_microphone.addEventListener(SampleDataEvent.SAMPLE_DATA, onSampleData);
 			_microphone.addEventListener(StatusEvent.STATUS, onStatus);
-			_microphone.addEventListener(ActivityEvent.ACTIVITY, onActivity);
 			
-			detectActivity();
+//			detectActivity();
 		}
 		
+		// the calls to this function is commented out due to
+		// [PR #99339] Microphone.muted property and status event
 		private function detectActivity():void
 		{
 			// check if microphone is already in use, call at the following times:
@@ -183,10 +185,10 @@ package org.bytearray.micrecorder
 		}
 		
 		private function onStatus(event:StatusEvent):void
-		{
+		{			
 			_difference = getTimer();
 			
-			detectActivity();
+//			detectActivity();
 		}
 		
 		/**
