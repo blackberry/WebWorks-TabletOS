@@ -15,8 +15,8 @@
  */
 (function () {
 	var MIC_URL = "blackberry/media/microphone";
-	var EVENT_SUCCESS = "onRecordSuccess";
-	var EVENT_ERROR = "onRecordError";
+	var EVENT_SUCCESS = "onRecordAudioSuccess";
+	var EVENT_ERROR = "onRecordAudioError";
 	
 	function MicrophoneDispatcher() {
 	}
@@ -39,32 +39,21 @@
 	
 	function isDefined(o) {
 		return typeof(o) != "undefined";
-	}	
+	}
 	
-	MicrophoneDispatcher.prototype.hasMicrophones = function () {		
-		var result = makeCall("hasMicrophones", false);
-
-		if (isDefined(result.code)) {
-			if (result.code != 0) {
-				throw new Error(result.msg);
-			}
-		}
+	MicrophoneDispatcher.prototype.record = function(filePath, onCaptured, onError) {
+		var onRecordSuccessId = blackberry.events.registerEventHandler(EVENT_SUCCESS, onCaptured);
+		var onRecordErrorId = blackberry.events.registerEventHandler(EVENT_ERROR, onError);
 		
-		return result.data.hasMicrophones;
+		makeCall("record", {"filePath" : filePath, "onSuccessId" : onRecordSuccessId, "onErrorId" : onRecordErrorId}, true);
+	};
+
+	MicrophoneDispatcher.prototype.pause = function() {
+		makeCall("pause", {}, true);
 	};
 	
-	MicrophoneDispatcher.prototype.recordToFile = function(filePath, duration, onRecordSuccess, onRecordError) {
-		var onRecordSuccessId = blackberry.events.registerEventHandler(EVENT_SUCCESS, onRecordSuccess);
-		var onRecordErrorId = blackberry.events.registerEventHandler(EVENT_ERROR, onRecordError);
-		
-		makeCall("recordToFile", {"filePath" : filePath, "duration" : duration, EVENT_SUCCESS : onRecordSuccessId, EVENT_ERROR : onRecordErrorId}, true);
-	};	
-	
-	MicrophoneDispatcher.prototype.getMic = function () {	
-		var mic = {};
-		mic.recordToFile = MicrophoneDispatcher.prototype.recordToFile;
-		
-		return mic;
+	MicrophoneDispatcher.prototype.stop = function() {
+		makeCall("stop", {}, true);
 	};
 			
 	blackberry.Loader.javascriptLoaded("blackberry.media.microphone", MicrophoneDispatcher);	

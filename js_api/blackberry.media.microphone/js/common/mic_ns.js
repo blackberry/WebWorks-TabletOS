@@ -18,11 +18,15 @@
 	function Microphone(disp) {
 		this._disp = disp;
 	
-		this.constructor.prototype.getMic = function()
-								{ return disp.getMic(); };		
+		this.constructor.prototype.record = function(filePath, onCaptured, onError)
+								{ return disp.record(filePath, onCaptured, onError) };
+								
+		this.constructor.prototype.pause = function()
+								{ return disp.pause() };		
+								
+		this.constructor.prototype.stop = function()
+								{ return disp.stop() };								
 	};
-	
-	Microphone.prototype.__defineGetter__("hasMicrophones", function() { return this._disp.hasMicrophones(); });
 	
 	blackberry.Loader.javascriptLoaded("blackberry.media.microphone", Microphone);
 })();
