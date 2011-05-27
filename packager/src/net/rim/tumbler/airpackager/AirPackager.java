@@ -103,10 +103,12 @@ public class AirPackager {
     private static final String NUM_0 = "0";
     private static final String FLAG_PACKAGE = "-package";
     private static final String FLAG_TARGET = "-target";
+    private static final String FLAG_DEBUG_TOKEN = "-debugToken";
     private static final String FLAG_DEV_MODE = "-devMode";
     private static final String FILE_EXT_BAR = "bar";
     private static final String PATH_BAR_DEBUG = "bar-debug";
     private static final String EXCEPTION_AIRPACKAGER = "EXCEPTION_AIRPACKAGER";
+    private static final String EXCEPTION_DEBUG_TOKEN_INVALID = "EXCEPTION_DEBUG_TOKEN_INVALID";
     private static final String MD5 = "MD5";
     private static final String FILE_SPSH = "spsh";
     private static final String DELIMITER_DOT = ".";
@@ -287,7 +289,7 @@ public class AirPackager {
                     buildId,
                     outputPath
                 };
-            } else {
+            } else if (!SessionManager.getInstance().debugMode()) {
                 cmd = new String[] {
                     _airPackagerPath,
                     FLAG_PACKAGE,
@@ -298,6 +300,30 @@ public class AirPackager {
                     buildId,
                     outputPath
                 };
+            } else {
+                String debugToken = _bbwpProperties.getDebugToken();
+                if (!debugToken.isEmpty()) {
+                    if (!(new File(debugToken).isFile())) {
+                        //
+                        // It is an error for the <debug_token> element to
+                        // contain a pathname that does not point to a file.
+                        //
+                        throw new PackageException(EXCEPTION_DEBUG_TOKEN_INVALID);
+                    }
+                    System.out.println("using cmd option "+FLAG_DEBUG_TOKEN+' '+debugToken);
+                    cmd = new String[] {
+                        _airPackagerPath,
+                        FLAG_PACKAGE,
+                        FLAG_DEV_MODE,
+                        FLAG_DEBUG_TOKEN,
+                        debugToken,
+                        FLAG_TARGET,
+                        SessionManager.getInstance().debugModeInternal() ? PATH_BAR_DEBUG : FILE_EXT_BAR,
+                        FLAG_BUILDID,
+                        buildId,
+                        outputPath
+                    };
+                }
             }
             int n = files.length;
             String[] join = new String[cmd.length + n];
