@@ -278,6 +278,7 @@ public class AirPackager {
                 buildId = NUM_0;
             }
 
+            String debugToken = _bbwpProperties.getDebugToken();
             String[] cmd;
             if (SessionManager.getInstance().requireSigning()) {
                 cmd = new String[] {
@@ -289,7 +290,7 @@ public class AirPackager {
                     buildId,
                     outputPath
                 };
-            } else if (!SessionManager.getInstance().debugMode()) {
+            } else if (!SessionManager.getInstance().debugMode() || debugToken.isEmpty()) {
                 cmd = new String[] {
                     _airPackagerPath,
                     FLAG_PACKAGE,
@@ -301,15 +302,13 @@ public class AirPackager {
                     outputPath
                 };
             } else {
-                String debugToken = _bbwpProperties.getDebugToken();
-                if (!debugToken.isEmpty()) {
-                    if (!(new File(debugToken).isFile())) {
-                        //
-                        // It is an error for the <debug_token> element to
-                        // contain a pathname that does not point to a file.
-                        //
-                        throw new PackageException(EXCEPTION_DEBUG_TOKEN_INVALID);
-                    }
+                if (!(new File(debugToken).isFile())) {
+                    //
+                    // It is an error for the <debug_token> element to
+                    // contain a pathname that does not point to a file.
+                    //
+                    throw new PackageException(EXCEPTION_DEBUG_TOKEN_INVALID);
+                } else {
                     System.out.println("using cmd option "+FLAG_DEBUG_TOKEN+' '+debugToken);
                     cmd = new String[] {
                         _airPackagerPath,
