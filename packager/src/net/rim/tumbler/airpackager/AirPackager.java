@@ -309,7 +309,6 @@ public class AirPackager {
                     //
                     throw new PackageException(EXCEPTION_DEBUG_TOKEN_INVALID);
                 } else {
-                    System.out.println("using cmd option "+FLAG_DEBUG_TOKEN+' '+debugToken);
                     cmd = new String[] {
                         _airPackagerPath,
                         FLAG_PACKAGE,
