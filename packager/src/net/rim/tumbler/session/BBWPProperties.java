@@ -43,6 +43,7 @@ public class BBWPProperties {
     private static final String NODE_AIR_TEMPLATE = "air_template";
     private static final String NODE_TABLET_SDK = "tablet_sdk";
     private static final String NODE_EXTENSION_REPO = "extension_repository";
+    private static final String NODE_DEBUG_TOKEN = "debug_token";
 
     private String          _rapc;
     private String          _javac;
@@ -56,6 +57,7 @@ public class BBWPProperties {
     private String        	_airTemplate;
     private String        	_tabletSDK;
     private String        	_extensionRepo;
+    private String          _debugToken;
     
     public BBWPProperties(String bbwpProperties, String sessionHome) throws Exception {
         // parse bbwp.properties
@@ -109,6 +111,18 @@ public class BBWPProperties {
     	return dir.isAbsolute()
             ? _extensionRepo
             : (base + File.separator + _extensionRepo);
+    }
+
+    /**
+     * Returns the pathname of the debug token file, as a string, as
+     * specified in the properties file. If the <code>&lt;debug_token&gt;</code>
+     * element is missing or empty, this function returns an empty string.
+     *
+     * @return the pathname of the debug token file, or an empty string if
+     * the <code>&lt;debug_token&gt;</code> element is missing or empty.
+     */
+    public String getDebugToken() {
+        return _debugToken;
     }
     
     private void validate() throws Exception {
@@ -201,6 +215,7 @@ public class BBWPProperties {
         _tabletSDK = "";
         
         _extensionRepo = "ext";
+        _debugToken = "";
         
         if (dom == null)
             return;
@@ -299,6 +314,13 @@ public class BBWPProperties {
                     for (int j = 0; j < childlist.getLength(); j++) {
                         if (childlist.item(j).getNodeType() == Node.TEXT_NODE) {
                         	_extensionRepo = childlist.item(j).getNodeValue();
+                        }
+                    }
+                } else if (nodename.equals(NODE_DEBUG_TOKEN)) {
+                    NodeList childlist = node.getChildNodes();
+                    for (int j = 0; j < childlist.getLength(); j++) {
+                        if (childlist.item(j).getNodeType() == Node.TEXT_NODE) {
+                            _debugToken = childlist.item(j).getNodeValue();
                         }
                     }
                 }
