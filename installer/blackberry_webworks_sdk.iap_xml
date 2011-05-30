@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- This script was automatically generated using InstallAnywhere 2010 Enterprise, Build 3972
      STATUS: Fully Functional LICENSED Edition
-     DATE:   Fri May 13 15:47:43 EDT 2011 -->
+     DATE:   Mon May 30 11:20:22 EDT 2011 -->
 <InstallAnywhere_Deployment_Project increments="3483">
 	<!-- ** DO NOT EDIT ** Essential authorization and configuration data ** DO NOT EDIT ** -->
 	<essentialScriptInfo>
@@ -10,7 +10,7 @@
 		<scriptID>12,42,11,70,49,57,54,74,78,74,74,78,72,45,69,68,74,45,75,70,74,74,70,78,78,69,74,88</scriptID>
 		<buildID>3,13,71,87,105,110,100,111,119,115,32,88,80,44,32,53,46,49,44,32,120,56,54,59,32,74,97,118,97,32,49,46,54,46,48,95,49,53,44,32,83,117,110,32,77,105,99,114,111,115,121,115,116,101,109,115,32,73,110,99,46,44,32,104,116,116,112,58,47,47,106,97,118,97,46,115,117,110,46,99,111,109,47,59,32,101,110,44,32,85,110,107,110,111,119,110,59,32,67,112,49,50,53,50</buildID>
 		<!-- The authorizationID may change between project saves and builds.  This does not effect the integrity of the project, nor do changes in this value represent changes in the actual InstallAnywhere project. -->
-		<authorizationID>1,0,0,32,-29,-17,112,-96,80,112,118,100,85,99,113,97,113,65,81,84,74,67,70,68,72,74,64,69,66,69,64,95,71,5,2,3,9,22,106,15,1,0,0</authorizationID>
+		<authorizationID>1,0,0,48,67,127,-64,16,80,112,118,100,85,99,113,97,113,65,81,84,74,67,70,68,72,74,64,69,66,69,64,95,71,5,2,12,15,29,97,0,1,0,0</authorizationID>
 	</essentialScriptInfo>
 	<installationObjects uniqueObjects="152">
 		<object class="com.zerog.ia.installer.Installer" objectID="61c3cf33921d">
@@ -277,7 +277,7 @@ and any path to a file to save to the file]]></string>
 								<string><![CDATA[bbwp.jar]]></string>
 							</property>
 							<property name="fileSize">
-								<long>70733</long>
+								<long>100848</long>
 							</property>
 							<property name="macBinary">
 								<boolean>false</boolean>
@@ -447,7 +447,7 @@ and any path to a file to save to the file]]></string>
 								<string><![CDATA[$USER_MAGIC_FOLDER_1$]]></string>
 							</property>
 							<property name="value">
-								<string><![CDATA[Research In Motion$/$BlackBerry WebWorks SDK for TabletOS $PRODUCT_VERSION_NUMBER$]]></string>
+								<string><![CDATA[/Developer$/$SDKs$/$Research In Motion$/$BlackBerry WebWorks SDK for TabletOS $PRODUCT_VERSION_NUMBER$]]></string>
 							</property>
 							<property name="passByValue">
 								<boolean>false</boolean>
@@ -1527,10 +1527,12 @@ When uninstalling the previous version, please make sure to back up the develope
 								<boolean>true</boolean>
 							</property>
 							<property name="waitForProcess">
-								<boolean>false</boolean>
+								<boolean>true</boolean>
 							</property>
 							<property name="script">
-								<string><![CDATA[chmod -R 775 "$USER_INSTALL_DIR$/bbwp/blackberry-tablet-sdk/bin"]]></string>
+								<string><![CDATA[chmod -R 775 "$USER_INSTALL_DIR$/bbwp/blackberry-tablet-sdk/bin"
+chmod -R 777 "$USER_INSTALL_DIR$/bbwp/blackberry-tablet-sdk/BlackBerryPlayBookSimulator-1.0.1"
+]]></string>
 							</property>
 							<property name="showIndeterminateDialog">
 								<boolean>false</boolean>
@@ -1762,7 +1764,7 @@ For information on configuration of the SDK please visit www.blackberry.com/deve
 						<object class="com.zerog.ia.installer.util.magicfolders.OptMF" factoryID="987" objectID="c8ff23018f38"/>
 					</property>
 					<property name="macXMagicFolder">
-						<object class="com.zerog.ia.installer.util.magicfolders.SystemDriveRootMF" factoryID="157" objectID="c8ff22f38f2e"/>
+						<object class="com.zerog.ia.installer.util.magicfolders.UserMagicFolder1MF" factoryID="992" objectID="464714228f3c"/>
 					</property>
 					<property name="win32MagicFolder">
 						<object class="com.zerog.ia.installer.util.magicfolders.ProgramsDirMF" factoryID="159" objectID="657b6212b365"/>
@@ -1771,7 +1773,7 @@ For information on configuration of the SDK please visit www.blackberry.com/deve
 						<string><![CDATA[RIM$/$BlackBerry WebWorks SDK for TabletOS $PRODUCT_VERSION_NUMBER$]]></string>
 					</property>
 					<property name="macXMagicFolderPath">
-						<string><![CDATA[Developer$/$SDKs$/$$USER_MAGIC_FOLDER_1$]]></string>
+						<string><![CDATA[]]></string>
 					</property>
 					<property name="win32MagicFolderPath">
 						<string><![CDATA[$USER_MAGIC_FOLDER_1$]]></string>
@@ -1850,7 +1852,7 @@ For information on configuration of the SDK please visit www.blackberry.com/deve
 										</object>
 									</method>
 									<method name="addElement">
-										<object class="com.zerog.ia.designer.build.BuildTarget" objectID="538afeb2abc3">
+										<object class="com.zerog.ia.designer.build.BuildTarget" objectID="4669802d9434">
 											<property name="type">
 												<int>0</int>
 											</property>
@@ -1915,7 +1917,7 @@ For information on configuration of the SDK please visit www.blackberry.com/deve
 								<boolean>true</boolean>
 							</property>
 							<property name="buildOutputLocation">
-								<string><![CDATA[C:\projects\webworks-snarf\installer\blackberry_webworks_sdk_Build_Output]]></string>
+								<string><![CDATA[C:\git4\webworks-snarf\installer\blackberry_webworks_sdk_Build_Output]]></string>
 							</property>
 							<property name="relatedProjectSettings">
 								<object class="com.zerog.ia.installer.RelatedProjectSettings" objectID="48a0dcf8928b">
@@ -2006,7 +2008,7 @@ For information on configuration of the SDK please visit www.blackberry.com/deve
 					</method>
 					<method name="put">
 						<string><![CDATA[com.zerog.ia.project.build.last.date]]></string>
-						<string><![CDATA[March 28, 2011 10:25:14 AM EDT]]></string>
+						<string><![CDATA[May 27, 2011 3:35:09 PM EDT]]></string>
 					</method>
 					<method name="put">
 						<string><![CDATA[com.zerog.ia.build.platform.windows.vm]]></string>
@@ -2078,7 +2080,7 @@ For information on configuration of the SDK please visit www.blackberry.com/deve
 					</method>
 					<method name="put">
 						<string><![CDATA[com.zerog.ia.project.save.last.date]]></string>
-						<string><![CDATA[May 13, 2011 3:47:43 PM EDT]]></string>
+						<string><![CDATA[May 30, 2011 11:20:21 AM EDT]]></string>
 					</method>
 					<method name="put">
 						<string><![CDATA[com.zerog.ia.build.options.optimization.platform.cdrom]]></string>
@@ -3243,7 +3245,7 @@ Thank you for choosing $PRODUCT_NAME$!]]></string>
 												<boolean>false</boolean>
 											</property>
 											<property name="totalSize">
-												<long>121758319</long>
+												<long>385929684</long>
 											</property>
 											<property name="unixPermissions">
 												<string><![CDATA[775]]></string>
@@ -3312,7 +3314,7 @@ Thank you for choosing $PRODUCT_NAME$!]]></string>
 												<boolean>false</boolean>
 											</property>
 											<property name="totalSize">
-												<long>246501</long>
+												<long>300486</long>
 											</property>
 											<property name="unixPermissions">
 												<string><![CDATA[775]]></string>
@@ -3381,7 +3383,7 @@ Thank you for choosing $PRODUCT_NAME$!]]></string>
 												<boolean>false</boolean>
 											</property>
 											<property name="totalSize">
-												<long>101084</long>
+												<long>118665</long>
 											</property>
 											<property name="unixPermissions">
 												<string><![CDATA[775]]></string>
@@ -3580,7 +3582,7 @@ Thank you for choosing $PRODUCT_NAME$!]]></string>
 														<string><![CDATA[bbwp.properties]]></string>
 													</property>
 													<property name="fileSize">
-														<long>0</long>
+														<long>365</long>
 													</property>
 													<property name="macBinary">
 														<boolean>false</boolean>
@@ -3608,6 +3610,7 @@ Thank you for choosing $PRODUCT_NAME$!]]></string>
 	<air_template>AirAppTemplates</air_template>
 	<tablet_sdk>$USER_INSTALL_DIR$/bbwp/blackberry-tablet-sdk</tablet_sdk>
 	<extension_repository>ext</extension_repository>
+	<debug_token></debug_token>
 </wcp>
 <!--]]></string>
 													</property>
@@ -3712,6 +3715,7 @@ Thank you for choosing $PRODUCT_NAME$!]]></string>
 	<air_template>AirAppTemplates</air_template>
 	<tablet_sdk>$USER_INSTALL_DIR$\bbwp\blackberry-tablet-sdk</tablet_sdk>
 	<extension_repository>ext</extension_repository>
+	<debug_token></debug_token>
 </wcp>
 <!--]]></string>
 													</property>
@@ -3899,7 +3903,7 @@ Thank you for choosing $PRODUCT_NAME$!]]></string>
 												<boolean>false</boolean>
 											</property>
 											<property name="totalSize">
-												<long>0</long>
+												<long>1545</long>
 											</property>
 											<property name="unixPermissions">
 												<string><![CDATA[775]]></string>
