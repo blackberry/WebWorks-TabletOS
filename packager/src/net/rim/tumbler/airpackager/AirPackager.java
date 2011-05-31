@@ -238,6 +238,8 @@ public class AirPackager {
             File bbtDes = new File(bindebugPath, FILE_BLACKBERRY_TABLET_XML);
             prepareBBTXML(bbt, bbtDes, iconPath, splashscreenFilename);
             
+            bbt.delete();
+            
             int size = fileList.size();
             String[] files = new String[size];
             int i = 2;
