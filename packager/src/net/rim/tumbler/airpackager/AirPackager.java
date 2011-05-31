@@ -550,7 +550,7 @@ public class AirPackager {
 
                 String[] permissions = _widgetConfig.getPermissions();
                 Boolean has_access_internet = false;
-                if (permissions.length > 0) {
+                if (permissions!=null && permissions.length > 0) {
                 	for (int i = 0; i<permissions.length; i++)
                 	{
 	                	Element curPer = d.createElement("action");
