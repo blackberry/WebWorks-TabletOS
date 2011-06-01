@@ -241,6 +241,8 @@ public class AirPackager {
             File bbtDes = new File(bindebugPath, FILE_BLACKBERRY_TABLET_XML);
             prepareBBTXML(bbt, bbtDes, iconPath, splashscreenFilename);
             
+            bbt.delete();
+            
             int size = fileList.size();
             String[] files = new String[size];
             int i = 2;
@@ -548,7 +550,7 @@ public class AirPackager {
 
                 String[] permissions = _widgetConfig.getPermissions();
                 Boolean has_access_internet = false;
-                if (permissions.length > 0) {
+                if (permissions!=null && permissions.length > 0) {
                 	for (int i = 0; i<permissions.length; i++)
                 	{
 	                	Element curPer = d.createElement("action");
