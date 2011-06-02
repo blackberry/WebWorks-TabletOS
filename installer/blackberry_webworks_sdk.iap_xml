@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- This script was automatically generated using InstallAnywhere 2010 Enterprise, Build 3972
      STATUS: Fully Functional LICENSED Edition
-     DATE:   Mon May 30 11:20:22 EDT 2011 -->
-<InstallAnywhere_Deployment_Project increments="3483">
+     DATE:   Thu Jun 02 09:29:43 EDT 2011 -->
+<InstallAnywhere_Deployment_Project increments="3567">
 	<!-- ** DO NOT EDIT ** Essential authorization and configuration data ** DO NOT EDIT ** -->
 	<essentialScriptInfo>
 		<versionID major="11" minor="5" revision="0"/>
@@ -10,9 +10,9 @@
 		<scriptID>12,42,11,70,49,57,54,74,78,74,74,78,72,45,69,68,74,45,75,70,74,74,70,78,78,69,74,88</scriptID>
 		<buildID>3,13,71,87,105,110,100,111,119,115,32,88,80,44,32,53,46,49,44,32,120,56,54,59,32,74,97,118,97,32,49,46,54,46,48,95,49,53,44,32,83,117,110,32,77,105,99,114,111,115,121,115,116,101,109,115,32,73,110,99,46,44,32,104,116,116,112,58,47,47,106,97,118,97,46,115,117,110,46,99,111,109,47,59,32,101,110,44,32,85,110,107,110,111,119,110,59,32,67,112,49,50,53,50</buildID>
 		<!-- The authorizationID may change between project saves and builds.  This does not effect the integrity of the project, nor do changes in this value represent changes in the actual InstallAnywhere project. -->
-		<authorizationID>1,0,0,48,67,127,-64,16,80,112,118,100,85,99,113,97,113,65,81,84,74,67,70,68,72,74,64,69,66,69,64,95,71,5,2,12,15,29,97,0,1,0,0</authorizationID>
+		<authorizationID>1,0,0,48,83,-113,-112,-128,80,112,118,100,85,99,113,97,113,65,81,84,74,67,70,68,72,74,64,69,66,69,64,95,71,5,2,2,5,27,96,0,1,0,0</authorizationID>
 	</essentialScriptInfo>
-	<installationObjects uniqueObjects="152">
+	<installationObjects uniqueObjects="154">
 		<object class="com.zerog.ia.installer.Installer" objectID="61c3cf33921d">
 			<property name="belongsToUninstallPhase">
 				<boolean>false</boolean>
@@ -447,7 +447,7 @@ and any path to a file to save to the file]]></string>
 								<string><![CDATA[$USER_MAGIC_FOLDER_1$]]></string>
 							</property>
 							<property name="value">
-								<string><![CDATA[/Developer$/$SDKs$/$Research In Motion$/$BlackBerry WebWorks SDK for TabletOS $PRODUCT_VERSION_NUMBER$]]></string>
+								<string><![CDATA[$/$Research In Motion$/$BlackBerry WebWorks SDK for TabletOS $PRODUCT_VERSION_NUMBER$]]></string>
 							</property>
 							<property name="passByValue">
 								<boolean>false</boolean>
@@ -1541,7 +1541,7 @@ chmod -R 777 "$USER_INSTALL_DIR$/bbwp/blackberry-tablet-sdk/BlackBerryPlayBookSi
 								<string><![CDATA[Executing Installation Script...]]></string>
 							</property>
 							<property name="comment">
-								<string><![CDATA[Fixing the bin permission]]></string>
+								<string><![CDATA[Fixing the bin permission (MAC)]]></string>
 							</property>
 							<property name="stdoutVar">
 								<string><![CDATA[$EXECUTE_STDOUT$]]></string>
@@ -1601,6 +1601,101 @@ chmod -R 777 "$USER_INSTALL_DIR$/bbwp/blackberry-tablet-sdk/BlackBerryPlayBookSi
 											</method>
 											<method name="addElement">
 												<string><![CDATA[Unlisted Platforms]]></string>
+											</method>
+										</object>
+									</property>
+								</object>
+							</rules>
+						</object>
+					</method>
+					<method name="addElement">
+						<object class="com.zerog.ia.installer.actions.ExecuteScript" objectID="55f8017a998a">
+							<property name="belongsToUninstallPhase">
+								<boolean>false</boolean>
+							</property>
+							<property name="rollbackEnabledCancel">
+								<boolean>true</boolean>
+							</property>
+							<property name="rollbackEnabledError">
+								<boolean>true</boolean>
+							</property>
+							<property name="showPleaseWaitPanel">
+								<boolean>true</boolean>
+							</property>
+							<property name="waitForProcess">
+								<boolean>true</boolean>
+							</property>
+							<property name="script">
+								<string><![CDATA[echo y | cacls "$USER_INSTALL_DIR$/bbwp" /t /p Everyone:f
+]]></string>
+							</property>
+							<property name="showIndeterminateDialog">
+								<boolean>false</boolean>
+							</property>
+							<property name="dialogLabel">
+								<string><![CDATA[Executing Installation Script...]]></string>
+							</property>
+							<property name="comment">
+								<string><![CDATA[Fixing the bin permission (WINDOWS)]]></string>
+							</property>
+							<property name="stdoutVar">
+								<string><![CDATA[$EXECUTE_STDOUT$]]></string>
+							</property>
+							<property name="stderrVar">
+								<string><![CDATA[$EXECUTE_STDERR$]]></string>
+							</property>
+							<property name="exitCodeVar">
+								<string><![CDATA[$EXECUTE_EXITCODE$]]></string>
+							</property>
+							<rules logicalOperation="AND">
+								<object class="com.zerog.ia.installer.rules.PlatformChk" objectID="55f8017b998a">
+									<property name="belongsToUninstallPhase">
+										<boolean>false</boolean>
+									</property>
+									<property name="rollbackEnabledCancel">
+										<boolean>true</boolean>
+									</property>
+									<property name="rollbackEnabledError">
+										<boolean>true</boolean>
+									</property>
+									<property name="installOnPlatformList">
+										<object class="java.util.Vector">
+											<method name="addElement">
+												<string><![CDATA[^Windows.*]]></string>
+											</method>
+										</object>
+									</property>
+									<property name="doNotInstallOnPlatformList">
+										<object class="java.util.Vector">
+											<method name="addElement">
+												<string><![CDATA[Solaris]]></string>
+											</method>
+											<method name="addElement">
+												<string><![CDATA[SunOS]]></string>
+											</method>
+											<method name="addElement">
+												<string><![CDATA[HP-UX]]></string>
+											</method>
+											<method name="addElement">
+												<string><![CDATA[AIX]]></string>
+											</method>
+											<method name="addElement">
+												<string><![CDATA[FreeBSD]]></string>
+											</method>
+											<method name="addElement">
+												<string><![CDATA[NetWare]]></string>
+											</method>
+											<method name="addElement">
+												<string><![CDATA[OS/400]]></string>
+											</method>
+											<method name="addElement">
+												<string><![CDATA[Unlisted Platforms]]></string>
+											</method>
+											<method name="addElement">
+												<string><![CDATA[Linux]]></string>
+											</method>
+											<method name="addElement">
+												<string><![CDATA[Mac OS X]]></string>
 											</method>
 										</object>
 									</property>
@@ -1764,7 +1859,7 @@ For information on configuration of the SDK please visit www.blackberry.com/deve
 						<object class="com.zerog.ia.installer.util.magicfolders.OptMF" factoryID="987" objectID="c8ff23018f38"/>
 					</property>
 					<property name="macXMagicFolder">
-						<object class="com.zerog.ia.installer.util.magicfolders.UserMagicFolder1MF" factoryID="992" objectID="464714228f3c"/>
+						<object class="com.zerog.ia.installer.util.magicfolders.SystemDriveRootMF" factoryID="157" objectID="5fd1487d98f0"/>
 					</property>
 					<property name="win32MagicFolder">
 						<object class="com.zerog.ia.installer.util.magicfolders.ProgramsDirMF" factoryID="159" objectID="657b6212b365"/>
@@ -1773,7 +1868,7 @@ For information on configuration of the SDK please visit www.blackberry.com/deve
 						<string><![CDATA[RIM$/$BlackBerry WebWorks SDK for TabletOS $PRODUCT_VERSION_NUMBER$]]></string>
 					</property>
 					<property name="macXMagicFolderPath">
-						<string><![CDATA[]]></string>
+						<string><![CDATA[Developer$/$SDKs$/$$USER_MAGIC_FOLDER_1$]]></string>
 					</property>
 					<property name="win32MagicFolderPath">
 						<string><![CDATA[$USER_MAGIC_FOLDER_1$]]></string>
@@ -1955,6 +2050,10 @@ For information on configuration of the SDK please visit www.blackberry.com/deve
 			<property name="buildSettings">
 				<object class="java.util.Properties">
 					<method name="put">
+						<string><![CDATA[com.zerog.ia.build.platform.windows.vista.execlevel]]></string>
+						<string><![CDATA[2]]></string>
+					</method>
+					<method name="put">
 						<string><![CDATA[com.zerog.ia.build.platform.hpux.novm]]></string>
 						<string><![CDATA[false]]></string>
 					</method>
@@ -2008,7 +2107,7 @@ For information on configuration of the SDK please visit www.blackberry.com/deve
 					</method>
 					<method name="put">
 						<string><![CDATA[com.zerog.ia.project.build.last.date]]></string>
-						<string><![CDATA[May 27, 2011 3:35:09 PM EDT]]></string>
+						<string><![CDATA[June 1, 2011 2:36:23 PM EDT]]></string>
 					</method>
 					<method name="put">
 						<string><![CDATA[com.zerog.ia.build.platform.windows.vm]]></string>
@@ -2080,19 +2179,19 @@ For information on configuration of the SDK please visit www.blackberry.com/deve
 					</method>
 					<method name="put">
 						<string><![CDATA[com.zerog.ia.project.save.last.date]]></string>
-						<string><![CDATA[May 30, 2011 11:20:21 AM EDT]]></string>
+						<string><![CDATA[June 2, 2011 9:29:42 AM EDT]]></string>
 					</method>
 					<method name="put">
 						<string><![CDATA[com.zerog.ia.build.options.optimization.platform.cdrom]]></string>
 						<string><![CDATA[false]]></string>
 					</method>
 					<method name="put">
-						<string><![CDATA[com.zerog.ia.installer.options.platform.unix.ui.default]]></string>
-						<string><![CDATA[GUI]]></string>
-					</method>
-					<method name="put">
 						<string><![CDATA[com.zerog.ia.installer.options.heap.size.initial]]></string>
 						<string><![CDATA[16777216]]></string>
+					</method>
+					<method name="put">
+						<string><![CDATA[com.zerog.ia.installer.options.platform.unix.ui.default]]></string>
+						<string><![CDATA[GUI]]></string>
 					</method>
 					<method name="put">
 						<string><![CDATA[com.zerog.ia.build.options.output.merge]]></string>
