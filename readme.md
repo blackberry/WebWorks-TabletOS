@@ -14,18 +14,11 @@ The project is Open Sourced under the Apache 2.0 license [http://github.com/blac
 ## Downloads
 Full installers for Mac and Windows can be found on the [product download page](http://us.blackberry.com/developers/tablet/webworks.jsp)
 
-## Installation Guides 
-You can also find the installation guides for both Mac and Windows.  These are simple step by step guides to ensure that your development environment is setup correctly without complication. 
-
-* [Windows Install Guide]( http://docs.blackberry.com/en/developers/deliverables/23979/)
-* [Mac Install Guide]( http://docs.blackberry.com/en/developers/deliverables/23978/)
-
-
 ## Reference Material &amp; Community
 You can also find associated reference material for the BlackBerry WebWorks platform as well as community forums for building and contributing to the BlackBerry WebWorks project
 
 * [API Reference](http://www.blackberry.com/developers/docs/webworks/api/playbook/)
-* [Developer Guides](http://docs.blackberry.com/en/developers/subcategories/?userType=21&category=BlackBerry+WebWorks+SDK+for+Tablet+OS)
+* [Installation and Developer Guides](http://docs.blackberry.com/en/developers/subcategories/?userType=21&category=BlackBerry+WebWorks+SDK+for+Tablet+OS)
 * [Community Forums](http://supportforums.blackberry.com/t5/Web-Development/bd-p/browser_dev)
 * [Project Contributor Forums](http://supportforums.blackberry.com/t5/BlackBerry-WebWorks/bd-p/ww_con)
 * [Open Source Project Contributor Forums](http://supportforums.blackberry.com/t5/BlackBerry-WebWorks/bd-p/ww_con)
