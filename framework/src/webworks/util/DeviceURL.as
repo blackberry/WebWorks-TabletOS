@@ -40,6 +40,14 @@ package webworks.util
 		}
 		
 		/**
+		 * Returns true if the URI to which a request was made is a child of the services constant
+		 */
+		public function isService():Boolean
+		{
+			return _uri.authority == "service"; 
+		}
+		
+		/**
 		 * The raw query string, everything after the first '?' character, and up to the '#' if it exists.
 		 */
 		public function get query():String

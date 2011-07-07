@@ -24,6 +24,8 @@ package webworks
 	import webworks.config.ConfigData;
 	import webworks.errors.WebWorksError;
 	import webworks.extension.IApiExtension;
+	import webworks.service.IWebWorksService;
+	import webworks.service.ServiceManager;
 	import webworks.util.DeviceURL;
 	import webworks.webkit.WebkitEvent;
 	
@@ -34,11 +36,13 @@ package webworks
 	*/
 	public class FunctionBroker extends EventDispatcher
 	{
-		private var webView:QNXStageWebView;
+		private var _serviceManager:ServiceManager;
+		private var _webView:QNXStageWebView;
 		
-		public function FunctionBroker(webview:QNXStageWebView, target:IEventDispatcher=null)
+		public function FunctionBroker(webview:QNXStageWebView, serviceManager:ServiceManager, target:IEventDispatcher=null)
 		{
-			webView = webview;
+			_serviceManager = serviceManager;
+			_webView = webview;
 			super(target);
 		}		
 
@@ -53,7 +57,7 @@ package webworks
 		public function handleXHRRequest(obj:Object):String
 		{	
 			
-			if ( webView == null )
+			if ( _webView == null )
 				throw new WebWorksError(WebWorksError.SERVER_ERROR);
 			
 			var deviceUrl:String = null;			
@@ -79,18 +83,35 @@ package webworks
 			if ( deviceUrl == null || !device.isDeviceProtocol())
 				throw new WebWorksError(WebWorksError.BAD_REQUEST);
 
-			//validate the feature
-			if ( ConfigData.getInstance().isFeatureAllowed(device.featureName, webView.location))
+			//If it's a service call, skip validation
+			if( device.isService()) 
 			{
-				var extension:IApiExtension = ConfigData.getInstance().getExtension(device.featureName);
-				if ( extension != null )
-					return extension.invokeFunction(device.methodName, device.unescapedQuery);
-				else								
-					throw new WebWorksError(WebWorksError.NOT_IMPLEMENTED);				
+				var service:IWebWorksService = _serviceManager.getEndPointForMethod(deviceUrl);
+				
+				if(service != null)
+				{
+					return service.execute(device.methodName, device.parametersAsObject).json;
+				}
+				else 
+				{
+					throw new WebWorksError(WebWorksError.NOT_IMPLEMENTED);
+				}
 			}
-			else
-			{			
-				throw new WebWorksError(WebWorksError.FORBIDDEN);				
+			else 
+			{
+				//validate the feature
+				if ( ConfigData.getInstance().isFeatureAllowed(device.featureName, _webView.location))
+				{
+					var extension:IApiExtension = ConfigData.getInstance().getExtension(device.featureName);
+					if ( extension != null )
+						return extension.invokeFunction(device.methodName, device.unescapedQuery);
+					else								
+						throw new WebWorksError(WebWorksError.NOT_IMPLEMENTED);				
+				}
+				else
+				{			
+					throw new WebWorksError(WebWorksError.FORBIDDEN);				
+				}
 			}
 		}	
 	}	

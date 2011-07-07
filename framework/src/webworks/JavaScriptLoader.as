@@ -56,18 +56,24 @@ package webworks
 				var features:Array = access.getFeatures();
 				var extension:IApiExtension;
 				var paths:Array;
+				
+				//sort features in white list in ascending order
+				//when APIs get loaded in JavaScript, we must load parent namespace before child namespace
+				//e.g. a.b must be loaded before a.b.c, otherwise a.b.c gets overwritten by a.b
+				features.sortOn("id");
+				
 				for(var index:String in features)
 				{
 					var feature:Feature = features[index] as Feature;
 					if ( feature == null )
 						continue;
-					var widgetExt:Object = ConfigData.getInstance().getWidgetExtension(feature.getID());
+					var widgetExt:Object = ConfigData.getInstance().getWidgetExtension(feature.id);
 					if ( widgetExt != null )
 					{
 						//call loadFeature() of the extension
 						extension = widgetExt[ConfigConstants.ENTRYCLASS] as IApiExtension;
 						if ( extension != null )
-							extension.loadFeature(feature.getID(), feature.getVersion());
+							extension.loadFeature(feature.id, feature.version);
 						//register js files for the feature
 						paths = widgetExt[ConfigConstants.REQUIREDJSFILES] as Array;
 						jsfiles = jsfiles.concat(paths);

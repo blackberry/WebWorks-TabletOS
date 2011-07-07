@@ -97,6 +97,13 @@ package json
 				// call the helper method to convert an array
 				return arrayToString( value as Array );
 			}
+			else if ( value is Date )
+			{
+				var d:Date = value as Date;
+				
+				// return number of milliseconds since UTC
+				return d.time.toString();
+			}
 			else if ( value is Object && value != null )
 			{
 				// call the helper method to convert an object

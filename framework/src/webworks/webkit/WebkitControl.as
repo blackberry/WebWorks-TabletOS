@@ -24,7 +24,7 @@ package webworks.webkit
 	import flash.net.URLRequestHeader;
 	import flash.sensors.Geolocation;
 	import flash.utils.*;
-	
+	import flash.filesystem.*;
 	import qnx.display.IowWindow;
 	import qnx.events.ExtendedLocationChangeEvent;
 	import qnx.events.NetworkResourceRequestedEvent;
@@ -32,11 +32,14 @@ package webworks.webkit
 	import qnx.events.WebViewEvent;
 	import qnx.events.WindowObjectClearedEvent;
 	import qnx.media.QNXStageWebView;
+	import qnx.fullscreen.FullscreenClient;
 	
 	import webworks.JavaScriptLoader;
 	import webworks.access.Access;
 	import webworks.config.ConfigConstants;
 	import webworks.config.ConfigData;
+	import webworks.fullScreenView.FullScreenView;
+	import webworks.uri.URI;
 	import webworks.util.Utilities;
 	
 	public class WebkitControl extends Sprite
@@ -46,6 +49,7 @@ package webworks.webkit
         private var _uniqueID:String;
         private var _windowObj:IowWindow;
 		private var _javascriptLoader:JavaScriptLoader;
+		private var _fsView:FullScreenView;
 		
 		public function WebkitControl(creationID:Number, appStage:Stage) {
 			_creationID = creationID;
@@ -82,6 +86,10 @@ package webworks.webkit
 			
 			//Create the webview with our default settings and register the events we need
 			_webView = createWebview(defaultSettings, events);
+			
+			_fsView = new FullScreenView(fullscreenClientGet() );
+  			_fsView.addEventListener(WebkitEvent.FULL_SCREEN_ENTER, addFullScreenView);
+  			_fsView.addEventListener(WebkitEvent.FULL_SCREEN_EXIT, onExitFullScreenView);
 		}
 		
 		private function createWebview(defaultSettings:Object, events:Dictionary):QNXStageWebView
@@ -161,7 +169,32 @@ package webworks.webkit
 				Utilities.alert(event.location + " is not allowed", _webView);
 			}
 			else
-				dispatchEvent(new WebkitEvent(WebkitEvent.TAB_LOCATION_CHANGING, event));		
+			{
+				var requestURI:URI  = new URI(event.location);
+				var geolocation:Geolocation = new Geolocation();
+				var file:File = File.applicationDirectory;
+				trace(file.toString());
+				if (!geolocation.muted)
+				{
+					var baseUrl:String;
+					if (requestURI.scheme == "http")
+					{
+						baseUrl = requestURI.scheme + "://" + requestURI.authority;
+					}
+					else
+						if (requestURI.scheme == "local")
+						{
+							baseUrl = requestURI.scheme + "://";
+						}
+					else
+						if (requestURI.scheme == "file")
+						{
+							baseUrl = requestURI.scheme + "://";
+						}					
+					_webView.updateGeolocationFilter(baseUrl,true);
+				}
+				dispatchEvent(new WebkitEvent(WebkitEvent.TAB_LOCATION_CHANGING, event));
+			}
 		}
 		               
         private function htmlEventBrowserCreated(event:WebViewEvent):void
@@ -204,11 +237,32 @@ package webworks.webkit
 		{
 			return _webView;
 		}
+		
+		public function get viewPort():Rectangle
+		{
+			return _webView.viewPort;
+		}
 
 		private function onJavaScriptWindowObjectCleared(event:WindowObjectClearedEvent):void{
 			event.preventDefault();
 			_javascriptLoader.registerJavaScript(_webView.location, event);
 			trace("window object cleared event");
 		}
+		
+  		private function fullscreenClientGet():FullscreenClient
+  		{
+  			return _webView.fullscreenClientGet();
+  		}
+  	
+  		private function addFullScreenView(event:WebkitEvent):void
+  		{
+  			addChild(_fsView);
+  			_webView.zOrder = -1;
+  		}
+  		
+  		private function onExitFullScreenView(event:WebkitEvent): void
+  		{
+  			_webView.zOrder = 0;
+ 		}
 	}
 }
