@@ -54,9 +54,13 @@ package webworks.extension
 			
 			//If a "method" that does not exist is called a reference error will be thrown,  
 			// we will catch this in the WebWorksAppTemplate
-			myReturn = this[method].apply(this, _paramValues);		
-		
+			myReturn = resolveMethod(method).apply(this, _paramValues);		
+			
 			return JSON.encode(myReturn);
+		}
+		
+		protected function resolveMethod(method:String):Function {
+			return this[method];
 		}
 		
 		protected function get query() : String {
@@ -89,13 +93,20 @@ package webworks.extension
 			return (index < 0) ? null : _paramValues[index];
 		}
 		
-		protected function evalJavaScriptEvent(id:String,params:Array) : void {
+		protected function evalJavaScriptEvent(id:String,params:Array) : void 
+		{
 			var javaScript:String = "blackberry.events.getEventHandler("+id+")(";
 			
-			for (var i:Number=0; i<params.length;i++){
-				if(i== 0){
+			params = encodeEventParams(params);
+			
+			for (var i:Number=0; i<params.length;i++)
+			{
+				if(i== 0)
+				{
 					javaScript += params[i];
-				}else{
+				} 
+				else
+				{
 					javaScript += ","+ params[i];					
 				}				
 			}
@@ -105,12 +116,24 @@ package webworks.extension
 			this.webView.executeJavaScript(javaScript);			 
 		} 
 		
+		private function encodeEventParams(params:Array):Array
+		{
+			var jsonParams:Array = [];
+			
+			for each (var p:Object in params)
+			{
+				jsonParams.push(JSON.encode(p));
+			}
+			
+			return jsonParams;
+		}
+		
 		private function getParamKVArray(keyValuePairs : Array) : Array {
 			var keys : Array = new Array();
 			var values : Array = new Array();
 			
 			for (var i : int = 0; i < keyValuePairs.length; i++) {
-			
+				
 				var decompParam : Array = keyValuePairs[i].split("=");
 				keys.push(decompParam[0]);
 				values.push(unescape(decompParam[1]));				

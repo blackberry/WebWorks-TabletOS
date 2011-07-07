@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<library>
+	<extension id="blackberry.app">
+		<entryClass>blackberry.application.Application</entryClass>
+	</extension>
+
+	<platforms>
+		<platform value="AIR">
+			<target version="default" config="AIR_XHR" />
+		</platform>
+	</platforms>
+
+	<configurations>
+		<configuration name="AIR_XHR" version="1.0" comment="For XHR architecture for Java implementation">			
+			<src type="text/javascript" path="js/common/app_dispatcher.js" comment="Application JS XHR dispatcher" />
+			<src type="text/javascript" path="js/common/app_ns.js" comment="Application JS interface" />			
+			<src type="text/actionscript" path="src/Air/Application/src" comment="ActionScript implementation" />
+		</configuration>
+	</configurations>
+	
+	<features>
+		<feature id="blackberry.app" version="1.0.0" />
+	</features>
+</library>
