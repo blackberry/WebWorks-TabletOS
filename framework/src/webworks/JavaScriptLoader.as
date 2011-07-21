@@ -145,9 +145,6 @@ package webworks
 			//Finally delete the loader from the blackberry namespace to avoid polluting
 			removeLoader();
 			
-			//Finally delete the loader from the blackberry namespace to avoid polluting
-			removeLoader();
-			
 			dispatchEvent(event);
 		}
 		
