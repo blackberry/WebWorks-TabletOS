@@ -1,0 +1,38 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+
+<html>
+
+	<head>
+
+	    <meta name="viewport" id="viewport" content="initial-scale=1.0,user-scalable=yes" />
+
+		<title>Test text attribute change</title>
+
+		<script>
+		
+		
+		window.addEventListener("devicemotion", function(event) {
+          // Process event.acceleration, event.accelerationIncludingGravity,
+          // event.rotationRate and event.interval
+		  document.getElementById('outputA').innerHTML = event.rotationRate.alpha;
+		  document.getElementById('outputB').innerHTML = event.rotationRate.beta;
+		  document.getElementById('outputG').innerHTML = event.rotationRate.gamma;
+      }, true);
+</script>
+
+	</head>
+
+	<body>
+
+		Current Rotation Rate: <br/><br/>
+		<b>Alpha: <label id="outputA" >If you can see this,</div></b><br/>
+	<b>Beta: <label id="outputB" >this function</div></b><br/>
+	<b>Gamma: <label id="outputG" >is not supported</div></b><br/>
+	
+        <p>RotationRate should be measurable</p>
+
+		
+	</body>
+
+</html>

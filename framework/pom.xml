@@ -16,6 +16,16 @@
 		<bbwpjar.dir>${project.build.directory}/bbwpjar</bbwpjar.dir>
 	</properties>
 
+	<dependencies>
+	    <dependency>
+			<groupId>net.rim.snarf</groupId>
+			<artifactId>packager</artifactId>
+			<version>${project.parent.version}-SNAPSHOT</version>
+			<type>jar</type>
+			<scope>runtime</scope>
+		</dependency>		
+	</dependencies>
+
     <build>
         <!--<sourceDirectory>src</sourceDirectory>-->
         <directory>target</directory>
@@ -47,7 +57,7 @@
 						<artifactItem>
 						  <groupId>net.rim.snarf</groupId>
 						  <artifactId>macexe</artifactId>
-						  <version>1.0.1</version>
+						  <version>1.0.2</version>
 						  <type>exe</type>
 						  <overWrite>true</overWrite>
 						  <outputDirectory>${nativeLauncher.dir}</outputDirectory>

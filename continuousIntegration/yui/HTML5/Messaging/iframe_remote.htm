@@ -1,0 +1,18 @@
+<html>
+<b>This iframe is located on daniel yu's pc</b>
+<div id="test">Send me a message!</div>
+<script>
+remote_path = "http://atg05-yyz.rim.net";
+my_path2 = "http://yoyu-xp:88" ;
+window.addEventListener('message', function(e){
+		if((e.origin == remote_path) || (e.origin == "http://atg05-yyz") || (e.origin == my_path2)){
+			document.getElementById("test").textContent = e.origin + " said: " + e.data + " : " + e.ports + " : " + e.source;
+			e.source.postMessage('hello Yong Yu from remote', e.origin);
+		}
+		else{
+			document.getElementByID("test").textContent = "Wrong origin domain!";
+		}
+
+}, false);
+</script>
+</html>

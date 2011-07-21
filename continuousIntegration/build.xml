@@ -1,0 +1,109 @@
+<project name="YUITest" basedir="." default="runtest">
+
+    <property file="test.properties"/>
+    <property name="testDir" value="${basedir}/test"/>
+    <property name="resultFile" value="${basedir}/${product.version}.xml"/>
+    <property name="InstallerData.dir" value="${basedir}/../installer/installerdata"/>
+    <property name="bbwp.dir" value="${InstallerData.dir}/bbwp"/>
+    <property name="blackberry.tablet.sdk.dir" value="${InstallerData.dir}/blackberry-tablet-sdk"/>
+    <property name="time.out" value="300000"/>
+
+    <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask" classpath="lib/xmltask.jar"/>
+    <taskdef name="YUIConverterAntTask" classname="net.rim.snarf.yui.YUITestReportConverterAntTask" classpath="lib/YUIConverter.jar"/>
+
+
+    <target name="init">
+        <delete dir="test" quiet="true" includeemptydirs="true"/>
+        <delete dir="report" quiet="true" />
+        <delete file="${reportFile}" quiet="true" />
+        <mkdir dir="report"/>
+    </target>
+
+    <target name="runtest" depends="init, prepareArtifacts, configProperties">
+
+        <zip destfile="${testDir}/YUITest.zip" basedir="YUITest"/>
+        <exec executable="cmd">
+            <arg value="/c"/>
+            <arg value="${testDir}/bbwp.exe"/>
+            <arg value="${testDir}/YUITest.zip"/>
+            <arg value="-o"/>
+            <arg value="${testDir}"/>
+        </exec>
+
+        <parallel>
+            <daemons>
+                <exec executable="${PythonCmd}" timeout="${time.out}">
+                    <arg value="${basedir}/server.py"/>
+                </exec>
+            </daemons>
+            <sequential>
+                <echo message="Sleeping for 5 s "/>
+                <sleep seconds="5"/> <!-- Give the python server a few seconds to start up -->
+                <exec executable="cmd">
+                    <arg value="/c"/>
+                    <arg value="${testDir}/blackberry-tablet-sdk/bin/blackberry-deploy.bat"/>
+                    <arg value="-installApp"/>
+                    <arg value="-launchApp"/>
+                    <arg value="-password"/>
+                    <arg value="${SIM_PASSWORD}"/>
+                    <arg value="-device"/>
+                    <arg value="${SIM_IP}"/>
+                    <arg value="-package"/>
+                    <arg value="${testDir}/YUITest.bar"/>
+                </exec>
+                <echo message="start"/>
+                <waitfor maxwait="${time.out}" maxwaitunit="millisecond">
+                    <available file="${resultFile}"/>
+                </waitfor>
+                <copy file="${resultFile}" todir="${basedir}/report/"/>
+                <YUIConverterAntTask testReportPath="${basedir}/report/${product.version}.xml"/>
+                <mkdir dir="${basedir}/../installer/target/surefire-reports"/>
+                <copy todir="${basedir}/../installer/target/surefire-reports">
+                    <fileset dir="report">
+                        <exclude name="${product.version}.xml"/>
+                    </fileset>
+                </copy>
+                <echo message="done"/>
+            </sequential>
+        </parallel>
+    </target>
+    <target name="prepareArtifacts">
+        <mkdir dir="${testDir}"/>
+        <copy todir="${testDir}">
+            <fileset dir="${bbwp.dir}"/>
+        </copy>
+        <copy todir="${testDir}/blackberry-tablet-sdk">
+            <fileset dir="${blackberry.tablet.sdk.dir}"/>
+        </copy>
+        <copy todir="${testDir}/blackberry-tablet-sdk/frameworks" overwrite="true">
+            <fileset dir="${AdobeAir.dir}/frameworks"/>
+        </copy>
+    </target>
+    <target name="configProperties">
+        <property name="url" value="http://${PythonServerIP}:${PythonServerPort}/yui/index.htm?hudson=true&amp;buildId=${product.version}"/>
+        <echo message="content url: ${url}"/>
+        <xmltask source="${testDir}/bin/bbwp.properties" dest="${testDir}/bin/bbwp.properties.new">
+            <replace path="/wcp/tablet_sdk/text()" withText="${testDir}/blackberry-tablet-sdk"/>
+        </xmltask>
+        <copy file="${testDir}/bin/bbwp.properties.new" tofile="${testDir}/bin/bbwp.properties"/>
+        <xmltask source="${basedir}/YUITest/config.xml" dest="${basedir}/YUITest/config.xml.new">
+            <replace path="/:widget/:access/@uri" withText="http://${PythonServerIP}:${PythonServerPort}/yui"/>
+            <replace path="/:widget/:content/@src" withText="http://${PythonServerIP}:${PythonServerPort}/yui/index.htm?hudson=true&amp;buildId=${product.version}"/>
+        </xmltask>
+        <copy file="${basedir}/YUITest/config.xml.new" tofile="${basedir}/YUITest/config.xml"/>
+        <copy file="${basedir}/YUITest/index.html_temp" tofile="${basedir}/YUITest/index.html" overwrite="true">
+            <filterset begintoken="@" endtoken="@">
+                <filter token="REFRESH_URL" value="${url}"/>
+            </filterset>
+        </copy>
+                
+        <echo message="@pythonServerIP@ ${PythonServerIP}"/>
+        <echo message="@pythonServerPort ${PythonServerPort}"/>
+
+        <replace file="${basedir}/yui/YUIHarness.js" token="@pythonServerIP@" value="${PythonServerIP}"/>
+        <replace file="${basedir}/yui/YUIHarness.js" token="@pythonServerPort@" value="${PythonServerPort}"/>
+
+        <replace file="${basedir}/server.py" token="@pythonServerIP@" value="${PythonServerIP}"/>
+        <replace file="${basedir}/server.py" token="@pythonServerPort@" value="${PythonServerPort}"/>
+    </target>    
+</project>

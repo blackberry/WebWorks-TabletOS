@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<library>
+	<extension id="blackberry.utils">
+		<entryClass>blackberry.utils.Utilities</entryClass>
+	</extension>
+	
+	<platforms>
+		<platform value="AIR">
+			<target version="default" config="JS_ONLY" />
+		</platform>
+	</platforms>
+
+	<configurations>
+		<configuration name="JS_ONLY" version="1.0" comment="JavaScript only implementation">			
+			<src type="text/javascript" path="js/common/utilities_ns.js" comment="Utilities JS implementation" />
+			<src type="text/actionscript" path="src/Air/Utilities/src" comment="ActionScript implementation" />
+		</configuration>
+	</configurations>
+	
+	<features>
+		<feature id="blackberry.utils" version="1.0.0" />
+    </features>
+</library>

@@ -1,65 +1,57 @@
 /*
- * Copyright 2010 Research In Motion Limited.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+* Copyright 2010-2011 Research In Motion Limited.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
 package
 {
 	import flash.desktop.NativeApplication;
-	import flash.display.Bitmap;
-	import flash.display.Shape;
 	import flash.display.Sprite;
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
 	import flash.events.Event;
-	import flash.events.IOErrorEvent;
-	import flash.events.LocationChangeEvent;
-	import flash.filesystem.File;
-	import flash.utils.ByteArray;
-	import flash.utils.Dictionary;
+	import flash.events.StageOrientationEvent;
+	import flash.geom.Rectangle;
+	import flash.utils.*;
 	
 	import qnx.dialog.AlertDialog;
-	import qnx.dialog.DialogSize;
-	import qnx.display.IowWindow;
 	import qnx.events.ExtendedLocationChangeEvent;
-	import qnx.events.JavaScriptCallbackEvent;
 	import qnx.events.UnknownProtocolEvent;
-	import qnx.events.WebViewEvent;
 	
 	import webworks.FunctionBroker;
-	import webworks.JavaScriptLoader;
-	import webworks.access.Access;
 	import webworks.config.ConfigConstants;
 	import webworks.config.ConfigData;
+	import webworks.errors.HTTPErrorMapping;
 	import webworks.extension.IApiExtension;
 	import webworks.loadingScreen.LoadingScreen;
 	import webworks.loadingScreen.Transitions;
-	import webworks.policy.WidgetPolicy;
-	import webworks.uri.URI;
+	import webworks.service.ServiceManager;
 	import webworks.webkit.WebkitControl;
 	import webworks.webkit.WebkitEvent;
+	
 
 	[SWF(width="1024", height="600", frameRate="30", backgroundColor="#000000")]
 	public class WebWorksAppTemplate extends Sprite
 	{
 		private static var LOCAL_PROTOCOL:String = "local:///";
 		
-		private var entryURL:String;
-		private var webWindow:WebkitControl;
-        private var errorDialog:AlertDialog;
-		private var loadingScreen:LoadingScreen;
-		private var transitions:Transitions;
- 		private var broker:FunctionBroker;
+		private var _entryURL:String;
+		private var _webWindow:WebkitControl;
+        private var _errorDialog:AlertDialog;
+		private var _loadingScreen:LoadingScreen;
+		private var _transitions:Transitions;
+ 		private var _broker:FunctionBroker;
+		private var _serviceManager:ServiceManager;
 		
 		public function WebWorksAppTemplate() 
         {			
@@ -73,7 +65,8 @@ package
 		private function init(e:Event = null):void 
         {
 			removeEventListener(Event.ADDED_TO_STAGE, init);
-			entryURL = ConfigData.getInstance().getProperty(ConfigConstants.CONTENT);
+			stage.addEventListener(StageOrientationEvent.ORIENTATION_CHANGE, onOrientationChange); 
+			_entryURL = ConfigData.getInstance().getProperty(ConfigConstants.CONTENT);
 			NativeApplication.nativeApplication.addEventListener(Event.ACTIVATE, appActive);
 			NativeApplication.nativeApplication.addEventListener(Event.DEACTIVATE, appBackground);
 			appInitialized();
@@ -82,7 +75,7 @@ package
 		private function appActive(event:Event):void 
         {
 			stage.frameRate = 30;
-			webWindow.visible = true;
+			_webWindow.visible = true;
 			trace("Increased Framerate to " + stage.frameRate + " | " + event);
 		}
 		
@@ -96,12 +89,19 @@ package
         {
 			setupStage();
 			setupWebkit();
-			ConfigData.getInstance().setProperty(ConfigConstants.ENV_WEBVIEW, webWindow.qnxWebView);
+			
+			ConfigData.getInstance().setProperty(ConfigConstants.ENV_WEBVIEW, _webWindow.qnxWebView);
 			ConfigData.getInstance().setProperty(ConfigConstants.ENV_APPLICATION, this);
-			loadingScreen = new LoadingScreen(0,0, stage.stageWidth,stage.stageHeight);
-			transitions = new Transitions(loadingScreen);
-			broker = new FunctionBroker(webWindow.qnxWebView);
-			registerExtensions(ConfigData.getInstance().properties);
+               
+            _loadingScreen = new LoadingScreen(0,0, stage.stageWidth,stage.stageHeight);
+			_transitions = new Transitions(_loadingScreen, _webWindow.viewPort);
+			_serviceManager = new ServiceManager(_webWindow);
+			_broker = new FunctionBroker(_webWindow.qnxWebView, _serviceManager);
+			
+			var configProperties:Dictionary = ConfigData.getInstance().properties;
+			configProperties["serviceManager"] = _serviceManager;
+			
+			registerExtensions(configProperties);
 		}
 		
 		private function registerExtensions(env:Dictionary):void
@@ -127,15 +127,16 @@ package
 		private function setupWebkit():void 
         {
             var creationID:Number = int(Math.random() * 1000000) + new Date().time;
-            webWindow = new WebkitControl(creationID, 0, 0, stage.stageWidth,  stage.stageHeight);
+            _webWindow = new WebkitControl(creationID, stage);
+			_webWindow.setViewPort(new Rectangle(0, 0, stage.stageWidth,  stage.stageHeight));
 
-			webWindow.addEventListener(WebkitEvent.TAB_LOAD_COMPLETE, tabLoadComplete);
-			webWindow.addEventListener(WebkitEvent.TAB_LOAD_ERROR, webkitLoadError);
-            webWindow.addEventListener(WebkitEvent.WEBVIEW_CREATED, webkitWindowReady);
- 			webWindow.addEventListener(WebkitEvent.TAB_LOCATION_CHANGING, webkitLocationChanging);
-			webWindow.addEventListener(WebkitEvent.TAB_LOCATION_CHANGED, webkitLocationChanged);
-			webWindow.addEventListener(WebkitEvent.TAB_UNKNOWNPROTOCOL, handleUnknownProtocol)
- 			addChild(webWindow);
+			_webWindow.addEventListener(WebkitEvent.TAB_LOAD_COMPLETE, tabLoadComplete);
+			_webWindow.addEventListener(WebkitEvent.TAB_LOAD_ERROR, webkitLoadError);
+            _webWindow.addEventListener(WebkitEvent.WEBVIEW_CREATED, webkitWindowReady);
+ 			_webWindow.addEventListener(WebkitEvent.TAB_LOCATION_CHANGING, webkitLocationChanging);
+			_webWindow.addEventListener(WebkitEvent.TAB_LOCATION_CHANGED, webkitLocationChanged);
+			_webWindow.addEventListener(WebkitEvent.TAB_UNKNOWNPROTOCOL, handleUnknownProtocol)
+ 			addChild(_webWindow);
 		}
 		
 		private function handleUnknownProtocol(event:WebkitEvent):void			
@@ -144,29 +145,36 @@ package
 			var requestUrl:String = upe.url;
 			var sid:int = upe.streamId;
 			
+			// bypass "data:" protocol, somehow it fires the UnknownProtocolEvent for "data:" protocol
+			if (requestUrl.indexOf("data:") == 0) {
+				return;
+			}			
+			
 			// hold the unknown protocol event
 			upe.preventDefault();
 			
-			var responseStatus:int = broker.valid(requestUrl);
-			var responseObject:Object= broker.handleXHRRequest(requestUrl);
-			var responseText:String;
 
-			var byteData:ByteArray = new ByteArray();;
+			var returnedBody:String = "";
 			
-			if (responseObject == null || responseStatus != FunctionBroker.HTTPStatus_200_Okay) {
-				responseText = FunctionBroker.statusCodeToString(responseStatus);
-			} else {
-				responseText = responseObject.toString();
+			try {
+				returnedBody = _broker.handleXHRRequest(upe.url).toString();
+				_webWindow.qnxWebView.notifyResourceOpened(sid, HTTPErrorMapping.getSuccessCode(), HTTPErrorMapping.getSuccessMessage());
 			}
 			
-			byteData.writeUTFBytes(responseText);
+			catch (e:Error) {
+				var httpError:HTTPErrorMapping = new HTTPErrorMapping(e);
+				_webWindow.qnxWebView.notifyResourceOpened(sid,httpError.code, httpError.message);
+			}
 			
-			webWindow.qnxWebView.notifyResourceOpened(sid, responseStatus, FunctionBroker.statusCodeToString(responseStatus));
-			webWindow.qnxWebView.notifyResourceHeaderReceived(sid, "Content-Type", "text/plain");
-			webWindow.qnxWebView.notifyResourceHeaderReceived(sid, "Content-Length", byteData.length.toString());
-			webWindow.qnxWebView.notifyResourceDataReceived(sid, byteData);
+			var byteData:ByteArray;
+			byteData = new ByteArray();
+			byteData.writeUTFBytes(returnedBody);
+
+			_webWindow.qnxWebView.notifyResourceHeaderReceived(sid, "Content-Type", "text/plain");
+			_webWindow.qnxWebView.notifyResourceHeaderReceived(sid, "Content-Length", byteData.length.toString());
+			_webWindow.qnxWebView.notifyResourceDataReceived(sid, byteData);
 			
-			webWindow.qnxWebView.notifyResourceDone(sid);
+			_webWindow.qnxWebView.notifyResourceDone(sid);
 		}
 			
 		private function tabLoadComplete(event:WebkitEvent):void 
@@ -176,7 +184,7 @@ package
 
 		private function webkitWindowReady(event:WebkitEvent):void 
         {
-			loadURL(entryURL);
+			loadURL(_entryURL);
 		}
         
  		private function webkitLoadError(event:WebkitEvent):void 
@@ -197,38 +205,48 @@ package
 			var url:String = qnxEvent.location; 
 					
 			// add loading screen only if the location changes
-			if (url.search(webWindow.qnxWebView.originalLocation) < 0 && loadingScreen.isLoadingScreenRequired(url))
+			if (url.search(_webWindow.qnxWebView.originalLocation) < 0 && _loadingScreen.isLoadingScreenRequired(url))
 			{
-				loadingScreen.show(url);
+				_loadingScreen.show(url);
 			}
 
-			if (loadingScreen.firstLaunchFlag) 
+			if (_loadingScreen.firstLaunchFlag) 
 			{
-				loadingScreen.clearFirstLaunchFlag();
+				_loadingScreen.clearFirstLaunchFlag();
 			}
 		}
 		
 		private function webkitLocationChanged(event:WebkitEvent):void 
 		{
 			trace("webkitLocationChanged event");
-			loadingScreen.hideIfNecessary();
+			_loadingScreen.hideIfNecessary();
 		}
-			
+
+		private function onOrientationChange(event:StageOrientationEvent):void
+		{
+			if (_webWindow != null)
+			{
+                _webWindow.setViewPort(new Rectangle(0, 0, stage.stageWidth, stage.stageHeight));
+				_transitions.setViewPort(new Rectangle(0, 0, stage.stageWidth, stage.stageHeight));
+				_loadingScreen.setLoadingScreenArea(new Rectangle(0, 0, stage.stageWidth, stage.stageHeight));
+			}
+		}
+		
 		public function loadURL(url:String):void 
         {
 			if (url.indexOf(":") < 0) {
 				url = LOCAL_PROTOCOL + url;
 			}
 			
-			if (loadingScreen.showOnFirstLaunch) {
-				loadingScreen.show(url);
+			if (_loadingScreen.showOnFirstLaunch) {
+				_loadingScreen.show(url);
 			}
-			webWindow.go(url);
+			_webWindow.go(url);
 		}
 		
 		public function get transitionEffect():Transitions
 		{
-			return transitions;
+			return _transitions;
 		}
 	}
 }

@@ -5,6 +5,7 @@
 	<property name="dist.installer.dir" value="dist-installer"/> <!-- the default value, should be set by caller -->
 	<property name="webworksZipPackage.path" value="WebWorksForPlaybook.zip"/> <!-- the default value, should be set by caller -->
 	<property name="tabletSDK.path" value="tabletSDK.zip"/> <!-- the default value, should be set by caller -->
+	<property name="tabletSDK.simPath" value="BlackBerryPlayBookSimulator.iso"/> <!-- the default value, should be set by caller -->
 	<property name="output.dir" value="${basedir}/release_x"/> <!-- the default value, can be set by caller -->
 		
     <!-- Define installer information -->
@@ -44,20 +45,28 @@
 
 		<unzip src="${webworksZipPackage.path}" dest="${installer.data.bbwp.dir}"/>
 
+		<echo>Copying thirdparty license</echo>
+		<copy todir="${installer.data.bbwp.dir}/third_party">
+			<fileset dir="${installer.dir}/third_party" includes="*.txt" />
+		</copy>
+
 		<echo>Copying JSON Libary source</echo>
 		<copy todir="${installer.data.bbwp.airapptemplates.src.dir}">
 			<fileset dir="${jsapi.dir}/Common_AS/JSONLibrary/src/" includes="json/**" />
 		</copy>
 
 		<echo>Copying shared JS source</echo>
-		<copy todir="${installer.data.bbwp.airapptemplates.src.dir}/js/sharedglobal" >
+		<copy todir="${installer.data.bbwp.airapptemplates.src.dir}/WebWorksApplicationSharedJsRepository0/sharedglobal" >
 			<fileset dir="${jsapi.dir}/globalJS" includes="*.*" />
 		</copy>
 
 		<echo>Copying API source</echo>
 		<copy todir="${installer.data.bbwp.dir}/ext" >
-			<fileset dir="${jsapi.dir}" includes="BlackBerry_*/**" excludes="**/.*"/>
+			<fileset dir="${jsapi.dir}" includes="blackberry.*/**" excludes="**/.*"/>
 		</copy>
+
+		<echo>prepare simulator vm files</echo>
+		<unzip src="${tabletSDK.simPath}" dest="${installer.data.dir}/blackberry-tablet-sdk"/>
 
 	</target>
 
@@ -65,19 +74,23 @@
     <!-- ===================================================================
           dist-full target for scm build
          =================================================================== -->
-	<target name="dist-full" depends="init" >
+	<!--<target name="dist-full" depends="init" >-->
+	<target name="dist-full" >
 		
 		<antcall target="prepareDependencies"/>
 
-		<!-- build Spider full installer -->
+		<!--- build Spider full installer -->
 		<antcall target="buildFullInstaller" />
+		
+		<antcall target="run-yui-test"/>
+		
 	</target>
 	
 
 	<!-- ===================================================================
-          create Spider-Full installer
+          create Full installer 
          =================================================================== -->
-	<target name="buildFullInstaller">
+	<target name="buildFullInstaller" unless="no.IA">
 		<delete>
 			<fileset dir="." includes="blackberry_webworks_sdk_Build_Output/**/*"/>
 		</delete>
@@ -107,7 +120,9 @@
 		</move>
 	</target>
 
-
+	<target name="run-yui-test" if="run.yui.test">
+		<ant dir="../continuousIntegration" antfile="../continuousIntegration/build.xml"/>       
+	</target>
 
     <!-- ===================================================================
           Echo properties

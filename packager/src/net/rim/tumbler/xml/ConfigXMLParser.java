@@ -1,18 +1,18 @@
 /*
- * Copyright 2010 Research In Motion Limited.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+* Copyright 2010-2011 Research In Motion Limited.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
 package net.rim.tumbler.xml;
 
 import java.io.ByteArrayInputStream;
@@ -40,9 +40,6 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
-import java.io.InputStreamReader;
-import java.io.InputStream;
-import org.xml.sax.InputSource;
 
 public class ConfigXMLParser implements XMLParser {
 
@@ -109,7 +106,14 @@ public class ConfigXMLParser implements XMLParser {
                     _widgetConfig.setName(getTextValue(node));
                 } else if (node.getNodeName().equals("description")) {
                     _widgetConfig.setDescription(getTextValue(node));
+                } else if (node.getNodeName().equals("rim:orientation")) {
+                    processOrientation(node);
+                } else if (node.getNodeName().equals("rim:permissions")) {
+                    processPermissions(node);
+                } else if (node.getNodeName().equals("rim:category")) {
+                    processCategory(node);
                 }
+                
             }
         }
         
@@ -149,6 +153,16 @@ public class ConfigXMLParser implements XMLParser {
             _widgetConfig.addIcon(archive.getIconFile());
         }
         
+        // validate that an autoOrientation was specified
+        if (_widgetConfig.getAutoOrientation() == null) {
+        	processOrientation(null);
+        }
+        
+        // validate app home screen category is set
+        if( _widgetConfig.getAppHomeScreenCategory() == null ) {
+            processCategory( null );
+        }
+
         //Invalid Configurations.      
         
         //If both source attributes are empty the developer did something wrong.
@@ -671,6 +685,72 @@ public class ConfigXMLParser implements XMLParser {
         
     }
 
+    // Processing device <orientation>.
+    private void processOrientation( Node orientationNode ) throws Exception {
+        final String ORIENTATION_LANDSCAPE = "landscape";
+        final String ORIENTATION_PORTRAIT = "portrait";
+
+        if( orientationNode != null ) {
+            NamedNodeMap attrs = orientationNode.getAttributes();
+            Node modeAttibute = attrs.getNamedItem( "mode" );
+
+            String orientationMode = getTextValue( modeAttibute ).trim();
+            if( orientationMode.equals( ORIENTATION_LANDSCAPE ) || orientationMode.equals( ORIENTATION_PORTRAIT ) ) {
+                _widgetConfig.setAutoOrientation( "false" );
+                _widgetConfig.setOrientation( orientationMode );
+            }
+
+            return;
+        }
+        
+        // Setting default values if specified wasn't valid
+        _widgetConfig.setAutoOrientation( "true" );
+    }
+
+    private void processPermissions( Node permissionNode ) throws Exception {
+    	Element permissionElement = (Element) permissionNode;
+        if( permissionElement != null ) {
+        	NodeList nodeList = permissionElement.getElementsByTagName("rim:permit");
+        	if (nodeList != null)
+        	{
+        		int nodeListSize = nodeList.getLength();
+        		String[] permissionStrings = new String[nodeListSize];
+        		for (int i = 0; i < nodeListSize; i++)
+        		{
+        			Node idNode = nodeList.item(i);
+        			if (idNode != null && idNode.getFirstChild() != null)
+        			{
+        				permissionStrings[i] =  idNode.getFirstChild().getNodeValue(); 
+        			}
+        		}
+        		_widgetConfig.setPermissions(permissionStrings);
+        	}
+            return;
+        }
+    }
+    
+    private void processCategory( Node categoryNode ) throws Exception {
+        final String CATEGORY_ALL = "all";
+        final String CATEGORY_GAMES = "games";
+        final String CATEGORY_MEDIA = "media";
+
+        final String CATEGORY_DEFAULT = CATEGORY_ALL;
+
+        if( categoryNode != null ) {
+            NamedNodeMap attrs = categoryNode.getAttributes();
+            Node modeAttibute = attrs.getNamedItem( "name" );
+            String nodeValue = getTextValue( modeAttibute ).trim().toLowerCase();
+
+            if( nodeValue.equals( CATEGORY_ALL ) || nodeValue.equals( CATEGORY_GAMES ) || nodeValue.equals( CATEGORY_MEDIA ) ) {
+                _widgetConfig.setAppHomeScreenCategory( nodeValue );
+
+                return;
+            }
+        }
+
+        _widgetConfig.setAppHomeScreenCategory( CATEGORY_DEFAULT );
+    }
+    
     private String getTextValue(Node node) {
         if (node == null)
             return "";

@@ -1,30 +1,42 @@
 /*
- * Copyright 2010 Research In Motion Limited.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+* Copyright 2010-2011 Research In Motion Limited.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
 package net.rim.tumbler.extension;
 
-import java.io.IOException;
 import java.io.File;
 import java.io.FileFilter;
+import java.io.IOException;
+import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Vector;
-import javax.xml.parsers.*;
+
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
+
+import net.rim.tumbler.exception.PackageException;
 import net.rim.tumbler.file.FileManager;
-import org.w3c.dom.*;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 public class ExtensionMap {
@@ -34,10 +46,13 @@ public class ExtensionMap {
 
     // the elements of the Vector values refer to the same ExtensionDescriptor instances as in _masterList, so that you only need to mark it copied ONCE
     private Hashtable<String, Vector<ExtensionDescriptor>> _featureIdToDescriptors; // many-to-many mapping from feature ID key to required extension descriptors
+    
+    private ExtensionDependencyManager _dependencyManager;
 
     public ExtensionMap(String platform, String version, String repositoryRoot) {
         _masterList = new LinkedHashMap<String, ExtensionDescriptor>();
         _featureIdToDescriptors = new Hashtable<String, Vector<ExtensionDescriptor>>();
+        _dependencyManager = new ExtensionDependencyManager(_masterList);
 
         File root = new File(repositoryRoot);
         // Note that it's possible that the ext folder doesn't even exist
@@ -58,6 +73,7 @@ public class ExtensionMap {
                         NodeList nl = e.getElementsByTagName("extension");
                         if (nl.getLength() > 0 && nl.item(0) instanceof Element) {
                             Element e2 = (Element)nl.item(0);
+                            String id = e2.getAttribute("id");
 
                             NodeList nl2 = e2.getElementsByTagName("entryClass");
                             if (nl2.getLength() > 0 && nl2.item(0) instanceof Element) {
@@ -65,15 +81,16 @@ public class ExtensionMap {
                                 String entryClass = e3.getTextContent();
 
                                 ExtensionDescriptor descriptor;
-                                if (_masterList.containsKey(entryClass)) {
-                                    descriptor = _masterList.get(entryClass);
+                                if (_masterList.containsKey(id)) {
+                                    descriptor = _masterList.get(id);
                                 } else {
-                                    descriptor = new ExtensionDescriptor(entryClass, extFolder.getAbsolutePath());
-                                    _masterList.put(entryClass, descriptor);
+                                    descriptor = new ExtensionDescriptor(id, entryClass, extFolder.getAbsolutePath());
+                                    _masterList.put(id, descriptor);
 
                                     populateDescriptor(
                                         descriptor,
                                         e,
+                                        e2,
                                         extFolder,
                                         platform,
                                         version);
@@ -116,10 +133,22 @@ public class ExtensionMap {
     private static void populateDescriptor(
         ExtensionDescriptor descriptor,
         Element e,
+        Element eExt,
         File extFolder,
         String platform,
         String version)
     {
+    	XPath xpath = XPathFactory.newInstance().newXPath();
+    	try {
+			NodeList nodes = (NodeList) xpath.evaluate("dependencies/extension/@id", eExt, XPathConstants.NODESET);
+			
+			for (int n = 0; n < nodes.getLength(); n++) {
+				descriptor.addDependency(nodes.item(n).getNodeValue());
+			}
+		} catch (XPathExpressionException e1) {
+			// log it?
+		}	
+    	
         NodeList nl3 = e.getElementsByTagName("platforms");
         if (nl3.getLength() > 0 && nl3.item(0) instanceof Element) {
             Element e4 = (Element)nl3.item(0);
@@ -200,50 +229,76 @@ public class ExtensionMap {
     }
 
     public void copyRequiredFiles(String outputFolder, String featureID)
-        throws IOException
+        throws IOException, PackageException
     {
         if (_featureIdToDescriptors.containsKey(featureID)) {
             for (ExtensionDescriptor descriptor : _featureIdToDescriptors.get(featureID)) {
-                if (!descriptor.isCopied()) {
-                    //
-                    // The prefix for javascript files. This can be prepended
-                    // as-is to the configured pathname.
-                    //
-                    String javascriptPrefix = outputFolder + File.separator + "js" + File.separator
-                        + getEscapedEntryClass(descriptor.getEntryClass()) + File.separator;
+            	HashSet<String> resolvedDependencies = _dependencyManager.resolveExtension(descriptor.getId());
+            	
+				for (String depId : resolvedDependencies) {
+					ExtensionDescriptor depDescriptor = _masterList.get(depId);
+					
+					if (!depDescriptor.isCopied()) {
+						//
+						// The prefix for javascript files. This can be
+						// prepended
+						// as-is to the configured pathname.
+						//
+						String javascriptPrefix = outputFolder
+								+ File.separator
+								+ "WebWorksApplicationSharedJsRepository0"
+								+ File.separator
+								+ getEscapedEntryClass(depDescriptor
+										.getEntryClass()) + File.separator;
 
-                    //
-                    // The partial prefix for actionscript files. This needs
-                    // the folder structure such that it matches
-                    // the package name.
-                    //
-                    String actionscriptPrefix = outputFolder + File.separator;
+						//
+						// The partial prefix for actionscript files. This needs
+						// the folder structure such that it matches
+						// the package name.
+						//
+						String actionscriptPrefix = outputFolder
+								+ File.separator;
 
-                    for (ConfiguredPathname pathname : descriptor.getConfiguredPathnames()) {
-                        if (pathname.getPathname().endsWith(".js")) {
-                            //
-                            // This is javascript and therefore has no package.
-                            // Copy to javascriptPrefix + pathname.getPathname().
-                            //
-                            FileManager.copyFile(
-                                new File(descriptor.getRootFolder(), pathname.getPathname()),
-                                new File(javascriptPrefix + pathname.getPathname()));
-                        } else if (pathname.getRelativeToPackage() != null) {
-                            //
-                            // This is something other than javascript and presumably has
-                            // the notion of a package (e.g., ActionScript or Java).
-                            // Copy to actionscriptPrefix + pathname.getRelativeToPackage().
-                            //
-                            FileManager.copyFile(
-                                new File(descriptor.getRootFolder(), pathname.getPathname()),
-                                new File(actionscriptPrefix + pathname.getRelativeToPackage()));
-                        } else {
-                            // unexpected file type
-                            //TODO: log it
-                        }
-                    }
+						for (ConfiguredPathname pathname : depDescriptor
+								.getConfiguredPathnames()) {
+							if (pathname.getPathname().endsWith(".js")) {
+								//
+								// This is javascript and therefore has no
+								// package.
+								// Copy to javascriptPrefix +
+								// pathname.getPathname().
+								//
+								FileManager.copyFile(new File(depDescriptor
+										.getRootFolder(), pathname
+										.getPathname()), new File(
+										javascriptPrefix
+												+ pathname.getPathname()));
+							} else if (pathname.getRelativeToPackage() != null) {
+								//
+								// This is something other than javascript and
+								// presumably has
+								// the notion of a package (e.g., ActionScript
+								// or Java).
+								// Copy to actionscriptPrefix +
+								// pathname.getRelativeToPackage().
+								//
+								FileManager
+										.copyFile(
+												new File(depDescriptor
+														.getRootFolder(),
+														pathname.getPathname()),
+												new File(
+														actionscriptPrefix
+																+ pathname
+																		.getRelativeToPackage()));
+							} else {
+								// unexpected file type
+								// TODO: log it
+							}
+						}
 
-                    descriptor.markCopied();
+						depDescriptor.markCopied();
+					}
                 }
             }
         }

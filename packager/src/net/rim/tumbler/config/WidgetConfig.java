@@ -1,18 +1,18 @@
 /*
- * Copyright 2010 Research In Motion Limited.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+* Copyright 2010-2011 Research In Motion Limited.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
 package net.rim.tumbler.config;
 
 import java.util.HashMap;
@@ -33,7 +33,6 @@ public class WidgetConfig {
      * Pre-compiled Pattern for validating and parsing of the version string.
      * Valid version strings are:
      * <pre>
-     *     0-999.0-999
      *     0-999.0-999.0-999
      *     0-999.0-999.0-999.0-999
      * </pre>
@@ -41,7 +40,31 @@ public class WidgetConfig {
      * For example, capturing groups for a version string of <code>"4.0.1.96"</code>
      * are "4", "0", "1", and "96".
      */
-    private static final Pattern VERSION_PATTERN = Pattern.compile("(\\d{1,3})(?:\\.(\\d{1,3}))(?:\\.(\\d{1,3}))?(?:\\.(\\d{1,3}))?$");
+    private static final Pattern VERSION_PATTERN = Pattern.compile("(\\d{1,3})(?:\\.(\\d{1,3}))(?:\\.(\\d{1,3}))(?:\\.(\\d{1,3}))?$");
+
+    private static final String FILE_CONFIG_XML = "config.xml";    
+
+    private static final String CATEGORY_PREFIX = "core.";
+
+    private static final String NUM_0 = "0";
+    private static final String NUM_1 = "1";
+    private static final String EMPTY_STRING = "";
+    
+    private static final char DELIMITER_DOT = '.';
+    
+    private static final String FILE_EXT_L_ICON = "icon.";
+    private static final String FILE_EXT_U_ICON = "Icon.";
+    private static final String FILE_EXT_L_PNG = ".png";
+    
+    private static final String VALIDATION_CONFIGXML_MISSING_VERSION = "VALIDATION_CONFIGXML_MISSING_VERSION";
+    private static final String EXCEPTION_INVALID_ICON_FILE_TYPE = "EXCEPTION_INVALID_ICON_FILE_TYPE";
+    private static final String EXCEPTION_CONFIGXML_MISSING_WIDGET_NAME = "EXCEPTION_CONFIGXML_MISSING_WIDGET_NAME";
+    private static final String PROGRESS_VALIDATING_CONFIG_XML_WIDGET_VERSION = "PROGRESS_VALIDATING_CONFIG_XML_WIDGET_VERSION";
+    private static final String EXCEPTION_CONFIGXML_INVALID_VERSION = "EXCEPTION_CONFIGXML_INVALID_VERSION";
+    private static final String PROGRESS_VALIDATING_CONFIG_XML_LOADINGSCREEN_COLOR = "PROGRESS_VALIDATING_CONFIG_XML_LOADINGSCREEN_COLOR";
+    private static final String EXCEPTION_CONFIGXML_LOADINGSCREEN_COLOUR = "EXCEPTION_CONFIGXML_LOADINGSCREEN_COLOUR";
+
+    private static final String REGEX_COLOR = "^#[A-Fa-f0-9]{6}$";
 
     private String _content;
     private String _author;
@@ -59,6 +82,9 @@ public class WidgetConfig {
     private String _transitionType;
     private int _transitionDuration;
     private String _transitionDirection;
+    private String _autoOrientation;
+    private String _orientation;
+    private String _categoryName; // Application Home Screen Category
     
     private String _copyright;
     private String _description;
@@ -74,6 +100,7 @@ public class WidgetConfig {
     private String _licenseURL;
     private int _transportTimeout;
     private String[] _transportOrder;
+    private String[] _permissions;
     private boolean _multiAccess;
     private String _configXML;
     private Hashtable<WidgetAccess, Vector<WidgetFeature>> _accessTable;
@@ -100,7 +127,7 @@ public class WidgetConfig {
         _hoverIconSrc = new Vector<String>();
         _customHeaders = new HashMap<String, String>();
         _iconSrc = new Vector<String>();
-        _configXML = "config.xml";
+        _configXML = FILE_CONFIG_XML;
         _transportTimeout = -1;
         
         _backgroundImage = null;
@@ -122,15 +149,15 @@ public class WidgetConfig {
         _allowInvokeParams=false;
         _backgroundSource=null;
         _foregroundSource=null;
-        
+        _permissions=null;
         _debugEnabled = SessionManager.getInstance().debugMode();
     }
 
     public void validate() {
         if (_versionParts == null || getVersion().length() == 0) {
             Logger.logMessage(LogType.WARNING,
-                    "VALIDATION_CONFIGXML_MISSING_VERSION");
-            setVersionParts(new String[] {"1", "0", "0", "0"});
+                    VALIDATION_CONFIGXML_MISSING_VERSION);
+            setVersionParts(new String[] {NUM_1, NUM_0, NUM_0, NUM_0});
         }
     }
 
@@ -192,7 +219,7 @@ public class WidgetConfig {
     public String getVersionParts(int beginIndex, int endIndex) {
         int n = getNumVersionParts();
         if (beginIndex >= n) {
-            return "";
+            return EMPTY_STRING;
         } else {
             StringBuilder sb = new StringBuilder();
             int end = Math.min(endIndex, n);
@@ -201,7 +228,7 @@ public class WidgetConfig {
                 if (first) {
                     first = false;
                 } else {
-                    sb.append('.');
+                    sb.append(DELIMITER_DOT);
                 }
                 sb.append(_versionParts[i]);
             }
@@ -238,14 +265,26 @@ public class WidgetConfig {
 
     public Vector<String> getIconSrc() throws ValidationException {
         if (_iconSrc.toString().length() > 2 
-                && !(_iconSrc.firstElement().toString().startsWith("icon.") || _iconSrc.firstElement().toString().startsWith("Icon."))
-                && !(_iconSrc.firstElement().toString().endsWith(".png") || _iconSrc.firstElement().toString().endsWith(".PNG"))){
+                && !(_iconSrc.firstElement().toString().startsWith(FILE_EXT_L_ICON) || _iconSrc.firstElement().toString().startsWith(FILE_EXT_U_ICON))
+                && !(_iconSrc.firstElement().toString().toLowerCase().endsWith(FILE_EXT_L_PNG))){
             throw new ValidationException(
-                    "EXCEPTION_INVALID_ICON_FILE_TYPE");
+                    EXCEPTION_INVALID_ICON_FILE_TYPE);
         }
         return _iconSrc;
     }
     
+    public String getAutoOrientation() {
+        return _autoOrientation;
+    }
+
+    public String getOrientation() {
+        return _orientation;
+    }
+
+    public String getAppHomeScreenCategory() {
+        return _categoryName;
+    }
+
     public void setContent(String content) {
         _content = content;
     }
@@ -257,7 +296,7 @@ public class WidgetConfig {
     public void setName(String name) throws ValidationException {
         if (name == null || name.length() == 0) {
             throw new ValidationException(
-                    "EXCEPTION_CONFIGXML_MISSING_WIDGET_NAME");
+                    EXCEPTION_CONFIGXML_MISSING_WIDGET_NAME);
         }
         _name = name;
     }
@@ -265,16 +304,15 @@ public class WidgetConfig {
     public void setVersion(String version) throws ValidationException {
         if (SessionManager.getInstance().isVerbose()) {
             Logger.logMessage(LogType.INFO,
-                    "PROGRESS_VALIDATING_CONFIG_XML_WIDGET_VERSION");
+                    PROGRESS_VALIDATING_CONFIG_XML_WIDGET_VERSION);
         }
         // version variable should look like one of the options:
-        // version="a.b"
         // version="a.b.c"
         // version="a.b.c.d"
         Matcher matcher = VERSION_PATTERN.matcher(version);
 
         if (!matcher.matches()) {
-            throw new ValidationException("EXCEPTION_CONFIGXML_INVALID_VERSION");
+            throw new ValidationException(EXCEPTION_CONFIGXML_INVALID_VERSION);
         }
         setVersionParts(parseVersion(matcher));
     }
@@ -302,15 +340,15 @@ public class WidgetConfig {
         if (screenColour != null) {
             if (SessionManager.getInstance().isVerbose()) {
                 Logger.logMessage(LogType.INFO,
-                        "PROGRESS_VALIDATING_CONFIG_XML_LOADINGSCREEN_COLOR");
+                        PROGRESS_VALIDATING_CONFIG_XML_LOADINGSCREEN_COLOR);
             }
             // color variable should look like: #000000
-            String regex = "^#[A-Fa-f0-9]{6}$";
+            String regex = REGEX_COLOR;
             Pattern pattern = Pattern.compile(regex);
             Matcher matcher = pattern.matcher(screenColour);
             if (!matcher.matches()) {
                 throw new ValidationException(
-                        "EXCEPTION_CONFIGXML_LOADINGSCREEN_COLOUR");
+                        EXCEPTION_CONFIGXML_LOADINGSCREEN_COLOUR);
             }
         }
         
@@ -387,6 +425,18 @@ public class WidgetConfig {
 
     public void setDescription(String description) {
         _description = description;
+    }
+    
+    public void setAutoOrientation(String autoOrientation) {
+    	_autoOrientation = autoOrientation;
+    }
+    
+    public void setOrientation(String orientation) {
+    	_orientation = orientation;
+    }
+    
+    public void setAppHomeScreenCategory( String categoryName ) {       
+        _categoryName = CATEGORY_PREFIX + categoryName;
     }
 
     public void addHoverIcon(String icon) {
@@ -624,4 +674,12 @@ public class WidgetConfig {
         return _debugEnabled;
     }
 
+    public void setPermissions(String[] permissions) {
+        _permissions = permissions;
+    }
+
+    public String[] getPermissions() {
+        return _permissions;
+    }    
+    
 }
