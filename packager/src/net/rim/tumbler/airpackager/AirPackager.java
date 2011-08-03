@@ -447,7 +447,8 @@ public class AirPackager {
                 NodeList nl2 = e.getElementsByTagName(DOC_ELM_ID);
                 if (nl2.getLength() > 0 && nl2.item(0) instanceof Element) {
                     Element e3 = (Element)nl2.item(0);
-                    e3.setTextContent(SessionManager.getInstance().getArchiveName() + genPackageName(SessionManager.getInstance().getArchiveName()));
+                    e3.setTextContent( sanitizeWidgetName( _widgetConfig.getName() )
+                            + genPackageName( sanitizeWidgetName( _widgetConfig.getName() ) ) );
                 }
                 
                 // Replace name
@@ -630,7 +631,27 @@ public class AirPackager {
         } catch (Exception e) {
             packageHash = widgetName;
         }
-        return packageHash;
+        
+        // Only use the first 10 characters as the hash
+        // in order not to exceed the limitation of length of package id "easily"
+        String shortHash;
+        if( packageHash.length() > 10 ) {
+            shortHash = packageHash.substring( 0, 10 );
+        } else {
+            shortHash = packageHash;
+        }
+
+        return shortHash;
+    }
+    
+    private static String sanitizeWidgetName( String widgetName ) {
+        // Replace all characters that are not alphanumeric with "0"
+        String patternInvalidCharacters = "([^a-zA-Z0-9\\.])";
+        String sanitizedWidgetName = widgetName.replaceAll( patternInvalidCharacters, "0" );
+
+        // Add "w" in front of the sanitized name
+        // because the first letter of packager id cannot be a number
+        return "w" + sanitizedWidgetName;
     }
     
     private List<File> listFiles(String path, FileFilter fileFilter) {
