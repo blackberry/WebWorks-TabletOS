@@ -1,0 +1,197 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" manifest="unitTest.manifest">
+<head>
+<title> ApplicationCache test page</title>
+<link rel="Stylesheet" href="myStyle.css" />
+<script src="ManageEvent.js" type="text/javascript"></script>
+<script language="javascript" type="text/javascript">
+
+
+
+    function online_event() {
+
+        document.getElementById("online").innerHTML = navigator.onLine;
+	}
+
+    document.addEventListener('DOMContentLoaded', online_event, true);
+
+   // window.addEventListener('online', online_event, true);
+   // window.addEventListener('offline', online_event, true);
+
+
+
+   
+</script>
+
+
+</head>
+<body>
+	<a href="javascript:location.reload(true)">Refresh this page</a><br />
+    <span class="style5">This page should be visible even if you are offline<br />
+	Online status:</span><div id="online" class="red_style"></div>
+    <span class="style5">The following events will be invoked during first visit:</span><span 
+        class="style2"> downloading(status is 3),progress(status is 3), 
+    updateready(status is 4)</span>.
+<br />************************************************<br />
+<div id="checking" class="red_style"></div>
+<div id="error" class="red_style"></div>
+<div id="noupdate" class="red_style"></div>
+<div id="downloading" class="red_style"></div>
+<div id="progress" class="red_style"></div>
+<div id="updateready" class="red_style"></div>
+<div id="cached" class="red_style"></div>
+<div id="obsolete" class="red_style"></div>
+
+<br />************************************************<br />
+
+<div id = "pic"><img src="Penguins.jpg" width="300px" height="200px" />
+
+<img src="Lighthouse.jpg" width="300px" height="200px" />
+
+</div>
+
+<p><input type="button" id="update" value="Update cache status" /></p>
+    <p>If no update, <span class="style2">checking</span> event(status is 2) and
+        <span class="style4">noupdate</span>(status is 1) will be invoked.</p>
+    <p>If there are updates, it will behave the same as the first visit<span 
+            class="style2">: downloading(status is 3),progress(status is 3), 
+        updateready(status is 4)</span>.</p> 
+      <p><input type="button" id="swap" value="Update cache to latest" /></p>
+    <p>If status is not 4 (UPDATEREADY), an exception will be thrown</p>
+    <p><b>FALLBACK:</b></p>
+    <p>Disable the network connection, you should see that the FALL BACK IMAGE OFFLINE 
+        characters on the light house image.</p>
+    <p>NETWORK:</p>
+
+<script language="javascript" type="text/javascript">
+
+
+
+
+    function checking_event() {
+        document.getElementById("checking").innerHTML ="checking event is invoked:" + window.applicationCache.status;
+    }
+
+	
+    function error_event() {
+        document.getElementById("error").innerHTML = "error event is invoked:"+window.applicationCache.status;
+    }
+
+	
+    function noupdate_event() {
+        document.getElementById("noupdate").innerHTML = "noupdate event is invoked:"+ window.applicationCache.status;
+    }
+
+
+    function downloading_event() {
+        document.getElementById("downloading").innerHTML = "downloading event is invoked:"+window.applicationCache.status;
+    }
+
+
+	function progress_event() {
+        document.getElementById("progress").innerHTML = "progress event is invoked:"+window.applicationCache.status;
+    }
+
+
+
+    function updateready_event() {
+        document.getElementById("updateready").innerHTML = "updateready event is invoked:"+window.applicationCache.status;
+    }
+
+
+	
+    function cached_event() {
+        document.getElementById("cached").innerHTML = "cached event is invoked:"+window.applicationCache.status;
+    }
+
+
+
+    function obsolete_event() {
+        document.getElementById("obsolete").innerHTML = "obsolete event is invoked:"+window.applicationCache.status;
+    }
+
+
+
+
+    // add buttom click event
+    addEvent(document.getElementById('update'), 'click', function() {
+        try {
+
+            window.applicationCache.update();
+            alert("Done");
+        } catch (err) {
+
+            alert(err);
+        }
+
+
+    });
+
+    addEvent(document.getElementById('swap'), 'click', function() {
+        try {
+
+            window.applicationCache.swapCache();
+            alert("Done");
+        } catch (err) {
+            alert(err);
+        }
+    });
+
+   
+  //AddType text/cache-manifest .manifest
+  
+    addEvent(window.applicationCache, "checking", checking_event);
+    addEvent(window.applicationCache, "error", error_event);
+    addEvent(window.applicationCache, "noupdate", noupdate_event);
+
+    addEvent(window.applicationCache, "downloading", downloading_event);
+
+    addEvent(window.applicationCache, "progress", progress_event);
+
+    addEvent(window.applicationCache, "updateready", updateready_event);
+
+    addEvent(window.applicationCache, "cached", cached_event);
+
+    addEvent(window.applicationCache, "obsolete", obsolete_event);
+	
+ /*
+    window.applicationCache.addEventListener('checking',checking_event,true);
+	window.applicationCache.addEventListener('error',error_event,true);
+	
+	window.applicationCache.addEventListener('noupdate',noupdate_event,false);
+    window.applicationCache.addEventListener('downloading',downloading_event,true); 
+	window.applicationCache.addEventListener('progress',progress_event,true); 
+    
+    addEvent(window, "online", online_event);
+    addEvent(window, "offline", online_event);
+
+*/
+  
+   
+   
+   
+    function displayProps(obj, parent) {
+        // Go through all the properties of the passed-in object 
+        for (var i in obj) {
+            // if a parent (2nd parameter) was passed in, then use that to 
+            // build the message. Message includes i (the object's property name) 
+            // then the object's property value on a new line 
+            if (parent) { var msg = parent + "." + i + "\n" + obj[i]; } else { var msg = i + "\n" + obj[i]; }
+            // Display the message. If the user clicks "OK", then continue. If they 
+            // click "CANCEL" then quit this level of recursion 
+            if (!confirm(msg)) { return; }
+            // If this property (i) is an object, then recursively process the object 
+            if (typeof obj[i] == "object") {
+                if (parent) { displayProps(obj[i], parent + "." + i); } else { displayProps(obj[i], i); }
+            }
+        }
+    }
+
+
+</script>
+
+  
+
+</body>
+
+</html>

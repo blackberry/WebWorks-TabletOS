@@ -1,0 +1,4 @@
+(function() {  
+	alert ("on blackberry");
+})();
+

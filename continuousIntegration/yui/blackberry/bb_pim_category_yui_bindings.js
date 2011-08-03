@@ -1,0 +1,13 @@
+(function() {
+  var bindings = YUI.framework.QCBindings;
+    bindings.add ("blackberry.pim.category should exist", "BlackBerry Developer Tools\\WebWorks API\\BlackBerry JS Extensions\\BlackBerry JS Extensions_" + YUI.framework.bundle_version + "\\US8960 - blackberry.pim", "2451067");
+    bindings.add ("blackberry.pim.category.addCategory should exist", "BlackBerry Developer Tools\\WebWorks API\\BlackBerry JS Extensions\\BlackBerry JS Extensions_" + YUI.framework.bundle_version + "\\US8960 - blackberry.pim", "2451068");
+    bindings.add ("blackberry.pim.category.deleteCategory should exist", "BlackBerry Developer Tools\\WebWorks API\\BlackBerry JS Extensions\\BlackBerry JS Extensions_" + YUI.framework.bundle_version + "\\US8960 - blackberry.pim", "2451069");
+    bindings.add ("blackberry.pim.category.getCategories should exist", "BlackBerry Developer Tools\\WebWorks API\\BlackBerry JS Extensions\\BlackBerry JS Extensions_" + YUI.framework.bundle_version + "\\US8960 - blackberry.pim", "2451070");
+    bindings.add ("blackberry.pim.category.getCategories should return a String array", "BlackBerry Developer Tools\\WebWorks API\\BlackBerry JS Extensions\\BlackBerry JS Extensions_" + YUI.framework.bundle_version + "\\US8960 - blackberry.pim", "2451071");
+    bindings.add ("blackberry.pim.category.addCategory should add a category", "BlackBerry Developer Tools\\WebWorks API\\BlackBerry JS Extensions\\BlackBerry JS Extensions_" + YUI.framework.bundle_version + "\\US8960 - blackberry.pim", "2451072");
+    bindings.add ("blackberry.pim.category.deleteCategory should delete a category", "BlackBerry Developer Tools\\WebWorks API\\BlackBerry JS Extensions\\BlackBerry JS Extensions_" + YUI.framework.bundle_version + "\\US8960 - blackberry.pim", "2451073");
+    bindings.add ("blackberry.pim.category.addCategory should throw error when given wrong parameter (Integer)", "BlackBerry Developer Tools\\WebWorks API\\BlackBerry JS Extensions\\BlackBerry JS Extensions_" + YUI.framework.bundle_version + "\\US8960 - blackberry.pim", "2451074");
+    bindings.add ("blackberry.pim.category.deleteCategory should throw error when given wrong parameter (Integer)", "BlackBerry Developer Tools\\WebWorks API\\BlackBerry JS Extensions\\BlackBerry JS Extensions_" + YUI.framework.bundle_version + "\\US8960 - blackberry.pim", "2451075");
+    bindings.add ("blackberry.pim.category.deleteCategory should do nothing when category does not exist", "BlackBerry Developer Tools\\WebWorks API\\BlackBerry JS Extensions\\BlackBerry JS Extensions_" + YUI.framework.bundle_version + "\\US8960 - blackberry.pim", "2451076");
+})();

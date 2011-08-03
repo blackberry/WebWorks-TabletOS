@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<toc>
+	<section title="API Reference">
+		<item topic="Application"  safeName="app">
+			<api>blackberry.app</api>
+		</item>
+		
+		<item topic="Application Events"  safeName="appEvent">
+			<api>blackberry.app.event</api>
+		</item>
+		
+		<item topic="Invoke"  safeName="invoke" >
+			<api>blackberry.invoke</api>
+		</item>
+		
+		<!--item topic="Payment"  safeName="Payment" >
+			<api>blackberry.payment</api>
+		</item-->
+		
+		<item topic="System"  safeName="system" >
+			<api>blackberry.system</api>
+		</item>
+
+		<item topic="System Events"  safeName="systemEvent" >
+			<api>blackberry.system.event</api>
+		</item>
+		
+		<item topic="User Interface"  safeName="ui" >
+			<api>blackberry.ui.dialog</api>
+		</item>
+		
+		<item topic="Utilities"  safeName="Utils" >
+			<api>blackberry.utils</api>
+		</item>
+		
+		
+		<item topic="Payment"  safeName="Payment" >
+			<api>blackberry.payment</api>
+		</item>
+		
+	</section>
+</toc>
