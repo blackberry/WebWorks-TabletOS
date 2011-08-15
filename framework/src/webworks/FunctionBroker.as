@@ -90,7 +90,7 @@ package webworks
 				
 				if(service != null)
 				{
-					return service.execute(device.methodName, device.parametersAsObject).json;
+					return service.execute(device.methodName, device.parametersAsObject);
 				}
 				else 
 				{
