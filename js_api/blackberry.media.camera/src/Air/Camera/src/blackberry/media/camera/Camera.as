@@ -24,20 +24,15 @@ package blackberry.media.camera
     import flash.media.MediaType;
     import flash.net.URLRequest;
     import flash.net.navigateToURL;
-    
+
     import json.JSON;
-    
+
     import webworks.extension.DefaultExtension;
 
     public class Camera extends DefaultExtension
     {
         private var PHOTO:String = "photo";
         private var VIDEO:String = "video"
-
-        private var _jsOnCapturedId:String = "";
-        private var _jsOnCameraClosedId:String = "";
-        private var _jsOnErrorId:String = "";
-
 
         public function Camera()
         {
@@ -48,24 +43,61 @@ package blackberry.media.camera
             return new Array("blackberry.media.camera");
         }
 
-        public function invokeCamera(cameraMode:String, onCapturedId:String, onCameraClosedId:String, onErrorId:String):void
+        public function invokeCamera(cameraMode:String, onCapturedId:String, onCameraClosedId:String, onCameraErrorId:String):void
         {
-            _jsOnCapturedId = onCapturedId;
-            _jsOnCameraClosedId = onCameraClosedId;
-            _jsOnErrorId = onErrorId;
-
-            var defaultDeviceCamera:CameraUI = new CameraUI();
-            defaultDeviceCamera.addEventListener(MediaEvent.COMPLETE, onCaptured);
-            defaultDeviceCamera.addEventListener(Event.CANCEL, onCameraClosed);
-            defaultDeviceCamera.addEventListener(ErrorEvent.ERROR, onError);
-
-            if (cameraMode == PHOTO)
+            try
             {
-                defaultDeviceCamera.launch(MediaType.IMAGE);
+                var onCameraClosed:Function = new Function;
+                var defaultDeviceCamera:CameraUI = new CameraUI();
+                defaultDeviceCamera.addEventListener(MediaEvent.COMPLETE, function(event:MediaEvent):void
+                {
+                    var mediaPromise:MediaPromise = event.data;
+                    var path:String = mediaPromise.relativePath;
+
+                    var shared:File = File.userDirectory.resolvePath("shared");
+                    var fileList:Array = shared.getDirectoryListing();
+                    var filePath:String = mediaPromise.relativePath;
+
+                    for (var i:uint = 0; i < fileList.length; i++)
+                    {
+                        var file:File = fileList[i] as File;
+
+                        if (file.isDirectory)
+                        {
+                            if (file.name == "camera")
+                            {
+                                filePath = file.url + "/" + mediaPromise.relativePath;
+                            }
+                        }
+                    }
+
+                    evalJavaScriptEvent(onCapturedId, [filePath]);
+
+                    // After saving the file, camera doesn't fire closed camera event, this is why it called here. 
+                    onCameraClosed(null);
+
+                });
+                defaultDeviceCamera.addEventListener(Event.CANCEL, onCameraClosed = function(event:Event):void
+                {
+                    evalJavaScriptEvent(onCameraClosedId, []);
+                });
+                defaultDeviceCamera.addEventListener(ErrorEvent.ERROR, function(error:ErrorEvent):void
+                {
+                    evalJavaScriptEvent(onCameraErrorId, []);
+                });
+
+                if (cameraMode == PHOTO)
+                {
+                    defaultDeviceCamera.launch(MediaType.IMAGE);
+                }
+                else
+                {
+                    defaultDeviceCamera.launch(MediaType.VIDEO);
+                }
             }
-            else
+            catch (e:Error)
             {
-                defaultDeviceCamera.launch(MediaType.VIDEO);
+                evalJavaScriptEvent(onCameraErrorId, []);
             }
         }
 
@@ -77,46 +109,6 @@ package blackberry.media.camera
         public function takeVideo(onCapturedId:String, onCameraClosedId:String, onErrorId:String):void
         {
             invokeCamera(VIDEO, onCapturedId, onCameraClosedId, onErrorId);
-        }
-
-        private function onCaptured(event:MediaEvent):void
-        {
-            var mediaPromise:MediaPromise = event.data;
-            var path:String = mediaPromise.relativePath;
-
-            var shared:File = File.userDirectory.resolvePath("shared");
-            var fileList:Array = shared.getDirectoryListing();
-            var filePath:String = mediaPromise.relativePath;
-			
-            for (var i:uint = 0; i < fileList.length; i++)
-            {
-                var file:File = fileList[i] as File;
-
-                if (file.isDirectory)
-                {
-                    if (file.name == "camera")
-                    {
-                        filePath = file.url + "/" + mediaPromise.relativePath;
-                    }
-                }
-            }
-
-
-
-            this.evalJavaScriptEvent(_jsOnCapturedId, [filePath]);
-
-            // After saving the file, camera doens't fire closed camera event, this is why it called manually. 
-            onCameraClosed(null);
-        }
-
-        private function onCameraClosed(event:Event):void
-        {
-            this.evalJavaScriptEvent(_jsOnCameraClosedId, []);
-        }
-
-        private function onError(error:ErrorEvent):void
-        {
-            this.evalJavaScriptEvent(_jsOnErrorId, []);
         }
     }
 }
