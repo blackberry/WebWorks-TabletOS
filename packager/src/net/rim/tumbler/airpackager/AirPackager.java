@@ -18,6 +18,8 @@ package net.rim.tumbler.airpackager;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileWriter;
@@ -28,6 +30,8 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
+import java.lang.Math;
+import java.io.Console;
 
 import javax.imageio.ImageIO;
 import javax.xml.parsers.DocumentBuilder;
@@ -67,7 +71,9 @@ public class AirPackager {
     private static final int SCREEN_WIDTH = 1024;
     private static final int SCREEN_HEIGHT = 600;
     private static final String SPLASHSCREEN_FORMAT = "png";
-    
+	private static final int ORIENTATION_LANDSCAPE = 1;
+	private static final int ORIENTATION_PORTRAIT = 2;
+	
     private static final String DOC_ELM_SPLASHSCREEN = "splashscreen";
     private static final String DOC_ELM_IMAGE = "image";
     private static final String DOC_ELM_ICON = "icon";
@@ -180,9 +186,10 @@ public class AirPackager {
             //
             // Create a splash screen consistent with the loading screen.
             // If the widget config doesn't specify loading screen data,
-            // splashscreenFilename will be null.
+            // both splashscreen files will be null.
             //
-            String splashscreenFilename = createSplashscreen(sourcePath);
+            String splashscreenLandscape = createSplashscreen(sourcePath, ORIENTATION_LANDSCAPE); //1 is landscape
+			String splashscreenPortrait = createSplashscreen(sourcePath, ORIENTATION_PORTRAIT); //2 is portrait
 
             //
             // Copy src files to the bin-debug folder
@@ -239,7 +246,7 @@ public class AirPackager {
             
             File bbt = new File(sourcePath, FILE_BLACKBERRY_TABLET_XML);
             File bbtDes = new File(bindebugPath, FILE_BLACKBERRY_TABLET_XML);
-            prepareBBTXML(bbt, bbtDes, iconPath, splashscreenFilename);
+            prepareBBTXML(bbt, bbtDes, iconPath, splashscreenLandscape, splashscreenPortrait);
             
             bbt.delete();
             
@@ -510,7 +517,8 @@ public class AirPackager {
             File infile,
             File destFile,
             String iconPath,
-            String splashscreenFilename) // may be null
+            String splashscreenLandscape, //may be null
+			String splashscreenPortrait) //either of them, one wont exist without the other
             throws IOException
         {
             Writer w = null;
@@ -535,9 +543,9 @@ public class AirPackager {
                 }                
 
                 // Splash screen
-                if (splashscreenFilename != null) {
+                if (splashscreenLandscape != null || splashscreenPortrait != null) {
                     Element splashscreen = d.createElement(DOC_ELM_SPLASHSCREEN);
-                    splashscreen.appendChild(d.createTextNode(splashscreenFilename));
+					splashscreen.appendChild(d.createTextNode(splashscreenLandscape + ":" + splashscreenPortrait));
                     d.getFirstChild().appendChild(splashscreen);
                 }
 
@@ -700,7 +708,7 @@ public class AirPackager {
      * @return the name of the splash screen image file on disk, or null
      * if none created.
      */
-    private String createSplashscreen(String directory)
+    private String createSplashscreen(String directory, int orientation) 
         throws IOException
     {
         // Get string args from widget config. They may be null.
@@ -725,20 +733,42 @@ public class AirPackager {
         BufferedImage fgImage = arg2 == null
             ? null
             : ImageIO.read(new File(directory, arg2));
-        BufferedImage composition = new BufferedImage(SCREEN_WIDTH, SCREEN_HEIGHT, BufferedImage.TYPE_INT_ARGB);
+		
+		BufferedImage composition = null;
+		
+		if (orientation == ORIENTATION_PORTRAIT) {
+			composition = new BufferedImage(SCREEN_HEIGHT, SCREEN_WIDTH, BufferedImage.TYPE_INT_ARGB);
+		} else {
+			composition = new BufferedImage(SCREEN_WIDTH, SCREEN_HEIGHT, BufferedImage.TYPE_INT_ARGB);
+		}
         Graphics2D g = composition.createGraphics();
 
         g.setBackground(bgcolor);
-        g.clearRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+		
+		if (orientation == ORIENTATION_PORTRAIT) {
+			g.clearRect(0, 0, SCREEN_HEIGHT, SCREEN_WIDTH);
+		} else {
+			g.clearRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+		}
 
-        if (bgImage != null) {
-            g.drawImage(bgImage, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, null);
-        }
+		if (orientation == ORIENTATION_PORTRAIT) {
+			if (bgImage != null) {
+				g.drawImage(bgImage, 0, 0, SCREEN_HEIGHT, SCREEN_WIDTH, null); 
+			}
+			if (fgImage != null) {
+				g.drawImage(fgImage, (SCREEN_HEIGHT - fgImage.getHeight())/2, (SCREEN_WIDTH - fgImage.getHeight())/2, null);
+				//g.drawImage(fgImage, -(SCREEN_WIDTH - fgImage.getHeight())/2, (SCREEN_WIDTH - fgImage.getHeight())/2, null); //magic number for centering is -195
+			}
+		} else {
+			if (bgImage != null) {
+				g.drawImage(bgImage, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, null);
+			}
+			if (fgImage != null) {
+				g.drawImage(fgImage, (SCREEN_WIDTH - fgImage.getWidth())/2, (SCREEN_HEIGHT - fgImage.getHeight())/2, null); 
+			}
+		}
 
-        if (fgImage != null) {
-            g.drawImage(fgImage, (SCREEN_WIDTH - fgImage.getWidth())/2, (SCREEN_HEIGHT - fgImage.getHeight())/2, null);
-        }
-
+		
         File out = File.createTempFile(FILE_SPSH, DELIMITER_DOT + SPLASHSCREEN_FORMAT, new File(directory));
         ImageIO.write(composition, SPLASHSCREEN_FORMAT, out);
 
