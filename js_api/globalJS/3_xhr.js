@@ -93,6 +93,12 @@
 					request.send();	
 				} catch(e) {}
 			};
+
+            this.makeQnxExtensionCall = function (jsonReviver) {
+                var requestUri = composeUri();               
+                var responseText = qnx.callExtensionMethod("webworks", requestUri);
+                return JSON.parse(responseText, jsonReviver); //retrieve result encoded as JSON
+            };
 		}
 	};
 })();

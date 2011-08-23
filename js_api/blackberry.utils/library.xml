@@ -6,13 +6,14 @@
 	
 	<platforms>
 		<platform value="AIR">
-			<target version="default" config="JS_ONLY" />
+			<target version="default" config="AIR_XHR" />
 		</platform>
 	</platforms>
 
 	<configurations>
-		<configuration name="JS_ONLY" version="1.0" comment="JavaScript only implementation">			
-			<src type="text/javascript" path="js/common/utilities_ns.js" comment="Utilities JS implementation" />
+		<configuration name="AIR_XHR" version="1.0" comment="XHR architecture/Air implementation">			
+			<src type="text/javascript" path="js/common/utilities_dispatcher.js" comment="Utilities JS Dispatcher" />
+			<src type="text/javascript" path="js/common/utilities_ns.js" comment="Utilities JS interface and partial implementation" />
 			<src type="text/actionscript" path="src/Air/Utilities/src" comment="ActionScript implementation" />
 		</configuration>
 	</configurations>
