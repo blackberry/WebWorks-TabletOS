@@ -180,6 +180,7 @@ package
 		private function tabLoadComplete(event:WebkitEvent):void 
         {
 			trace("HTML LOAD DONE");
+			_loadingScreen.hideIfNecessary();
 		}
 
 		private function webkitWindowReady(event:WebkitEvent):void 
@@ -219,7 +220,6 @@ package
 		private function webkitLocationChanged(event:WebkitEvent):void 
 		{
 			trace("webkitLocationChanged event");
-			_loadingScreen.hideIfNecessary();
 		}
 
 		private function onOrientationChange(event:StageOrientationEvent):void
