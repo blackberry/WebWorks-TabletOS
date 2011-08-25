@@ -1,0 +1,38 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Shared workers2</title>
+ <style type="text/css">
+        .style1
+        {
+            color: #FF0000;
+        }
+        iframe
+        {
+        visibility:hidden;
+        }
+    </style>
+
+
+
+
+<script>
+function clickToTest(){
+  var worker = new SharedWorker('worker.js');
+  var log = document.getElementById('log');
+  worker.port.onmessage = function(e) {
+   log.textContent += '\n' + e.data;
+  }
+  }
+</script>
+</head>
+<body>
+  
+<iframe src="bot.htm" width="30%" height="5">
+  <p>Your browser does not support iframes.</p>
+</iframe><br/>
+<input type="button" value ="Click to Test" onclick="clickToTest();"/>
+<pre id='log'>Log:</pre>
+
+</body>
+
+</html>

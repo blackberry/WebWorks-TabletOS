@@ -1,0 +1,89 @@
+<project>
+  <parent>
+    <groupId>net.rim.snarf</groupId>
+	<artifactId>snarf</artifactId>
+    <version>1.0.0.1</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>packager</artifactId>
+  <version>${project.parent.version}-SNAPSHOT</version>
+  <name>${project.artifactId}-${project.version}</name>
+  <packaging>jar</packaging>
+
+  <properties>
+	<product.version>${env.PRODUCT_VERSION}</product.version>
+  </properties>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>findbugs-maven-plugin</artifactId>
+          <version>2.3.2-SNAPSHOT</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+	<sourceDirectory>src</sourceDirectory>
+	<directory>target</directory><!-- the output folder -->
+	<!--  <finalName>${project.artifactId}-${project.version}</finalName>-->
+	<!-- <finalName>bbwp</finalName> -->
+
+    <plugins>
+	  <plugin>
+		<groupId>org.apache.maven.plugins</groupId>
+		<artifactId>maven-compiler-plugin</artifactId>
+		<version>2.3.2</version>
+		<configuration>
+		  <source>1.6</source>
+		  <target>1.6</target>
+		</configuration>
+	  </plugin>
+
+	  <plugin>
+		<groupId>org.apache.maven.plugins</groupId>
+		<artifactId>maven-jar-plugin</artifactId>
+		<version>2.3.1</version>
+		<configuration>
+			<archive>
+				<manifest>
+				  <mainClass>net.rim.tumbler.WidgetPackager</mainClass>
+				</manifest>
+				<manifestEntries>
+					<Implementation-Vendor>Research In Motion</Implementation-Vendor>
+					<Implementation-Version>${product.version}</Implementation-Version>
+				</manifestEntries>
+				<!--  <manifestFile>${basedir}/../builds/manual/resources/META-INF/MANIFEST.MF</manifestFile>-->
+			</archive>
+		 </configuration>
+	   </plugin>
+    </plugins>
+
+    <resources>
+      <resource>
+        <targetPath>net/rim/tumbler/log/resources</targetPath>
+        <directory>src/net/rim/tumbler/log/resources</directory>
+        <includes>
+          <include>MessageBundle_en_CA.properties</include>
+        </includes>
+      </resource>
+    </resources>
+
+  </build>
+  <reporting>
+    <plugins>
+        <plugin>
+             <groupId>org.codehaus.mojo</groupId>
+             <artifactId>findbugs-maven-plugin</artifactId>
+             <version>2.3.2-SNAPSHOT</version>
+            <configuration>                
+                <threshold>Normal</threshold>
+                <xmlOutput>true</xmlOutput>
+                <findbugsXmlOutput>true</findbugsXmlOutput>                  
+                <findbugsXmlWithMessages>true</findbugsXmlWithMessages>
+            </configuration>
+        </plugin>
+    </plugins>
+  </reporting>
+
+</project>

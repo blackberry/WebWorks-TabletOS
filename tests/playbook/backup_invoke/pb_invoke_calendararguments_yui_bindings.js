@@ -1,0 +1,23 @@
+(function() {
+var bindings = YUI.framework.QCBindings;
+bindings.add ("blackberry.invoke.CalendarArguments should exist","BlackBerry Developer Tools\\WebWorks API\\PlayBook JS Extensions\\US2144 - blackberry.invoke","2429068");
+bindings.add ("blackberry.invoke.CalendarArguments.VIEW_NEW should exist","BlackBerry Developer Tools\\WebWorks API\\PlayBook JS Extensions\\US2144 - blackberry.invoke","2429069");
+bindings.add ("blackberry.invoke.CalendarArguments.VIEW_VIEW should exist","BlackBerry Developer Tools\\WebWorks API\\PlayBook JS Extensions\\US2144 - blackberry.invoke","2429070");
+bindings.add ("blackberry.invoke.CalendarArguments.VIEW_AGENDA should exist","BlackBerry Developer Tools\\WebWorks API\\PlayBook JS Extensions\\US2144 - blackberry.invoke","2429071");
+bindings.add ("blackberry.invoke.CalendarArguments.VIEW_DAY should exist","BlackBerry Developer Tools\\WebWorks API\\PlayBook JS Extensions\\US2144 - blackberry.invoke","2429072");
+bindings.add ("blackberry.invoke.CalendarArguments.VIEW_DEFAULT should exist","BlackBerry Developer Tools\\WebWorks API\\PlayBook JS Extensions\\US2144 - blackberry.invoke","2429073");
+bindings.add ("blackberry.invoke.CalendarArguments.VIEW_MONTH should exist","BlackBerry Developer Tools\\WebWorks API\\PlayBook JS Extensions\\US2144 - blackberry.invoke","2429074");
+bindings.add ("blackberry.invoke.CalendarArguments.VIEW_WEEK should exist","BlackBerry Developer Tools\\WebWorks API\\PlayBook JS Extensions\\US2144 - blackberry.invoke","2429075");
+bindings.add ("Manual Test 1 should invoke Calendar with empty CalendarArguments","BlackBerry Developer Tools\\WebWorks API\\PlayBook JS Extensions\\US2144 - blackberry.invoke","2429076");
+bindings.add ("Manual Test 2 should invoke Calendar with VIEW_NEW CalendarArguments","BlackBerry Developer Tools\\WebWorks API\\PlayBook JS Extensions\\US2144 - blackberry.invoke","2429077");
+bindings.add ("Manual Test 3 should invoke Calendar with VIEW_VIEW CalendarArguments","BlackBerry Developer Tools\\WebWorks API\\PlayBook JS Extensions\\US2144 - blackberry.invoke","2429078");
+bindings.add ("Manual Test 4 should invoke Calendar with VIEW_AGENDA CalendarArguments","BlackBerry Developer Tools\\WebWorks API\\PlayBook JS Extensions\\US2144 - blackberry.invoke","2429079");
+bindings.add ("Manual Test 5 should invoke Calendar with VIEW_DAY CalendarArguments","BlackBerry Developer Tools\\WebWorks API\\PlayBook JS Extensions\\US2144 - blackberry.invoke","2429080");
+bindings.add ("Manual Test 6 should invoke Calendar with VIEW_DEFAULT CalendarArguments","BlackBerry Developer Tools\\WebWorks API\\PlayBook JS Extensions\\US2144 - blackberry.invoke","2429081");
+bindings.add ("Manual Test 7 should invoke Calendar with VIEW_MONTH CalendarArguments","BlackBerry Developer Tools\\WebWorks API\\PlayBook JS Extensions\\US2144 - blackberry.invoke","2429082");
+bindings.add ("Manual Test 8 should invoke Calendar with VIEW_WEEK CalendarArguments","BlackBerry Developer Tools\\WebWorks API\\PlayBook JS Extensions\\US2144 - blackberry.invoke","2429083");
+bindings.add ("Manual Test 9 should invoke Calendar with CalendarArguments with view=7","BlackBerry Developer Tools\\WebWorks API\\PlayBook JS Extensions\\US2144 - blackberry.invoke","2429084");
+bindings.add ("Manual Test 10 should invoke Calendar with CalendarArguments with view=string","BlackBerry Developer Tools\\WebWorks API\\PlayBook JS Extensions\\US2144 - blackberry.invoke","2429085");
+bindings.add ("Manual Test 11 should invoke Calendar with CalendarArguments with Date object","BlackBerry Developer Tools\\WebWorks API\\PlayBook JS Extensions\\US2144 - blackberry.invoke","2429086");
+bindings.add ("Manual Test 12 should invoke Calendar with CalendarArguments with Appointment Object","BlackBerry Developer Tools\\WebWorks API\\PlayBook JS Extensions\\US2144 - blackberry.invoke","2429087");
+})();

@@ -1,0 +1,13 @@
+CACHE MANIFEST
+NETWORK:
+Lighthouse.jpg
+CACHE:
+index.htm
+ManageEvent.js
+Penguins.jpg
+myStyle.css
+FALLBACK:
+Lighthouse.jpg Lighthouse_offline.jpg
+
+
+#version 6.3

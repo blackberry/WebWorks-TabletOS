@@ -1,0 +1,3 @@
+var testingJSFileArray = [
+"manual.js"
+];

@@ -1,0 +1,126 @@
+<project>
+	<parent>
+		<groupId>net.rim.snarf</groupId>
+		<artifactId>snarf</artifactId>
+		<version>1.0.0.1</version>
+	</parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>installer</artifactId>
+	<version>${project.parent.version}-SNAPSHOT</version>
+	<name>${project.artifactId}-${project.version}</name>
+	<packaging>pom</packaging>
+
+	<properties>
+		<webworksZipPackage.dir>${project.build.directory}/webworks</webworksZipPackage.dir>
+		<webworksZipPackage.filename>WebWorksForPlaybook.zip</webworksZipPackage.filename>
+
+		<tabletSDK.dir>${project.build.directory}/tabletsdk</tabletSDK.dir>
+		<tabletSDK.filename>blackberry-tablet-sdk.zip</tabletSDK.filename>
+		<tabletSDK.branchNumber>1.0.2</tabletSDK.branchNumber>
+		<tabletSDK.buildID>201105191426</tabletSDK.buildID>
+		<tabletSDK.simFileName>playbook-simulator.zip</tabletSDK.simFileName>
+		<tabletSDK.simBranchNumber>1.0.1</tabletSDK.simBranchNumber>
+		<tabletSDK.simBuildID>${tabletSDK.buildID}</tabletSDK.simBuildID>
+	</properties>
+
+	<dependencies>
+	    <dependency>
+			<groupId>net.rim.snarf</groupId>
+			<artifactId>framework</artifactId>
+			<version>${project.parent.version}-SNAPSHOT</version>
+			<type>zip</type>
+			<scope>runtime</scope>
+		</dependency>		
+	</dependencies>
+
+    <build>
+        <!--<sourceDirectory>src</sourceDirectory>-->
+        <directory>target</directory>		
+        <plugins>	  
+			  <plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+				  <execution>
+					<id>copy</id>
+					<phase>prepare-package</phase>
+					<goals>
+					  <goal>copy</goal>
+					</goals>
+					<configuration>
+					  <artifactItems>
+						<!-- WebWorksForPlaybook.zip -->
+						<artifactItem>
+						  <groupId>net.rim.snarf</groupId>
+						  <artifactId>framework</artifactId>
+						  <version>${project.parent.version}-SNAPSHOT</version>
+						  <type>zip</type>
+						  <overWrite>true</overWrite>
+						  <outputDirectory>${webworksZipPackage.dir}</outputDirectory>
+						  <destFileName>${webworksZipPackage.filename}</destFileName>
+						</artifactItem>
+
+						<!-- blackberry-tablet-sdk.zip -->
+						<artifactItem>
+						  <groupId>net.rim.snarf</groupId>
+						  <artifactId>tablet-sdk</artifactId>
+						  <version>${tabletSDK.branchNumber}.${tabletSDK.buildID}</version>
+						  <type>zip</type>
+						  <overWrite>true</overWrite>
+						  <outputDirectory>${tabletSDK.dir}</outputDirectory>
+						  <destFileName>${tabletSDK.filename}</destFileName>
+						</artifactItem>
+
+						<!-- playbook simulator vm files -->
+						<artifactItem>
+						  <groupId>net.rim.snarf</groupId>
+						  <artifactId>playbook-simulator</artifactId>
+						  <version>${tabletSDK.simBranchNumber}.${tabletSDK.simBuildID}</version>
+						  <type>zip</type>
+						  <overWrite>true</overWrite>
+						  <outputDirectory>${tabletSDK.dir}</outputDirectory>
+						  <destFileName>${tabletSDK.simFileName}</destFileName>
+						</artifactItem>
+
+					  </artifactItems>
+					  <!-- other configurations here -->
+					</configuration>
+				  </execution>
+				</executions>
+			  </plugin>
+
+            <plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.6</version>
+				<executions>
+				  <execution>
+					<id>buildinstaller</id>
+					<phase>package</phase>
+					<goals>
+					  <goal>run</goal>
+					</goals>
+					<configuration>
+						<target>
+							<property name="webworksZipPackage.path" value="${webworksZipPackage.dir}/${webworksZipPackage.filename}"/>
+							<property name="tabletSDK.path" value="${tabletSDK.dir}/${tabletSDK.filename}"/>
+							<property name="tabletSDK.simPath" value="${tabletSDK.dir}/${tabletSDK.simFileName}"/>
+							<ant antfile="${basedir}/antbuild.xml"/>
+						</target>
+					</configuration>
+				  </execution>
+				</executions>
+            </plugin>               
+		</plugins>               
+    </build>
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-report-plugin</artifactId>
+                <version>2.8.1</version>
+            </plugin>
+        </plugins>
+    </reporting>
+</project>

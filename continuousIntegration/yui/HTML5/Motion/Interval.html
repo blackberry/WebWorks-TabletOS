@@ -1,0 +1,34 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+
+<html>
+
+	<head>
+
+	    <meta name="viewport" id="viewport" content="initial-scale=1.0,user-scalable=yes" />
+
+		<title>Test text attribute change</title>
+
+		<script>
+		
+		
+		window.addEventListener("devicemotion", function(event) {
+          // Process event.acceleration, event.accelerationIncludingGravity,
+          // event.rotationRate and event.interval
+		  document.getElementById('output').innerHTML = event.interval;
+      }, true);
+</script>
+
+	</head>
+
+	<body>
+
+		Current Report Interval: <br/><br/>
+		<b><label id="output" onmousemove="moveright()">If you can see this, this function is not supported</div></b>
+
+        <p>Reporting interval should be measurable</p>
+
+		
+	</body>
+
+</html>

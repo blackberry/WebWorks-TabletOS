@@ -1,0 +1,39 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+
+<html>
+
+	<head>
+
+	    <meta name="viewport" id="viewport" content="initial-scale=1.0,user-scalable=yes" />
+
+		<title>Test text attribute change</title>
+
+		<script>
+		
+		
+		window.addEventListener("devicemotion", function(event) {
+          // Process event.acceleration, event.accelerationIncludingGravity,
+          // event.rotationRate and event.interval
+		  document.getElementById('outputA').innerHTML = event.accelerationIncludingGravity.x;
+		  document.getElementById('outputB').innerHTML = event.accelerationIncludingGravity.y;
+		  document.getElementById('outputC').innerHTML = event.accelerationIncludingGravity.z;
+      }, true);
+</script>
+
+	</head>
+
+	<body>
+
+		Current Acceleration: <br/><br/>
+		<b>X: <label id="outputA" >If you can see this,</div></b><br/>
+	<b>Y: <label id="outputB" >this function</div></b><br/>
+	<b>Z: <label id="outputC" >is not supported</div></b><br/>
+	
+        <p>Acceleration including Gravity while flat on table should be approx 9.81 in the labelled direction facing downwards in the device's current orientation.</p>
+		<img src="directions.png" />
+
+		
+	</body>
+
+</html>

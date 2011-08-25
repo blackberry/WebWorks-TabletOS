@@ -1,0 +1,10 @@
+(function() {
+  var bindings = YUI.framework.QCBindings;
+    bindings.add ("blackberry.invoke.BrowserArguments should exist", "BlackBerry Developer Tools\\WebWorks API\\PlayBook JS Extensions\\PlayBook JS Extensions_" + YUI.framework.bundle_version + "\\US2144 - blackberry.invoke", "2447545");
+    bindings.add ("MANUAL Test1 - should invoke Browser and go to a website by using BrowserArguments", "BlackBerry Developer Tools\\WebWorks API\\PlayBook JS Extensions\\PlayBook JS Extensions_" + YUI.framework.bundle_version + "\\US2144 - blackberry.invoke", "2447546");
+	bindings.add ("MANUAL Test2 - should invoke Browser with a query string URL and go to a website by using BrowserArguments", "BlackBerry Developer Tools\\WebWorks API\\PlayBook JS Extensions\\PlayBook JS Extensions_" + YUI.framework.bundle_version + "\\US2144 - blackberry.invoke", "2477254");
+	bindings.add ("MANUAL Test3 - should invoke Browser and go to a website by using a URL BrowserArguments without protocol", "BlackBerry Developer Tools\\WebWorks API\\PlayBook JS Extensions\\PlayBook JS Extensions_" + YUI.framework.bundle_version + "\\US2144 - blackberry.invoke", "2479607");
+    bindings.add ("MANUAL Test4 - should invoke Browser and go to a website by using a URL BrowserArguments using HTTPS protocol", "BlackBerry Developer Tools\\WebWorks API\\PlayBook JS Extensions\\PlayBook JS Extensions_" + YUI.framework.bundle_version + "\\US2144 - blackberry.invoke", "2479609");
+    bindings.add ("MANUAL Test5 - should invoke Browser and go to a website by using a URL BrowserArguments using HTTPS protocol and port", "BlackBerry Developer Tools\\WebWorks API\\PlayBook JS Extensions\\PlayBook JS Extensions_" + YUI.framework.bundle_version + "\\US2144 - blackberry.invoke", "2479611");
+    bindings.add ("MANUAL Test6 - should invoke Browser and go to a website by using a URL BrowserArguments using HTTP protocol and port", "BlackBerry Developer Tools\\WebWorks API\\PlayBook JS Extensions\\PlayBook JS Extensions_" + YUI.framework.bundle_version + "\\US2144 - blackberry.invoke", "2479612");
+})();

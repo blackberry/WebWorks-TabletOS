@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<head>
+	<meta name="viewport" id="viewport" content="initial-scale=1.0,user-scalable=yes" />
+	<title>YUI Testing Harness</title>
+	<link type="text/css" rel="stylesheet" href="YUI_localJS/fonts-min.css" />
+	<link type="text/css" rel="stylesheet" href="YUI_localJS/gallery-treeview.css" />
+
+	<!-- YUI 2 and 3 JS seeds -->
+	<script type="text/javascript" src="yui_js/yui_base_min.js"></script>
+	<script type="text/javascript" src="yui_js/event_custom_min.js"></script>
+	<script type="text/javascript" src="yui_js/attribute_base_min.js"></script>
+	<script type="text/javascript" src="yui_js/base_min.js"></script>
+	<script type="text/javascript" src="yui_js/loader_min.js"></script>
+	<script type="text/javascript" src="yui_js/substitute_min.js"></script>
+	<script type="text/javascript" src="yui_js/dump_min.js"></script>
+	<script type="text/javascript" src="yui_js/substitute_min.js"></script>
+	<script type="text/javascript" src="yui_js/oop_min.js"></script>
+	<script type="text/javascript" src="yui_js/dom_min.js"></script>
+	<script type="text/javascript" src="yui_js/yui_later_min.js"></script>
+	<script type="text/javascript" src="yui_js/event_custom_base_min.js"></script>
+	<script type="text/javascript" src="yui_js/event_base_min.js"></script>
+	<script type="text/javascript" src="yui_js/pluginhost_min.js"></script>
+	<script type="text/javascript" src="yui_js/node_min.js"></script>
+	<script type="text/javascript" src="yui_js/event_delegate_min.js"></script>
+	<script type="text/javascript" src="yui_js/json_min.js"></script>
+	<script type="text/javascript" src="yui_js/event_simulate_min.js"></script>
+	<script type="text/javascript" src="yui_js/test_min.js"></script>
+	<script type="text/javascript" src="yui_js/gallery_port_min.js"></script>
+	<script type="text/javascript" src="yui_js/gallery_treeview_min.js"></script>
+	<script type="text/javascript" src="jquery-1.4.4.min.js" ></script>
+	<script type="text/javascript" src="jquery.blockUI.js" ></script>
+	<script type="text/javascript" src="json2.js" ></script>
+	<script type="text/javascript" src="YUIHarness.js" ></script>
+	<script type="text/javascript" src="YUITestsToRun.js"></script>
+	<script type="text/javascript" src="YUIController.js"></script>
+	<script type="text/javascript" src="YUIQCBindings.js"></script>
+</head>
+
+<body onload="loadYuiTestsToRunJS()">
+<div class="contentBody">
+	<div id="treeDiv1" class="whitebg ygtv-checkbox"></div>
+	<br />
+	<hr />
+	<button onclick="run_selectedTests()">Execute Selected Tests</button>
+	<button onclick="setStatusForAllTests(1)">Select All Tests</button>
+	<button onclick="setStatusForAllTests(0)">Unselect All Tests</button>
+	<br />
+	<button id='btnXML' style="display: none;" onclick="displayResultByFormat('XML');">Display in XML Format</button>
+	<button id='btnTAP' style="display: none;" onclick="displayResultByFormat('TAP');">Display in TAP Format</button>
+	<button id='btnTAPWOI' style="display: none;" onclick="displayResultByFormat('TAPWOI');">Display in TAP Without Ignored</button>
+	<button id='btnJUnitXML' style="display: none;" onclick="displayResultByFormat('JUnitXML');">Display in JUnitXML Format</button>
+	<button id='btnJSON' style="display: none;" onclick="displayResultByFormat('JSON';)">Display in JSON Format</button>
+	<button id='btnSendReport' style="display: none;" onclick="sendReport()">Send Report</button><br/>
+	<input id="cbIncludeManualTests" type="checkbox" style="visibility:visible" checked /><span style="visibility:visible">Include Manual Tests</span><br/>
+	<input id="cbReportQC" type="checkbox" style="visibility:visible" /><span style="visibility:visible">Report to QC</span><br/>
+	<span style="visibility:visible">username:</span><input id="tbUserName" type="text" size="35" style="visibility:visible" /><br/>
+	<span style="visibility:visible">password:</span><input id="tbPassword" type="password" size="35"  style="visibility:visible" /><br/>
+	<span style="visibility:visible">runname:</span><input id="tbRunName" type="text" size="35" style="visibility:visible" /><br/>
+	<br />
+	<div id="output"></div>
+	<div id="txtareaResult"></div>
+	<!--<textarea id="txtareaResult" cols="150" rows="30" style="border-style: none"></textarea>-->
+	
+</div>
+</body>
+<script type="text/javascript">
+function getParameterByName(name) {
+
+    var match = RegExp('[?&]' + name + '=([^&]*)')
+                    .exec(window.location.search);
+
+    return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+
+}
+
+if (getParameterByName("hudson") != undefined && getParameterByName("buildId"))
+	YUI.framework.isContinuousIntegrationRun = true;
+	YUI.framework.bundle_version = getParameterByName("buildId");
+	setTimeout("runContinuousIntegrationTesting();", 1000); //wait 1 sec before launching CI testing (to let test tree load)
+	
+</script>
+</html>

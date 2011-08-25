@@ -1,0 +1,15 @@
+<manifest>
+	<libraries basePath="../../../../js_api">
+		<libraryPath>/blackberry.app</libraryPath>
+		<libraryPath>/blackberry.app.event</libraryPath>
+		<libraryPath>/blackberry.invoke</libraryPath>
+		<!--libraryPath>/BlackBerry_Payment</libraryPath-->
+		<libraryPath>/blackberry.system</libraryPath>
+		<libraryPath>/blackberry.system.event</libraryPath>
+		<libraryPath>/blackberry.ui.dialog</libraryPath>
+		<libraryPath>/blackberry.utils</libraryPath>
+	</libraries>
+	<settings>
+		<libraryName>library.xml</libraryName>
+	</settings>
+</manifest>

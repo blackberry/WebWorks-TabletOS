@@ -1,0 +1,40 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+
+<html>
+
+	<head>
+
+	    <meta name="viewport" id="viewport" content="initial-scale=1.0,user-scalable=yes" />
+
+		<title>Test text attribute change</title>
+
+		<script>
+		
+		
+		window.addEventListener("devicemotion", function(event) {
+          // Process event.acceleration, event.accelerationIncludingGravity,
+          // event.rotationRate and event.interval
+		  alert(event.acceleration.z);
+		  document.getElementById('outputA').innerHTML = event.acceleration.x;
+		  document.getElementById('outputB').innerHTML = event.acceleration.y;
+		  document.getElementById('outputC').innerHTML = event.acceleration.z;
+      }, true);
+</script>
+
+	</head>
+
+	<body>
+
+		Current Acceleration: <br/><br/>
+		<b>X: <label id="outputA" >If you can see this,</div></b><br/>
+	<b>Y: <label id="outputB" >this function</div></b><br/>
+	<b>Z: <label id="outputC" >is not supported</div></b><br/>
+   
+		<p>Acceleration should be 0 while device is at rest, with any motion registered in the labelled direction (eg dropping with face up would provide a negative Z. [do not test this by dropping devices]) </p>
+		<img src="directions_nograv.png" />
+
+		
+	</body>
+
+</html>
