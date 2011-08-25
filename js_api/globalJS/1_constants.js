@@ -14,3 +14,5 @@
 * limitations under the License.
 */
 var SERVER_URL = "webworks://";
+var WEBWORKS_RETURN_VALUE_SUCCESS = 0;
+var WEBWORKS_RETURN_VALUE_ERROR = -1;

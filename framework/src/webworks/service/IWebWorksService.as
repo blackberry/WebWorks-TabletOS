@@ -16,10 +16,8 @@
 
 package webworks.service
 {
-	import webworks.extension.WebWorksReturnValue;
-	
 	public interface IWebWorksService
 	{
-		function execute(operation:String, parameterMap:Object):WebWorksReturnValue;
+		function execute(operation:String, parameterMap:Object):String;
 	}
 }
