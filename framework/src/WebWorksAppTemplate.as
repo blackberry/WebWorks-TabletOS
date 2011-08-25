@@ -24,8 +24,11 @@ package
 	import flash.geom.Rectangle;
 	import flash.utils.*;
 	
+	import json.JSON;
+	
 	import qnx.dialog.AlertDialog;
 	import qnx.events.ExtendedLocationChangeEvent;
+	import qnx.events.JavaScriptCallbackEvent;
 	import qnx.events.UnknownProtocolEvent;
 	
 	import webworks.FunctionBroker;
@@ -33,12 +36,12 @@ package
 	import webworks.config.ConfigData;
 	import webworks.errors.HTTPErrorMapping;
 	import webworks.extension.IApiExtension;
+	import webworks.extension.WebWorksReturnValue;
 	import webworks.loadingScreen.LoadingScreen;
 	import webworks.loadingScreen.Transitions;
 	import webworks.service.ServiceManager;
 	import webworks.webkit.WebkitControl;
 	import webworks.webkit.WebkitEvent;
-	
 
 	[SWF(width="1024", height="600", frameRate="30", backgroundColor="#000000")]
 	public class WebWorksAppTemplate extends Sprite
@@ -135,7 +138,8 @@ package
             _webWindow.addEventListener(WebkitEvent.WEBVIEW_CREATED, webkitWindowReady);
  			_webWindow.addEventListener(WebkitEvent.TAB_LOCATION_CHANGING, webkitLocationChanging);
 			_webWindow.addEventListener(WebkitEvent.TAB_LOCATION_CHANGED, webkitLocationChanged);
-			_webWindow.addEventListener(WebkitEvent.TAB_UNKNOWNPROTOCOL, handleUnknownProtocol)
+			_webWindow.addEventListener(WebkitEvent.TAB_UNKNOWNPROTOCOL, handleUnknownProtocol);
+			_webWindow.addEventListener(WebkitEvent.TAB_QNXCALLEXTENSION, handleQnxCallExtension);
  			addChild(_webWindow);
 		}
 		
@@ -176,10 +180,35 @@ package
 			
 			_webWindow.qnxWebView.notifyResourceDone(sid);
 		}
+		
+		private function handleQnxCallExtension(event:WebkitEvent):void
+		{
+			var jsce:JavaScriptCallbackEvent = event.data as JavaScriptCallbackEvent;
+			var requestUrl:String = "";
+			
+			for each(var param:String in jsce.params){
+				//rest of the parameters 
+				requestUrl += param; 
+			}
+			
+			var returnedBody:String = "";
+			
+			try {
+				returnedBody = _broker.handleXHRRequest(requestUrl).toString();
+			}
+			catch (e:Error) {
+				// Error code will always be -1 for now whichever error happens
+				var errorReturn:WebWorksReturnValue = new WebWorksReturnValue({}, WebWorksReturnValue.RET_ERROR, e.message);
+				returnedBody = errorReturn.json;
+			}
+			
+			jsce.result = returnedBody;
+		}
 			
 		private function tabLoadComplete(event:WebkitEvent):void 
         {
 			trace("HTML LOAD DONE");
+			_loadingScreen.hideIfNecessary();
 		}
 
 		private function webkitWindowReady(event:WebkitEvent):void 
@@ -219,7 +248,6 @@ package
 		private function webkitLocationChanged(event:WebkitEvent):void 
 		{
 			trace("webkitLocationChanged event");
-			_loadingScreen.hideIfNecessary();
 		}
 
 		private function onOrientationChange(event:StageOrientationEvent):void

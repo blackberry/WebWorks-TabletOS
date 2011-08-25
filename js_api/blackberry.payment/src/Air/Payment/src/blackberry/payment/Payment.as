@@ -15,7 +15,6 @@
 */
 package blackberry.payment
 {
-    import flash.events.Event;
     import flash.utils.*;
 
     import json.JSON;
@@ -27,33 +26,17 @@ package blackberry.payment
 
     import webworks.extension.DefaultExtension;
 
-
     public class Payment extends DefaultExtension
     {
-        private var _javaScriptOnPurchaseSuccess:String = "";
-        private var _javaScriptOnPurchaseFailure:String = "";
-        private var _javaScriptOnExistingPurchasingSuccess:String = "";
-        private var _javaScriptOnExistingPurchasingFailure:String = "";
+        private static const GENERAL_PAYMENT_SYSTEM_ERROR:int = 3;
         private var _developmentMode:Boolean = false;
-        private var _ps:PaymentSystem = new PaymentSystem();
 
         public function Payment()
         {
         }
 
-        public override function loadFeature(feature:String, version:String):void
-        {
-            _ps = new PaymentSystem();
-            _ps.setConnectionMode(PaymentSystem.CONNECTION_MODE_NETWORK);
-        }
-
-        public override function unloadFeature():void
-        {
-        }
-
         public override function getFeatureList():Array
         {
-
             return new Array("blackberry.payment");
         }
 
@@ -66,94 +49,121 @@ package blackberry.payment
         {
             if (mode === "true")
             {
-                _ps.setConnectionMode(PaymentSystem.CONNECTION_MODE_LOCAL);
                 _developmentMode = true;
             }
             else if (mode === "false")
             {
-                _ps.setConnectionMode(PaymentSystem.CONNECTION_MODE_NETWORK);
                 _developmentMode = false;
             }
         }
 
-        public function purchase(options:String, callbackOnSuccess:String, callbackOnFailure:String):void
+        // Applies current connection mode to the PaymentSystem instance.
+        private function setConnecionModeToPSObject(ps:PaymentSystem):void
+        {
+            if (ps)
+            {
+                if (_developmentMode)
+                {
+                    ps.setConnectionMode(PaymentSystem.CONNECTION_MODE_LOCAL);
+                }
+                else
+                {
+                    ps.setConnectionMode(PaymentSystem.CONNECTION_MODE_NETWORK);
+                }
+            }
+        }
+
+        public function purchase(options:String, onnSuccessCallbackId:String, onFailureCallbackId:String):void
         {
             var data:Object = JSON.decode(options, true);
+            var onPurchaseSuccess:Function = new Function;
+            var onPurchaseFail:Function = new Function;
+            var ps:PaymentSystem = new PaymentSystem();
+            setConnecionModeToPSObject(ps);
 
-            _javaScriptOnPurchaseSuccess = callbackOnSuccess;
-            _javaScriptOnPurchaseFailure = callbackOnFailure;
-
-            _ps.addEventListener(PaymentSuccessEvent.PURCHASE_SUCCESS, onPurchaseSuccess);
-            _ps.addEventListener(PaymentErrorEvent.PURCHASE_ERROR, onPurchaseFail);
-
-            _ps.purchase(data.digitalGoodID, data.digitalGoodSKU, data.digitalGoodName, data.metaData, data.purchaseAppName, data.purchaseAppIcon);
-        }
-
-        public function onPurchaseSuccess(event:PaymentSuccessEvent):void
-        {
-            var param:Array = new Array(1);
-            var purch:Object = new PurchaseData(event.purchase.transactionID, event.purchase.digitalGoodID, event.purchase.date.time.toString(), event.purchase.digitalGoodSKU, event.purchase.licenseKey, event.purchase.metaData);
-
-            param[0] = JSON.encode(purch);
-
-            this.evalJavaScriptEvent(_javaScriptOnPurchaseSuccess, param);
-
-            _ps.removeEventListener(PaymentSuccessEvent.PURCHASE_SUCCESS, onPurchaseSuccess);
-            _ps.removeEventListener(PaymentErrorEvent.PURCHASE_ERROR, onPurchaseFail);
-        }
-
-        public function onPurchaseFail(event:PaymentErrorEvent):void
-        {
-            var param:Array = new Array(2);
-            param[0] = JSON.encode(event.text);
-            param[1] = JSON.encode(event.errorID);
-            this.evalJavaScriptEvent(_javaScriptOnPurchaseFailure, param);
-
-            _ps.removeEventListener(PaymentSuccessEvent.PURCHASE_SUCCESS, onPurchaseSuccess);
-            _ps.removeEventListener(PaymentErrorEvent.PURCHASE_ERROR, onPurchaseFail);
-        }
-
-        public function getExistingPurchases(refresh:String, callbackOnSuccess:String, callbackOnFailure:String):void
-        {
-
-            _javaScriptOnExistingPurchasingSuccess = callbackOnSuccess;
-            _javaScriptOnExistingPurchasingFailure = callbackOnFailure;
-
-            _ps.addEventListener(PaymentSuccessEvent.GET_EXISTING_PURCHASES_SUCCESS, onGetExistingPurchasesSuccess);
-            _ps.addEventListener(PaymentErrorEvent.GET_EXISTING_PURCHASES_ERROR, onGetExistingPurchasesFailure);
-            _ps.getExistingPurchases(refresh === "true");
-        }
-
-        public function onGetExistingPurchasesSuccess(event:PaymentSuccessEvent):void
-        {
-            var param:Array = new Array(1);
-            var purchaseArray:Array = new Array(event.existingPurchases.length);
-
-
-            for (var i:Number = 0; i < event.existingPurchases.length; i++)
+            try
             {
-                var purchase:Purchase = event.existingPurchases[i];
+                ps.addEventListener(PaymentSuccessEvent.PURCHASE_SUCCESS, onPurchaseSuccess = function(event:PaymentSuccessEvent):void
+                {
+                    var param:Array = new Array(1);
+                    var purch:Object = new PurchaseData(event.purchase.transactionID, event.purchase.digitalGoodID, event.purchase.date.time.toString(), event.purchase.digitalGoodSKU, event.purchase.licenseKey, event.purchase.metaData);
 
-                purchaseArray[i] = new PurchaseData(purchase.transactionID, purchase.digitalGoodID, purchase.date.time.toString(), purchase.digitalGoodSKU, purchase.licenseKey, purchase.metaData);
+                    param[0] = JSON.encode(purch);
+                    evalJavaScriptEvent(onnSuccessCallbackId, param);
+
+                    ps.removeEventListener(PaymentSuccessEvent.PURCHASE_SUCCESS, onPurchaseSuccess);
+                    ps.removeEventListener(PaymentErrorEvent.PURCHASE_ERROR, onPurchaseFail);
+                });
+                ps.addEventListener(PaymentErrorEvent.PURCHASE_ERROR, onPurchaseFail = function(event:PaymentErrorEvent):void
+                {
+                    var param:Array = new Array(2);
+                    param[0] = event.text;
+                    param[1] = event.errorID;
+                    evalJavaScriptEvent(onFailureCallbackId, param);
+
+                    ps.removeEventListener(PaymentSuccessEvent.PURCHASE_SUCCESS, onPurchaseSuccess);
+                    ps.removeEventListener(PaymentErrorEvent.PURCHASE_ERROR, onPurchaseFail);
+                });
+
+                ps.purchase(data.digitalGoodID, data.digitalGoodSKU, data.digitalGoodName, data.metaData, data.purchaseAppName, data.purchaseAppIcon);
             }
-
-            param[0] = JSON.encode(purchaseArray);
-
-            this.evalJavaScriptEvent(_javaScriptOnExistingPurchasingSuccess, param);
-
-            _ps.removeEventListener(PaymentSuccessEvent.GET_EXISTING_PURCHASES_SUCCESS, onGetExistingPurchasesSuccess);
-            _ps.removeEventListener(PaymentErrorEvent.GET_EXISTING_PURCHASES_ERROR, onGetExistingPurchasesFailure);
+            catch (e:Error)
+            {
+                var param:Array = new Array(2);
+                param[0] = "Error occured when calling purchase method: " + e.message;
+                param[1] = GENERAL_PAYMENT_SYSTEM_ERROR;
+                evalJavaScriptEvent(onFailureCallbackId, param);
+            }
         }
 
-        public function onGetExistingPurchasesFailure(event:PaymentErrorEvent):void
+        public function getExistingPurchases(refresh:String, onSuccessCallbackId:String, onFailureCallbackId:String):void
         {
-            var param:Array = new Array(2);
-            param[0] = JSON.encode(event.text);
-            param[1] = JSON.encode(event.errorID);
-            this.evalJavaScriptEvent(_javaScriptOnExistingPurchasingFailure, param);
+            var onGetExistingPurchasesSuccess:Function = new Function;
+            var onGetExistingPurchasesFailure:Function = new Function;
+            var ps:PaymentSystem = new PaymentSystem();
+            setConnecionModeToPSObject(ps);
 
-            _ps.removeEventListener(PaymentSuccessEvent.GET_EXISTING_PURCHASES_SUCCESS, onGetExistingPurchasesSuccess);
-            _ps.removeEventListener(PaymentErrorEvent.GET_EXISTING_PURCHASES_ERROR, onGetExistingPurchasesFailure);
+            try
+            {
+                ps.addEventListener(PaymentSuccessEvent.GET_EXISTING_PURCHASES_SUCCESS, onGetExistingPurchasesSuccess = function(event:PaymentSuccessEvent):void
+                {
+                    var param:Array = new Array(1);
+                    var purchaseArray:Array = new Array(event.existingPurchases.length);
+
+
+                    for (var i:Number = 0; i < event.existingPurchases.length; i++)
+                    {
+                        var purchase:Purchase = event.existingPurchases[i];
+
+                        purchaseArray[i] = new PurchaseData(purchase.transactionID, purchase.digitalGoodID, purchase.date.time.toString(), purchase.digitalGoodSKU, purchase.licenseKey, purchase.metaData);
+                    }
+
+                    param[0] = JSON.encode(purchaseArray);
+                    evalJavaScriptEvent(onSuccessCallbackId, param);
+
+                    ps.removeEventListener(PaymentSuccessEvent.GET_EXISTING_PURCHASES_SUCCESS, onGetExistingPurchasesSuccess);
+                    ps.removeEventListener(PaymentErrorEvent.GET_EXISTING_PURCHASES_ERROR, onGetExistingPurchasesFailure);
+                });
+                ps.addEventListener(PaymentErrorEvent.GET_EXISTING_PURCHASES_ERROR, onGetExistingPurchasesFailure = function(event:PaymentErrorEvent):void
+                {
+                    var param:Array = new Array(2);
+                    param[0] = event.text;
+                    param[1] = event.errorID;
+                    evalJavaScriptEvent(onFailureCallbackId, param);
+
+                    ps.removeEventListener(PaymentSuccessEvent.GET_EXISTING_PURCHASES_SUCCESS, onGetExistingPurchasesSuccess);
+                    ps.removeEventListener(PaymentErrorEvent.GET_EXISTING_PURCHASES_ERROR, onGetExistingPurchasesFailure);
+
+                });
+                ps.getExistingPurchases(refresh === "true");
+            }
+            catch (e:Error)
+            {
+                var param:Array = new Array(2);
+                param[0] = "Error occured when calling getExistingPurchases method: " + e.message;
+                param[1] = GENERAL_PAYMENT_SYSTEM_ERROR;
+                evalJavaScriptEvent(onFailureCallbackId, param);
+            }
         }
     }
 }
