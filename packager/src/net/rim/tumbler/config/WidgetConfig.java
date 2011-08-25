@@ -451,7 +451,14 @@ public class WidgetConfig {
         return _id;
     }
 
-    public void setID(String id) {
+    public void setID(String id)
+    		throws ValidationException {
+    	// We need validate the value of id using the same rule of the archive name
+        Pattern patternWidgetName = Pattern.compile("[a-zA-Z][a-zA-Z0-9]*");
+        if (!patternWidgetName.matcher(id).matches()) {
+            throw new ValidationException("EXCEPTION_CONFIGXML_INVALID_ID");
+        }    	
+    	
         _id = id;
     }
 

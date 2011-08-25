@@ -29,7 +29,12 @@ package webworks.service
 		public function ServiceManager(webkitControl:WebkitControl)
 		{
 			_services = new Dictionary();
-			_services["services.blob"] = new BlobManager(webkitControl);
+			_services[BlobManager.NAME] = new BlobManager(webkitControl);
+		}
+		
+		public function getService(serviceName:String): IWebWorksService 
+		{
+			return _services[serviceName];
 		}
 		
 		public function getEndPointForMethod(serviceUrl:String):IWebWorksService 
@@ -38,7 +43,7 @@ package webworks.service
 			//Our service keys be the feature name of the requested URL (ie: services/blob)
 			//Convert it to a DeviceURL to take advantage of the built-in parsing
 			var url:DeviceURL = new DeviceURL(serviceUrl);
-			return _services[url.featureName];
+			return getService(url.featureName);
 		}
 	}
 }
