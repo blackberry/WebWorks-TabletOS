@@ -20,19 +20,21 @@ package webworks.webkit
 	import flash.events.ErrorEvent;
 	import flash.events.Event;
 	import flash.events.LocationChangeEvent;
+	import flash.filesystem.*;
 	import flash.geom.Rectangle;
 	import flash.net.URLRequestHeader;
 	import flash.sensors.Geolocation;
 	import flash.utils.*;
-	import flash.filesystem.*;
+	
 	import qnx.display.IowWindow;
 	import qnx.events.ExtendedLocationChangeEvent;
+	import qnx.events.JavaScriptCallbackEvent;
 	import qnx.events.NetworkResourceRequestedEvent;
 	import qnx.events.UnknownProtocolEvent;
 	import qnx.events.WebViewEvent;
 	import qnx.events.WindowObjectClearedEvent;
-	import qnx.media.QNXStageWebView;
 	import qnx.fullscreen.FullscreenClient;
+	import qnx.media.QNXStageWebView;
 	
 	import webworks.JavaScriptLoader;
 	import webworks.access.Access;
@@ -83,6 +85,7 @@ package webworks.webkit
 			events[NetworkResourceRequestedEvent.NETWORK_RESOURCE_REQUESTED] = networkResourceRequested;
 			events[UnknownProtocolEvent.UNKNOWN_PROTOCOL] = handleUnknownProtocol;
 			events[WindowObjectClearedEvent.WINDOW_OBJECT_CLEARED] = onJavaScriptWindowObjectCleared;
+			events[JavaScriptCallbackEvent.JAVA_SCRIPT_CALLBACK] = onJavaScriptCallbackEvent;
 			
 			//Create the webview with our default settings and register the events we need
 			_webView = createWebview(defaultSettings, events);
@@ -125,6 +128,16 @@ package webworks.webkit
 			}
 			
 			return customHeaders;
+		}
+		
+		private function onJavaScriptCallbackEvent(event:JavaScriptCallbackEvent):void{ 
+			trace("JavaScriptCallbackEvent: " + event.name);
+			
+			if (event.name.toLowerCase() != "webworks") {
+				return;
+			}
+			
+			dispatchEvent(new WebkitEvent(WebkitEvent.TAB_QNXCALLEXTENSION, event));			
 		}
 		
 		private function networkResourceRequested(event:NetworkResourceRequestedEvent):void

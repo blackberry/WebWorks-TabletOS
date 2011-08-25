@@ -32,6 +32,7 @@ package webworks.webkit
 		
 		public static const TAB_NETWORKRESOURCEREQUESTED:String = "tabNetworkResourceRequested";
 		public static const TAB_UNKNOWNPROTOCOL:String      = "tabUnknownProtocol";
+		public static const TAB_QNXCALLEXTENSION:String      = "tabQnxCallExtension";
 		
 //        public static const HTML_BROWSER_CREATE_FAILED:String 	= HtmlEvent.HTML_BROWSER_CREATE_FAILED;
         public static const WEBVIEW_CREATED:String 			= WebViewEvent.CREATED;

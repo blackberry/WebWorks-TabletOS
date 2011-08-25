@@ -16,9 +16,7 @@
 
 package webworks.extension
 {
-	import json.JSONEncoder;
-	
-	import webworks.service.IWebWorksData;
+	import json.JSON;
 	
 	public class WebWorksReturnValue
 	{
@@ -27,12 +25,10 @@ package webworks.extension
 		private var _data:*;
 		
 		public static const RET_SUCCESS:Number = 0;
+		public static const RET_ERROR:Number = -1;
 		
-		public function WebWorksReturnValue(data:*, returnCode:Number = WebWorksReturnValue.RET_SUCCESS, message:String=null) 
+		public function WebWorksReturnValue(data:*, returnCode:Number = WebWorksReturnValue.RET_SUCCESS, message:String="") 
 		{
-			//If the data parameter is of type IWebWorksData, which contains a return value in the form of a complex AS object
-			//and a simpler JS-friendly data object, keep it as-is. Otherwise create an instance of IWebWorksData for which both
-			//the AS and JS objects are the same.
 			_data = data;
 			_rc = returnCode;
 			_msg = message;
@@ -40,28 +36,21 @@ package webworks.extension
 		
 		public function get data():*
 		{
-			return (_data is IWebWorksData) ? _data.actionScriptObject : _data;
+			return _data;
 		}
 		
-		//Temporary method that retrieves the underlying JS-friendly return object.
-		//It exists because for function calls, DefaultExtension does the conversion to JSON
-		//For service calls the IWebWorksData Implementation returns the jsObject which the service
-		//manager converts into JSON
-		public function get jsObject():Object
+		public function get jsonObject():Object
 		{
-			var d:* = (_data is IWebWorksData) ? _data.jsObject : _data;
 			return {
 				"code" : _rc,
 				"msg"  : _msg,
-				"data" : d
+				"data" : _data
 			};
 		}
 		
 		public function get json():String 
 		{
-			var encoder:JSONEncoder = new JSONEncoder(this.jsObject);
-			
-			return encoder.getString();
-		}
+			return JSON.encode(this.jsonObject);
+		}		
 	}
 }
