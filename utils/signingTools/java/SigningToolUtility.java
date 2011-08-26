@@ -24,7 +24,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 
-public class SigningTool {
+public class SigningToolUtility {
 
 	private JFrame frame;
 	
