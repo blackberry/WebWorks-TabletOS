@@ -39,10 +39,10 @@ xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assemb
 		-->
     </fileSets>
 
-    <files>
+    <!--<files>
         <file>
             <source>../builds/manual/resources/SDK_license_English.txt</source>
             <outputDirectory>/</outputDirectory>      
         </file> 
-    </files>    
+    </files>    -->
 </assembly>
