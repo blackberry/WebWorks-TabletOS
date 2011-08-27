@@ -1,0 +1,3 @@
+[submodule "continuousIntegration"]
+	path = continuousIntegration
+	url = git@git.rim.net:/blackberry-webworks/snarf-continuousIntegration
