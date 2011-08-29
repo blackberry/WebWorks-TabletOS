@@ -1,4 +1,0 @@
-(function() {  
-	alert ("on playbook");
-})();
-
