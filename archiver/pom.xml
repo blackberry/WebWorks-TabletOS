@@ -1,0 +1,111 @@
+<project>
+	<parent>
+		<groupId>net.rim.snarf</groupId>
+		<artifactId>snarf</artifactId>
+		<version>1.0.0.1</version>
+	</parent>
+	
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>${project.parent.groupId}</groupId>
+	<artifactId>archiver</artifactId>
+	<version>${project.parent.version}-SNAPSHOT</version>
+	<name>${project.artifactId}-${project.version}</name>
+	<packaging>pom</packaging>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<webworksZipPackage.filename>WebWorksForPlaybook.zip</webworksZipPackage.filename>
+	</properties>
+
+	<dependencies>
+	    <dependency>
+			<groupId>${project.parent.groupId}</groupId>
+			<artifactId>framework</artifactId>
+			<version>${project.parent.version}-SNAPSHOT</version>
+			<type>zip</type>
+			<scope>runtime</scope>
+		</dependency>		
+	</dependencies>
+    
+    <build>		
+		<sourceDirectory>${basedir}/..</sourceDirectory>
+		<finalName>WebWorksForPlaybook</finalName>
+		
+		<plugins>		
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					 <!-- Unzip the dependency -->
+					<execution>
+						<id>unpack-framework</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>unpack</goal>
+						</goals>
+						<configuration>
+							<artifactItems>							
+								<artifactItem>
+									<groupId>${project.groupId}</groupId>
+									<artifactId>framework</artifactId>
+									<version>${project.version}</version>
+									<type>zip</type>
+									<overWrite>true</overWrite>
+									<outputDirectory>${basedir}/resources</outputDirectory>
+								</artifactItem>												
+							</artifactItems>
+						</configuration>
+				  </execution>
+				</executions>
+			</plugin>			
+			 <plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.2.1</version>
+				<executions>
+					<execution>
+						<id>generate-archive</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>								
+						<configuration>
+							<descriptors>
+								<descriptor>${basedir}/archive-desc.xml</descriptor>
+							</descriptors>
+							<appendAssemblyId>false</appendAssemblyId>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin> 
+			<plugin>
+				<!-- copy archive to output directory -->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.5</version>
+				<executions>
+					<execution>
+						<id>copy-archive</id>
+						
+						<phase>package</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.sourceDirectory}/target</outputDirectory>
+							<resources>
+								<resource>
+									<directory>${basedir}/target</directory>
+									<includes>
+										<include>*.zip</include>
+									</includes>									
+								</resource>
+							</resources>              
+						</configuration>            
+					</execution>
+				</executions>
+			</plugin>
+			
+		</plugins>
+	</build>
+</project>
