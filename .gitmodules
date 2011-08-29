@@ -1,0 +1,6 @@
+[submodule "continuousIntegration"]
+	path = continuousIntegration
+    url = http://git.rim.net/blackberry-webworks/snarf-continuousIntegration.git
+[submodule "installer"]
+	path = installer
+	url = http://git.rim.net/blackberry-webworks/snarf-installer.git
