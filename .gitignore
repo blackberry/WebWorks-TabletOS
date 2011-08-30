@@ -5,3 +5,5 @@ build.num
 .flexProperties
 .flexLibProperties
 .project
+target/
+archiver/resources/
