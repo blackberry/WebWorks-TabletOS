@@ -27,60 +27,60 @@
 	</dependencies>
 
     <build>
-        <!--<sourceDirectory>src</sourceDirectory>-->
         <directory>target</directory>
         <finalName>WebWorksForPlaybook</finalName>
 
         <plugins>	  
-			  <plugin>
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.5</version>
+				<executions>
+					<execution>
+						<id>copy-resources</id>							
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${basedir}/target/launcher</outputDirectory>
+							<resources>          
+								<resource>
+									<directory>resources</directory>
+									<includes>
+										<include>bbwp*</include>
+									</includes>
+								</resource>
+							</resources>              
+						</configuration>            
+					</execution>
+				</executions>
+			</plugin> 
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
 				<executions>
-				  <execution>
-					<id>copy</id>
-					<phase>prepare-package</phase>
-					<goals>
-					  <goal>copy</goal>
-					</goals>
-					<configuration>
-					  <artifactItems>
-						<artifactItem>
-						  <groupId>net.rim.snarf</groupId>
-						  <artifactId>winexe</artifactId>
-						  <version>1.0.1</version>
-						  <type>exe</type>
-						  <overWrite>true</overWrite>
-						  <outputDirectory>${nativeLauncher.dir}</outputDirectory>
-						  <destFileName>bbwp.exe</destFileName>
-						</artifactItem>
-
-						<artifactItem>
-						  <groupId>net.rim.snarf</groupId>
-						  <artifactId>macexe</artifactId>
-						  <version>1.0.2</version>
-						  <type>exe</type>
-						  <overWrite>true</overWrite>
-						  <outputDirectory>${nativeLauncher.dir}</outputDirectory>
-						  <destFileName>bbwp</destFileName>
-						</artifactItem>
-
-						<artifactItem>
-						  <groupId>net.rim.snarf</groupId>
-						  <artifactId>packager</artifactId>
-						  <version>${project.parent.version}-SNAPSHOT</version>
-						  <type>jar</type>
-						  <overWrite>true</overWrite>
-						  <outputDirectory>${bbwpjar.dir}</outputDirectory>
-						  <destFileName>bbwp.jar</destFileName>
-						</artifactItem>
-
-					  </artifactItems>
-					  <!-- other configurations here -->
-					</configuration>
-				  </execution>
+					<execution>
+						<id>copy</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>copy</goal>
+						</goals>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<groupId>net.rim.snarf</groupId>
+									<artifactId>packager</artifactId>
+									<version>${project.parent.version}-SNAPSHOT</version>
+									<type>jar</type>
+									<overWrite>true</overWrite>
+									<outputDirectory>${bbwpjar.dir}</outputDirectory>
+									<destFileName>bbwp.jar</destFileName>
+								</artifactItem>
+							</artifactItems>
+						</configuration>
+					</execution>
 				</executions>
-			  </plugin>
-
+			</plugin>
             <plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
@@ -100,8 +100,7 @@
 					</configuration>
 				  </execution>
 				</executions>
-            </plugin>       
-
+            </plugin>   
         </plugins>
     </build>
 </project>
