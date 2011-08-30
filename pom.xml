@@ -9,12 +9,36 @@
 	<modules>
 		<module>packager</module>
 		<module>framework</module>
-		<module>installer</module>
 	</modules>
 
 	<properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
+	
+	<profiles>
+		<profile>
+			<id>MakeInstaller</id>
+			<activation>
+				<file>
+					<exists>${basedir}/installer/pom.xml</exists>
+				</file>
+			</activation>
+			<modules>
+				<module>installer</module>
+			</modules>
+		</profile>
+		<profile>
+			<id>MakeZip</id>
+			<activation>
+				<file>
+					<missing>${basedir}/installer/pom.xml</missing>
+				</file>
+			</activation>
+			<modules>
+				<module>archiver</module>
+			</modules>
+		</profile>
+	</profiles>	
 
     <distributionManagement>
        <repository>

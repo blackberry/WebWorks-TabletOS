@@ -28,11 +28,19 @@ package blackberry.payment
 
     public class Payment extends DefaultExtension
     {
+        private static const PAYMENT_SYSTEM_BUSY_ERROR:String = "Payment system is busy, please complete your other transaction and try again."
+        private static const PAYMENT_SYSTEM_BUSY_ERROR_ID:int = 2;
+
         private static const GENERAL_PAYMENT_SYSTEM_ERROR:int = 3;
+        // When developmentMode equals true a purchase made is stored in the instance of PaymentSystem that makes the purchase, 
+        // therefore the same instance is required to return a proper array of existing purchases.		
+        private var _psDevelopmentMode:PaymentSystem;
         private var _developmentMode:Boolean = false;
 
         public function Payment()
         {
+            _psDevelopmentMode = new PaymentSystem();
+            _psDevelopmentMode.setConnectionMode(PaymentSystem.CONNECTION_MODE_LOCAL);
         }
 
         public override function getFeatureList():Array
@@ -58,31 +66,45 @@ package blackberry.payment
         }
 
         // Applies current connection mode to the PaymentSystem instance.
-        private function setConnecionModeToPSObject(ps:PaymentSystem):void
+        private function getConnecionModeToPSObject():PaymentSystem
         {
-            if (ps)
+            var ps:PaymentSystem;
+            if (_developmentMode)
             {
-                if (_developmentMode)
-                {
-                    ps.setConnectionMode(PaymentSystem.CONNECTION_MODE_LOCAL);
-                }
-                else
-                {
-                    ps.setConnectionMode(PaymentSystem.CONNECTION_MODE_NETWORK);
-                }
+                ps = _psDevelopmentMode;
             }
+            else
+            {
+                ps = new PaymentSystem();
+                ps.setConnectionMode(PaymentSystem.CONNECTION_MODE_NETWORK);
+            }
+
+            return ps;
         }
 
         public function purchase(options:String, onnSuccessCallbackId:String, onFailureCallbackId:String):void
         {
+			var param:Array;
             var data:Object = JSON.decode(options, true);
             var onPurchaseSuccess:Function = new Function;
             var onPurchaseFail:Function = new Function;
-            var ps:PaymentSystem = new PaymentSystem();
-            setConnecionModeToPSObject(ps);
+            var ps:PaymentSystem = getConnecionModeToPSObject();
 
             try
             {
+                if (_developmentMode === true)
+                {
+                    if (ps.hasEventListener(PaymentSuccessEvent.PURCHASE_SUCCESS) || ps.hasEventListener(PaymentErrorEvent.PURCHASE_ERROR))
+                    {
+                        param = new Array(2);
+                        param[0] = PAYMENT_SYSTEM_BUSY_ERROR;
+                        param[1] = PAYMENT_SYSTEM_BUSY_ERROR_ID;
+                        evalJavaScriptEvent(onFailureCallbackId, param);
+
+                        return;
+                    }
+                }
+
                 ps.addEventListener(PaymentSuccessEvent.PURCHASE_SUCCESS, onPurchaseSuccess = function(event:PaymentSuccessEvent):void
                 {
                     var param:Array = new Array(1);
@@ -109,7 +131,7 @@ package blackberry.payment
             }
             catch (e:Error)
             {
-                var param:Array = new Array(2);
+                param = new Array(2);
                 param[0] = "Error occured when calling purchase method: " + e.message;
                 param[1] = GENERAL_PAYMENT_SYSTEM_ERROR;
                 evalJavaScriptEvent(onFailureCallbackId, param);
@@ -120,8 +142,7 @@ package blackberry.payment
         {
             var onGetExistingPurchasesSuccess:Function = new Function;
             var onGetExistingPurchasesFailure:Function = new Function;
-            var ps:PaymentSystem = new PaymentSystem();
-            setConnecionModeToPSObject(ps);
+            var ps:PaymentSystem = getConnecionModeToPSObject();
 
             try
             {
@@ -155,6 +176,7 @@ package blackberry.payment
                     ps.removeEventListener(PaymentErrorEvent.GET_EXISTING_PURCHASES_ERROR, onGetExistingPurchasesFailure);
 
                 });
+
                 ps.getExistingPurchases(refresh === "true");
             }
             catch (e:Error)
