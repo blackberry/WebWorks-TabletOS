@@ -40,20 +40,6 @@
 		return (resultString.code == WEBWORKS_RETURN_VALUE_SUCCESS)? resultString.data : "";
 	};
 
-	UtilsDispatcher.prototype.xmlSerializer = new XMLSerializer();
-	
-	UtilsDispatcher.prototype.documentToBlob = function (xmlDocument) {
-		var xmlString;
-		try {
-			xmlString = this.xmlSerializer.serializeToString( xmlDocument );
-		} catch (e) {
-			return undefined;
-		}
-	
-		var resultId = makeCall("documentToBlob", {"data": xmlString});
-		return (resultId.code == WEBWORKS_RETURN_VALUE_SUCCESS)? new blackberry.service.Blob(resultId.data) : undefined;		
-	};
-	
 	UtilsDispatcher.prototype.stringToBlob = function (s, encoding) {
 		var resultId = makeCall("stringToBlob", {"data": s, "encoding" : (encoding == null || encoding == undefined)? "ISO-8859-1" : encoding});
 		return (resultId.code == WEBWORKS_RETURN_VALUE_SUCCESS)? new blackberry.service.Blob(resultId.data) : undefined;
