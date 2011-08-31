@@ -19,7 +19,7 @@ xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assemb
             <directory>${basedir}/../js_api</directory>                    
             <outputDirectory>ext</outputDirectory>
 			<includes>
-				<include>blackberry.*</include>
+				<include>blackberry.*/**</include>
 			</includes>
         </fileSet> 
 		<fileSet>
