@@ -88,3 +88,4 @@ If the build is successful a zip file will be generated in a "target" directory 
 4. Open your old "bin\bbwp.properties" file and copy the path located in the <tablet_sdk> and paste this path into the same <tablet_sdk> element found in your new "bin\bbwp.properties" file
  
 5. You can now start building WebWorks applications with the patched SDK
+
