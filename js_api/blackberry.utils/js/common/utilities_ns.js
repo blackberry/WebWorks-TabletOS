@@ -18,8 +18,6 @@
 	function Utils(disp) {
 		this.constructor.prototype.blobToString = function(blob, encoding)
 								{ return disp.blobToString(blob, encoding); };
-		this.constructor.prototype.documentToBlob = function(xmlDocument)
-								{ return disp.documentToBlob(xmlDocument); };
 		this.constructor.prototype.stringToBlob = function(s, encoding)
 								{ return disp.stringToBlob(s, encoding); };		
 	}
