@@ -104,12 +104,8 @@ public class CmdLineHandler {
         String bbwpInstallFolder; 
         String installPath = getAbsolutePath(SessionManager.BBWP_JAR_PATH);
         File p = new File(installPath);
-        if (p.isDirectory()) {
-            if (installPath.lastIndexOf(FILE_SEP) == installPath.length() - 1) {
-                bbwpInstallFolder = installPath;
-            } else {
-                bbwpInstallFolder = installPath + FILE_SEP;
-            }
+        if( p.isDirectory() ) {
+            bbwpInstallFolder = getDirPathWithFileSeparator( installPath );
         } else {
             installPath = installPath.substring(0, installPath
                     .lastIndexOf(FILE_SEP))
@@ -147,6 +143,14 @@ public class CmdLineHandler {
             return (new File(filePath)).getCanonicalFile().getAbsolutePath();
         } catch (Exception e) {
             return (new File(filePath)).getAbsolutePath();
+        }
+    }
+    
+    public static String getDirPathWithFileSeparator( String dirPath ) {
+        if( dirPath.lastIndexOf( FILE_SEP ) == dirPath.length() - 1 ) {
+            return dirPath;
+        } else {
+            return dirPath + FILE_SEP;
         }
     }
     
@@ -247,7 +251,7 @@ public class CmdLineHandler {
         if (nPasswords == 1) {
             throw new Exception();
         }
-
+        
         // Populate correct source directory
         if (!_requireSource) {
             _sourceDir = System.getProperty("java.io.tmpdir") + "widgetGen."
