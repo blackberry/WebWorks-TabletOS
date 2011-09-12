@@ -29,7 +29,7 @@ package
 	import qnx.dialog.AlertDialog;
 	import qnx.events.ExtendedLocationChangeEvent;
 	import qnx.events.JavaScriptCallbackEvent;
-	import qnx.events.UnknownProtocolEvent;
+	import qnx.events.NetworkResourceRequestedEvent;
 	
 	import webworks.FunctionBroker;
 	import webworks.config.ConfigConstants;
@@ -138,33 +138,38 @@ package
             _webWindow.addEventListener(WebkitEvent.WEBVIEW_CREATED, webkitWindowReady);
  			_webWindow.addEventListener(WebkitEvent.TAB_LOCATION_CHANGING, webkitLocationChanging);
 			_webWindow.addEventListener(WebkitEvent.TAB_LOCATION_CHANGED, webkitLocationChanged);
-			_webWindow.addEventListener(WebkitEvent.TAB_UNKNOWNPROTOCOL, handleUnknownProtocol);
 			_webWindow.addEventListener(WebkitEvent.TAB_QNXCALLEXTENSION, handleQnxCallExtension);
+			_webWindow.addEventListener(WebkitEvent.TAB_NETWORKRESOURCEREQUESTED, handleNetworkResourceRequested);
+			
  			addChild(_webWindow);
 		}
 		
-		private function handleUnknownProtocol(event:WebkitEvent):void			
+		
+		private function handleNetworkResourceRequested(event:WebkitEvent):void
 		{
-			var upe:UnknownProtocolEvent = event.data as UnknownProtocolEvent;
-			var requestUrl:String = upe.url;
-			var sid:int = upe.streamId;
+			var nrre:NetworkResourceRequestedEvent = event.data as NetworkResourceRequestedEvent;
+			var requestUrl:String = nrre.url;
+			var sid:int = nrre.streamId;
 			
-			// bypass "data:" protocol, somehow it fires the UnknownProtocolEvent for "data:" protocol
-			if (requestUrl.indexOf("data:") == 0) {
+			// only handle "webworks" request
+			if (requestUrl.indexOf("http://webworks/") != 0 && requestUrl.indexOf("webworks://") != 0) {
 				return;
 			}			
 			
-			// hold the unknown protocol event
-			upe.preventDefault();
+			if (requestUrl.indexOf("http://webworks/") == 0) {
+				requestUrl = requestUrl.replace("http://webworks/", "webworks://");
+			}
 			
-
+			// hold the unknown protocol event
+			nrre.preventDefault();
+			nrre.action = NetworkResourceRequestedEvent.ACTION_SUBSTITUTE;
+			
 			var returnedBody:String = "";
 			
 			try {
-				returnedBody = _broker.handleXHRRequest(upe.url).toString();
+				returnedBody = _broker.handleXHRRequest(requestUrl).toString();
 				_webWindow.qnxWebView.notifyResourceOpened(sid, HTTPErrorMapping.getSuccessCode(), HTTPErrorMapping.getSuccessMessage());
 			}
-			
 			catch (e:Error) {
 				var httpError:HTTPErrorMapping = new HTTPErrorMapping(e);
 				_webWindow.qnxWebView.notifyResourceOpened(sid,httpError.code, httpError.message);
@@ -173,14 +178,14 @@ package
 			var byteData:ByteArray;
 			byteData = new ByteArray();
 			byteData.writeUTFBytes(returnedBody);
-
+			
 			_webWindow.qnxWebView.notifyResourceHeaderReceived(sid, "Content-Type", "text/plain");
 			_webWindow.qnxWebView.notifyResourceHeaderReceived(sid, "Content-Length", byteData.length.toString());
 			_webWindow.qnxWebView.notifyResourceDataReceived(sid, byteData);
 			
 			_webWindow.qnxWebView.notifyResourceDone(sid);
 		}
-		
+
 		private function handleQnxCallExtension(event:WebkitEvent):void
 		{
 			var jsce:JavaScriptCallbackEvent = event.data as JavaScriptCallbackEvent;
@@ -204,7 +209,7 @@ package
 			
 			jsce.result = returnedBody;
 		}
-			
+
 		private function tabLoadComplete(event:WebkitEvent):void 
         {
 			trace("HTML LOAD DONE");

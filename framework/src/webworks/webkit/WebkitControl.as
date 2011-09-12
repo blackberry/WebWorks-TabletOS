@@ -64,6 +64,8 @@ package webworks.webkit
 			//match what the QNXStageWebView supports.
 			var defaultSettings:Object = {
 				
+				enableResourceFiltering : true,
+				
 				enableCrossSiteXHR : true,
 				
 				enableGeolocation : !(new Geolocation().muted),
@@ -83,7 +85,6 @@ package webworks.webkit
 			events[LocationChangeEvent.LOCATION_CHANGE] = locationChanged;
 			events[WebViewEvent.CREATED] = htmlEventBrowserCreated;
 			events[NetworkResourceRequestedEvent.NETWORK_RESOURCE_REQUESTED] = networkResourceRequested;
-			events[UnknownProtocolEvent.UNKNOWN_PROTOCOL] = handleUnknownProtocol;
 			events[WindowObjectClearedEvent.WINDOW_OBJECT_CLEARED] = onJavaScriptWindowObjectCleared;
 			events[JavaScriptCallbackEvent.JAVA_SCRIPT_CALLBACK] = onJavaScriptCallbackEvent;
 			
@@ -142,8 +143,8 @@ package webworks.webkit
 		
 		private function networkResourceRequested(event:NetworkResourceRequestedEvent):void
 		{
-			trace("networkResourceRequested: " + event.url);
-			dispatchEvent(new WebkitEvent(WebkitEvent.TAB_NETWORKRESOURCEREQUESTED, event.url));
+			trace("networkResourceRequested: (" + event.action + ") " + event.url);
+			dispatchEvent(new WebkitEvent(WebkitEvent.TAB_NETWORKRESOURCEREQUESTED, event));
 		}
 		
 		private function handleUnknownProtocol(event:UnknownProtocolEvent):void
