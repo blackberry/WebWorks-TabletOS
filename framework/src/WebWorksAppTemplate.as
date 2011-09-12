@@ -47,6 +47,8 @@ package
 	public class WebWorksAppTemplate extends Sprite
 	{
 		private static var LOCAL_PROTOCOL:String = "local:///";
+		private static var WEBWORKS_PROTOCOL:String = "webworks://";
+		private static var HTTP_WEBWORKS_PROTOCOL:String = "http://webworks/";
 		
 		private var _entryURL:String;
 		private var _webWindow:WebkitControl;
@@ -152,12 +154,12 @@ package
 			var sid:int = nrre.streamId;
 			
 			// only handle "webworks" request
-			if (requestUrl.indexOf("http://webworks/") != 0 && requestUrl.indexOf("webworks://") != 0) {
+			if (requestUrl.indexOf(HTTP_WEBWORKS_PROTOCOL) != 0 && requestUrl.indexOf(WEBWORKS_PROTOCOL) != 0) {
 				return;
 			}			
 			
-			if (requestUrl.indexOf("http://webworks/") == 0) {
-				requestUrl = requestUrl.replace("http://webworks/", "webworks://");
+			if (requestUrl.indexOf(HTTP_WEBWORKS_PROTOCOL) == 0) {
+				requestUrl = requestUrl.replace(HTTP_WEBWORKS_PROTOCOL, WEBWORKS_PROTOCOL);
 			}
 			
 			// hold the unknown protocol event
