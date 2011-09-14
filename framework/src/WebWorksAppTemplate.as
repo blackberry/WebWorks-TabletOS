@@ -198,6 +198,15 @@ package
 				requestUrl += param; 
 			}
 			
+			// only handle "webworks" request
+			if (requestUrl.indexOf(HTTP_WEBWORKS_PROTOCOL) != 0 && requestUrl.indexOf(WEBWORKS_PROTOCOL) != 0) {
+				return;
+			}			
+			
+			if (requestUrl.indexOf(HTTP_WEBWORKS_PROTOCOL) == 0) {
+				requestUrl = requestUrl.replace(HTTP_WEBWORKS_PROTOCOL, WEBWORKS_PROTOCOL);
+			}
+			
 			var returnedBody:String = "";
 			
 			try {
