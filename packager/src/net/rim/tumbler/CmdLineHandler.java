@@ -181,7 +181,7 @@ public class CmdLineHandler {
             } else if (param.equals(OPTION_VERBOSE)) {
                 _isVerbose = true;
                 index++;
-            } else if (!isPlayBook() && param.equals(OPTION_PASSWORD)) {
+            } else if (param.equals(OPTION_PASSWORD)) {
                 _requireSigned = true;
                 if (params.length > index + 1) {
                     String followingParameter = params[index + 1];
@@ -246,10 +246,15 @@ public class CmdLineHandler {
             }
         }
 
-        // If one of the passwords is specified, the other one needs to be
-        // specified too. Otherwise the command-line is invalid.
-        if (nPasswords == 1) {
-            throw new Exception();
+        // If only one of the passwords is specified, it has to be a common one provided with -g option.
+        // Otherwise the command-line is invalid.
+        if( ( _password != null && _password.length() > 0 ) ) {
+            _cskPassword = _password;
+            _p12Password = _password;
+        } else {
+            if( nPasswords == 1 ) {
+                throw new Exception();
+            }
         }
         
         // Populate correct source directory
