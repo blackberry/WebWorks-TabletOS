@@ -14,123 +14,144 @@
 * limitations under the License.
 */
 package blackberry.media.microphone
-{		
-	import flash.events.Event;
-	import flash.filesystem.File;
-	import flash.filesystem.FileMode;
-	import flash.filesystem.FileStream;
-	import flash.media.Microphone;
-	import flash.utils.*;
-	
-	import json.JSON;
-	
-	import org.bytearray.micrecorder.MicRecorder;
-	import org.bytearray.micrecorder.encoder.WaveEncoder;
-	import org.bytearray.micrecorder.events.RecordingEvent;
-	
-	import webworks.extension.DefaultExtension;
-	import webworks.extension.WebWorksReturnValue;
-	
-	public class MicrophoneExtension extends DefaultExtension
-	{	
-		private const ERROR_CODE:Number = -1;
-		
-		private var _filePath:String = null;
-		private var _onSuccessId:String = null;
-		private var _onErrorId:String = null;
-		private var _mic:Microphone = null;
-		
-		private var _recorder:MicRecorder = null;
-		
-		public function MicrophoneExtension() {
-			_mic = Microphone.getMicrophone();
-			_recorder = new MicRecorder(new WaveEncoder(), onError);
-		}		
-		
-		public override function loadFeature(feature:String, version:String):void {
-			
-		}
-		
-		public override function unloadFeature():void {
-						
-		}
-		
-		public override function getFeatureList():Array {			
-			return new Array("blackberry.media.microphone");
-		}
-		
-		public function record(filePath:String, onSuccessId:String, onErrorId:String):void {	
-			if (_mic != null) {
-				_filePath = filePath;
-				_onSuccessId = onSuccessId;
-				_onErrorId = onErrorId;
-				
-				if (checkFilePath()) {
-					_recorder.addEventListener(RecordingEvent.RECORDING, onRecording);
-					_recorder.addEventListener(Event.COMPLETE, onRecordComplete);
-					_recorder.record();
-				}
-			} else {
-				onError("no microphone available");
-			}			
-		}
-		
-		public function pause():void {
-			_recorder.pause();
-		}
-		
-		public function stop():void {
-			_recorder.stop();
-		}
-		
-		private function onRecording(event:RecordingEvent):void {
-			// not used
-		}
-		
-		private function onRecordComplete(event:Event):void {
-			try {
-				writeToFile(_recorder.output);				
-				
-				// invoke success callback function
-				this.evalJavaScriptEvent(_onSuccessId, [JSON.encode(_filePath)]);
-			} catch (e:Error) {
-				onError(e.message);
-			}
-		}
-		
-		private function checkFilePath():Boolean {
-			var file:File = new File(_filePath);
-			
-			if (file.exists) {
-				onError("filePath points to an existing file");
-				return false;
-			} else {
-				var tempFile:File = File.createTempFile();				
-				
-				if (tempFile.exists) {
-					try {
-						// try move temp file to the destination path to see if that path is writable
-						tempFile.moveTo(file);
-						file.deleteFile();
-					} catch (e:Error) {
-						onError(e.message);
-						return false;
-					}
-				}					
-			}
-			
-			return true;
-		}
-		
-		private function writeToFile(bytes:ByteArray):void {
-			var ostream:FileStream = new FileStream();
-			ostream.open(new File(_filePath), FileMode.WRITE);
-			ostream.writeBytes(bytes, 0, bytes.length);
-			ostream.close();
-		}
-		
-		private function onError(msg:String):void {
-			this.evalJavaScriptEvent(_onErrorId, [ERROR_CODE, JSON.encode(msg)]);
-		}
-	}
+{
+    import flash.events.Event;
+    import flash.events.SampleDataEvent;
+    import flash.filesystem.File;
+    import flash.filesystem.FileMode;
+    import flash.filesystem.FileStream;
+    import flash.media.Microphone;
+    import flash.utils.*;
+
+    import json.JSON;
+
+    import org.bytearray.micrecorder.MicRecorder;
+    import org.bytearray.micrecorder.encoder.WaveEncoder;
+
+    import webworks.extension.DefaultExtension;
+    import webworks.extension.WebWorksReturnValue;
+
+    public class MicrophoneExtension extends DefaultExtension
+    {
+        private const ERROR_CODE:Number = -1;
+        private var _mic:Microphone = null;
+        private var _recorder:MicRecorder = null;
+
+        public function MicrophoneExtension()
+        {
+            _mic = Microphone.getMicrophone();
+        }
+
+        public override function loadFeature(feature:String, version:String):void
+        {
+
+        }
+
+        public override function unloadFeature():void
+        {
+
+        }
+
+        public override function getFeatureList():Array
+        {
+            return new Array("blackberry.media.microphone");
+        }
+
+        public function record(filePath:String, onSuccessCallbackId:String, onErrorCallbackId:String):void
+        {
+            var onRecordComplete:Function = new Function;
+            var onError:Function = function(msg:String):void
+            {
+                evalJavaScriptEvent(onErrorCallbackId, [WebWorksReturnValue.RET_ERROR, JSON.encode(msg)]);
+            };
+
+            if (_recorder != null && _recorder.hasEventListener(Event.COMPLETE))
+            {
+                onError("Can't start a new recording while the microphone still in use.");
+
+                return;
+            }
+
+            _recorder = new MicRecorder(new WaveEncoder(), onError);
+
+            if (_mic != null)
+            {
+                if (checkFilePath(filePath, onError))
+                {
+                    _recorder.addEventListener(Event.COMPLETE, onRecordComplete = function(event:Event):void
+                    {
+                        try
+                        {
+                            writeToFile(filePath, _recorder.output);
+
+                            _recorder.removeEventListener(Event.COMPLETE, onRecordComplete);
+
+                            // invoke success callback function
+                            evalJavaScriptEvent(onSuccessCallbackId, [JSON.encode(filePath)]);
+                        }
+                        catch (e:Error)
+                        {
+                            onError(e.message);
+                        }
+                    });
+
+                    _recorder.record();
+                }
+            }
+            else
+            {
+                onError("no microphone available");
+            }
+        }
+
+        public function pause():void
+        {
+            _recorder.pause();
+        }
+
+        public function stop():void
+        {
+            _recorder.stop();
+        }
+
+        private function checkFilePath(filePath:String, onError:Function):Boolean
+        {
+            var file:File = new File(filePath);
+
+            if (file.exists)
+            {
+                onError("filePath points to an existing file");
+                return false;
+            }
+            else
+            {
+                var tempFile:File = File.createTempFile();
+
+                if (tempFile.exists)
+                {
+                    try
+                    {
+                        // try move temp file to the destination path to see if that path is writable
+                        tempFile.moveTo(file);
+                        file.deleteFile();
+                    }
+                    catch (e:Error)
+                    {
+                        onError(e.message);
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        private function writeToFile(filePath:String, bytes:ByteArray):void
+        {
+            var ostream:FileStream = new FileStream();
+            ostream.open(new File(filePath), FileMode.WRITE);
+            ostream.writeBytes(bytes, 0, bytes.length);
+            ostream.close();
+        }
+    }
 }

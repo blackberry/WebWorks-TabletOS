@@ -22,6 +22,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.zip.ZipFile;
 
+import net.rim.tumbler.CmdLineHandler;
 import net.rim.tumbler.WidgetPackager;
 import net.rim.tumbler.exception.PackageException;
 import net.rim.tumbler.exception.SessionException;
@@ -48,6 +49,7 @@ public class SessionManager {
     private String          _password;
     private String          _cskPassword;
     private String          _p12Password;
+    private String          _p12FullPath;
     private String          _buildId;
     private String          _outputFolder;
     private boolean         _requireSource;
@@ -149,6 +151,7 @@ public class SessionManager {
         
         // validate session - check signing keys
         if (_requireSigning) {
+            setP12FullPath();
             checkSignatureKeys();
         }
         
@@ -211,9 +214,47 @@ public class SessionManager {
             if (!(new File(keyPath)).exists()) {
                 throw new ValidationException("EXCEPTION_MISSING_SIGNING_KEYS");
             }
-        } else if (!SigningSupport.isSigningKeyPresent(_bbwpJarFolder)) {
-            throw new ValidationException("EXCEPTION_MISSING_SIGNING_KEYS");
+        } else {
+            if( !SigningSupport.isSigningKeyPresent( getP12FullPath() ) ) {
+                throw new ValidationException( "EXCEPTION_MISSING_SIGNING_KEYS" );
+            }
         }
+    }
+    
+    private void setP12FullPath() {
+        //
+        // (1) Check for .p12 in "bin".
+        //
+        // (2) Check for .p12 in:
+        // %HOMEPATH%\Local Settings\Application Data\Research In Motion on Windows XP;
+        // %HOMEPATH%\AppData\Local\Research In Motion on Windows Vista and Windows 7
+        // ~/Library/Research In Motion on OSX
+        //
+        String p12FullPath = "";
+        p12FullPath = SigningSupport.getP12BinFullPath( _bbwpJarFolder );
+
+        if( !new File( p12FullPath ).isFile() ) {
+            String p12OuterFolder = "";
+            String os = System.getProperty( "os.name" ).toLowerCase();
+            if( os.indexOf( "win" ) >= 0 ) {
+                if( os.indexOf( "vista" ) >= 0 || os.indexOf( "7" ) >= 0 ) {
+                    p12OuterFolder = System.getenv( "HOMEDRIVE" ) + System.getenv( "HOMEPATH" )
+                            + "\\AppData\\Local\\Research In Motion";
+
+                } else if( os.indexOf( "xp" ) >= 0 ) {
+                    p12OuterFolder = System.getenv( "HOMEDRIVE" ) + System.getenv( "HOMEPATH" )
+                            + "\\Local Settings\\Application Data\\Research In Motion";
+                }
+            } else {
+                p12OuterFolder = System.getenv( "HOME" ) + "/Library/Research In Motion";
+            }
+
+            p12OuterFolder = CmdLineHandler.getDirPathWithFileSeparator( p12OuterFolder );
+
+            p12FullPath = SigningSupport.getP12OuterFullPath( p12OuterFolder );
+        }
+
+        _p12FullPath = p12FullPath;
     }
     
     public String getBBWPJarFolder() {
@@ -242,6 +283,10 @@ public class SessionManager {
 
     public String getP12Password() {
         return _p12Password;
+    }
+
+    public String getP12FullPath() {
+        return _p12FullPath;
     }
 
     public String getBuildId() {
