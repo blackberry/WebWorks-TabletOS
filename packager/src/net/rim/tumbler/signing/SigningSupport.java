@@ -25,6 +25,7 @@ import net.rim.tumbler.session.SessionManager;
 
 public class SigningSupport {
     private static final String SIGTOOL_P12_FILENAME = "sigtool.p12";
+    private static final String AUTHOR_P12_FILENAME = "author.p12";
     private static final String LONGTERM_CSK_FILENAME = "barsigner.csk";
     private static final String LONGTERM_DB_FILENAME = "barsigner.db";
 
@@ -35,25 +36,32 @@ public class SigningSupport {
     private SigningSupport() {}
 
     /**
-     * Returns true if the signing-key files are present.
+     * Returns true if the signing-key file is present.
      *
-     * @param bbwpJarFolder the location of bbwp.jar.
-     *
-     * @return true if the signing-key files are present.
+     * @param p12FullPath the full path to p12 file.
+     * 
+     * @return true if the signing-key file is present.
      */
-    public static boolean isSigningKeyPresent(String bbwpJarFolder) {
-        //
-        // (1) Check for "barsigner.csk" and "barsigner.db" in:
-        //     System.getProperty("user.home") + "Local Settings\\Application Data\\Research In Motion" on Windows, and
-        //     System.getProperty("user.home") + "Applications/Research In Motion" on OSX.
-        //
-        // (2) Check for "sigtool.p12" in "bin".
-        //
-        return new File(getP12Filename(bbwpJarFolder)).isFile();
+    public static boolean isSigningKeyPresent( String p12FullPath ) {
+        return new File( p12FullPath ).isFile();
     }
 
-    private static String getP12Filename(String bbwpJarFolder) {
-        return bbwpJarFolder + SIGTOOL_P12_FILENAME;
+    public static String getP12BinFullPath( String p12Path ) {
+        File path = new File( p12Path );
+        if( path.isDirectory() ) {
+            return p12Path + SIGTOOL_P12_FILENAME;
+        } else {
+            return p12Path;
+        }
+    }
+
+    public static String getP12OuterFullPath( String p12Path ) {
+        File path = new File( p12Path );
+        if( path.isDirectory() ) {
+            return p12Path + AUTHOR_P12_FILENAME;
+        } else {
+            return p12Path;
+        }
     }
 
     public static void signBar(BBWPProperties bbwpProperties) throws IOException, PackageException {
@@ -75,7 +83,7 @@ public class SigningSupport {
                     "-cskpass",
                     sessionManager.getCskPassword(),
                     "-keystore",
-                    getP12Filename(sessionManager.getBBWPJarFolder()),
+                    sessionManager.getP12FullPath(),
                     "-storepass",
                     sessionManager.getP12Password(),
                     barFullname,
@@ -90,7 +98,7 @@ public class SigningSupport {
                     signer,
 //                    "-verbose",
                     "-keystore",
-                    getP12Filename(sessionManager.getBBWPJarFolder()),
+                    sessionManager.getP12FullPath(),
                     "-storepass",
                     sessionManager.getP12Password(),
                     barFullname,

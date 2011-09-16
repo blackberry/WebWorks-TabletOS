@@ -104,12 +104,8 @@ public class CmdLineHandler {
         String bbwpInstallFolder; 
         String installPath = getAbsolutePath(SessionManager.BBWP_JAR_PATH);
         File p = new File(installPath);
-        if (p.isDirectory()) {
-            if (installPath.lastIndexOf(FILE_SEP) == installPath.length() - 1) {
-                bbwpInstallFolder = installPath;
-            } else {
-                bbwpInstallFolder = installPath + FILE_SEP;
-            }
+        if( p.isDirectory() ) {
+            bbwpInstallFolder = getDirPathWithFileSeparator( installPath );
         } else {
             installPath = installPath.substring(0, installPath
                     .lastIndexOf(FILE_SEP))
@@ -150,6 +146,14 @@ public class CmdLineHandler {
         }
     }
     
+    public static String getDirPathWithFileSeparator( String dirPath ) {
+        if( dirPath.lastIndexOf( FILE_SEP ) == dirPath.length() - 1 ) {
+            return dirPath;
+        } else {
+            return dirPath + FILE_SEP;
+        }
+    }
+    
     private void parseOptionParameters(String[] params) throws Exception {
         _requireSigned = false;
         _password = "";
@@ -177,7 +181,7 @@ public class CmdLineHandler {
             } else if (param.equals(OPTION_VERBOSE)) {
                 _isVerbose = true;
                 index++;
-            } else if (!isPlayBook() && param.equals(OPTION_PASSWORD)) {
+            } else if (param.equals(OPTION_PASSWORD)) {
                 _requireSigned = true;
                 if (params.length > index + 1) {
                     String followingParameter = params[index + 1];
@@ -242,12 +246,17 @@ public class CmdLineHandler {
             }
         }
 
-        // If one of the passwords is specified, the other one needs to be
-        // specified too. Otherwise the command-line is invalid.
-        if (nPasswords == 1) {
-            throw new Exception();
+        // If only one of the passwords is specified, it has to be a common one provided with -g option.
+        // Otherwise the command-line is invalid.
+        if( ( _password != null && _password.length() > 0 ) ) {
+            _cskPassword = _password;
+            _p12Password = _password;
+        } else {
+            if( nPasswords == 1 ) {
+                throw new Exception();
+            }
         }
-
+        
         // Populate correct source directory
         if (!_requireSource) {
             _sourceDir = System.getProperty("java.io.tmpdir") + "widgetGen."

@@ -77,17 +77,6 @@ package blackberry.utils
             return new WebWorksReturnValue(stringResult).jsonObject;
         }
 
-        public function documentToBlob(xmlString:String):Object
-        {
-            var ba:ByteArray = new ByteArray();
-            ba.writeMultiByte(xmlString, "utf-8");
-
-            var bm:BlobManager = getBlobManager();
-            var blobId:String = bm.createBlob(ba).id;
-
-            return new WebWorksReturnValue(blobId).jsonObject;
-        }
-
         public function stringToBlob(data:String, encoding:String):Object
         {
             var characterSet:String = translateEncodingIntoASCharacterSet(encoding);
