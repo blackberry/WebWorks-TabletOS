@@ -79,12 +79,22 @@ package
         {
 			stage.frameRate = 30;
 			_webWindow.visible = true;
+
+			if (_webWindow != null && _webWindow.qnxWebView != null) {
+				_webWindow.qnxWebView.active = true;
+			}
+
 			trace("Increased Framerate to " + stage.frameRate + " | " + event);
 		}
 		
 		private function appBackground(event:Event):void 
         {
 			stage.frameRate = 2;
+			
+			if (_webWindow != null && _webWindow.qnxWebView != null) {
+				_webWindow.qnxWebView.active = false;
+			}
+			
 			trace("Reduced Framerate to " + stage.frameRate + " | " + event);
 		}
 		
