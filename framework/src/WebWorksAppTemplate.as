@@ -48,7 +48,7 @@ package
 	{
 		private static var LOCAL_PROTOCOL:String = "local:///";
 		private static var WEBWORKS_PROTOCOL:String = "webworks://";
-		private static var HTTP_WEBWORKS_PROTOCOL:String = "http://webworks/";
+		private static var HTTP_WEBWORKS_PROTOCOL:String = "http://localhost:8472/";
 		
 		private var _entryURL:String;
 		private var _webWindow:WebkitControl;
