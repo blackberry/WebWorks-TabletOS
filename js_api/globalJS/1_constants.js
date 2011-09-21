@@ -13,6 +13,6 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-var SERVER_URL = "webworks://";
+var SERVER_URL = "http://localhost:8472/";
 var WEBWORKS_RETURN_VALUE_SUCCESS = 0;
 var WEBWORKS_RETURN_VALUE_ERROR = -1;
