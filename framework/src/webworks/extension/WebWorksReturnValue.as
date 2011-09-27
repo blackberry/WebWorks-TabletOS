@@ -27,7 +27,7 @@ package webworks.extension
 		public static const RET_SUCCESS:Number = 0;
 		public static const RET_ERROR:Number = -1;
 		
-		public function WebWorksReturnValue(data:*, returnCode:Number = WebWorksReturnValue.RET_SUCCESS, message:String="") 
+		public function WebWorksReturnValue(data:*, returnCode:Number = WebWorksReturnValue.RET_SUCCESS, message:String=null) 
 		{
 			_data = data;
 			_rc = returnCode;
