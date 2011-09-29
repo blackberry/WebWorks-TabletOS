@@ -42,6 +42,8 @@ package
 	import webworks.service.ServiceManager;
 	import webworks.webkit.WebkitControl;
 	import webworks.webkit.WebkitEvent;
+	
+	import flash.events.TimerEvent;
 
 	[SWF(width="1024", height="600", frameRate="30", backgroundColor="#000000")]
 	public class WebWorksAppTemplate extends Sprite
@@ -57,6 +59,8 @@ package
 		private var _transitions:Transitions;
  		private var _broker:FunctionBroker;
 		private var _serviceManager:ServiceManager;
+		
+		private var _loadingScreenTimer:Timer;
 		
 		public function WebWorksAppTemplate() 
         {			
@@ -112,6 +116,7 @@ package
 			_transitions = new Transitions(_loadingScreen, _webWindow.viewPort);
 			_serviceManager = new ServiceManager(_webWindow);
 			_broker = new FunctionBroker(_webWindow.qnxWebView, _serviceManager);
+			_loadingScreenTimer = null;
 			
 			var configProperties:Dictionary = ConfigData.getInstance().properties;
 			configProperties["serviceManager"] = _serviceManager;
@@ -234,6 +239,23 @@ package
 		private function tabLoadComplete(event:WebkitEvent):void 
         {
 			trace("HTML LOAD DONE");
+			
+			var onFirstLaunch:Boolean = ConfigData.getInstance().getProperty(ConfigConstants.ONFIRSTLAUNCH)
+			if (_webWindow.qnxWebView.visible) {
+				_loadingScreen.hideIfNecessary();
+			} else {
+				// if the WebView is invisible, it means it's set to hidden in order to hide the white flicker;
+				// we can set the visibility to true but we shouldn't show it (by hiding the loading screen) right now;
+				// insteadly, we need a timer to hide the loading screen after the visibility change;
+				// because if not, we will still see the white flicker.
+				_webWindow.qnxWebView.visible = true;
+				_loadingScreenTimer = new Timer(400, 1);
+				_loadingScreenTimer.addEventListener(TimerEvent.TIMER, runOnce);
+				_loadingScreenTimer.start();
+			}
+		}
+		
+		private function runOnce(event:TimerEvent):void {
 			_loadingScreen.hideIfNecessary();
 		}
 
