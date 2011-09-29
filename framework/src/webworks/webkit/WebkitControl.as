@@ -100,6 +100,11 @@ package webworks.webkit
 		{
 			var wv:QNXStageWebView = new QNXStageWebView();
 			
+			// if onFirstLaunch is true, we need hide the QNXStageWebView to hide the white flicker from it
+			if (ConfigData.getInstance().getProperty(ConfigConstants.ONFIRSTLAUNCH)) {
+				wv.visible = false;
+			}
+			
 			//Apply default properties
 			for(var webViewProp:String in defaultSettings) {
 				trace("Applying QNXStageWebView property: " + webViewProp + " = " + defaultSettings[webViewProp]);
