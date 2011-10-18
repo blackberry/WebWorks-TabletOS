@@ -12,7 +12,7 @@ The project is Open Sourced under the Apache 2.0 license [http://github.com/blac
 * Open
  
 ## Downloads
-Full installers for Mac and Windows can be found on the [product download page](http://us.blackberry.com/developers/tablet/webworks.jsp)
+Full installers for Mac and Windows can be found on the [product download page](http://developer.blackberry.com/html5/download/sdk)
  
 ## Reference Material &amp; Community
 You can also find associated reference material for the BlackBerry WebWorks platform as well as community forums for building and contributing to the BlackBerry WebWorks project
