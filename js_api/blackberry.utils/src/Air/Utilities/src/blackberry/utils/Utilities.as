@@ -87,6 +87,12 @@ package blackberry.utils
                 base64Encoder.encode(data);
                 ba.writeUTFBytes(base64Encoder.toString());
             }
+    		else if (characterSet == "binary")
+			{
+				var base64Decoder:Base64Decoder = new Base64Decoder();
+                base64Decoder.decode(data);
+                ba = base64Decoder.toByteArray();
+			}
             else
             {
                 ba.writeMultiByte(data, characterSet);
