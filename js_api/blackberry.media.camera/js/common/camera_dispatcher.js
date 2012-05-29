@@ -32,7 +32,7 @@
         request.addParam(ARGS_ON_CAMERA_CLOSED, onCameraClosedId);
         request.addParam(ARGS_ON_ERROR, onErrorId);
 
-        request.makeAsyncCall();
+        request.makeSyncCall();
     }
 
     CameraDispatcher.prototype.takePicture = function(onCapturedId, onCameraClosedId, onErrorId) {
