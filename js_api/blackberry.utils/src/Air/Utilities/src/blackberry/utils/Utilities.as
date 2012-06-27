@@ -58,6 +58,12 @@ package blackberry.utils
                 base64Decoder.decode(ba.readUTFBytes(ba.length));
                 var tmpByteArray:ByteArray = base64Decoder.toByteArray();
                 stringResult = tmpByteArray.readUTFBytes(tmpByteArray.length);
+            } 
+            else if (characterSet == "binary")
+            {
+                var base64Encoder:Base64Encoder = new Base64Encoder();
+                base64Encoder.encodeBytes(ba);
+                stringResult = base64Encoder.toString();
             }
             else
             {
@@ -87,6 +93,29 @@ package blackberry.utils
                 base64Encoder.encode(data);
                 ba.writeUTFBytes(base64Encoder.toString());
             }
+			else if (characterSet == "binary")
+			{
+				var base64Decoder:Base64Decoder = new Base64Decoder();
+                base64Decoder.decode(data);
+                ba = base64Decoder.toByteArray();
+			}
+            else if (characterSet == "none") {
+				for(var s=0; s<data.length; s++) {
+					var bin = data.charAt(s);
+					var byte:uint = 0;
+					for(var i:uint = 0; i < 8; i++) {
+						byte += uint(bin.charAt(7 - i)) * Math.pow(2,i);
+					}
+					ba.writeUnsignedInt(byte);
+				}
+				
+				
+				//for(var i=0; i<data.length; i++) {
+				//	var dataInt:int = parseint(data.charAt(i));
+				//	ba.writeInt(dataInt);
+				//}
+				//ba.writeUTFBytes(data);
+			}
             else
             {
                 ba.writeMultiByte(data, characterSet);
